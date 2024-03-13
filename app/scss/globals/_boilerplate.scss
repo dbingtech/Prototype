@@ -1,5 +1,6 @@
 @use '../util' as u;
 
+
 html {
     box-sizing: border-box;
     font-size: 100%;
@@ -18,3 +19,4 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
 }
+

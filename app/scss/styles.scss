@@ -1,2 +1,27 @@
 @forward 'globals';
 @forward 'util';
+
+.home-categories-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-template-rows: repeat(4, 1fr); 
+    place-items: center;
+    margin-top: 1rem;
+    row-gap: 1rem;
+    padding: 1rem;
+}
+.category-labels {
+    text-align: center;
+    // width: 60%;
+}
+
+.category-square {
+    color: var(--bdiblue);
+    width: 50%;
+    height: 100%;
+    border: 2px solid var(--bdiblue-stroke);
+    border-radius: 1rem;
+    box-shadow: var(--bdiblue) 2px 2px 4px;
+    margin: auto;
+    text-align: center;
+}
