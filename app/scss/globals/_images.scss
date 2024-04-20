@@ -4,7 +4,7 @@
     padding-left: 8px;
   }
   #logo {
-    width: 211.5px;
+    width: 228px;
     height: 48px;
   }
   #location {
@@ -16,6 +16,8 @@
     height: 17px;
     width: 17px;
     position: relative;
+    top:4px;
+    right:10px;
   }
   #shoppingcart {
     height: 24px;
@@ -27,8 +29,21 @@
   }
   #user {
     height:24px;
-    width:24px;
+    width: 28px;
     padding-right:4px;
-  
+  }
+  .cat-image {
+    width: 96 px;
+    height: 96px;
+    float: left;
+  }
+  .user-icon{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #millions{
+    width:545px;
+    height:224px;
   }
   

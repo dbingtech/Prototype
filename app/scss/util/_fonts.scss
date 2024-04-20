@@ -1,1 +1,11 @@
-$font: Arial, Helvetica, sans-serif;
+@font-face {
+    font-family: "Avenir";
+    src: url('../../fonts/Avenir-Roman.ttf') format('truetype');
+    font-weight:normal;
+}
+
+@font-face {
+    font-family: "Avenir";
+    src: url('../../fonts/Avenir-Black.ttf') format('truetype');
+    font-weight: bold;
+}

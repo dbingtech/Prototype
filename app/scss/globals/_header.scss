@@ -1,5 +1,5 @@
 // --------------------------------Header
-.guest_header {
+.bottom-header-row {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -12,6 +12,7 @@
     align-items: center;
     border: 2px solid var(--bdiblue);
     border-radius: 8px;
+    width:auto;
   }
   .header-drop-down {
     align-self: center;
@@ -21,6 +22,7 @@
     padding: 0 8px;
     height: 32px;
     border: none;
+    width:auto;
   }
   
   .search-field:focus::placeholder {
@@ -30,3 +32,20 @@
     height: 34px;
     border-left: 2px solid var(--bdiblue);
   }
+  .vertical-separator{
+    border-left: 2px solid var(--stroke);
+}
+.top-header-row{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.inside-header-row{
+    display:flex;
+    flex-direction: row;
+    column-gap: 1rem;
+}
+.bottom-header-row{
+  padding:1rem;
+}

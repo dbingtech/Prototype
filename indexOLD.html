@@ -10,23 +10,10 @@
   </head>
   <body>
     <header>
-      <!--------------------------------------------------Top Row-->
-      <section class="top-header-row">
-        <div class="inside-header-row">
-        <div>Find a Location</div>
-        <div class="vertical-separator"></div>
-        <div>1-888-123-4567</div>
-      </div>
-      <div class="inside-header-row">
-        <div>Register</div>
-        <div class="vertical-separator"></div>
-        <div>Order Status</div>
-        </div>
-      </section>
-      <!---------------------------------------------------Logo Row-->
-      <div class="bottom-header-row">
-        <a href="index.html"><img id="logo" src="images/logos/BDIExpress.com_wLogoBLUE.png" alt="BDIExpress logo" /></a>
-        <!-----------------------------------search bar-->
+      <!-----------------------------------------wrapper for flex-->
+      <div class="guest_header">
+        <a href="index.html"><img id="logo" src="images/logos/BDIExpress_wLogoBLUE.fw.png" alt="BDIExpress logo" /></a>
+        <!---------------------------------------search bar-->
         <div class="search_bar">
           <div class="header-drop-down">
             All
@@ -37,29 +24,29 @@
             <input
               class="search-field"
               type="text"
-              placeholder="Search Products"
+              placeholder="Search all BDI"
             />
             <img id="search" src="images/icons/search.svg" alt="search icon"/>
           </div>
         </div>
         <!---------------------------------------region-->
-        <!-- <div><img id="usa" src="images/icons/USA.svg" alt="United States Flag"/></div>
+        <div><img id="usa" src="images/icons/USA.svg" alt="United States Flag"/></div>
         <div>
           <img
             src="images/icons/location.png"
             alt="svg of location icon"
             id="location"
           />Branch Location
-        </div> -->
+        </div>
         <!-----------------------------------------User-->
-        <div class="user-icon">
+        <div>
           <img src="images/icons/user/user_24.png" alt="user icon" id="user" />
-          Sign in
+          Sign in or Register
         </div>
         <div><img id="shoppingcart" src="images/icons/shoppingcart.png" alt="shopping cart" /></div>
       </div>
     </header>
-    <!-- <nav class="dropdownmenu">
+    <nav class="dropdownmenu">
       <ul>
         <li><a href="">products</a>
           <ul id="submenu">
@@ -92,10 +79,10 @@
         <li><a href="">overstock savings</a></li>
         <li><a href="">quotes</a></li>
       </ul>
-    </nav> -->
+    </nav>
     <main id="home-main">
       <section class="main-ad-flexbox">
-        <div><img src="images/ads/MillionsOfProducts.png" id="millions" alt="MillionsOfProducts Placeholder img"/></div>
+        <h2>Company Statement</h2>
         <div id="ad-carousel"><img
           src="images/ads/Renold-scrolling-02.20.png"
           alt="scrolling carousel"
@@ -104,62 +91,62 @@
       </section>
       <section class="home-categories-grid">
         <!------------------------------------------------------------- Row 1 -->
-        <a class="category-square" href="bearings"><img class="cat-image" src="images/transparent/Bearings.webp" alt="Bearing">
+        <a class="category-square" href="bearings"><img src="images/hp_categories/Bearings.jpg" alt="Bearing">
           <h4 class="category-labels">Bearings</h4>
         </a>
-        <a class="category-square" href="mechanical_power_trans"><img class="cat-image" src="images/transparent/Mechanical_Power_Transmission.png" alt="Mechanical Power Transmission">
-          <h4 class="category-labels">Mechanical Power Transmission</h4>
+        <a class="category-square" href="mechanical_power_trans"><img src="images/hp_categories/mechanical-power-transmission-96X96.jpg" alt="Mechanical Power Transmission">
+          <h4 >Mechanical Power Transmission</h4>
         </a>
-        <a class="category-square" href="sealing_devices"><img class="cat-image" src="images/transparent/Sealing Devices.png" alt="Sealing Devices">
+        <a class="category-square" href="sealing_devices"><img src="images/hp_categories/sealing-devices-96X96.jpg" alt="Sealing Devices">
           <h4 class="category-labels">Sealing Devices</h4>
         </a>
-        <a class="category-square" href="clutches_brakes"><img src="images/transparent/clutch_brake.png" class="cat-image" alt="Clutches and Brakes">
+        <a class="category-square" href="clutches_brakes"><img src="images/hp_categories/CLUTCHES-AND-BRAKES-96X96.jpg" alt="Clutches and Brakes">
           <h4 class="category-labels">Clutches and Brakes</h4>
         </a>
         <!------------------------------------------------------------- Row 2 -->
-        <a class="category-square" href="linear_motion"><img class="cat-image" src="images/transparent/linear_motion.png" alt="Linear Motion Products">
+        <a class="category-square" href="linear_motion"><img src="images/hp_categories/LINEAR-MOTION-PRODUCTS-96X96.jpeg" alt="Linear Motion Products">
           <h4 class="category-labels">Linear Motion Products</h4>
         </a>
-        <a class="category-square" href="fluid_power"><img class="cat-image" src="images/transparent/hydraulics.png" alt="Fluid Power">
+        <a class="category-square" href="fluid_power"><img src="images/hp_categories/FLUID-POWER-96X96.jpg" alt="Fluid Power">
           <h4 class="category-labels">Fluid Power</h4>
         </a>
-        <a class="category-square" href="elec_products"><img class="cat-image" src="images/hp_categories/ELECTRICAL-PRODUCTS-96X96.jpg" alt="Electrical Products">
+        <a class="category-square" href="elec_products"><img src="images/hp_categories/ELECTRICAL-PRODUCTS-96X96.jpg" alt="Electrical Products">
           <h4 class="category-labels">Electrical Products</h4>
         </a>
-        <a class="category-square" href="safety_products"><img class="cat-image" src="images/transparent/Safety_Glasses_Teaser_880x880px.png" alt="Safety Products">
+        <a class="category-square" href="safety_products"><img src="images/hp_categories/SAFETY-PRODUCTS-96X96.jpg" alt="Safety Products">
           <h4 class="category-labels">Safety Products</h4>
         </a>
         <!---------------------------------------------------------------- Row 3 -->
         </a>
-        <a class="category-square" href="tools"><img class="cat-image" src="images/hp_categories/TOOLS-96X96.jpg" alt="Tools">
+        <a class="category-square" href="tools"><img src="images/hp_categories/TOOLS-96X96.jpg" alt="Tools">
           <h4 class="category-labels">Tools</h4>
         </a>
         </a>
-        <a class="category-square" href="electrical_power_trans"><img class="cat-image" src="images/hp_categories/INDBECMOTORX-CEWDM-3PH-TEFC-CFT-96X96.jpg" alt="Electrical Power Transmission">
+        <a class="category-square" href="electrical_power_trans"><img src="images/hp_categories/INDBECMOTORX-CEWDM-3PH-TEFC-CFT-96X96.jpg" alt="Electrical Power Transmission">
           <h4 class="category-labels">Electrical Power Transmission</h4>
         </a>
         </a>
-        <a class="category-square" href="material_handling"><img class="cat-image" src="images/hp_categories/material-handling-96X96.jpg" alt="Material Handling">
+        <a class="category-square" href="material_handling"><img src="images/hp_categories/material-handling-96X96.jpg" alt="Material Handling">
           <h4 class="category-labels">Material Handling</h4>
         </a>
         </a>
-        <a class="category-square" href="gen_industrial_products"><img class="cat-image" src="images/hp_categories/General_Industrial-products-96X96.jpg" alt="General Industrial Products">
+        <a class="category-square" href="gen_industrial_products"><img src="images/hp_categories/General_Industrial-products-96X96.jpg" alt="General Industrial Products">
           <h4 class="category-labels">General Industrial Products</h4>
         </a>
         <!----------------------------------------------------------------- Row 4 -->
-        <a class="category-square" href="chemicals"><img class="cat-image" src="images/hp_categories/chemicals.jpg" alt="Chemicals">
+        <a class="category-square" href="chemicals"><img src="images/hp_categories/chemicals.jpg" alt="Chemicals">
           <h4 class="category-labels">Chemicals</h4>
         </a>
         </a>
-        <a class="category-square" href="fasteners"><img class="cat-image" src="images/hp_categories/Fasteners (1).jpg" alt="Fasteners">
+        <a class="category-square" href="fasteners"><img src="images/hp_categories/Fasteners (1).jpg" alt="Fasteners">
           <h4 class="category-labels">Fasteners</h4>
         </a>
         </a>
-        <a class="category-square" href="automation_components"><img class="cat-image" src="images/hp_categories/Automation_Components_96X96.jpg" alt="Automation Components">
+        <a class="category-square" href="automation_components"><img src="images/hp_categories/Automation_Components_96X96.jpg" alt="Automation Components">
           <h4 class="category-labels">Automation Components</h4>
         </a>
         </a>
-        <a class="category-square" href="automation_systems"><img class="cat-image" src="images/hp_categories/AUTOMATION-SYSTEMS-96X96.jpg" alt="Automation Systems">
+        <a class="category-square" href="automation_systems"><img src="images/hp_categories/AUTOMATION-SYSTEMS-96X96.jpg" alt="Automation Systems">
           <h4 class="category-labels">Automation Systems</h4>
         </a>
         
