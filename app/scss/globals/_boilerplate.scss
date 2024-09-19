@@ -1,12 +1,11 @@
 @use '../util' as u;
 
-
 html {
     box-sizing: border-box;
     font-size: 100%;
 }
-*{
-    font-family: "Avenir";
+* {
+    font-family:"Avenir";
 }
 
 *, 
@@ -21,25 +20,16 @@ body {
     font-family: "Avenir";
     background-color: var(--background-color);
     color: var(--text-color);
-    max-width: 1440px;
+    max-width: 1600px;
 }
 
-#home-main{
-    display:block;
-    margin-top: 1rem;
+a {
+    color:var(--text-color);
 }
 
-.main-ad-flexbox{
-    display: flex;
-    flex-direction: row;
+nav{
+    width: 1600px;
+    height: 52px;
+    margin: auto;
+    background-color: var(--bdiblue);
 }
-
-
-
-// .main-ad-flexbox{
-//     display: flex;
-//     flex-direction: row;
-//     justify-content: space-evenly;
-//     align-items: center;
-
-// }
