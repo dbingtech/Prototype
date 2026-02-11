@@ -7,20 +7,20 @@ class Header extends HTMLElement {
   connectedCallback(){
       this.innerHTML = `
       <header>
-      <section class="header-container">
-        <p class="flex-top">
-          <span class="mdi--map-marker"></span>
-          <a href="store-locator.html">Find a Location</a>
-          <div class="vertical-line"></div>
-          <span class="ph--globe"></span>
-          <a href="#">EN</a>
-          <div class="vertical-line"></div>
-          <span class="ic--baseline-phone"></span>
-          <a href="tel:1-888-123-4567">1-888-12-4567</a>
-          <a href="log-in_register.html">Register</a>
-          <div class="vertical-line"></div>
-          <a href="order-status.html">Request a Quote</a>
-        </p>
+        <section class="header-container">
+          <p class="pre-header">
+            <span class="mdi--map-marker"></span>
+            <a href="store-locator.html">Find a Location</a>
+            <div class="vertical-line"></div>
+            <span class="ph--globe"></span>
+            <a href="#">EN</a>
+            <div class="vertical-line"></div>
+            <span class="ic--baseline-phone"></span>
+            <a href="tel:1-888-123-4567">1-888-12-4567</a>
+            <a href="log-in_register.html">Register</a>
+            <div class="vertical-line"></div>
+            <a href="order-status.html">Request a Quote</a>
+          </p>
         
         <!------------------------------------------2nd line-->
         <div class="flex-middle">

@@ -10,79 +10,62 @@
     </title>
   </head>
   <body>
-    <header-component></header-component>
-    <!-- <header>
-      
-      <section class="header-container">
-        <div class="left-grid">
-          <span class="mdi--map-marker"></span>
-          <a href="store-locator.html">Find a Location</a>
-          <div class="vertical-separator"></div>
-          <span class="ph--globe"></span>
-          <a href="#">EN</a>
-          <div class="vertical-separator"></div>
-          <span class="ic--baseline-phone"></span>
-          <a href="tel:1-888-123-4567">1-888-12-4567</a>
-        </div>
-        <div class="empty-cell"></div> 
-        <div class="right-grid">
-          <a href="log-in_register.html">Register</a>
-          <div class="vertical-separator"></div>
-          <a href="order-status.html">Order Status</a>
-        </div>
-        
-        
-        <a href="index.html"><img id="logo" src="images/logos/Express_White.png" alt="BDIExpress logo" /></a>
-        
-        <div class="search_bar">
-          <div class="search-drop-down">
-            <button onclick="searchButton()" type="button" title="search-dropdown" id="search-dropdown">
-              <span class="gravity-ui--caret-down"></span>
-            </button>
-            <h1>NEW</h1>
-            <div id="search-options">
-              <button onclick="" title="search-down-option-1" id="search-down-option-1">Part #</button>
-              <button onclick="" title="search-down-option-2" id="search-down-option-2">BDI Part #</button>
-              <button onclick="" title="search-down-option-3" id="search-down-option-3">Description</button>
+    <!-- <header-component></header-component> -->
+    <header>
+      <div id="pre-header">
+        <div id="pre-header_container">
+          <div class="pre-header_left">
+            <div id="country_currency">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.34em" height="1em" viewBox="0 0 32 24"><g fill="none"><path fill="#f7fcff" fill-rule="evenodd" d="M0 0h32v24H0z" clip-rule="evenodd"/><path fill="#e31d1c" fill-rule="evenodd" d="M0 14.667v2h32v-2zm0 3.666v2h32v-2zm0-11v2h32v-2zM0 22v2h32v-2zm0-11v2h32v-2zM0 0v2h32V0zm0 3.667v2h32v-2z" clip-rule="evenodd"/><path fill="#2e42a5" d="M0 0h20v13H0z"/><path fill="#f7fcff" fill-rule="evenodd" d="m1.722 2.939l-.726.509l.245-.906l-.645-.574h.843l.282-.74l.331.74h.718l-.564.574l.218.906zm4 0l-.726.509l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274.509l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.842l.644.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zM.996 7.449l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74H.596l.645.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.842l.644.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zM.996 11.449l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74H.596l.645.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.842l.644.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274-7.49l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.843l.645.574zm.726 3.49l-.726.51l.245-.906l-.645-.574h.843l.282-.74l.331.74h.718l-.564.574l.218.906zm-.726 4.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.843l.645.574zM3.722 4.938l-.726.51l.245-.906l-.645-.574h.843l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.843l.645.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm-8.726 4.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.843l.645.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.842l.644.574zm4.726-4.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm-.726 4.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.842l.644.574z" clip-rule="evenodd"/></g></svg>
+              USA
+            </div>
+            <div id="vertical_line"></div>
+            <a href="storelocator.html" id="find_location">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20"><path fill="#20485c" d="M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13m0-11a2 2 0 1 0 0-4a2 2 0 0 0 0 4"/></svg>
+                Find a Location
+            </a>
+            <div id="vertical_line"></div>
+            <a href="" id="branch_phone">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="#20485c" fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.88 1.88 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.29 11.29 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.88 1.88 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75z" clip-rule="evenodd"/></svg>
+                833-505-2801</a>
+
+          </div>
+          <div class="pre-header_right">
+            <a href="registration.html" id="register">Register</a> 
+            <div id="vertical_line"></div>
+            <a href="request_a_quote.html" id="register">Request a Quote</a> 
+          </div>
+        </div>  
+      </div>
+      <div id="post-header">
+        <div id="post-header_container"> <!--container to post-header. Post-header is for blue-background-->
+          <a href="index.html"><img src="images/logos/Size=84.png" alt="BDI,INC Logo"></a>
+<!---SearchBar-->          
+          <input type="text" id="search_bar" placeholder="Search for products">
+<!--Hover icons-->          
+          <div class="header_icons">
+            <div id="support">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24"><path fill="#fff" d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8"/></svg>
+              Support
+            </div>
+            <div id="quick_order">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 36 36"><path fill="#fff" d="M29.29 5h-7.12a4.45 4.45 0 0 0-4.11-3A4.46 4.46 0 0 0 14 5H7a1.75 1.75 0 0 0-2 1.69v25.62A1.7 1.7 0 0 0 6.71 34h22.58A1.7 1.7 0 0 0 31 32.31V6.69A1.7 1.7 0 0 0 29.29 5m-18 3a1 1 0 0 1 1-1h3.44v-.69a2.31 2.31 0 1 1 4.63 0V7h3.44a1 1 0 0 1 1 1v2H11.31ZM25 28H11v-2h14Zm0-4H11v-2h14Zm0-4H11v-2h14Zm0-4H11v-2h14Z" class="clr-i-solid clr-i-solid-path-1"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+              Quick Order
+            </div>
+            <div id="sign_in">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24"><path fill="#fff" d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2S7.5 4.019 7.5 6.5M20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1z"/></svg>
+              Sign In
+            </div>
+            <div id="cart">
+              <svg xmlns="http://www.w3.org/2000/svg" width="31.5px" height="28px" viewBox="0 0 576 512"><path fill="#fff" d="m528.12 301.319l47.273-208C578.806 78.301 567.391 64 551.99 64H159.208l-9.166-44.81C147.758 8.021 137.93 0 126.529 0H24C10.745 0 0 10.745 0 24v16c0 13.255 10.745 24 24 24h69.883l70.248 343.435C147.325 417.1 136 435.222 136 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-15.674-6.447-29.835-16.824-40h209.647C430.447 426.165 424 440.326 424 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-22.172-12.888-41.332-31.579-50.405l5.517-24.276c3.413-15.018-8.002-29.319-23.403-29.319H218.117l-6.545-32h293.145c11.206 0 20.92-7.754 23.403-18.681"/></svg>
+              Cart
             </div>
           </div>
-          <div class="vertical_line"></div>
-          <div class="search-input-outer">
-            <input
-              class="search-input"
-              type="text"
-              placeholder="Search Products"
-            />
-            <span class="ic--outline-search"></span>
-          </div>
         </div>
-        
-        <div class="bottom-right">
-          <div class="chat"><img id="chat-img" src="images/icons/header/chat_white_48.png" alt="chat bubble"/>
-            <a href="#">Support</a>
-          </div>
-          
-          <div class="sign-in">
-          <img src="images/icons/header/user_white_48.png" alt="user icon" id="user" />
-          <a href="#">Sign In</a>
-          </div>
-
-          <div class="quick-order">
-          <img src="images/icons/header/quick_white_48.png" alt="user icon" id="quick" />
-          <a href="#">Quick Order</a>
-          </div>
-          
-          <div class="cart">
-            <img id="shoppingcart" src="images/icons/header/Cart_White_48.png" alt="shopping cart" />
-            <a href="cart.html">Cart</a>
-          </div>
-          
-        </div>
-    
-      </section>
-    </header> -->
+      </div>
+    </header>
     <nav>
-      <div class="dropdownmenu">
+      <div class="dropdownmenu"> <!--All Menu-->
         <ul>
           <li><a href="">All</a>
             <ul id="submenu">

@@ -1,0 +1,61 @@
+<div
+  class="root"
+  [ngClass]="{
+    root_versionPrimaryStateNormalStateHover:
+      version === 'Primary' && (state === 'Normal' || state === 'Hover'),
+    root_versionSecondaryStateNormalStateHover:
+      version === 'Secondary' && (state === 'Normal' || state === 'Hover'),
+    root_versionTertiaryStateNormalStateHover:
+      version === 'Tertiary' && (state === 'Normal' || state === 'Hover'),
+    root_versionCancelStateNormalStateHover:
+      version === 'Cancel' && (state === 'Normal' || state === 'Hover'),
+    root_stateDisabledVersionPrimary:
+      state === 'Disabled' && version === 'Primary',
+    root_versionPrimaryStateNormalVersionSecondaryStateHoverVersionSecondary:
+      version === 'Primary' ||
+      (state === 'Normal' && version === 'Secondary') ||
+      (state === 'Hover' && version === 'Secondary'),
+    root_stateNormalVersionTertiaryStateNormalVersionCancelStateHoverVersionTertiaryStateHoverVersionCancel:
+      (state === 'Normal' && version === 'Tertiary') ||
+      (state === 'Normal' && version === 'Cancel') ||
+      (state === 'Hover' && version === 'Tertiary') ||
+      (state === 'Hover' && version === 'Cancel'),
+    root_stateHoverVersionTertiary: state === 'Hover' && version === 'Tertiary',
+    root_stateNormalVersionTertiaryStateNormalVersionCancelStateHoverVersionCancel:
+      (state === 'Normal' && version === 'Tertiary') ||
+      (state === 'Normal' && version === 'Cancel') ||
+      (state === 'Hover' && version === 'Cancel'),
+    root_stateHoverVersionPrimary: state === 'Hover' && version === 'Primary',
+    root_stateHoverVersionSecondary:
+      state === 'Hover' && version === 'Secondary',
+  }"
+>
+  <span
+    class="text"
+    [ngClass]="{
+      text_stateNormalVersionPrimaryStateNormalVersionTertiaryStateHoverVersionPrimaryStateHoverVersionTertiary:
+        (state === 'Normal' && version === 'Primary') ||
+        (state === 'Normal' && version === 'Tertiary') ||
+        (state === 'Hover' && version === 'Primary') ||
+        (state === 'Hover' && version === 'Tertiary'),
+      text_versionSecondaryStateNormalStateHover:
+        version === 'Secondary' && (state === 'Normal' || state === 'Hover'),
+      text_versionCancelStateNormalStateHover:
+        version === 'Cancel' && (state === 'Normal' || state === 'Hover'),
+      text_stateDisabledVersionPrimary:
+        state === 'Disabled' && version === 'Primary',
+      text_stateNormalVersionTertiaryStateNormalVersionCancelStateHoverVersionTertiaryStateHoverVersionCancel:
+        (state === 'Normal' && version === 'Tertiary') ||
+        (state === 'Normal' && version === 'Cancel') ||
+        (state === 'Hover' && version === 'Tertiary') ||
+        (state === 'Hover' && version === 'Cancel'),
+      text_versionPrimaryStateNormalVersionSecondaryStateHoverVersionSecondary:
+        version === 'Primary' ||
+        (state === 'Normal' && version === 'Secondary') ||
+        (state === 'Hover' && version === 'Secondary'),
+    }"
+    >{{ text }}</span
+  >
+  <ng-content></ng-content>
+  <ng-content></ng-content>
+</div>

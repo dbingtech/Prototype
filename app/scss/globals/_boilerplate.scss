@@ -1,5 +1,5 @@
 @use '../util' as u;
-
+// basic layout for all pages. Sets box-sizing, font-family, body styles, and link colors.
 html {
     box-sizing: border-box;
     font-size: 100%;
@@ -15,21 +15,7 @@ html {
 }
 
 body {
-    margin:auto;
+    margin-left: auto;
+    margin-right: auto;
     padding:0;
-    font-family: "Avenir";
-    background-color: var(--background-color);
-    color: var(--text-color);
-    max-width: 1600px;
-}
-
-a {
-    color:var(--text-color);
-}
-
-nav{
-    width: 1600px;
-    height: 52px;
-    margin: auto;
-    background-color: var(--bdiblue);
 }

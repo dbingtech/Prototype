@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Bar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #20485c;
+            width: 100vw;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 24px;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .hamburger {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            cursor: pointer;
+            padding: 6px 0;
+            z-index: 1002;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger:hover span {
+            background-color: #e0e0e0;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #e0e0e0;
+        }
+
+        .separator {
+            width: 1px;
+            height: 24px;
+            background-color: white;
+            margin: 0 8px;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            color: white;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            transition: color 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            color: #e0e0e0;
+        }
+
+        .dropdown-arrow {
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 5px solid white;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #2a5a70;
+            min-width: 160px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            margin-top: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #20485c;
+        }
+
+        .dropdown-menu a:first-child {
+            border-radius: 4px 4px 0 0;
+        }
+
+        .dropdown-menu a:last-child {
+            border-radius: 0 0 4px 4px;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 999;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Side Menu */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -380px;
+            width: 380px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .side-menu.active {
+            left: 0;
+        }
+
+        .menu-header {
+            background-color: #232f3e;
+            color: white;
+            padding: 16px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-header svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .menu-section {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .menu-section-title {
+            padding: 14px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #232f3e;
+            background-color: #f5f5f5;
+        }
+
+        .menu-item {
+            padding: 14px 20px 14px 36px;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .menu-item-arrow {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            Hello, Sign In
+            <button class="close-btn" id="closeMenu">&times;</button>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-section-title">Digital Content & Devices</div>
+            <button class="menu-item">
+                Amazon Music
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Kindle E-readers & Books
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Amazon Appstore
+                <span class="menu-item-arrow">›</span>
+            </button>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-section-title">Shop By Department</div>
+            <button class="menu-item">
+                Electronics
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Computers
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Smart Home
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Arts & Crafts
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Automotive
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Baby
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Beauty & Personal Care
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Women's Fashion
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Men's Fashion
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Girls' Fashion
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Boys' Fashion
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Health & Household
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Home & Kitchen
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Industrial & Scientific
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Luggage
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Movies & Television
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Pet Supplies
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Software
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Sports & Outdoors
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Tools & Home Improvement
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Toys & Games
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Video Games
+                <span class="menu-item-arrow">›</span>
+            </button>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-section-title">Programs & Features</div>
+            <button class="menu-item">
+                Gift Cards
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Shop By Interest
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Amazon Live
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                International Shopping
+                <span class="menu-item-arrow">›</span>
+            </button>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-section-title">Help & Settings</div>
+            <button class="menu-item">
+                Your Account
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Customer Service
+                <span class="menu-item-arrow">›</span>
+            </button>
+            <button class="menu-item">
+                Sign In
+                <span class="menu-item-arrow">›</span>
+            </button>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-content">
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <div class="separator"></div>
+
+            <div class="dropdown">
+                <button class="dropdown-toggle">
+                    Products
+                    <span class="dropdown-arrow"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#product1">Product 1</a>
+                    <a href="#product2">Product 2</a>
+                    <a href="#product3">Product 3</a>
+                    <a href="#product4">Product 4</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropdown-toggle">
+                    Resources
+                    <span class="dropdown-arrow"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#docs">Documentation</a>
+                    <a href="#tutorials">Tutorials</a>
+                    <a href="#support">Support</a>
+                    <a href="#community">Community</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div style="padding: 40px; color: #333;">
+        <h1>Welcome</h1>
+        <p>This is a sample page to demonstrate the navigation bar.</p>
+        <p style="margin-top: 20px;">Click the hamburger menu to see the Amazon-style slide-out menu.</p>
+    </div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const sideMenu = document.getElementById('sideMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const closeMenu = document.getElementById('closeMenu');
+
+        function openMenu() {
+            sideMenu.classList.add('active');
+            menuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenuFunc() {
+            sideMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburger.addEventListener('click', openMenu);
+        closeMenu.addEventListener('click', closeMenuFunc);
+        menuOverlay.addEventListener('click', closeMenuFunc);
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sideMenu.classList.contains('active')) {
+                closeMenuFunc();
+            }
+        });
+    </script>
+</body>
+</html>

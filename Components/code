@@ -1,0 +1,13 @@
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+@Component({
+  selector: "app-button-xs-small",
+  templateUrl: "./button-xs-small.component.html",
+  styleUrls: ["./button-xs-small.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ButtonXsSmallComponent {
+  @Input() text: string = "Text";
+  @Input() showIcon: boolean = false;
+  @Input() state: "Hover" | "Disabled" | "Normal" = "Normal";
+  @Input() version: "Primary" | "Secondary" | "Tertiary" | "Cancel" = "Primary";
+}

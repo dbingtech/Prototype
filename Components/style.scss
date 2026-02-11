@@ -1,0 +1,111 @@
+.root {
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 12px;
+}
+
+.root_versionPrimaryStateNormalStateHover {
+  background: #f9e784;
+}
+
+.root_versionSecondaryStateNormalStateHover {
+  background: #ec9a29;
+}
+
+.root_versionTertiaryStateNormalStateHover {
+  background: #ffffff;
+}
+
+.root_versionCancelStateNormalStateHover {
+  background: #cc0202;
+}
+
+.root_stateDisabledVersionPrimary {
+  background: #d4d4d5;
+}
+
+.root_versionPrimaryStateNormalVersionSecondaryStateHoverVersionSecondary {
+  gap: 8px;
+}
+
+.root_stateNormalVersionTertiaryStateNormalVersionCancelStateHoverVersionTertiaryStateHoverVersionCancel {
+  gap: 16px;
+}
+
+.root_stateHoverVersionTertiary {
+  border-color: #20485c7f;
+  border-style: solid;
+  border-width: 0.5px;
+}
+
+.root_stateNormalVersionTertiaryStateNormalVersionCancelStateHoverVersionCancel {
+  border-color: #20485c;
+  border-style: solid;
+  border-width: undefinedpx;
+}
+
+.root_stateHoverVersionPrimary {
+  border-color: #f9e784;
+  border-style: solid;
+  border-width: undefinedpx;
+}
+
+.root_stateHoverVersionSecondary {
+  border-color: #ec9a29;
+  border-style: solid;
+  border-width: undefinedpx;
+}
+.text {
+  display: flex;
+  box-sizing: content-box;
+  font-weight: 900;
+  text-align: center;
+}
+
+.text_stateNormalVersionPrimaryStateNormalVersionTertiaryStateHoverVersionPrimaryStateHoverVersionTertiary {
+  color: #000000;
+}
+
+.text_versionSecondaryStateNormalStateHover {
+  color: #000000;
+}
+
+.text_versionCancelStateNormalStateHover {
+  color: #000000;
+}
+
+.text_stateDisabledVersionPrimary {
+  color: #000000;
+}
+
+.text_stateNormalVersionTertiaryStateNormalVersionCancelStateHoverVersionTertiaryStateHoverVersionCancel {
+  text-wrap: nowrap;
+}
+
+.text_versionPrimaryStateNormalVersionSecondaryStateHoverVersionSecondary {
+  text-wrap: wrap;
+  width: -webkit-fill-available;
+}
+
+.navigate_stateNormalStateHover {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: #ffffff;
+  width: 24px;
+  height: 24px;
+}
+
+.cancelWhite_stateNormalStateHover {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: #cc0202;
+  width: 24px;
+  height: 24px;
+}

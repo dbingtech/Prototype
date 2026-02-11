@@ -164,23 +164,9 @@ html {
 }
 
 body {
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0;
-  font-family: "Avenir";
-  background-color: var(--background-color);
-  color: var(--text-color);
-  max-width: 1600px;
-}
-
-a {
-  color: var(--text-color);
-}
-
-nav {
-  width: 1600px;
-  height: 52px;
-  margin: auto;
-  background-color: var(--bdiblue);
 }
 
 .cat-image {
@@ -346,12 +332,132 @@ footer div section a {
   --text-color:black;
 }
 
-header {
-  background-color: var(--bdiblue);
-  width: 1600px;
+a {
+  color: var(--text-color);
+  text-decoration: underline;
 }
 
-a {
+a:hover {
+  font-weight: bold;
+}
+
+#pre-header {
+  background-color: var(--white);
+  min-height: 40px;
+}
+
+#pre-header_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.pre-header_left {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  width: 100%;
+}
+
+.pre-header_right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 1em;
+  width: 100%;
+}
+
+#country_currency {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+#find_location {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+#branch_phone {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+#vertical_line {
+  height: 20px;
+  border-left: 1px solid #AAABAB;
+}
+
+#post-header {
+  background-color: var(--bdiblue);
+  min-height: 100px;
+}
+
+#post-header_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: auto;
+}
+
+#search_bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 2px;
+  width: auto;
+  min-width: 800px;
+  background-color: var(--white);
+  height: 42px;
+  font-size: 1rem;
+}
+
+.header_icons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+}
+
+#support {
+  display: flex;
+  flex-direction: Column;
+  align-items: center;
+  gap: 4px;
+  color: var(--white);
+}
+
+#quick_order {
+  display: flex;
+  flex-direction: Column;
+  align-items: center;
+  gap: 4px;
+  color: var(--white);
+}
+
+#sign_in {
+  display: flex;
+  flex-direction: Column;
+  align-items: center;
+  gap: 4px;
+  color: var(--white);
+}
+
+#cart {
+  display: flex;
+  flex-direction: Column;
+  align-items: center;
+  gap: 4px;
   color: var(--white);
 }
 
