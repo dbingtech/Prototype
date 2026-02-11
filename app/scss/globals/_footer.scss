@@ -1,7 +1,11 @@
 footer { 
     background-color:var(--bdiblue);
+    min-width:1400px;
+    padding: 32px;
+}
+
+footer a{
     color:var(--white);
-    padding: 2rem;
 }
 
 .footer-flex-col {
@@ -19,6 +23,7 @@ footer div section a {
     color:var(--white);
     line-height: 1.5rem;
 }
+
 .footer-link:hover {
     text-decoration: underline;
 }

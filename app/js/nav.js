@@ -1,0 +1,63 @@
+
+
+class Navigation extends HTMLElement {
+  constructor() {
+    super();
+  }
+  connectedCallback(){
+      this.innerHTML = `
+      <nav>
+        <div class="dropdownmenu"> <!--All Menu-->
+          <ul>
+            <li><a href="">All</a>
+              <ul id="submenu">
+                <li><a href="#">electric motor bearings</a></li>
+                <li><a href="#">product guide</a></li>
+                <li><a href="#">automation</a></li>
+                <li><a href="#">bearings</a></li>
+                <li><a href="#">chemicals</a></li>
+                <li><a href="#">clutches and brakes</a></li>
+                <li><a href="#">electric power transmission</a></li>
+                <li><a href="#">electrical products</a></li>
+                <li><a href="#">fasteners</a></li>
+                <li><a href="#">fluid power</a></li>
+                <li><a href="#">general industrial products</a></li>
+                <li><a href="#">lighting</a></li>
+                <li><a href="#">linear motion products</a></li>
+                <li><a href="#">material handling</a></li>
+                <li><a href="#">mechanical power transmission</a></li>
+                <li><a href="#">office supplies</a></li>
+                <li><a href="#">safety products</a></li>
+                <li><a href="#">sealing devices</a></li>
+                <li><a href="#">tools</a></li>
+                <li><a href="#">unclassified</a></li>
+              </ul>
+            </li>
+            <li><a href="">Bearings</a></li>
+            <li><a href="">Electric Motors</a></li>
+            <li><a href="">Shaft Couplings</a></li>
+            <li><a href="">Oil Seals</a></li>
+            <li><a href="">V-Belts</a></li>
+            <li><a href="">Linear Bearings</a></li>
+            <li><a href="">Services</a></li>
+            <li><a href="">Knowledge</a></li>
+            <li><a href="">Quotes</a></li>
+          </ul>
+        </div>
+      </nav>
+      `;
+  }
+}
+customElements.define('nav-component', Navigation);
+let template = document.getElementById('page-nav');
+
+template.innerHTML = `
+<nav></nav>
+`;
+
+let templateContent = template.content;
+
+document.body.appendChild(templateContent)
+
+
+

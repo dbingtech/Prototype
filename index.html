@@ -6,12 +6,14 @@
     <link rel="stylesheet" type="text/css" href="dist/styles.css" />
     <script src="app/js/script.js" async></script>
     <script src="app/js/header.js" async></script>
+    
+    <script src="app/js/nav.js" async></script>
     <title>BDI Express - Prototype
     </title>
   </head>
   <body>
-    <!-- <header-component></header-component> -->
-    <header>
+    <header-component></header-component>
+    <!-- <header>
       <div id="pre-header">
         <div id="pre-header_container">
           <div class="pre-header_left">
@@ -38,11 +40,11 @@
         </div>  
       </div>
       <div id="post-header">
-        <div id="post-header_container"> <!--container to post-header. Post-header is for blue-background-->
+        <div id="post-header_container"> <!--container to post-header. Post-header is for blue-background
           <a href="index.html"><img src="images/logos/Size=84.png" alt="BDI,INC Logo"></a>
-<!---SearchBar-->          
+<!---SearchBar        
           <input type="text" id="search_bar" placeholder="Search for products">
-<!--Hover icons-->          
+<!--Hover icons        
           <div class="header_icons">
             <div id="support">
               <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24"><path fill="#fff" d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8"/></svg>
@@ -63,9 +65,10 @@
           </div>
         </div>
       </div>
-    </header>
-    <nav>
-      <div class="dropdownmenu"> <!--All Menu-->
+    </header> -->
+    <nav-component></nav-component>
+    <!-- <nav>
+      <div class="dropdownmenu">All Menu
         <ul>
           <li><a href="">All</a>
             <ul id="submenu">
@@ -103,7 +106,7 @@
           <li><a href="">Quotes</a></li>
         </ul>
       </div>
-    </nav>
+    </nav> -->
     <main id="home-main">
       <section class="index-heroBar">
         <div>
@@ -179,60 +182,7 @@
         <!-- <div>Right Side Ads</div> -->
       </section>
     </main>
-    <footer>
-      <div class="footer-flex-container">
-        <section class="footer-flex-col">
-          <h3>Products</h3>
-          <a class="footer-link" href="">Overstock</a>
-          <a class="footer-link" href="">Favorites</a>
-          <a class="footer-link" href="">Can't Find It?</a>
-        </section>
-        <section class="footer-flex-col">
-          <h3>Knowledge</h3>
-          <a class="footer-link" href="">Brands</a>
-          <a class="footer-link" href="">Industries</a>
-          <a class="footer-link" href="">Knowledge Base</a>
-          <a class="footer-link" href="">Product Showcase</a>
-          <a class="footer-link" href="">Overstock</a>
-          </section>          
-        <section class="footer-flex-col">
-          <h3>Service</h3>
-          <a class="footer-link" href="">Automation</a>
-          <a class="footer-link" href="">BDI Additive</a>
-          <a class="footer-link" href="">Fluid Power Automation Shop</a>
-          <a class="footer-link" href="">Full Service integration (FSI)</a>
-          <a class="footer-link" href="">Gearbox Build Center</a>
-          <a class="footer-link" href="">Lighting Retrofit</a>
-          <a class="footer-link" href="">Repair Services Brochure</a>
-          <a class="footer-link" href="">SmartSUPPLY</a>
-          <a class="footer-link" href="">Value Creation</a>
-          <a class="footer-link" href="">Akron Gear & Engineering</a>
-        </section>
-        <section class="footer-flex-col">
-          <h3>About Us</h3>
-          <a class="footer-link" href="">FAQs</a>
-          <a class="footer-link" href="">Company Information</a>
-          <a class="footer-link" href="">Career information</a>
-          <a class="footer-link" href="">Locations</a>
-          <a class="footer-link" href="">Contact Us</a>
-          <a class="footer-link" href="">SDS Sheets</a>
-        </section>
-        <section class="footer-flex-col">
-          <h3>Using This Site</h3>    
-          <a class="footer-link" href="">Sales Policy</a>
-          <a class="footer-link" href="">Alternative Disclaimer</a>
-          <a class="footer-link" href="">Product Catalog Disclaimer</a>
-          <a class="footer-link" href="">Product Autorization Policy</a>
-          <a class="footer-link" href="">Privacy Policy</a>
-          <a class="footer-link" href="">Supplier Conduct Policy</a>
-          <a class="footer-link" href="">Conflict Minerals Statement</a>
-          <a class="footer-link" href="">Use of Cookies</a>
-          <a class="footer-link" href="">Cookie Consent</a>
-        </section>      
-            
-        </div>
-        <div>© Copyright <span id="copyright"></span> BDI All Rights Reserved</div>
-      </section>
-    </footer>
+    <footer-component></footer-component>
   </body>
+  <script src="app/js/footer.js" async></script>
 </html>

@@ -16,6 +16,7 @@ a:hover {
   justify-content: space-between;
   max-width: 1400px;
   margin: auto;
+  
 }
 .pre-header_left {
   display: flex;
@@ -55,6 +56,8 @@ a:hover {
 #post-header {
   background-color: var(--bdiblue);
   min-height: 100px;
+    padding-top:8px;
+
 }
 #post-header_container {
   display: flex;

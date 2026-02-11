@@ -6,28 +6,32 @@
 }
 
 @font-face {
-    font-family: "Avenir-black";
-    src: url('../../fonts/Avenir-Black.ttf') format('truetype');
+    font-family: "Avenir-heavy";
+    src: url('../../fonts/Avenir/Avenir-Heavy.ttf') format('truetype');
     font-weight:bold;
     font-style: normal;
 }
-h1 {
-    font-size: 3 rem;
-    font-family: "Avenir";
-    font-weight: bold;
-}
-h2{
+h2 {
     font-size: 32px;
-    font-family: "Avenir";
-    font-weight: bold;
+    font-family: "Avenir-heavy";
 }
 h3{
-    font-size: 24px;
-    font-family: "Avenir";
-    font-weight: 700;
+    font-size: 28px;
+    font-family: "Avenir-heavy";
 }
-h4 {
-    font-size:18px;
+h4{
+    font-size: 24px;
+    font-family: "Avenir-heavy";
+}
+h5 {
+    font-size: 20px;
+    font-family: "Avenir-heavy";
+}
+h6 {
+    font-size: 18px;
+    font-family: "Avenir-heavy";
+}
+p {
+    font-size: 16px;
     font-family: "Avenir";
-    font-weight: 700;
 }
