@@ -1,12 +1,4 @@
-
-
-class Navigation extends HTMLElement {
-  constructor() {
-    super();
-  }
-  connectedCallback(){
-      this.innerHTML = `
-      <nav>
+<nav>
         <div class="dropdownmenu"> <!--All Menu-->
           <ul>
             <li><a href="">All</a>
@@ -45,19 +37,3 @@ class Navigation extends HTMLElement {
           </ul>
         </div>
       </nav>
-      `;
-  }
-}
-customElements.define('nav-component', Navigation);
-let template = document.getElementById('page-nav');
-
-template.innerHTML = `
-<nav></nav>
-`;
-
-let templateContent = template.content;
-
-document.body.appendChild(templateContent)
-
-
-

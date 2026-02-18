@@ -1,9 +1,9 @@
-a {
+header a {
   color:var(--text-color);
-  text-decoration: underline;
+  text-decoration: none;
 }
-a:hover {
-  font-weight:bold;
+header a:hover {
+  text-decoration: underline;
 }
 #pre-header {
   background-color: var(--white);
@@ -35,18 +35,24 @@ a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
+  color:var(--text-color);
+  font-family: "Avenir";
   gap:4px;
 }
 #find_location{
   display: flex;
   flex-direction: row;
   align-items: center;
+  color:var(--text-color);
+  font-family: "Avenir";
   gap:4px;
 }
 #branch_phone{
   display: flex;
   flex-direction: row;
   align-items: center;
+  color:var(--text-color);
+  font-family: "Avenir";
   gap:4px;
 }
 #vertical_line{
@@ -84,6 +90,8 @@ a:hover {
   align-items: center;
   gap:24px;
 }
+
+// ----------------------------Icon spacing
 #support {
   display: flex;
   flex-direction: Column;
@@ -112,34 +120,7 @@ a:hover {
   gap:4px;
   color:var(--white)
 }
-.header-container{
-  display:flex;
-  grid-gap: 8px;
-  height: auto;
-  margin: auto;
-  width: 1440px;
-  padding-top:8px;
-}
-.grid-region {
-  grid-area:grid-region;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--white);
-}
 
-.grid-register{
-  grid-area:grid-register;
-  border-bottom: 1px solid var(--white);
-
-}
-.vertical-line{
-  height: 24px;
-  padding-left: 4px;
-  border-left: 2px solid var(--white);
-}
-.grid-buttons {
-  grid-area: grid-buttons;
-  justify-content: space-around;
-}
 /* ----------------------------Search Bar */
       .search_bar {
         grid-area: search;

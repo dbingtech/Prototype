@@ -1,13 +1,9 @@
-@use '../util' as u;
+
 // basic layout for all pages. Sets box-sizing, font-family, body styles, and link colors.
 html {
     box-sizing: border-box;
     font-size: 100%;
 }
-* {
-    font-family:"Avenir";
-}
-
 *, 
 *::before, 
 *::after {

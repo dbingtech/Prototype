@@ -1,11 +1,19 @@
 footer { 
     background-color:var(--bdiblue);
-    min-width:1400px;
-    padding: 32px;
+    // padding: 32px;
 }
 
-footer a{
+#footer-container{
+    max-width: 1400px;
+    margin: auto;
+}
+
+footer a {
     color:var(--white);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration:underline;
 }
 
 .footer-flex-col {

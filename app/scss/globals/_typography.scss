@@ -1,22 +1,42 @@
-*{
+@font-face {
+    font-family: "Avenir";
+    src: url('../../fonts/Avenir-Roman.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Avenir-heavy";
+    src: url('../../fonts/Avenir/Avenir-Heavy.ttf') format('truetype');
+    font-weight:bold;
+    font-style: normal;
+}
+h2 {
+    font-size: 32px;
+    font-family: "Avenir-heavy";
+}
+h3{
+    font-size: 28px;
+    font-family: "Avenir-heavy";
+}
+h4{
+    font-size: 24px;
+    font-family: "Avenir-heavy";
+}
+h5 {
+    font-size: 20px;
+    font-family: "Avenir-heavy";
+}
+h6 {
+    font-size: 18px;
+    font-family: "Avenir-heavy";
+}
+p {
+    font-size: 16px;
+    font-family: "Avenir";
+}
+a {
+    font-size: 16px;
     font-family: "Avenir";
 }
 
-h1, h2, h3 {
-    font-weight: 700;
-    line-height: 1.1;
-    margin-top: 0;
-}
-
-p{
-    margin-top: 0;
-}
-
-a, a:visited, a:active {
-    text-decoration: none;
-}
-
-nav ul li {
-    list-style-type: none;
-    text-transform: capitalize;
-}
