@@ -23,6 +23,9 @@ ul{
   margin: auto;
   list-style: none;
 }
+nav ul{
+  text-decoration: none;
+}
 nav ul li a{
   color:colors.$white;
   text-decoration: none;
