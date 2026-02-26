@@ -1,41 +1,41 @@
-@use '../globals/colors' as colors;
-nav{
-  background-color: colors.$bdiblue;
-  height:auto;
-  width:auto;
-}
+// @use '../globals/colors' as colors;
+// nav{
+//   background-color: colors.$bdiblue;
+//   height:auto;
+//   width:auto;
+// }
 
-.nav_container{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  padding:8px 0;
-}
-#hamburger{
-  display: inline;
-  margin: auto;
-}
+// .nav_container{
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   margin: auto;
+//   padding:8px 0;
+// }
+// #hamburger{
+//   display: inline;
+//   margin: auto;
+// }
 
-.main_nav ul{
-  display:flex;
-  flex-direction: row;
-  align-items: center;
-  margin: auto;
-  list-style: none;
-}
-.main_nav ul li a{
-  color:colors.$white;
-  text-decoration: none;
-  padding: 12px 32px;
-  text-align: center;
-  transition: all 0.25s ease;
-}
+// .main_nav ul{
+//   display:flex;
+//   flex-direction: row;
+//   align-items: center;
+//   margin: auto;
+//   list-style: none;
+// }
+// .main_nav ul li a{
+//   color:colors.$white;
+//   text-decoration: none;
+//   padding: 12px 32px;
+//   text-align: center;
+//   transition: all 0.25s ease;
+// }
 
-.main_nav ul li:hover {
-  background-color:colors.$williamblue;
-}
+// .main_nav ul li:hover {
+//   background-color:colors.$williamblue;
+// }
 
 
 // #submenu{
