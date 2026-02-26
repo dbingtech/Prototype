@@ -24,14 +24,14 @@ ul{
   list-style: none;
 }
 nav ul li a{
-  color:globals.$white;
+  color:colors.$white;
   text-decoration: none;
   padding: 12px 32px;
   text-align: center;
   transition: all 0.25s ease;
 }
 
-nav ul li:hover a{
+nav ul li:hover {
   background-color:colors.$williamblue;
 }
 
