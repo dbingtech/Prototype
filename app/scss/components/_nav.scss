@@ -1,4 +1,4 @@
-@use '../globals/colors' as colors; 
+@use '../globals/colors' as colors;
 nav{
   background-color: colors.$bdiblue;
   height:auto;
@@ -18,17 +18,14 @@ nav{
   margin: auto;
 }
 
-ul{
+.main_nav ul{
   display:flex;
   flex-direction: row;
   align-items: center;
   margin: auto;
   list-style: none;
 }
-nav ul{
-  text-decoration: none;
-}
-nav ul li a{
+.main_nav ul li a{
   color:colors.$white;
   text-decoration: none;
   padding: 12px 32px;
@@ -36,7 +33,7 @@ nav ul li a{
   transition: all 0.25s ease;
 }
 
-nav ul li:hover {
+.main_nav ul li:hover {
   background-color:colors.$williamblue;
 }
 
