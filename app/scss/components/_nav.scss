@@ -35,6 +35,18 @@ nav ul li:hover a{
   background-color:colors.$williamblue;
 }
 
+.nav_horizontal_line{
+  background-color: colors.$white;
+  height: .5px;
+  width: 100%;
+}
+.nav_vertical_line{
+  background-color: colors.$white;
+  height: 32px;
+  width: .5px;
+  margin: 0 16px;
+}
+
 
 // #submenu{
 //   display: grid;
