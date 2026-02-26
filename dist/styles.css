@@ -464,10 +464,6 @@ nav {
   transition: all 0.25s ease;
 }
 
-.nav_container ul li:hover a {
-  background-color: #3c6378;
-}
-
 .nav_horizontal_line {
   background-color: #fff;
   height: 0.5px;
