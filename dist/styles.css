@@ -434,7 +434,7 @@ nav {
 }
 
 nav ul {
-  list-style-type: none;
+  list-style: none;
 }
 
 .nav_container {
