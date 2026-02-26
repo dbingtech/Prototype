@@ -1,6 +1,6 @@
-@use '../globals/colors' as globals; 
+@use '../globals/colors' as colors; 
 nav{
-  background-color: globals.$bdiblue;
+  background-color: colors.$bdiblue;
 }
 
 .nav_container{
@@ -32,7 +32,7 @@ nav ul li a{
 }
 
 nav ul li:hover a{
-  background-color:globals.$williamblue;
+  background-color:colors.$williamblue;
 }
 
 

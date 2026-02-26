@@ -1,4 +1,4 @@
-@use 'globals/colors' as colors;  
+@use '../globals/colors' as colors;  
 
 footer { 
     background-color:colors.$bdiblue;
@@ -17,7 +17,7 @@ footer h3 {
 }
 
 footer a {
-    color:var(--white);
+    color:colors.$white;
     text-decoration: none;
 }
 a:hover {
@@ -36,7 +36,7 @@ a:hover {
 }
 
 footer div section a {
-    color:var(--white);
+    color:colors.$white;
     line-height: 1.5rem;
 }
 
