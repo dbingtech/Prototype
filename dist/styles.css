@@ -15,6 +15,11 @@ body {
   padding: 0;
 }
 
+#main {
+  min-width: 1336px;
+  margin: auto;
+}
+
 @font-face {
   font-family: "Avenir";
   src: url("../../fonts/Avenir-Roman.ttf") format("truetype");
@@ -23,23 +28,26 @@ body {
 }
 @font-face {
   font-family: "Avenir-heavy";
-  src: url("../../fonts/Avenir/Avenir-Heavy.ttf") format("truetype");
-  font-weight: bold;
+  src: url("../../fonts/Avenir-Heavy.ttf") format("truetype");
+  font-weight: 800;
   font-style: normal;
 }
 h2 {
   font-size: 32px;
-  font-family: "Avenir-heavy";
+  font-family: "Avenir";
+  font-weight: 800;
 }
 
 h3 {
   font-size: 28px;
-  font-family: "Avenir-heavy";
+  font-family: "Avenir";
+  font-weight: 800;
 }
 
 h4 {
   font-size: 24px;
-  font-family: "Avenir-heavy";
+  font-family: "Avenir";
+  font-weight: 800;
 }
 
 h5 {
@@ -60,22 +68,6 @@ p {
 a {
   font-size: 16px;
   font-family: "Avenir";
-}
-
-:root {
-  --bdiblue:#20485c;
-  --bdired: #eb2e26;
-  --bdigreen: #03b696;
-  --gray: #d6d7d8;
-  --lightgray: #f2f2f2;
-  --white: #fff;
-  --black: #000;
-  --bdiblue-hover: #20485c60;
-  --stroke:#6A6A6A;
-  --stroke60:#6A6A6A99;
-  --blue_lightbox: #20485c80;
-  --red_hover: #eb2d2699;
-  --text-color:black;
 }
 
 .cat-image {
@@ -184,8 +176,8 @@ a {
     width: 100vw;
   }
 }
-header a {
-  color: var(--text-color);
+header {
+  color: black;
   text-decoration: none;
 }
 
@@ -194,7 +186,7 @@ header a:hover {
 }
 
 #pre-header {
-  background-color: var(--white);
+  background-color: #fff;
   min-height: 40px;
 }
 
@@ -226,7 +218,7 @@ header a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: var(--text-color);
+  color: black;
   font-family: "Avenir";
   gap: 4px;
 }
@@ -235,7 +227,7 @@ header a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: var(--text-color);
+  color: black;
   font-family: "Avenir";
   gap: 4px;
 }
@@ -244,7 +236,7 @@ header a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: var(--text-color);
+  color: black;
   font-family: "Avenir";
   gap: 4px;
 }
@@ -255,7 +247,7 @@ header a:hover {
 }
 
 #post-header {
-  background-color: var(--bdiblue);
+  background-color: #20485c;
   min-height: 100px;
   padding-top: 8px;
 }
@@ -276,7 +268,7 @@ header a:hover {
   border-radius: 2px;
   width: auto;
   min-width: 800px;
-  background-color: var(--white);
+  background-color: #fff;
   height: 42px;
   font-size: 1rem;
 }
@@ -293,7 +285,7 @@ header a:hover {
   flex-direction: Column;
   align-items: center;
   gap: 4px;
-  color: var(--white);
+  color: #fff;
 }
 
 #quick_order {
@@ -301,7 +293,7 @@ header a:hover {
   flex-direction: Column;
   align-items: center;
   gap: 4px;
-  color: var(--white);
+  color: #fff;
 }
 
 #sign_in {
@@ -309,7 +301,7 @@ header a:hover {
   flex-direction: Column;
   align-items: center;
   gap: 4px;
-  color: var(--white);
+  color: #fff;
 }
 
 #cart {
@@ -317,7 +309,7 @@ header a:hover {
   flex-direction: Column;
   align-items: center;
   gap: 4px;
-  color: var(--white);
+  color: #fff;
 }
 
 /* ----------------------------Search Bar */
@@ -326,7 +318,7 @@ header a:hover {
   align-items: center;
   border-radius: 2px;
   width: auto;
-  background-color: var(--white);
+  background-color: #fff;
   height: 42px;
 }
 
@@ -346,7 +338,7 @@ header a:hover {
 
 .search-vertical-line {
   height: 34px;
-  border-left: 2px solid var(--bdiblue);
+  border-left: 2px solid #20485c;
 }
 
 .search-input-outer {
@@ -394,7 +386,12 @@ header a:hover {
 }
 
 footer {
-  background-color: var(--bdiblue);
+  background-color: #20485c;
+}
+
+footer h3 {
+  color: #fff;
+  font-family: "Avenir-heavy";
 }
 
 #footer-container {
@@ -403,7 +400,7 @@ footer {
 }
 
 footer a {
-  color: var(--white);
+  color: #fff;
   text-decoration: none;
 }
 
@@ -423,7 +420,7 @@ a:hover {
 }
 
 footer div section a {
-  color: var(--white);
+  color: #fff;
   line-height: 1.5rem;
 }
 
@@ -431,118 +428,44 @@ footer div section a {
   text-decoration: underline;
 }
 
-.dropdownmenu {
-  width: 1440px;
+#nav {
+  background-color: #20485c;
+  height: auto;
+  width: auto;
 }
 
-.dropdownmenu {
-  margin-bottom: 1rem;
+.nav_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 8px 0;
 }
 
-ul {
+#hamburger {
+  display: inline;
   margin: auto;
 }
 
-ul li {
-  float: left;
-  position: relative;
+.main_nav ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin: auto;
+  list-style: none;
 }
 
-li a {
-  background-color: var(--bdiblue);
-  color: var(--white);
-  display: block;
+.main_nav ul li a {
+  color: #fff;
+  text-decoration: none;
   padding: 12px 32px;
   text-align: center;
   transition: all 0.25s ease;
 }
 
-ul li:hover a {
-  background: var(--bdiblue-hover);
-}
-
-#submenu {
-  display: grid;
-  grid-template-rows: repeat(auto, 1fr);
-  left: 0;
-  opacity: 0;
-  position: absolute;
-  top: 48px;
-  visibility: hidden;
-  z-index: 1;
-  width: auto;
-  border: 1px solid var(--bdiblue);
-}
-
-#submenu, #submenu li {
-  background-color: var(--white);
-  width: auto;
-}
-
-#submenu a {
-  color: var(--black);
-  background-color: var(--white);
-  height: 100%;
-}
-
-li:hover ul#submenu {
-  opacity: 1;
-  top: 48px;
-  visibility: visible;
-}
-
-#submenu li {
-  float: none;
-  width: 100%;
-  height: 100%;
-}
-
-#submenu a:hover {
-  background: var(--bdiblue);
-  color: var(--white);
-}
-
-.drop-down {
-  position: relative;
-  display: inline-block;
-}
-
-.dropbtn {
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {
-  background-color: #f2f2f2;
-}
-
-.drop-down:hover .dropdown-content {
-  display: grid;
-  grid-template-columns: repeat(3 1fr);
-  grid-template-rows: repeat(7 1fr);
-}
-
-.drop-down:hover .dropbtn {
-  background-color: #3e8e41;
+.main_nav ul li:hover {
+  background-color: #3c6378;
 }
 
 .index-heroBar {
