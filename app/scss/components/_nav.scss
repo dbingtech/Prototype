@@ -1,6 +1,8 @@
 @use '../globals/colors' as colors; 
 nav{
   background-color: colors.$bdiblue;
+  height:auto;
+  width:auto;
 }
 
 .nav_container{
