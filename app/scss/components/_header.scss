@@ -1,12 +1,13 @@
-header a {
-  color:var(--text-color);
+@use '../globals/colors' as colors;
+header {
+  color:colors.$textcolor;
   text-decoration: none;
 }
 header a:hover {
   text-decoration: underline;
 }
 #pre-header {
-  background-color: var(--white);
+  background-color: colors.$white;
   min-height: 40px;
 }
 #pre-header_container {
@@ -35,7 +36,7 @@ header a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  color:var(--text-color);
+  color:colors.$textcolor;
   font-family: "Avenir";
   gap:4px;
 }
@@ -43,7 +44,7 @@ header a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  color:var(--text-color);
+  color:colors.$textcolor;
   font-family: "Avenir";
   gap:4px;
 }
@@ -51,7 +52,7 @@ header a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  color:var(--text-color);
+  color:colors.$textcolor;
   font-family: "Avenir";
   gap:4px;
 }
@@ -60,7 +61,7 @@ header a:hover {
   border-left: 1px solid #AAABAB;
 }
 #post-header {
-  background-color: var(--bdiblue);
+  background-color: colors.$bdiblue;
   min-height: 100px;
     padding-top:8px;
 
@@ -80,7 +81,7 @@ header a:hover {
   border-radius: 2px;
   width:auto;
   min-width:800px;
-  background-color: var(--white);
+  background-color: colors.$white;
   height: 42px;
   font-size: 1rem;
 }
@@ -97,28 +98,28 @@ header a:hover {
   flex-direction: Column;
   align-items: center;
   gap:4px;
-  color:var(--white)
+  color:colors.$white;
 }
 #quick_order {
   display: flex;
   flex-direction: Column;
   align-items: center;
   gap:4px;
-  color:var(--white)
+  color:colors.$white;
 }
 #sign_in {
   display: flex;
   flex-direction: Column;
   align-items: center;
   gap:4px;
-  color:var(--white)
+  color:colors.$white;
 }
 #cart {
   display: flex;
   flex-direction: Column;
   align-items: center;
   gap:4px;
-  color:var(--white)
+  color:colors.$white;
 }
 
 /* ----------------------------Search Bar */
@@ -127,7 +128,7 @@ header a:hover {
         align-items: center;
         border-radius: 2px;
         width:auto;
-        background-color: var(--white);
+        background-color: colors.$white;
         height: 42px;
         }
 
@@ -145,7 +146,7 @@ header a:hover {
       }
       .search-vertical-line {
         height: 34px;
-        border-left: 2px solid var(--bdiblue);
+        border-left: 2px solid colors.$bdiblue;
       }
       .search-input-outer{
         display: flex;
