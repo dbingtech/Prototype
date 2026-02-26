@@ -387,6 +387,7 @@ header a:hover {
 
 footer {
   background-color: #20485c;
+  color: #fff;
 }
 
 footer h3 {
@@ -428,10 +429,8 @@ footer div section a {
   text-decoration: underline;
 }
 
-#nav {
+nav {
   background-color: #20485c;
-  height: auto;
-  width: auto;
 }
 
 .nav_container {
@@ -446,9 +445,10 @@ footer div section a {
 #hamburger {
   display: inline;
   margin: auto;
+  background-color: #20485c;
 }
 
-.main_nav ul {
+.nav_container ul {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -456,7 +456,7 @@ footer div section a {
   list-style: none;
 }
 
-.main_nav ul li a {
+.nav_container ul li a {
   color: #fff;
   text-decoration: none;
   padding: 12px 32px;
@@ -464,8 +464,21 @@ footer div section a {
   transition: all 0.25s ease;
 }
 
-.main_nav ul li:hover {
+.nav_container ul li:hover a {
   background-color: #3c6378;
+}
+
+.nav_horizontal_line {
+  background-color: #fff;
+  height: 0.5px;
+  width: 100%;
+}
+
+.nav_vertical_line {
+  background-color: #fff;
+  height: 32px;
+  width: 0.5px;
+  margin: 0 16px;
 }
 
 .category-labels {

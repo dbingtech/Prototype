@@ -25,14 +25,14 @@ nav{
   list-style: none;
 }
 .nav_container ul li a{
-  color:globals.$white;
+  color:colors.$white;
   text-decoration: none;
   padding: 12px 32px;
   text-align: center;
   transition: all 0.25s ease;
 }
 
-nav ul li:hover a{
+.nav_container ul li:hover a{
   background-color:colors.$williamblue;
 }
 
