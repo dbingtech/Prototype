@@ -468,6 +468,10 @@ footer div section a {
   background-color: #3c6378;
 }
 
+.category-labels {
+  font-family: "Avenir-heavy";
+}
+
 .index-heroBar {
   display: flex;
   flex-direction: row;
