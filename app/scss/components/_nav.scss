@@ -17,14 +17,14 @@ nav{
   background-color: colors.$bdiblue;
 }
 
-ul{
+.nav_container ul{
   display:flex;
   flex-direction: row;
   align-items: center;
   margin: auto;
   list-style: none;
 }
-nav ul li a{
+.nav_container ul li a{
   color:globals.$white;
   text-decoration: none;
   padding: 12px 32px;
