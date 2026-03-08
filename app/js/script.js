@@ -12,7 +12,10 @@
         // Load footer
         fetch('footer.html')
             .then(response => response.text())
-            .then(data => document.getElementById('footer').innerHTML = data);
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+                document.getElementById('copyright').innerHTML = new Date().getFullYear();
+            });
         // Load hero
         fetch('hero.html')
             .then(response => response.text())
@@ -22,15 +25,9 @@
             .then(response => response.text())
             .then(data => document.getElementById('home_categories').innerHTML = data);
 
-function focusSearchField (){
-    const searchfield = document.getElementsByClassName("search-field").focus();
-}
-
-let copyrightSpan = document.getElementById('copyright');
-let newDate = new Date();
-let thisYear = newDate.getFullYear();
-copyrightSpan.innerHTML = thisYear;
-// console.log(copyrightSpan);
+// function focusSearchField (){
+//     const searchfield = document.getElementsByClassName("search-field").focus();
+// }
 
 // ----------------Search Button drop-down show options
 

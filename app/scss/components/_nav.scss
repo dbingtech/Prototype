@@ -1,4 +1,7 @@
 @use '../globals/colors' as colors; 
+*{
+  font-family: "Avenir";
+}
 nav{
   background-color: colors.$bdiblue;
 }
