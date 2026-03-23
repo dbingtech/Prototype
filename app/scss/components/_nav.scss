@@ -18,11 +18,15 @@ nav ul{
   margin: auto;
   padding:8px 0;
 }
-#hamburger{
-  display: inline;
-  margin: auto;
-  background-color: colors.$bdiblue;
+.nav_container ul #hamburger{
+  display: flex;
+  align-items: center;
 }
+
+.nav_container ul li a svg{
+  vertical-align: middle;
+}
+
 
 .nav_container ul{
   display:flex;
