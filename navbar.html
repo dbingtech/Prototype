@@ -10,152 +10,6 @@
             overflow-x: hidden;
         }
 
-        .navbar {
-            background-color: #20485c;
-            width: 100vw;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            gap: 24px;
-            position: relative;
-            z-index: 1001;
-        }
-
-        .hamburger {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            cursor: pointer;
-            padding: 6px 0;
-            z-index: 1002;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 100%;
-            height: 3px;
-            background-color: white;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .hamburger:hover span {
-            background-color: #e0e0e0;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #e0e0e0;
-        }
-
-        .separator {
-            width: 1px;
-            height: 24px;
-            background-color: white;
-            margin: 0 8px;
-        }
-
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-toggle {
-            color: white;
-            background: none;
-            border: none;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 12px;
-            transition: color 0.3s ease;
-        }
-
-        .dropdown-toggle:hover {
-            color: #e0e0e0;
-        }
-
-        .dropdown-arrow {
-            width: 0;
-            height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 5px solid white;
-            transition: transform 0.3s ease;
-        }
-
-        .dropdown:hover .dropdown-arrow {
-            transform: rotate(180deg);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #2a5a70;
-            min-width: 160px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-            margin-top: 8px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .dropdown:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 12px 16px;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #20485c;
-        }
-
-        .dropdown-menu a:first-child {
-            border-radius: 4px 4px 0 0;
-        }
-
-        .dropdown-menu a:last-child {
-            border-radius: 0 0 4px 4px;
-        }
-
-        .nav-content {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
         /* Overlay */
         .menu-overlay {
             position: fixed;
@@ -223,7 +77,7 @@
         }
 
         .menu-item {
-            padding: 14px 20px 14px 36px;
+            padding: 20px 20px 20px 36px;
             color: #333;
             text-decoration: none;
             display: flex;
@@ -267,6 +121,201 @@
         .close-btn:hover {
             opacity: 0.8;
         }
+
+        /* Navbar */
+        .navbar {
+            background-color: #20485c;
+            width: 100vw;
+            height: 48px;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .navbar-inner {
+            width: 1400px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        /* Hamburger + All */
+        .hamburger-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .hamburger {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2px 0;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+        }
+
+        .hamburger-group:hover .hamburger span,
+        .hamburger-group:hover .all-label {
+            color: #e0e0e0;
+        }
+
+        .hamburger-group:hover .hamburger span {
+            background-color: #e0e0e0;
+        }
+
+        .all-label {
+            color: white;
+            font-size: 18px;
+            font-family: "Avenir-heavy", sans-serif;
+        }
+
+        /* Nav links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: "Avenir-heavy", sans-serif;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            border-radius: 3px;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Separator */
+        .separator {
+            width: 1px;
+            height: 24px;
+            background-color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        /* Dropdowns */
+        .dropdown {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .dropdown-toggle {
+            color: white;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-family: "Avenir-heavy", sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 3px;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .dropdown-arrow {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 7px solid white;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #ffffff;
+            min-width: 180px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            margin-top: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: #20485c;
+            text-decoration: none;
+            font-size: 16px;
+            font-family: "Avenir-heavy", sans-serif;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: rgba(32, 72, 92, 0.1);
+        }
+
+        .dropdown-menu a:first-child {
+            border-radius: 4px 4px 0 0;
+        }
+
+        .dropdown-menu a:last-child {
+            border-radius: 0 0 4px 4px;
+        }
+
+        /* Quotes link */
+        .nav-link-quotes {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: "Avenir-heavy", sans-serif;
+            padding: 6px 10px;
+            border-radius: 3px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: background-color 0.2s ease;
+        }
+
+        .nav-link-quotes:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
     </style>
 
 <body>
@@ -284,229 +333,84 @@
         </div>
 
         <div class="menu-section">
-            <div class="menu-section-title">Digital Content & Devices</div>
-            <button class="menu-item">
-                Amazon Music
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Kindle E-readers & Books
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Amazon Appstore
-                <span class="menu-item-arrow">›</span>
-            </button>
+            <div class="menu-section-title">Products</div>
+            <button class="menu-item">Bearings <span class="menu-item-arrow">›</span></button>
+            <button class="menu-item">Electric Motors <span class="menu-item-arrow">›</span></button>
+            <button class="menu-item">Shaft Couplings <span class="menu-item-arrow">›</span></button>
+            <button class="menu-item">Oil Seals <span class="menu-item-arrow">›</span></button>
+            <button class="menu-item">Belts <span class="menu-item-arrow">›</span></button>
         </div>
 
         <div class="menu-section">
-            <div class="menu-section-title">Shop By Department</div>
-            <button class="menu-item">
-                Electronics
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Computers
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Smart Home
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Arts & Crafts
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Automotive
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Baby
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Beauty & Personal Care
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Women's Fashion
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Men's Fashion
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Girls' Fashion
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Boys' Fashion
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Health & Household
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Home & Kitchen
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Industrial & Scientific
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Luggage
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Movies & Television
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Pet Supplies
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Software
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Sports & Outdoors
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Tools & Home Improvement
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Toys & Games
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Video Games
-                <span class="menu-item-arrow">›</span>
-            </button>
+            <div class="menu-section-title">Services</div>
+            <button class="menu-item">Engineering Support <span class="menu-item-arrow">›</span></button>
+            <button class="menu-item">Repair & Maintenance <span class="menu-item-arrow">›</span></button>
+            <button class="menu-item">Training <span class="menu-item-arrow">›</span></button>
         </div>
 
         <div class="menu-section">
-            <div class="menu-section-title">Programs & Features</div>
-            <button class="menu-item">
-                Gift Cards
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Shop By Interest
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Amazon Live
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                International Shopping
-                <span class="menu-item-arrow">›</span>
-            </button>
-        </div>
-
-        <div class="menu-section">
-            <div class="menu-section-title">Help & Settings</div>
-            <button class="menu-item">
-                Your Account
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Customer Service
-                <span class="menu-item-arrow">›</span>
-            </button>
-            <button class="menu-item">
-                Sign In
-                <span class="menu-item-arrow">›</span>
-            </button>
+            <div class="menu-section-title">Knowledge</div>
+            <button class="menu-item">Technical Resources <span class="menu-item-arrow">›</span></button>
+            <button class="menu-item">Blog <span class="menu-item-arrow">›</span></button>
+            <button class="menu-item">FAQs <span class="menu-item-arrow">›</span></button>
         </div>
     </div>
 
     <nav class="navbar">
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <div class="navbar-inner">
 
-        <div class="nav-content">
+            <div class="hamburger-group" id="hamburger">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span class="all-label">All</span>
+            </div>
+
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#blog">Blog</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#">Bearings</a></li>
+                <li><a href="#">Electric Motors</a></li>
+                <li><a href="#">Shaft Couplings</a></li>
+                <li><a href="#">Oil Seals</a></li>
+                <li><a href="#">Belts</a></li>
             </ul>
 
             <div class="separator"></div>
 
             <div class="dropdown">
                 <button class="dropdown-toggle">
-                    Products
+                    Services
                     <span class="dropdown-arrow"></span>
                 </button>
                 <div class="dropdown-menu">
-                    <a href="#product1">Product 1</a>
-                    <a href="#product2">Product 2</a>
-                    <a href="#product3">Product 3</a>
-                    <a href="#product4">Product 4</a>
+                    <a href="#">Automation</a>
+                    <a href="#">BDI Additive</a>
+                    <a href="#">Fluid Power Automation Shop</a>
+                    <a href="#">Full Service Integration (FSI)</a>
+                    <a href="#">Gearbox Build Center</a>
+                    <a href="#">SmartSUPPLY</a>
+                    <a href="#">Value Creation</a>
+                    <a href="#">Akron Gear & Engineering</a>
                 </div>
             </div>
 
             <div class="dropdown">
                 <button class="dropdown-toggle">
-                    Resources
+                    Knowledge
                     <span class="dropdown-arrow"></span>
                 </button>
                 <div class="dropdown-menu">
-                    <a href="#docs">Documentation</a>
-                    <a href="#tutorials">Tutorials</a>
-                    <a href="#support">Support</a>
-                    <a href="#community">Community</a>
+                    <a href="#">Brands</a>
+                    <a href="#">Industries</a>
+                    <a href="#">Knowledge Base</a>
+                    <a href="#">Product Guide</a>
+                    <a href="#">Product Showcase</a>
                 </div>
             </div>
+
+            <a href="#" class="nav-link-quotes">Quotes</a>
+
         </div>
     </nav>
 
-    <div style="padding: 40px; color: #333;">
-        <h1>Welcome</h1>
-        <p>This is a sample page to demonstrate the navigation bar.</p>
-        <p style="margin-top: 20px;">Click the hamburger menu to see the Amazon-style slide-out menu.</p>
-    </div>
-
-    <script>
-        const hamburger = document.getElementById('hamburger');
-        const sideMenu = document.getElementById('sideMenu');
-        const menuOverlay = document.getElementById('menuOverlay');
-        const closeMenu = document.getElementById('closeMenu');
-
-        function openMenu() {
-            sideMenu.classList.add('active');
-            menuOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeMenuFunc() {
-            sideMenu.classList.remove('active');
-            menuOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        hamburger.addEventListener('click', openMenu);
-        closeMenu.addEventListener('click', closeMenuFunc);
-        menuOverlay.addEventListener('click', closeMenuFunc);
-
-        // Close menu on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && sideMenu.classList.contains('active')) {
-                closeMenuFunc();
-            }
-        });
-    </script>

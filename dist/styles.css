@@ -20,6 +20,11 @@ body {
   margin: auto;
 }
 
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  #main {
+    max-width: 1200px;
+  }
+}
 @font-face {
   font-family: "Avenir";
   src: url("../../fonts/Avenir-Roman.ttf") format("truetype");
@@ -34,19 +39,19 @@ body {
 }
 h2 {
   font-size: 32px;
-  font-family: "Avenir";
+  font-family: "Avenir-heavy";
   font-weight: 800;
 }
 
 h3 {
   font-size: 28px;
-  font-family: "Avenir";
+  font-family: "Avenir-heavy";
   font-weight: 800;
 }
 
 h4 {
   font-size: 24px;
-  font-family: "Avenir";
+  font-family: "Avenir-heavy";
   font-weight: 800;
 }
 
@@ -71,7 +76,7 @@ a {
 }
 
 .cat-image {
-  width: 96 px;
+  width: 96px;
   height: 96px;
   float: left;
 }
@@ -168,14 +173,6 @@ a {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='20485c' fill-rule='evenodd' d='M4.177 6.705A.73.73 0 0 1 4.729 5.5h6.542a.73.73 0 0 1 .552 1.205L8.8 10.214a1 1 0 0 1-.757.347h-.084a1 1 0 0 1-.757-.347z' clip-rule='evenodd'/%3E%3C/svg%3E");
 }
 
-@media only screen and (min-width: 992px) {
-  .index-heroBar {
-    display: block;
-  }
-  body {
-    width: 100vw;
-  }
-}
 header {
   color: black;
   text-decoration: none;
@@ -187,7 +184,14 @@ header a:hover {
 
 #pre-header {
   background-color: #fff;
-  min-height: 40px;
+  padding: 8px 0;
+}
+#pre-header a {
+  color: black;
+  text-decoration: none;
+}
+#pre-header a:hover {
+  text-decoration: underline;
 }
 
 #pre-header_container {
@@ -277,7 +281,7 @@ header a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 24px;
+  gap: 32px;
 }
 
 #support {
@@ -429,6 +433,15 @@ footer div section a {
   text-decoration: underline;
 }
 
+.copyright_align {
+  text-align: center;
+  padding: 16px 0;
+}
+
+* {
+  font-family: "Avenir";
+}
+
 nav {
   background-color: #20485c;
 }
@@ -446,10 +459,13 @@ nav ul {
   padding: 8px 0;
 }
 
-#hamburger {
-  display: inline;
-  margin: auto;
-  background-color: #20485c;
+.nav_container ul #hamburger {
+  display: flex;
+  align-items: center;
+}
+
+.nav_container ul li a svg {
+  vertical-align: middle;
 }
 
 .nav_container ul {
@@ -485,8 +501,33 @@ nav ul {
   margin: 0 16px;
 }
 
+.home-categories-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
 .category-labels {
   font-family: "Avenir-heavy";
+  font-size: 24px;
+  text-decoration: none;
+}
+
+@media only screen and (min-width: 1400px) {
+  .home-categories-grid {
+    max-width: 1400px;
+    padding: 0 32px;
+    margin: 0 auto;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .home-categories-grid {
+    display: flex;
+    flex-direction: column;
+  }
+}
+#hero {
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .index-heroBar {
@@ -498,7 +539,7 @@ nav ul {
 
 .home-categories-grid {
   display: grid;
-  grid-template-columns: repeat(4, 360px);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   place-items: center;
   margin-top: 1rem;
@@ -509,22 +550,26 @@ nav ul {
 }
 
 .category-labels {
-  text-align: right;
+  font-family: "Avenir-heavy";
+  font-size: 24px;
+  text-decoration: none;
+  margin-left: auto;
   padding-right: 8px;
 }
 
 .category-square {
   color: var(--bdiblue);
-  width: 360px;
+  width: 100%;
   height: 136px;
   place-self: center stretch;
   margin: 0;
   border: 1px solid var(--stroke60);
-  vertical-align: center;
+  display: flex;
+  align-items: center;
 }
 
 .category-square:hover {
   color: var(--text);
   text-decoration: underline;
   border: 1.5px solid var(--bdiblue);
-}/*# sourceMappingURL=styles.css.map */
+}

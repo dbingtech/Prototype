@@ -1,4 +1,6 @@
 
+@use 'responsive' as *;
+
 // basic layout for all pages. Sets box-sizing, font-family, body styles, and link colors.
 html {
     box-sizing: border-box;
@@ -18,4 +20,10 @@ body {
 #main {
     min-width: 1336px;
     margin: auto;
+}
+
+@include xl {
+    #main {
+        max-width: 1200px;
+    }
 }

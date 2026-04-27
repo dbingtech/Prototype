@@ -10,7 +10,16 @@ header a:hover {
 }
 #pre-header {
   background-color: colors.$white;
-  min-height: 40px;
+  padding: 8px 0;
+
+  a {
+    color: colors.$text;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
 }
 #pre-header_container {
   display: flex;
@@ -91,7 +100,7 @@ header a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap:24px;
+  gap:32px;
 }
 
 // ----------------------------Icon spacing
