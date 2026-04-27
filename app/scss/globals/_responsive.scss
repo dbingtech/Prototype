@@ -1,7 +1,27 @@
-@media only screen and (min-width: 992px) {
-    .index-heroBar{
-        display:block;
+@mixin xsm {
+  @media only screen and (max-width: 375px) and (max-width:575px) { @content; }
+    // body{
+    //     width:375px;
+    // }
+    .home-categories-grid{
+        display:flex;
+        flex-direction: column;
     }
-    body {width:100vw;
-    }
+
+}
+@mixin sm {
+  @media only screen and (max-width: 576px) and (max-width:767px) { @content; }
+}
+@mixin md {
+  @media only screen and (min-width: 768px) and (max-width: 991px) { @content; }
+}
+
+@mixin lg {
+  @media only screen and (min-width: 992px) and (max-width: 1199px) { @content; }
+}
+@mixin xl {
+  @media only screen and (min-width: 1200px) and (max-width: 1399px) { @content; }
+}
+@mixin xxl {
+  @media only screen and (min-width: 1400px) { @content; }
 }
