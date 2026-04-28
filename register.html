@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="dist/styles.css" />
+    <script src="app/js/script.js" async></script>
+    <style>
+      #main {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 26px 32px;
+      }
+      .reg-layout {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 0;
+        min-height: 395px;
+      }
+      .reg-panel {
+        width: 464px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding: 16px;
+      }
+      .reg-panel .btn {
+        margin-top: auto;
+      }
+      .reg-section-title h2 {
+        font-family: "Avenir", sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        color: #20485c;
+        margin: 0 0 8px 0;
+        padding-top: 8px;
+      }
+      .reg-title-divider {
+        border-bottom: 2px solid #20485c;
+        width: 100%;
+      }
+      .reg-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .reg-required {
+        position: absolute;
+        left: 8px;
+        color: #CC0202;
+        font-size: 16px;
+        font-family: "Avenir", sans-serif;
+        pointer-events: none;
+        line-height: 1;
+      }
+      .reg-input {
+        width: 432px;
+        height: 42px;
+        border: 1px solid #6a6a6a;
+        border-radius: 4px;
+        padding: 4px 12px 4px 24px;
+        font-size: 16px;
+        font-family: "Avenir", sans-serif;
+        color: #6a6a6a;
+        box-sizing: border-box;
+      }
+      .reg-input::placeholder { color: #6a6a6a; }
+      .reg-input:focus { outline: none; border-color: #20485c; }
+      .reg-options-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .reg-checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Avenir", sans-serif;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .reg-checkbox-label input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .reg-options-sep {
+        width: 1px;
+        height: 18px;
+        background-color: #aaabab;
+      }
+      .reg-link {
+        font-family: "Avenir", sans-serif;
+        font-size: 16px;
+        color: #0000ee;
+        text-decoration: underline;
+      }
+      .reg-register-body {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .reg-register-body p {
+        font-family: "Avenir", sans-serif;
+        font-size: 16px;
+        color: black;
+        margin: 0;
+      }
+      .reg-list {
+        font-family: "Avenir", sans-serif;
+        font-size: 16px;
+        color: black;
+        padding-left: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 0;
+      }
+      .reg-v-divider {
+        width: 1px;
+        align-self: stretch;
+        background-color: #aaabab;
+        flex-shrink: 0;
+        margin: 24px 0;
+      }
+      .reg-ads {
+        flex: 1;
+        min-height: 290px;
+        padding: 16px;
+      }
+    </style>
+    <title>Prototype-Home
+    </title>
+  </head>
+  <body>
+    <div id="header"></div>
+    <!-- <div id="nav"></div> -->
+    <div id="navbar"></div>
+    <div id="breadcrumbs"></div>
+    <div id="main">
+      <div class="reg-layout">
+
+        <!-- Sign In -->
+        <div class="reg-panel">
+          <div class="reg-section-title">
+            <h2>Sign-In to Continue</h2>
+            <div class="reg-title-divider"></div>
+          </div>
+          <div class="reg-input-wrapper">
+            <span class="reg-required">*</span>
+            <input type="email" id="signin-email" class="reg-input" placeholder="Email" required>
+          </div>
+          <div class="reg-input-wrapper">
+            <span class="reg-required">*</span>
+            <input type="password" id="signin-password" class="reg-input" placeholder="Password" required>
+          </div>
+          <div class="reg-options-row">
+            <label class="reg-checkbox-label">
+              <input type="checkbox" id="signin-remember"> Remember Me
+            </label>
+            <span class="reg-options-sep"></span>
+            <a href="#" class="reg-link">Forgot Password</a>
+          </div>
+          <button type="button" id="signin-btn" class="btn btn--primary btn--large">Sign In</button>
+        </div>
+
+        <div class="reg-v-divider"></div>
+
+        <!-- Register -->
+        <div class="reg-panel">
+          <div class="reg-section-title">
+            <h2>Register and Sign In</h2>
+            <div class="reg-title-divider"></div>
+          </div>
+          <div class="reg-register-body">
+            <p>Register for the ability to request quotes, review previous orders and speed up future ordering as well as:</p>
+            <ul class="reg-list">
+              <li>Best Pricing</li>
+              <li>Online Quotes</li>
+              <li>Faster Checkout</li>
+              <li>Need Tax Free?</li>
+            </ul>
+          </div>
+          <button type="button" class="btn btn--primary btn--xlarge">Register</button>
+        </div>
+
+        <div class="reg-v-divider"></div>
+
+        <!-- Ads -->
+        <div class="reg-ads">
+          <img src="images/ads/SignInAd.png" alt="Advertisement">
+        </div>
+
+      </div>
+    </div>
+    <div id="footer"></div>
+    <script>
+      const CREDENTIALS = [
+        { email: 'B2C-BDI@bdi-usa.com',      password: 'B2C-BDI',    type: 'B2C',         redirect: 'index_B2C.html' },
+        { email: 'B2B-BDI@bdi-usa.com',      password: 'B2B-BDI',    type: 'B2B',         redirect: 'index_B2B.html' },
+        { email: 'Smartsupply@bdi-usa.com',   password: 'Smartsupply', type: 'SmartSupply', redirect: 'index.html' },
+      ];
+
+      document.getElementById('signin-btn').addEventListener('click', function () {
+        const email = document.getElementById('signin-email').value.trim();
+        const password = document.getElementById('signin-password').value;
+        const remember = document.getElementById('signin-remember').checked;
+
+        const match = CREDENTIALS.find(function (c) {
+          return c.email.toLowerCase() === email.toLowerCase() && c.password === password;
+        });
+
+        if (!match) {
+          document.getElementById('signin-email').style.borderColor = '#CC0202';
+          document.getElementById('signin-password').style.borderColor = '#CC0202';
+          return;
+        }
+
+        const user = { email: match.email, type: match.type, signedIn: true };
+        localStorage.setItem('user', JSON.stringify(user));
+        if (remember) localStorage.setItem('rememberUser', 'true');
+        window.location.href = match.redirect;
+      });
+
+      document.getElementById('signin-email').addEventListener('input', function () {
+        this.style.borderColor = '';
+        document.getElementById('signin-password').style.borderColor = '';
+      });
+    </script>
+  </body>
+</html>
+

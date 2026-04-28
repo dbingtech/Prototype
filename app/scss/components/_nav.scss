@@ -18,9 +18,28 @@ nav ul{
   margin: auto;
   padding:8px 0;
 }
-.nav_container ul #hamburger{
+.nav_container ul #hamburger {
   display: flex;
   align-items: center;
+  position: relative;
+
+  #all_menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: colors.$white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 24px;
+    z-index: 100;
+    min-width: 300px;
+  }
+
+  &:hover #all_menu {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 .nav_container ul li a svg{

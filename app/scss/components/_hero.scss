@@ -1,7 +1,8 @@
 @use '../globals/colors' as colors;
 
-#hero {
-    max-width: 1400px;
+#hero, #hero_B2B {
+    width: 1336px;
+    height: 264px;
     margin: 0 auto;
     padding: 0 32px;
 
@@ -25,6 +26,76 @@
     }
 }
 
+.hero-b2b-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  height: 100%;
+}
+
+.hero-b2b-welcome {
+  font-family: "Avenir-heavy", sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  color: colors.$bdiblue;
+  margin: 0;
+  line-height: 1;
+}
+
+.hero-b2b-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.hero-b2b-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 4px;
+}
+
+.hero-b2b-col-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-family: "Avenir-heavy", sans-serif;
+  font-weight: 800;
+  color: black;
+  white-space: nowrap;
+}
+
+.hero-b2b-latest {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.hero-b2b-type {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.hero-b2b-link {
+  font-family: "Avenir", sans-serif;
+  font-size: 16px;
+  color: #0000ee;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.hero-b2b-detail {
+  display: flex;
+  gap: 8px;
+  font-family: "Avenir", sans-serif;
+  font-size: 16px;
+  color: black;
+  white-space: nowrap;
+}
+
 #ad-carousel {
     position: relative;
     width: 769px;
@@ -35,12 +106,17 @@
     }
 
     .carousel-slide {
-        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: auto;
+        opacity: 0;
+        transition: opacity 0.7s ease-in-out;
 
         &.active {
-            display: block;
+            position: relative;
+            opacity: 1;
         }
     }
 

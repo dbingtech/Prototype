@@ -11,6 +11,7 @@ header a:hover {
 #pre-header {
   background-color: colors.$white;
   padding: 8px 0;
+  font-size: 12px;
 
   a {
     color: colors.$text;
@@ -51,6 +52,26 @@ header a:hover {
   font-family: "Avenir";
   gap:4px;
 }
+#account_name {
+  font-size: 12px;
+  color: colors.$text;
+  font-family: "Avenir";
+}
+#register, #request_quote {
+  font-size: 12px;
+}
+#header_B2B #register {
+  display: none;
+}
+#my_company {
+  font-size: 12px;
+  color: colors.$text;
+  font-family: "Avenir";
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
 #find_location{
   display: flex;
   flex-direction: row;
@@ -58,6 +79,7 @@ header a:hover {
   color:colors.$text;
   font-family: "Avenir";
   gap:4px;
+  font-size: 12px;
 }
 #branch_phone{
   display: flex;
@@ -66,6 +88,7 @@ header a:hover {
   color:colors.$text;
   font-family: "Avenir";
   gap:4px;
+  font-size: 12px;
 }
 #vertical_line{
   height: 20px;
@@ -86,16 +109,32 @@ header a:hover {
   margin: auto;
   padding: 0 32px;
 }
-#search_bar {
+#search_bar_wrapper {
+  position: relative;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  border-radius: 2px;
-  width:auto;
-  min-width:800px;
-  background-color: colors.$white;
-  height: 42px;
-  font-size: 1rem;
+  flex: 1 1 auto;
+  margin: 0 32px;
+  #search_bar {
+    width: 100%;
+    border-radius: 2px;
+    background-color: colors.$white;
+    height: 42px;
+    font-size: 1rem;
+    padding-right: 40px;
+    border: none;
+    outline: none;
+  }
+  #search_icon {
+    position: absolute;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
 }
 .header_icons {
   display: flex;
@@ -111,13 +150,145 @@ header a:hover {
   align-items: center;
   gap:4px;
   color:colors.$white;
+  padding: 11px 8px;
+  &:hover {
+    background-color: colors.$williamblue;
+  }
 }
 #quick_order {
   display: flex;
-  flex-direction: Column;
+  flex-direction: column;
   align-items: center;
-  gap:4px;
-  color:colors.$white;
+  gap: 4px;
+  color: colors.$white;
+  padding: 11px 8px;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  &:hover {
+    background-color: colors.$williamblue;
+  }
+}
+
+#qo-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 757px;
+  background-color: colors.$white;
+  border: 1px solid colors.$darkbeige;
+  z-index: 200;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  &.active {
+    display: block;
+  }
+
+  .qo-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .qo-left, .qo-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px;
+  }
+
+  .qo-title {
+    font-family: "Avenir-heavy", sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: black;
+  }
+
+  .qo-desc {
+    font-family: "Avenir", sans-serif;
+    font-size: 16px;
+    color: black;
+  }
+
+  .qo-fields {
+    display: flex;
+    gap: 16px;
+  }
+
+  .qo-parts-col, .qo-qty-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .qo-input {
+    width: 144px;
+    height: 42px;
+    border: 1px solid colors.$medgray;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 16px;
+    font-family: "Avenir", sans-serif;
+    color: colors.$medgray;
+    box-sizing: border-box;
+    &::placeholder { color: colors.$medgray; }
+    &:focus { outline: none; border-color: colors.$bdiblue; }
+  }
+
+  .qo-qty-stepper {
+    display: flex;
+    align-items: center;
+    width: 144px;
+    height: 42px;
+    border: 1px solid colors.$darkbeige;
+    border-radius: 20px;
+    overflow: hidden;
+
+    .qo-qty-minus, .qo-qty-plus {
+      flex: 1;
+      height: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover { background-color: colors.$lightgray02; }
+    }
+
+    .qo-qty-value {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-family: "Avenir", sans-serif;
+      color: black;
+    }
+  }
+
+  .qo-divider {
+    width: 1px;
+    background-color: #aaabab;
+    align-self: stretch;
+    flex-shrink: 0;
+  }
+
+  .qo-textarea {
+    flex: 1;
+    min-height: 120px;
+    border: 1px solid colors.$darkbeige;
+    padding: 8px;
+    font-size: 16px;
+    font-family: "Avenir", sans-serif;
+    color: rgba(0, 0, 0, 0.4);
+    resize: none;
+    box-sizing: border-box;
+    &:focus { outline: none; border-color: colors.$bdiblue; }
+  }
 }
 #sign_in {
   display: flex;
@@ -125,6 +296,12 @@ header a:hover {
   align-items: center;
   gap:4px;
   color:colors.$white;
+  text-decoration: none;
+  padding: 11px 8px;
+  white-space: nowrap;
+  &:hover {
+    background-color: colors.$williamblue;
+  }
 }
 #cart {
   display: flex;
@@ -132,6 +309,10 @@ header a:hover {
   align-items: center;
   gap:4px;
   color:colors.$white;
+  padding: 11px 8px;
+  &:hover {
+    background-color: colors.$williamblue;
+  }
 }
 
 /* ----------------------------Search Bar */

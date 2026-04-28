@@ -1,8 +1,52 @@
 // Load components
 // Load header
-        fetch('header.html')
+        const headerEl = document.getElementById('header_B2B') || document.getElementById('header');
+        const headerFile = document.getElementById('header_B2B') ? 'header_B2B.html' : 'header.html';
+        fetch(headerFile)
             .then(response => response.text())
-            .then(data => document.getElementById('header').innerHTML = data);
+            .then(data => {
+                headerEl.innerHTML = data;
+
+                const quickOrder = document.getElementById('quick_order');
+                const qoDropdown = document.getElementById('qo-dropdown');
+
+                quickOrder.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    qoDropdown.classList.toggle('active');
+                });
+
+                document.addEventListener('click', function () {
+                    qoDropdown.classList.remove('active');
+                });
+
+                qoDropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+
+                document.querySelectorAll('.qo-qty-stepper').forEach(function (stepper) {
+                    stepper.querySelector('.qo-qty-minus').addEventListener('click', function () {
+                        const val = stepper.querySelector('.qo-qty-value');
+                        const n = parseInt(val.textContent);
+                        if (n > 1) val.textContent = n - 1;
+                    });
+                    stepper.querySelector('.qo-qty-plus').addEventListener('click', function () {
+                        const val = stepper.querySelector('.qo-qty-value');
+                        val.textContent = parseInt(val.textContent) + 1;
+                    });
+                });
+
+                const user = JSON.parse(localStorage.getItem('user'));
+                const signInEl = document.getElementById('sign_in');
+                if (user && user.signedIn && signInEl) {
+                    signInEl.innerHTML = '<img src="images/icons/user/Size=28, Color=White.svg" alt="My Account" width="28" height="28">My Account';
+                    signInEl.href = '#';
+                    signInEl.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        localStorage.removeItem('user');
+                        window.location.reload();
+                    });
+                }
+            });
         
         // Load nav
         fetch('nav.html')
@@ -36,6 +80,20 @@
                 closeMenu.addEventListener('click', closeMenuFunc);
                 menuOverlay.addEventListener('click', closeMenuFunc);
 
+                ['products', 'services', 'knowledge'].forEach(function (section) {
+                    document.getElementById(section + '-title').addEventListener('click', function () {
+                        const items = document.getElementById(section + '-items');
+                        const isCollapsed = this.classList.contains('collapsed');
+                        if (isCollapsed) {
+                            items.style.maxHeight = '2000px';
+                            this.classList.remove('collapsed');
+                        } else {
+                            items.style.maxHeight = '0';
+                            this.classList.add('collapsed');
+                        }
+                    });
+                });
+
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && sideMenu.classList.contains('active')) {
                         closeMenuFunc();
@@ -51,10 +109,12 @@
                 document.getElementById('copyright').innerHTML = new Date().getFullYear();
             });
         // Load hero
-        fetch('hero.html')
+        const heroEl = document.getElementById('hero_B2B') || document.getElementById('hero');
+        const heroFile = document.getElementById('hero_B2B') ? 'hero_B2B.html' : 'hero.html';
+        fetch(heroFile)
             .then(response => response.text())
             .then(data => {
-                document.getElementById('hero').innerHTML = data;
+                heroEl.innerHTML = data;
 
                 const slides = document.querySelectorAll('.carousel-slide');
                 const dots = document.querySelectorAll('.carousel-dot');
