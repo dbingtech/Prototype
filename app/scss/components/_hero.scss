@@ -1,4 +1,67 @@
+@use '../globals/colors' as colors;
+
 #hero {
     max-width: 1400px;
     margin: 0 auto;
+    padding: 0 32px;
+
+    h1 {
+        color: colors.$bdiblue;
+    }
+
+    .hero-buttons {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 16px;
+    }
+}
+
+#hero2 {
+    padding: 0 32px;
+
+    iframe {
+        display: block;
+    }
+}
+
+#ad-carousel {
+    position: relative;
+    width: 769px;
+
+    .carousel-track {
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .carousel-slide {
+        display: none;
+        width: 100%;
+        height: auto;
+
+        &.active {
+            display: block;
+        }
+    }
+
+    .carousel-dots {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+    }
+
+    .carousel-dot {
+        width: 32px;
+        height: 4px;
+        border-radius: 2px;
+        background-color: colors.$lightgray01;
+        cursor: pointer;
+
+        &.active {
+            background-color: colors.$bdiblue;
+        }
+    }
 }

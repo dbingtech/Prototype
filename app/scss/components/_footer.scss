@@ -1,49 +1,101 @@
-@use '../globals/colors' as colors;  
+@use '../globals/colors' as colors;
 
-footer { 
-    background-color:colors.$bdiblue;
-    color:colors.$white;
-    // padding: 32px;
-}
-footer h3 {
+footer {
+    background-color: colors.$bdiblue;
     color: colors.$white;
-    font-family: "Avenir-heavy";
 }
 
-#footer-container{
+#footer-container {
     max-width: 1400px;
     margin: auto;
-}
-
-footer a {
-    color:colors.$white;
-    text-decoration: none;
-}
-a:hover {
-    text-decoration:underline;
-}
-
-.footer-flex-col {
-    display:flex;
-    flex-direction: column;
+    padding: 40px 32px 0;
 }
 
 .footer-flex-container {
-    display:flex;
+    display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
-footer div section a {
-    color:colors.$white;
-    line-height: 1.5rem;
+.footer-flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-heading {
+    font-family: "Avenir-heavy";
+    font-size: 24px;
+    color: colors.$white;
+    margin: 0 0 12px 0;
+}
+
+.footer-heading-gap {
+    margin-top: 32px;
+}
+
+.footer-link {
+    font-family: "Avenir-heavy";
+    font-size: 16px;
+    color: colors.$white;
+    text-decoration: none;
+    line-height: 2;
 }
 
 .footer-link:hover {
     text-decoration: underline;
 }
 
-.copyright_align {
+.footer-bottom {
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-bottom-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 16px;
+}
+
+.footer-country {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: colors.$white;
+    font-family: "Avenir-heavy";
+    font-size: 16px;
+}
+
+.footer-social {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+}
+
+.footer-social-icon {
+    color: colors.$white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+}
+
+.footer-copyright {
     text-align: center;
-    padding: 16px 0;
+    font-family: "Avenir-heavy";
+    font-size: 16px;
+    color: colors.$white;
+    padding-bottom: 20px;
 }

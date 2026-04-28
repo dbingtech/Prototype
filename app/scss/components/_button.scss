@@ -1,0 +1,98 @@
+@use '../globals/colors' as colors;
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    height: 42px;
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    font-family: "Avenir-heavy";
+    font-weight: 800;
+    font-size: 16px;
+    text-transform: capitalize;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+
+    // --- Versions ---
+
+    &--primary {
+        background-color: colors.$softyellow;
+        color: colors.$bdiblue;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+
+        &:hover:not(:disabled) {
+            box-shadow: none;
+            border-color: colors.$lightgray01;
+        }
+    }
+
+    &--secondary {
+        background-color: colors.$brightorange;
+        color: colors.$text;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+
+        &:hover:not(:disabled) {
+            box-shadow: none;
+            border-color: colors.$lightgray01;
+        }
+    }
+
+    &--tertiary {
+        background-color: colors.$white;
+        color: colors.$bdiblue;
+        border-color: colors.$bdiblue;
+
+        &:hover:not(:disabled) {
+            border-color: colors.$lightgray01;
+        }
+    }
+
+    &--homepage {
+        background-color: colors.$white;
+        color: colors.$bdiblue;
+        border-color: colors.$brightorange;
+
+        &:hover:not(:disabled) {
+            border-color: colors.$lightgray01;
+        }
+    }
+
+    &--cancel {
+        background-color: colors.$red;
+        color: colors.$white;
+        border-color: colors.$bdiblue;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+
+        &:hover:not(:disabled) {
+            box-shadow: none;
+            border-color: colors.$lightgray01;
+        }
+    }
+
+    // --- Disabled state ---
+
+    &:disabled,
+    &--disabled {
+        background-color: colors.$lightgray01;
+        color: rgba(0, 0, 0, 0.6);
+        border-color: transparent;
+        box-shadow: none;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    // --- Sizes ---
+
+    &--xxsmall { width: 109px; }
+    &--xsmall  { width: 145px; }
+    &--small   { width: 194px; }
+    &--medium  { width: 258px; }
+    &--large   { width: 344px; }
+    &--xlarge  { width: 432px; }
+}

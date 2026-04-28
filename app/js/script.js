@@ -53,7 +53,39 @@
         // Load hero
         fetch('hero.html')
             .then(response => response.text())
-            .then(data => document.getElementById('hero').innerHTML = data);
+            .then(data => {
+                document.getElementById('hero').innerHTML = data;
+
+                const slides = document.querySelectorAll('.carousel-slide');
+                const dots = document.querySelectorAll('.carousel-dot');
+                let current = 0;
+                let timer;
+
+                function goTo(index) {
+                    slides[current].classList.remove('active');
+                    dots[current].classList.remove('active');
+                    current = (index + slides.length) % slides.length;
+                    slides[current].classList.add('active');
+                    dots[current].classList.add('active');
+                }
+
+                function startTimer() {
+                    timer = setInterval(() => goTo(current + 1), 4000);
+                }
+
+                dots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => {
+                        clearInterval(timer);
+                        goTo(i);
+                        startTimer();
+                    });
+                });
+
+                startTimer();
+            });
+        fetch('hero2.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('hero2').innerHTML = data);
         // Load home categories
         fetch('home_categories.html')
             .then(response => response.text())

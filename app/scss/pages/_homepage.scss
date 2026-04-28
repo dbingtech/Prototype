@@ -1,12 +1,18 @@
 // #home-main{
-    
+
 // }
+
+@use '../globals/colors' as colors;
 
 .index-heroBar{
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    padding-left: 80px;
+    align-items: center;
+}
+
+.hero-content {
+    width: 543px;
+    flex-shrink: 0;
 }
 .home-categories-grid{
     display: grid;
@@ -25,21 +31,24 @@
     text-decoration: none;
     margin-left: auto;
     padding-right: 8px;
+    text-align: right;
 }
 
 .category-square {
-    color: var(--bdiblue);
+    color: colors.$bdiblue;
+    text-decoration: none;
     width: 100%;
     height: 136px;
     place-self: center stretch;
     margin: 0;
-    border: 1px solid var(--stroke60);
+    border: 1px solid colors.$lightgray01;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 .category-square:hover {
-    color: var(--text);
-    text-decoration:underline;
-    border: 1.5px solid var(--bdiblue);
+    color: colors.$bdiblue;
+    text-decoration: underline;
+    border: 1.5px solid colors.$darkbeige;
 }
 
