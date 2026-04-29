@@ -340,15 +340,21 @@
             background-color: #3c6378;
         }
 
-        /* LG: hide last 1 nav link */
-        @media (max-width: 1199px) {
+        /* XXL (≥1400px): all 6 nav links visible — default, no rule needed */
+
+        /* XL (1200–1399px): hide last 1 */
+        @media (max-width: 1399px) {
             .nav-links li:nth-last-child(1) { display: none; }
         }
-        /* MD: hide last 3 nav links */
-        @media (max-width: 1023px) {
+        /* LG (992–1199px): hide last 3 */
+        @media (max-width: 1199px) {
             .nav-links li:nth-last-child(-n+3) { display: none; }
         }
-        /* SM + XSM: hide entire navbar */
+        /* MD (768–991px): hide last 5 */
+        @media (max-width: 991px) {
+            .nav-links li:nth-last-child(-n+5) { display: none; }
+        }
+        /* SM + XSM (<768px): hide entire navbar */
         @media (max-width: 767px) {
             .navbar { display: none; }
         }

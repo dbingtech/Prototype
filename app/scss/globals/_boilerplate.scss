@@ -18,13 +18,14 @@ body {
     padding:0;
 }
 #main {
-    min-width: 1336px;
+    width: 100%;
+    max-width: 1400px;
     margin: auto;
     padding: 0 32px;
-}
 
-@include xl {
-    #main {
-        max-width: 1200px;
-    }
+    @include xl  { max-width: 1200px; padding: 0 32px; }
+    @include lg  { max-width: 992px;  padding: 0 24px; }
+    @include md  { max-width: 768px;  padding: 0 24px; }
+    @include sm  { max-width: 576px;  padding: 0 16px; }
+    @include xsm { max-width: 100%;   padding: 0 8px;  }
 }

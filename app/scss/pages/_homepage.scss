@@ -3,6 +3,7 @@
 // }
 
 @use '../globals/colors' as colors;
+@use '../globals/responsive' as *;
 
 .index-heroBar{
     display: flex;
@@ -17,6 +18,18 @@
     width: 543px;
     flex-shrink: 0;
 }
+#home_categories {
+    width: 100%;
+    margin: 0 auto;
+
+    @include xxl { max-width: 1400px; padding: 0 32px; }
+    @include xl  { max-width: 1200px; padding: 0 32px; }
+    @include lg  { max-width: 992px;  padding: 0 24px; }
+    @include md  { max-width: 768px;  padding: 0 24px; }
+    @include sm  { max-width: 576px;  padding: 0 16px; }
+    @include xsm { max-width: 100%;   padding: 0 8px;  }
+}
+
 #home_categories h2 {
     color: colors.$bdiblue;
     max-width: 1336px;
@@ -33,8 +46,32 @@
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    min-width: 1336px;
+    max-width: 1400px;
     padding-left: 32px;
+
+    @include lg {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        padding-left: 0;
+    }
+
+    @include md {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+        padding-left: 0;
+    }
+
+    @include sm {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(16, auto);
+        padding-left: 0;
+    }
+
+    @include xsm {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(16, auto);
+        padding-left: 0;
+    }
 }
 .category-labels {
     font-family: "Avenir-heavy";
@@ -43,6 +80,12 @@
     margin-left: auto;
     padding-right: 8px;
     text-align: right;
+
+    @include xl { font-size: 20px; }
+    @include lg { font-size: 18px; }
+    @include md { font-size: 18px; }
+    @include sm { font-size: 16px; }
+    @include xsm { font-size: 14px; }
 }
 
 .category-square {
@@ -56,6 +99,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @include xl { height: 120px; }
+    @include lg { height: 104px; }
+    @include md { height: 96px; }
+    @include sm { height: 80px; }
+    @include xsm { height: 72px; }
 }
 .category-square:hover {
     color: colors.$bdiblue;
