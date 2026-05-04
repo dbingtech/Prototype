@@ -67,29 +67,31 @@ body {
 h2 {
   font-size: 32px;
   font-family: "Avenir-heavy";
-  font-weight: 800;
+  font-weight: 700;
 }
 
 h3 {
   font-size: 28px;
   font-family: "Avenir-heavy";
-  font-weight: 800;
+  font-weight: 700;
 }
 
 h4 {
   font-size: 24px;
   font-family: "Avenir-heavy";
-  font-weight: 800;
+  font-weight: 700;
 }
 
 h5 {
   font-size: 20px;
   font-family: "Avenir-heavy";
+  font-weight: 700;
 }
 
 h6 {
   font-size: 18px;
   font-family: "Avenir-heavy";
+  font-weight: 700;
 }
 
 p {
@@ -210,7 +212,7 @@ a {
   border-radius: 12px;
   border: 1px solid transparent;
   font-family: "Avenir-heavy";
-  font-weight: 800;
+  font-weight: 700;
   font-size: 16px;
   text-transform: capitalize;
   text-align: center;
@@ -504,6 +506,7 @@ header a:hover {
 }
 #qo-dropdown .qo-title {
   font-family: "Avenir-heavy", sans-serif;
+  font-weight: 700;
   font-size: 16px;
   font-weight: 800;
   color: black;
@@ -700,35 +703,116 @@ footer {
   margin: auto;
   padding: 40px 32px 0;
 }
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  #footer-container {
+    max-width: 1200px;
+    padding: 40px 32px 0;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  #footer-container {
+    max-width: 992px;
+    padding: 40px 24px 0;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  #footer-container {
+    max-width: 768px;
+    padding: 32px 24px 0;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  #footer-container {
+    max-width: 576px;
+    padding: 24px 16px 0;
+  }
+}
+@media only screen and (max-width: 575px) {
+  #footer-container {
+    max-width: 100%;
+    padding: 24px 8px 0;
+  }
+}
 
 .footer-flex-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .footer-flex-container {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .footer-flex-container {
+    flex-direction: column;
+    gap: 32px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .footer-flex-container {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
 
 .footer-flex-col {
   display: flex;
   flex-direction: column;
 }
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .footer-flex-col {
+    width: 100%;
+  }
+}
 
 .footer-heading {
   font-family: "Avenir-heavy";
+  font-weight: 700;
   font-size: 24px;
   color: #fff;
   margin: 0 0 12px 0;
 }
-
-.footer-heading-gap {
-  margin-top: 32px;
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .footer-heading {
+    font-size: 20px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .footer-heading {
+    font-size: 20px;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .footer-heading {
+    font-size: 18px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .footer-heading {
+    font-size: 16px;
+  }
 }
 
 .footer-link {
   font-family: "Avenir-heavy";
+  font-weight: 600;
   font-size: 16px;
   color: #fff;
   text-decoration: none;
   line-height: 2;
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .footer-link {
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .footer-link {
+    font-size: 14px;
+  }
 }
 
 .footer-link:hover {
@@ -756,6 +840,7 @@ footer {
   gap: 8px;
   color: #fff;
   font-family: "Avenir-heavy";
+  font-weight: 700;
   font-size: 16px;
 }
 
@@ -781,9 +866,118 @@ footer {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
+.footer-col-pair {
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .footer-col-pair {
+    display: contents;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .footer-col-pair {
+    display: contents;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .footer-col-pair {
+    display: contents;
+  }
+}
+
+.footer-chevron {
+  display: none;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.footer-accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+}
+
+.footer-accordion-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-accordion-group.open .footer-chevron {
+  transform: rotate(180deg);
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .footer-chevron {
+    display: block;
+  }
+  .footer-accordion-header {
+    cursor: pointer;
+  }
+  .footer-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .footer-accordion-group.open .footer-accordion-body {
+    max-height: 500px;
+  }
+  .footer-accordion-group {
+    border-bottom: 1px solid rgb(255, 255, 255);
+  }
+  .footer-flex-container > .footer-flex-col:last-child .footer-accordion-group:last-child {
+    border-bottom: none;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .footer-chevron {
+    display: block;
+  }
+  .footer-accordion-header {
+    cursor: pointer;
+  }
+  .footer-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .footer-accordion-group.open .footer-accordion-body {
+    max-height: 500px;
+  }
+  .footer-accordion-group {
+    border-bottom: 1px solid rgb(255, 255, 255);
+  }
+  .footer-flex-container > .footer-flex-col:last-child .footer-accordion-group:last-child {
+    border-bottom: none;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .footer-chevron {
+    display: block;
+  }
+  .footer-accordion-header {
+    cursor: pointer;
+  }
+  .footer-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .footer-accordion-group.open .footer-accordion-body {
+    max-height: 500px;
+  }
+  .footer-accordion-group {
+    border-bottom: 1px solid rgb(255, 255, 255);
+  }
+  .footer-flex-container > .footer-flex-col:last-child .footer-accordion-group:last-child {
+    border-bottom: none;
+  }
+}
 .footer-copyright {
   text-align: center;
   font-family: "Avenir-heavy";
+  font-weight: 700;
   font-size: 16px;
   color: #fff;
   padding-bottom: 20px;
@@ -876,6 +1070,7 @@ nav ul {
 
 .category-labels {
   font-family: "Avenir-heavy";
+  font-weight: 700;
   font-size: 24px;
   text-decoration: none;
   color: inherit;
@@ -951,7 +1146,7 @@ nav ul {
 .hero-b2b-welcome {
   font-family: "Avenir-heavy", sans-serif;
   font-size: 40px;
-  font-weight: 800;
+  font-weight: 700;
   color: #20485c;
   margin: 0;
   line-height: 1;
@@ -978,7 +1173,7 @@ nav ul {
   align-items: center;
   gap: 4px;
   font-family: "Avenir-heavy", sans-serif;
-  font-weight: 800;
+  font-weight: 700;
   color: black;
   white-space: nowrap;
 }
@@ -1155,6 +1350,7 @@ nav ul {
 
 .category-labels {
   font-family: "Avenir-heavy";
+  font-weight: 700;
   font-size: 24px;
   text-decoration: none;
   margin-left: auto;
@@ -1230,3 +1426,5 @@ nav ul {
   text-decoration: underline;
   border: 1.5px solid #afaa99;
 }
+
+/*# sourceMappingURL=styles.css.map */

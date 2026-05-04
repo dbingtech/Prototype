@@ -107,6 +107,12 @@
             .then(data => {
                 document.getElementById('footer').innerHTML = data;
                 document.getElementById('copyright').innerHTML = new Date().getFullYear();
+
+                document.querySelectorAll('.footer-accordion-header').forEach(function (header) {
+                    header.addEventListener('click', function () {
+                        this.closest('.footer-accordion-group').classList.toggle('open');
+                    });
+                });
             });
         // Load hero
         const heroEl = document.getElementById('hero_B2B') || document.getElementById('hero');
