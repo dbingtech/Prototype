@@ -1,5 +1,6 @@
 
 @use '../globals/colors' as colors;
+@use '../globals/responsive' as *;
 
 header {
   color:colors.$text;
@@ -144,17 +145,6 @@ header a:hover {
 }
 
 // ----------------------------Icon spacing
-#support {
-  display: flex;
-  flex-direction: Column;
-  align-items: center;
-  gap:4px;
-  color:colors.$white;
-  padding: 11px 8px;
-  &:hover {
-    background-color: colors.$williamblue;
-  }
-}
 #quick_order {
   display: flex;
   flex-direction: column;
@@ -293,10 +283,10 @@ header a:hover {
 }
 #sign_in {
   display: flex;
-  flex-direction: Column;
+  flex-direction: column-reverse;
   align-items: center;
-  gap:4px;
-  color:colors.$white;
+  gap: 8px;
+  color: colors.$white;
   text-decoration: none;
   padding: 11px 8px;
   white-space: nowrap;
@@ -306,10 +296,10 @@ header a:hover {
 }
 #cart {
   display: flex;
-  flex-direction: Column;
+  flex-direction: column;
   align-items: center;
-  gap:4px;
-  color:colors.$white;
+  gap: 8px;
+  color: colors.$white;
   padding: 11px 8px;
   &:hover {
     background-color: colors.$williamblue;
@@ -380,3 +370,233 @@ header a:hover {
     flex-direction: column;
     align-items: center;
   }
+
+/* SM-only icons — hidden by default, shown at SM */
+.sm-only-icon {
+  display: none;
+  color: colors.$white;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+/* SM search row — hidden by default */
+#sm-search-row {
+  display: none;
+}
+
+@include md {
+  #support { display: none; }
+  #quick_order { display: none; }
+
+  #post-header_container {
+    padding: 0 24px;
+  }
+
+  #search_bar_wrapper {
+    margin: 0 16px;
+  }
+
+  .header_icons {
+    gap: 8px;
+  }
+
+  #sign_in {
+    padding: 8px;
+    gap: 6px;
+  }
+  #cart {
+    padding: 8px;
+  }
+}
+
+@include sm {
+  /* Hide pre-header entirely */
+  #pre-header { display: none; }
+
+  /* Hide regular search bar */
+  #search_bar_wrapper { display: none; }
+
+  /* Hide support and quick order */
+  #support { display: none; }
+  #quick_order { display: none; }
+
+  /* Tighten post-header container padding */
+  #post-header_container {
+    padding: 0 16px;
+    min-height: unset;
+  }
+
+  #post-header {
+    padding-top: 0;
+  }
+
+  /* Show SM-only location/phone icons */
+  .sm-only-icon {
+    display: flex;
+  }
+
+  /* Shrink icon padding */
+  .header_icons {
+    gap: 4px;
+  }
+
+  #sign_in {
+    flex-direction: row;
+    gap: 6px;
+    padding: 6px 4px;
+    font-size: 12px;
+  }
+
+  #cart {
+    padding: 6px 4px;
+  }
+
+  /* Show SM search row as second row */
+  #sm-search-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 6px 16px 8px;
+    background-color: colors.$bdiblue;
+
+    #sm-hamburger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px 4px 0;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .sm-search-cat {
+      background-color: rgba(255, 255, 255, 0.15);
+      border: none;
+      border-radius: 2px 0 0 2px;
+      cursor: pointer;
+      padding: 0 8px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    #sm-search-bar {
+      flex: 1;
+      height: 36px;
+      border: none;
+      outline: none;
+      padding: 0 8px;
+      font-size: 14px;
+      border-radius: 0;
+    }
+
+    #sm-search-btn {
+      background-color: colors.$white;
+      border: none;
+      border-radius: 0 2px 2px 0;
+      cursor: pointer;
+      padding: 0 10px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+  }
+}
+
+@include xsm {
+  /* Hide pre-header entirely */
+  #pre-header { display: none; }
+
+  /* Hide regular search bar */
+  #search_bar_wrapper { display: none; }
+
+  /* Hide support and quick order */
+  #support { display: none; }
+  #quick_order { display: none; }
+
+  /* Tighten post-header container padding */
+  #post-header_container {
+    padding: 0 8px;
+    min-height: unset;
+  }
+
+  #post-header {
+    padding-top: 0;
+  }
+
+  /* Show SM-only location/phone icons */
+  .sm-only-icon {
+    display: flex;
+  }
+
+  .header_icons {
+    gap: 2px;
+  }
+
+  #sign_in {
+    flex-direction: row;
+    gap: 4px;
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+
+  #cart {
+    padding: 6px 4px;
+  }
+
+  /* Show SM search row as second row */
+  #sm-search-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 6px 8px 8px;
+    background-color: colors.$bdiblue;
+
+    #sm-hamburger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 6px 4px 0;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .sm-search-cat {
+      background-color: rgba(255, 255, 255, 0.15);
+      border: none;
+      border-radius: 2px 0 0 2px;
+      cursor: pointer;
+      padding: 0 6px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    #sm-search-bar {
+      flex: 1;
+      height: 34px;
+      border: none;
+      outline: none;
+      padding: 0 6px;
+      font-size: 13px;
+      border-radius: 0;
+    }
+
+    #sm-search-btn {
+      background-color: colors.$white;
+      border: none;
+      border-radius: 0 2px 2px 0;
+      cursor: pointer;
+      padding: 0 8px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+  }
+}

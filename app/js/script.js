@@ -38,7 +38,7 @@
                 const user = JSON.parse(localStorage.getItem('user'));
                 const signInEl = document.getElementById('sign_in');
                 if (user && user.signedIn && signInEl) {
-                    signInEl.innerHTML = '<img src="images/icons/user/Size=28, Color=White.svg" alt="My Account" width="28" height="28">My Account';
+                    signInEl.innerHTML = 'Sign In<img src="images/icons/user/Size=28, Color=White.svg" alt="Sign In" width="28" height="28">';
                     signInEl.href = '#';
                     signInEl.addEventListener('click', function (e) {
                         e.preventDefault();
@@ -94,11 +94,22 @@
                     });
                 });
 
+                // SM hamburger also opens the side menu
+                const smHamburger = document.getElementById('sm-hamburger');
+                if (smHamburger) {
+                    smHamburger.addEventListener('click', openMenu);
+                }
+
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && sideMenu.classList.contains('active')) {
                         closeMenuFunc();
                     }
                 });
+
+                const navQuotes = document.getElementById('nav-quotes');
+                if (navQuotes && !document.getElementById('header_B2B')) {
+                    navQuotes.style.display = 'none';
+                }
             });
         
         // Load footer

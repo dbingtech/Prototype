@@ -449,6 +449,18 @@ header a:hover {
   gap: 32px;
 }
 
+#support {
+  display: flex;
+  flex-direction: Column;
+  align-items: center;
+  gap: 4px;
+  color: #fff;
+  padding: 11px 8px;
+}
+#support:hover {
+  background-color: #3c6378;
+}
+
 #quick_order {
   display: flex;
   flex-direction: column;
@@ -585,7 +597,7 @@ header a:hover {
 
 #sign_in {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: row;
   align-items: center;
   gap: 8px;
   color: #fff;
@@ -599,9 +611,9 @@ header a:hover {
 
 #cart {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 8px;
+  gap: 0;
   color: #fff;
   padding: 11px 8px;
 }
@@ -1280,7 +1292,6 @@ nav ul {
   font-size: 24px;
   text-decoration: none;
   color: inherit;
-  text-transform: capitalize;
 }
 
 @media only screen and (min-width: 1400px) {
