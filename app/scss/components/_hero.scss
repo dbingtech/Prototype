@@ -17,12 +17,17 @@
         gap: 16px;
         margin-top: 16px;
     }
+
+    @include lg  { width: 100%; padding: 0 24px; height: auto; margrin: 16px auto; }
+    @include md  { width: 100%; padding: 0 24px; height: auto; margrin: 16px auto;}
+    @include sm  { width: 100%; padding: 0 16px; height: auto; margrin: 16px auto;}
+    @include xsm { width: 100%; padding: 0 8px;  height: auto; margrin: 16px auto;}
 }
 
 #hero2 {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0;
 
     .hero2-bar {
         width: 100%;
@@ -31,7 +36,7 @@
     iframe {
         display: block;
         width: 100%;
-        aspect-ratio: 1336 / 200;
+        aspect-ratio: 1400 / 228    ;
         height: auto;
     }
 
@@ -121,6 +126,11 @@
 #ad-carousel {
     position: relative;
     width: 769px;
+
+    @include xxl { max-width: 769px; }
+    @include xl  { max-width: 653px; }
+    @include lg  { max-width: 464px; }
+    @media only screen and (max-width: 991px) { display: none; }
 
     .carousel-track {
         overflow: hidden;
