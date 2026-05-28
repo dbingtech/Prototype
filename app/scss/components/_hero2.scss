@@ -1,0 +1,32 @@
+@use '../globals/responsive' as *;
+
+#hero2 {
+    max-width: 1336px;
+    margin: 0 auto;
+    padding: 0 32px;
+
+    .hero2-bar {
+        width: 100%;
+    }
+
+    iframe {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1336 / 200;
+        height: auto;
+        transform: translateY(-37%);
+        pointer-events: none;
+    }
+
+    @include md {
+        padding: 0 16px;
+    }
+
+    @include sm {
+        padding: 0 16px;
+    }
+
+    @include xsm {
+        padding: 0 8px;
+    }
+}
