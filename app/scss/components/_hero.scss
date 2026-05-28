@@ -20,9 +20,10 @@
 }
 
 #hero2 {
-    max-width: 1400px;
+    max-width: 1336px;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0;
+    overflow: hidden;
 
     .hero2-bar {
         width: 100%;
@@ -31,8 +32,10 @@
     iframe {
         display: block;
         width: 100%;
-        aspect-ratio: 1336 / 200;
+        aspect-ratio: 16 / 9;
         height: auto;
+        transform: translateY(-37%);
+        pointer-events: none;
     }
 
     @include md {
