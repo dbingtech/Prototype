@@ -4,7 +4,7 @@
 #hero, #hero_B2B {
     width: 1336px;
     height: 264px;
-    margin: 0 auto;
+    margin: 0 auto 32px;
     padding: 0 32px;
 
     h1 {
@@ -18,10 +18,11 @@
         margin-top: 16px;
     }
 
-    @include lg  { width: 100%; padding: 0 24px; height: auto; margrin: 16px auto; }
-    @include md  { width: 100%; padding: 0 24px; height: auto; margrin: 16px auto;}
-    @include sm  { width: 100%; padding: 0 16px; height: auto; margrin: 16px auto;}
-    @include xsm { width: 100%; padding: 0 8px;  height: auto; margrin: 16px auto;}
+    @include xl  { width: 100%; padding: 0 24px; height: auto; margin: 16px auto; }
+    @include lg  { width: 100%; padding: 0 24px; height: auto; margin: 16px auto; }
+    @include md  { width: 100%; padding: 0 24px; height: auto; margin: 16px auto; }
+    @include sm  { width: 100%; padding: 0 16px; height: auto; margin: 16px auto; }
+    @include xsm { width: 100%; padding: 0 8px;  height: auto; margin: 16px auto; }
 }
 
 .hero-b2b-content {

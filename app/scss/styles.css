@@ -1451,7 +1451,7 @@ nav ul {
 #hero, #hero_B2B {
   width: 1336px;
   height: 264px;
-  margin: 0 auto;
+  margin: 0 auto 32px;
   padding: 0 32px;
 }
 #hero h1, #hero_B2B h1 {
@@ -1463,12 +1463,20 @@ nav ul {
   gap: 16px;
   margin-top: 16px;
 }
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  #hero, #hero_B2B {
+    width: 100%;
+    padding: 0 24px;
+    height: auto;
+    margin: 16px auto;
+  }
+}
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   #hero, #hero_B2B {
     width: 100%;
     padding: 0 24px;
     height: auto;
-    margrin: 16px auto;
+    margin: 16px auto;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -1476,7 +1484,7 @@ nav ul {
     width: 100%;
     padding: 0 24px;
     height: auto;
-    margrin: 16px auto;
+    margin: 16px auto;
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
@@ -1484,7 +1492,7 @@ nav ul {
     width: 100%;
     padding: 0 16px;
     height: auto;
-    margrin: 16px auto;
+    margin: 16px auto;
   }
 }
 @media only screen and (max-width: 575px) {
@@ -1492,39 +1500,7 @@ nav ul {
     width: 100%;
     padding: 0 8px;
     height: auto;
-    margrin: 16px auto;
-  }
-}
-
-#hero2 {
-  max-width: 1336px;
-  margin: 0 auto;
-  padding: 0 32px;
-}
-#hero2 .hero2-bar {
-  width: 100%;
-}
-#hero2 iframe {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1336/200;
-  height: auto;
-  transform: translateY(-37%);
-  pointer-events: none;
-}
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  #hero2 {
-    padding: 0 16px;
-  }
-}
-@media only screen and (min-width: 576px) and (max-width: 767px) {
-  #hero2 {
-    padding: 0 16px;
-  }
-}
-@media only screen and (max-width: 575px) {
-  #hero2 {
-    padding: 0 8px;
+    margin: 16px auto;
   }
 }
 
@@ -1656,6 +1632,48 @@ nav ul {
 }
 #ad-carousel .carousel-dot.active {
   background-color: #20485c;
+}
+
+#hero2 {
+  max-width: 1336px;
+  margin: 32px auto 0;
+  padding: 0 32px;
+  overflow: hidden;
+}
+#hero2 .hero2-bar {
+  width: 100%;
+}
+#hero2 iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  transform: translateY(-37%);
+  pointer-events: none;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  #hero2 {
+    padding: 0 24px;
+    margin-top: 24px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  #hero2 {
+    padding: 0 16px;
+    margin-top: 24px;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  #hero2 {
+    padding: 0 16px;
+    margin-top: 16px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  #hero2 {
+    padding: 0 8px;
+    margin-top: 16px;
+  }
 }
 
 .index-heroBar {
