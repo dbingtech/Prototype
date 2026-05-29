@@ -40,17 +40,12 @@
         height: auto;
     }
 
-    @include md {
-        padding: 0 16px;
-    }
-
-    @include sm {
-        padding: 0 16px;
-    }
-
-    @include xsm {
-        padding: 0 8px;
-    }
+    @include xxl { padding: 0 32px; }
+    @include xl  { padding: 0 32px; }
+    @include lg  { padding: 0 24px; }
+    @include md  { padding: 0 16px; }
+    @include sm  { padding: 0 16px; }
+    @include xsm { padding: 0 8px;  }
 }
 
 .hero-b2b-content {

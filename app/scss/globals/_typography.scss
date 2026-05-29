@@ -1,16 +1,40 @@
 @font-face {
-    font-family: "Avenir";
+    font-family: "Avenir-Black";
+    src: url('../app/fonts/Avenir/Avenir-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Avenir-Heavy";
+    src: url('../app/fonts/Avenir/Avenir-Heavy.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Avenir-Medium";
+    src: url('../app/fonts/Avenir/Avenir-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Avenir-Roman";
     src: url('../app/fonts/Avenir/Avenir-Roman.ttf') format('truetype');
-    font-weight: normal;
+    font-weight: 450;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Avenir-Book";
+    src: url('../app/fonts/Avenir/Avenir-Book.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Avenir-Light";
+    src: url('../app/fonts/Avenir/Avenir-Light.ttf') format('truetype');
+    font-weight: 300;
     font-style: normal;
 }
 
-@font-face {
-    font-family: "Avenir-heavy";
-    src: url('../app/fonts/Avenir/Avenir-Heavy.ttf') format('truetype');
-    font-weight: 800;
-    font-style: normal;
-}
 h2 {
     font-size: 32px;
     font-family: "Avenir-heavy";
