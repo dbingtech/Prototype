@@ -2,12 +2,17 @@
 
 #hero2 {
     max-width: 1336px;
-    margin: 32px auto 0;
+    height: 248px;
+    margin: 32px auto;
     padding: 0 32px;
     overflow: hidden;
 
     .hero2-bar {
         width: 100%;
+        height: auto;
+        padding:0;
+        margin: 0;
+
     }
 
     iframe {

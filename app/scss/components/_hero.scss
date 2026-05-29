@@ -18,39 +18,11 @@
         margin-top: 16px;
     }
 
-    @include lg  { width: 100%; padding: 0 24px; height: auto; margrin: 16px auto; }
-    @include md  { width: 100%; padding: 0 24px; height: auto; margrin: 16px auto;}
-    @include sm  { width: 100%; padding: 0 16px; height: auto; margrin: 16px auto;}
-    @include xsm { width: 100%; padding: 0 8px;  height: auto; margrin: 16px auto;}
-}
-
-#hero2 {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0;
-
-    .hero2-bar {
-        width: 100%;
-    }
-
-    iframe {
-        display: block;
-        width: 100%;
-        aspect-ratio: 1400 / 228    ;
-        height: auto;
-    }
-
-    @include md {
-        padding: 0 16px;
-    }
-
-    @include sm {
-        padding: 0 16px;
-    }
-
-    @include xsm {
-        padding: 0 8px;
-    }
+    @include xl  { width: 100%; padding: 0 32px; height: auto; margin: 16px auto; }
+    @include lg  { width: 100%; padding: 0 24px; height: auto; margin: 16px auto; }
+    @include md  { width: 100%; padding: 0 24px; height: auto; margin: 16px auto; }
+    @include sm  { width: 100%; padding: 0 16px; height: auto; margin: 16px auto; }
+    @include xsm { width: 100%; padding: 0 8px;  height: auto; margin: 16px auto; }
 }
 
 .hero-b2b-content {

@@ -46,6 +46,32 @@
                         window.location.reload();
                     });
                 }
+
+                // Country / Currency modal
+                const ccOverlay = document.getElementById('cc-modal-overlay');
+                if (ccOverlay) {
+                    const ccModal = ccOverlay.querySelector('.cc-modal');
+                    document.addEventListener('click', function (e) {
+                        const cc = e.target.closest('#country_currency');
+                        if (cc) {
+                            const rect = cc.getBoundingClientRect();
+                            ccModal.style.top = rect.bottom + 8 + 'px';
+                            ccModal.style.left = rect.left + 'px';
+                            ccOverlay.classList.add('active');
+                        }
+                    });
+                    ccOverlay.addEventListener('click', function (e) {
+                        if (!e.target.closest('.cc-modal')) {
+                            ccOverlay.classList.remove('active');
+                        }
+                    });
+                    document.getElementById('cc-save').addEventListener('click', function () {
+                        ccOverlay.classList.remove('active');
+                    });
+                    document.addEventListener('keydown', function (e) {
+                        if (e.key === 'Escape') ccOverlay.classList.remove('active');
+                    });
+                }
             });
         
         // Load nav
@@ -164,9 +190,10 @@
             .then(response => response.text())
             .then(data => document.getElementById('hero2').innerHTML = data);
         // Load home categories
-        fetch('home_categories.html')
+        fetch('new_home_categories.html')
             .then(response => response.text())
-            .then(data => document.getElementById('home_categories').innerHTML = data);
+            .then(data => document.getElementById('new_home_categories').innerHTML = data);
+
 
 // function focusSearchField (){
 //     const searchfield = document.getElementsByClassName("search-field").focus();

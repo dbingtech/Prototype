@@ -4,6 +4,7 @@
 #new_home_categories {
     width: 100%;
     margin: 0;
+    margin-bottom: 1rem;
     
     @include xxl { max-width: 1400px; padding: 0; }
     @include xl  { max-width: 1200px; padding: 0; }
@@ -20,7 +21,7 @@
     font-size: 24px;
 }
 
-.new-home-categories-grid{
+.new_home-categories-grid{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);

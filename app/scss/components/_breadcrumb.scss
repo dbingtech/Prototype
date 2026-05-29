@@ -1,0 +1,63 @@
+@use '../globals/colors' as colors;
+@use '../globals/responsive' as *;
+
+#breadcrumbs {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 12px 32px;
+
+    @include lg  { padding: 10px 24px; }
+    @include md  { padding: 10px 24px; }
+    @include sm  { padding: 8px 16px; }
+    @include xsm { padding: 8px 8px; }
+}
+
+.breadcrumb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+    font-family: "Avenir-Roman", sans-serif;
+    font-size: 16px;
+    color: colors.$text;
+    white-space: nowrap;
+
+    a {
+        color: colors.$text;
+        text-decoration: underline;
+        font-family: inherit;
+        font-size: inherit;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    // Separator before every item except the first
+    & + .breadcrumb-item::before {
+        content: "/";
+        margin: 0 8px;
+        color: colors.$text;
+        font-family: "Avenir-Roman", sans-serif;
+        font-size: 16px;
+    }
+
+    // Current (last) item — not a link
+    &.active {
+        color: colors.$text;
+        font-family: "Avenir-Roman", sans-serif;
+    }
+
+    // Home icon variant
+    &.breadcrumb-home-icon svg {
+        display: block;
+        fill: colors.$text;
+    }
+}

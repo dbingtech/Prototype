@@ -1,0 +1,74 @@
+@use '../globals/colors' as colors;
+
+#cc-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+
+    &.active {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.cc-modal {
+    position: absolute;
+    background-color: colors.$white;
+    border-radius: 12px;
+    border: 1px solid colors.$lightgray01;
+    padding: 24px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.cc-fieldset {
+    border: 1px solid colors.$darkbeige;
+    border-radius: 8px;
+    padding: 0 12px 4px;
+    margin: 0;
+
+    legend {
+        font-family: "Avenir-Roman", sans-serif;
+        font-size: 12px;
+        color: colors.$medgray;
+        padding: 0 4px;
+        margin-left: 4px;
+        text-align: left;
+    }
+
+    select {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-family: "Avenir-Roman", sans-serif;
+        font-size: 16px;
+        color: colors.$bdiblue;
+        background-color: transparent;
+        padding: 4px 0;
+        cursor: pointer;
+        appearance: none;
+        text-align: left;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%2320485c' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0 center;
+        padding-right: 20px;
+    }
+}
+
+#cc-country:hover {
+    background-color: colors.$bdiblue;
+    color: colors.$white;
+}
+
+#cc-save {
+    width: 100%;
+    border-radius: 50px;
+    height: 48px;
+    font-size: 18px;
+}
