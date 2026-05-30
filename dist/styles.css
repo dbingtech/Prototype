@@ -236,7 +236,7 @@ a {
   padding: 8px;
   border-radius: 12px;
   border: 1px solid transparent;
-  font-family: "Avenir-heavy";
+  font-family: "Avenir-Heavy";
   font-weight: 700;
   font-size: 16px;
   text-transform: capitalize;
@@ -493,6 +493,7 @@ header a:hover {
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  font-family: "Avenir-Roman", sans-serif;
   color: #fff;
   padding: 11px 8px;
   position: relative;
@@ -533,14 +534,14 @@ header a:hover {
   padding: 8px;
 }
 #qo-dropdown .qo-title {
-  font-family: "Avenir-heavy", sans-serif;
+  font-family: "Avenir-Heavy", sans-serif;
   font-weight: 700;
   font-size: 16px;
   font-weight: 800;
   color: black;
 }
 #qo-dropdown .qo-desc {
-  font-family: "Avenir", sans-serif;
+  font-family: "Avenir-Roman", sans-serif;
   font-size: 16px;
   color: black;
 }
@@ -560,7 +561,7 @@ header a:hover {
   border-radius: 4px;
   padding: 4px 12px;
   font-size: 16px;
-  font-family: "Avenir", sans-serif;
+  font-family: "Avenir-Roman", sans-serif;
   color: #6a6a6a;
   box-sizing: border-box;
 }
@@ -642,39 +643,6 @@ header a:hover {
 }
 #sign_in:hover {
   background-color: #3c6378;
-}
-#sign_in:hover .sign-in-tooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-.sign-in-tooltip {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  background-color: #414143;
-  color: #fff;
-  font-family: "Avenir-Roman", sans-serif;
-  font-size: 13px;
-  padding: 8px 12px;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-  z-index: 200;
-  white-space: nowrap;
-  pointer-events: none;
-}
-.sign-in-tooltip::before {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  right: 16px;
-  border: 6px solid transparent;
-  border-bottom-color: #414143;
 }
 
 #cart {
@@ -1272,10 +1240,6 @@ footer {
   padding-bottom: 20px;
 }
 
-* {
-  font-family: "Avenir";
-}
-
 nav:not([aria-label=breadcrumb]) {
   background-color: #20485c;
 }
@@ -1477,13 +1441,218 @@ nav ul {
     aspect-ratio: unset;
   }
 }
+#homepage_ads {
+  width: 100%;
+  padding: 24px 0;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  #homepage_ads {
+    display: none;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  #homepage_ads {
+    display: none;
+  }
+}
+@media only screen and (max-width: 575px) {
+  #homepage_ads {
+    display: none;
+  }
+}
+
+.ads-layout-xxl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.ads-layout-xl {
+  display: none;
+}
+
+.homepage-ads-heading {
+  font-family: "Avenir-Heavy";
+  font-size: 40px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: black;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.homepage-ads-heading span {
+  font-family: "Avenir-Heavy";
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .homepage-ads-heading {
+    font-size: 26px;
+    white-space: normal;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .homepage-ads-heading {
+    font-size: 20px;
+    white-space: normal;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .homepage-ads-heading {
+    font-size: 18px;
+    white-space: normal;
+  }
+}
+
+.homepage-ads-grid {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .homepage-ads-grid {
+    flex-wrap: wrap;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .homepage-ads-grid {
+    flex-wrap: wrap;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .homepage-ads-grid {
+    flex-wrap: wrap;
+  }
+}
+
+.homepage-ad {
+  width: 300px;
+  height: 174px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: block;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .homepage-ad {
+    width: calc(50% - 4px);
+    height: auto;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .homepage-ad {
+    width: calc(50% - 4px);
+    height: auto;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .homepage-ad {
+    width: 100%;
+    height: auto;
+  }
+}
+.homepage-ad img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .homepage-ad img {
+    height: auto;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .homepage-ad img {
+    height: auto;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .homepage-ad img {
+    height: auto;
+  }
+}
+
+.ads-row {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+}
+
+.ads-row--top {
+  justify-content: flex-start;
+}
+
+.ads-row--bottom {
+  justify-content: flex-end;
+}
+
+.ads-pair {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.ads-text {
+  font-family: "Avenir-Heavy";
+  font-size: 40px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: black;
+  margin: 0;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.ads-row--top .ads-text {
+  text-align: right;
+}
+
+.ads-row--bottom .ads-text {
+  text-align: left;
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  .ads-layout-xxl {
+    display: none;
+  }
+  .ads-layout-xl {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .ads-layout-xxl {
+    display: none;
+  }
+  .ads-layout-xl {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .ads-text {
+    font-size: 32px;
+  }
+}
 #hero, #hero_B2B {
   width: 1336px;
   height: 264px;
   margin: 0 auto 32px;
   padding: 0 32px;
 }
+#hero .hidden-h1, #hero_B2B .hidden-h1 {
+  display: none;
+}
 #hero h1, #hero_B2B h1 {
+  font-family: "Avenir-Heavy", sans-serif;
   color: #20485c;
 }
 #hero .hero-buttons, #hero_B2B .hero-buttons {
@@ -1542,7 +1711,7 @@ nav ul {
 }
 
 .hero-b2b-welcome {
-  font-family: "Avenir-heavy", sans-serif;
+  font-family: "Avenir-Heavy", sans-serif;
   font-size: 40px;
   font-weight: 700;
   color: #20485c;
@@ -1570,7 +1739,7 @@ nav ul {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
-  font-family: "Avenir-heavy", sans-serif;
+  font-family: "Avenir-Heavy", sans-serif;
   font-weight: 700;
   color: black;
   white-space: nowrap;
@@ -1707,15 +1876,15 @@ nav ul {
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   #hero2 .hero2-overlay-text {
     font-size: 20px;
-    max-width: 100%;
-    padding: 0 16px;
+    width: 500px;
+    padding: 0;
   }
 }
 @media only screen and (max-width: 575px) {
   #hero2 .hero2-overlay-text {
     font-size: 18px;
-    max-width: 100%;
-    padding: 0 8px;
+    width: 308px;
+    padding: 0;
   }
 }
 #hero2 img {

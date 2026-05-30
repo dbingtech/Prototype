@@ -31,8 +31,8 @@
 
         @include lg  { font-size: 28px; max-width: 100%; padding: 0 24px; }
         @include md  { max-width: 100%; padding: 0 16px; }
-        @include sm  { font-size: 20px; max-width: 100%; padding: 0 16px; }
-        @include xsm { font-size: 18px; max-width: 100%; padding: 0 8px; }
+        @include sm  { font-size: 20px; width: 500px; padding: 0; }
+        @include xsm { font-size: 18px; width: 308px; padding: 0; }
     }
 
     img {

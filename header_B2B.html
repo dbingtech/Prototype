@@ -18,7 +18,7 @@
               </a>
           </div>
           <div class="pre-header_right">
-            <span id="account_name">Avengers, LLC</span>
+            <span id="account_name">Umbrella Corporation</span>
             <div id="vertical_line"></div>
             <a href="registration.html" id="register">Register</a>
             <a href="#" id="my_company">My Company</a>
@@ -107,3 +107,42 @@
         </div>
       </div>
     </header>
+
+    <!-- Country / Language / Currency Modal -->
+    <div id="cc-modal-overlay">
+      <div class="cc-modal">
+        <fieldset class="cc-fieldset">
+          <legend>Country</legend>
+          <select id="cc-country" title="Country">
+            <option value="ca">BDI Canada</option>
+            <option value="cn">BDI China / BDI中国</option>
+            <option value="cz">BDI Czech Republic / BDI Česká republika</option>
+            <option value="hu">BDI Hungary / BDI Magyarország</option>
+            <option value="in">BDI India</option>
+            <option value="mx">BDI Mexico</option>
+            <option value="pl">BDI Poland / BDI Polska</option>
+            <option value="ro">BDI Romania</option>
+            <option value="rs">BDI Serbia / BDI Srbija</option>
+            <option value="sk">BDI Slovakia / BDI Slovensko</option>
+            <option value="us" selected>BDI United States / BDI Estados Unidos</option>
+          </select>
+        </fieldset>
+        <fieldset class="cc-fieldset">
+          <legend>Language</legend>
+          <select id="cc-language" title="Language">
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="es">Spanish</option>
+          </select>
+        </fieldset>
+        <fieldset class="cc-fieldset">
+          <legend>Currency</legend>
+          <select id="cc-currency" title="Currency">
+            <option value="usd">$ - US Dollar</option>
+            <option value="cad">$ - Canadian Dollar</option>
+            <option value="mxn">$ - Mexican Peso</option>
+          </select>
+        </fieldset>
+        <button type="button" id="cc-save" class="btn btn--primary">Save</button>
+      </div>
+    </div>

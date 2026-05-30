@@ -1,0 +1,119 @@
+@use '../globals/responsive' as *;
+
+#homepage_ads {
+    width: 100%;
+    padding: 24px 0;
+
+    @include md  { display: none; }
+    @include sm  { display: none; }
+    @include xsm { display: none; }
+}
+
+// ── XXL layout (base / ≥1400px) ──────────────────────────────────
+.ads-layout-xxl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.ads-layout-xl { display: none; }
+
+.homepage-ads-heading {
+    font-family: "Avenir-Heavy";
+    font-size: 40px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: black;
+    text-align: center;
+    margin: 0;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    span { font-family: "Avenir-Heavy"; }
+
+    @include md  { font-size: 26px; white-space: normal; }
+    @include sm  { font-size: 20px; white-space: normal; }
+    @include xsm { font-size: 18px; white-space: normal; }
+}
+
+.homepage-ads-grid {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    justify-content: center;
+    width: 100%;
+
+    @include md  { flex-wrap: wrap; }
+    @include sm  { flex-wrap: wrap; }
+    @include xsm { flex-wrap: wrap; }
+}
+
+.homepage-ad {
+    width: 300px;
+    height: 174px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: block;
+
+    @include md  { width: calc(50% - 4px); height: auto; }
+    @include sm  { width: calc(50% - 4px); height: auto; }
+    @include xsm { width: 100%; height: auto; }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+
+        @include md  { height: auto; }
+        @include sm  { height: auto; }
+        @include xsm { height: auto; }
+    }
+}
+
+// ── Shared xl/lg row styles (always defined, only visible when .ads-layout-xl is shown)
+.ads-row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+}
+
+.ads-row--top    { justify-content: flex-start; }
+.ads-row--bottom { justify-content: flex-end; }
+
+.ads-pair {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.ads-text {
+    font-family: "Avenir-Heavy";
+    font-size: 40px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: black;
+    margin: 0;
+    white-space: nowrap;
+    flex: 1;
+}
+
+.ads-row--top    .ads-text { text-align: right; }
+.ads-row--bottom .ads-text { text-align: left; }
+
+// ── XL layout (1200–1399px) ───────────────────────────────────────
+@include xl {
+    .ads-layout-xxl { display: none; }
+    .ads-layout-xl  { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+}
+
+// ── LG layout (992–1199px): same structure, 32px font ────────────
+@include lg {
+    .ads-layout-xxl { display: none; }
+    .ads-layout-xl  { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+    .ads-text       { font-size: 32px; }
+}

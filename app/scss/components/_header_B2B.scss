@@ -62,6 +62,9 @@ header a:hover {
 #register, #request_quote {
   font-size: 12px;
 }
+#header_B2B {
+  #register { display: none; }
+}
 #my_company {
   font-size: 12px;
   color: colors.$text;
@@ -337,7 +340,7 @@ header a:hover {
         border:none;
         background-color: none;
         cursor: pointer;
-      }  
+      }
       #search-options{
         position: relative;
         display: none;
@@ -354,7 +357,7 @@ header a:hover {
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        
+
       }
       .search-input {
         padding: 0 8px;

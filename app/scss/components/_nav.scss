@@ -1,7 +1,4 @@
 @use '../globals/colors' as colors; 
-*{
-  font-family: "Avenir";
-}
 nav:not([aria-label="breadcrumb"]){
   background-color: colors.$bdiblue;
 }

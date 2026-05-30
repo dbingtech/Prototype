@@ -1,4 +1,4 @@
-// Load components
+﻿// Load components
 // Load header
         const headerEl = document.getElementById('header_B2B') || document.getElementById('header');
         const headerFile = document.getElementById('header_B2B') ? 'header_B2B.html' : 'header.html';
@@ -63,7 +63,7 @@
                 if (ccOverlay) {
                     const ccModal = ccOverlay.querySelector('.cc-modal');
                     document.addEventListener('click', function (e) {
-                        const cc = e.target.closest('#country_currency');
+                        const cc = e.target.closest('#country_currency, .js-cc-modal');
                         if (cc) {
                             const rect = cc.getBoundingClientRect();
                             ccModal.style.top = rect.bottom + 8 + 'px';
@@ -209,6 +209,9 @@
         fetch('new_home_categories.html')
             .then(response => response.text())
             .then(data => document.getElementById('new_home_categories').innerHTML = data);
+        fetch('homepage_ads.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('homepage_ads').innerHTML = data);
 
 
 // function focusSearchField (){
