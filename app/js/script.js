@@ -189,6 +189,9 @@
         fetch('hero2.html')
             .then(response => response.text())
             .then(data => document.getElementById('hero2').innerHTML = data);
+        fetch('trusted_brands.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('trusted_brands').innerHTML = data);
         // Load home categories
         fetch('new_home_categories.html')
             .then(response => response.text())

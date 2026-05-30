@@ -1,3 +1,5 @@
+@use '../globals/colors' as colors;
+
 @font-face {
     font-family: "Avenir-Black";
     src: url('../app/fonts/Avenir/Avenir-Black.ttf') format('truetype');
@@ -64,5 +66,7 @@ p {
 a {
     font-size: 16px;
     font-family: "Avenir";
+    color: colors.$hyperlinkblue;
 }
+
 

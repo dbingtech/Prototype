@@ -1,31 +1,58 @@
 @use '../globals/responsive' as *;
 
 #hero2 {
-    max-width: 1336px;
-    height: 248px;
-    margin: 32px auto;
-    padding: 0 32px;
+    width: 100%;
+    height: 264px;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
 
     .hero2-bar {
+        position: relative;
         width: 100%;
-        height: auto;
-        padding:0;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .hero2-overlay-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-family: "Avenir-Heavy";
+        font-weight: 600;
+        font-size: 24px;
+        text-align: center;
+        max-width: 900px;
+        padding: 0 32px;
         margin: 0;
 
+        @include lg  { font-size: 28px; max-width: 100%; padding: 0 24px; }
+        @include md  { max-width: 100%; padding: 0 16px; }
+        @include sm  { font-size: 20px; max-width: 100%; padding: 0 16px; }
+        @include xsm { font-size: 18px; max-width: 100%; padding: 0 8px; }
     }
 
-    iframe {
+    img {
         display: block;
         width: 100%;
-        aspect-ratio: 16 / 9;
-        height: auto;
-        transform: translateY(-37%);
-        pointer-events: none;
+        height: 100%;
+        object-fit: cover;
     }
 
-    @include lg  { padding: 0 24px; margin-top: 24px; }
-    @include md  { padding: 0 16px; margin-top: 24px; }
-    @include sm  { padding: 0 16px; margin-top: 16px; }
-    @include xsm { padding: 0 8px;  margin-top: 16px; }
+    // iframe {
+    //     display: block;
+    //     width: 100%;
+    //     aspect-ratio: 16 / 9;
+    //     height: auto;
+    //     transform: translateY(-37%);
+    //     pointer-events: none;
+    // }
+
+    @include lg  { margin-top: 24px; }
+    @include md  { margin-top: 24px; }
+    @include sm  { margin-top: 16px; }
+    @include xsm { margin-top: 16px; }
 }
