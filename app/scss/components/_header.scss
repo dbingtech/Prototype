@@ -284,15 +284,47 @@ header a:hover {
 }
 #sign_in {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   gap: 8px;
   color: colors.$white;
   text-decoration: none;
   padding: 11px 8px;
   white-space: nowrap;
+  position: relative;
   &:hover {
     background-color: colors.$williamblue;
+    .sign-in-tooltip { opacity: 1; visibility: visible; }
+  }
+}
+
+.sign-in-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: colors.$darkgray;
+  color: colors.$white;
+  font-family: "Avenir-Roman", sans-serif;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 200;
+  white-space: nowrap;
+  pointer-events: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    right: 16px;
+    border: 6px solid transparent;
+    border-bottom-color: colors.$darkgray;
   }
 }
 #cart {

@@ -80,10 +80,12 @@
             .then(data => document.getElementById('nav').innerHTML = data);
         
             // Load nav
-        fetch('navbar.html')
+        const navbarEl = document.getElementById('navbar_B2B') || document.getElementById('navbar');
+        const navbarFile = document.getElementById('navbar_B2B') ? 'navbar_B2B.html' : 'navbar.html';
+        fetch(navbarFile)
             .then(response => response.text())
             .then(data => {
-                document.getElementById('navbar').innerHTML = data;
+                navbarEl.innerHTML = data;
 
                 const hamburger = document.getElementById('hamburger');
                 const sideMenu = document.getElementById('sideMenu');
