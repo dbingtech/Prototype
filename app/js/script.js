@@ -23,22 +23,33 @@
                     e.stopPropagation();
                 });
 
+                const trashSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m18 9l-.84 8.398c-.127 1.273-.19 1.909-.48 2.39a2.5 2.5 0 0 1-1.075.973C15.098 21 14.46 21 13.18 21h-2.36c-1.279 0-1.918 0-2.425-.24a2.5 2.5 0 0 1-1.076-.973c-.288-.48-.352-1.116-.48-2.389L6 9m7.5 6.5v-5m-3 5v-5m-6-4h4.615m0 0l.386-2.672c.112-.486.516-.828.98-.828h3.038c.464 0 .867.342.98.828l.386 2.672m-5.77 0h5.77m0 0H19.5"/></svg>`;
+                const minusSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="currentColor" d="M5 11h14v2H5z"/></svg>`;
+
+                function updateMinusIcon(stepper) {
+                    const n = parseInt(stepper.querySelector('.qo-qty-value').textContent);
+                    stepper.querySelector('.qo-qty-minus').innerHTML = n <= 1 ? trashSvg : minusSvg;
+                }
+
                 document.querySelectorAll('.qo-qty-stepper').forEach(function (stepper) {
                     stepper.querySelector('.qo-qty-minus').addEventListener('click', function () {
                         const val = stepper.querySelector('.qo-qty-value');
                         const n = parseInt(val.textContent);
                         if (n > 1) val.textContent = n - 1;
+                        updateMinusIcon(stepper);
                     });
                     stepper.querySelector('.qo-qty-plus').addEventListener('click', function () {
                         const val = stepper.querySelector('.qo-qty-value');
                         val.textContent = parseInt(val.textContent) + 1;
+                        updateMinusIcon(stepper);
                     });
+                    updateMinusIcon(stepper);
                 });
 
                 const user = JSON.parse(localStorage.getItem('user'));
                 const signInEl = document.getElementById('sign_in');
-                if (user && user.signedIn && signInEl) {
-                    signInEl.innerHTML = 'Sign In<img src="images/icons/user/Size=28, Color=White.svg" alt="Sign In" width="28" height="28">';
+                if (user && user.signedIn && signInEl && !document.getElementById('header_B2B')) {
+                    signInEl.innerHTML = '<img src="images/icons/user/Size=28, Color=White.svg" alt="Sign In" width="28" height="28">Sign In';
                     signInEl.href = '#';
                     signInEl.addEventListener('click', function (e) {
                         e.preventDefault();

@@ -29,5 +29,5 @@ body {
     @include lg  { max-width: 992px;  padding: 0 24px; }
     @include md  { max-width: 768px;  padding: 0 24px; }
     @include sm  { max-width: 576px;  padding: 0 16px; }
-    @include xsm { max-width: 100%;   padding: 0 8px;  }
+    @include xsm { max-width: 100%;   padding: 0 16px; }
 }

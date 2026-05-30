@@ -62,7 +62,6 @@ footer {
 
 .footer-link {
     font-family: "Avenir-Roman";
-    font-weight: 500;
     font-size: 16px;
     color: colors.$white;
     text-decoration: none;
@@ -96,8 +95,7 @@ footer {
     align-items: center;
     gap: 8px;
     color: colors.$white;
-    font-family: "Avenir-heavy";
-    font-weight: 700;
+    font-family: "Avenir-Roman";
     font-size: 16px;
 }
 
@@ -127,6 +125,7 @@ footer {
 .footer-col-pair {
     display: flex;
     flex-direction: column;
+    gap: 32px;
 
     @include md  { display: contents; }
     @include sm  { display: contents; }
@@ -143,7 +142,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 0;
+    padding: 0;
 }
 
 .footer-accordion-body {
@@ -204,8 +203,7 @@ footer {
 
 .footer-copyright {
     text-align: center;
-    font-family: "Avenir-heavy";
-    font-weight: 700;
+    font-family: "Avenir-Roman";
     font-size: 16px;
     color: colors.$white;
     padding-bottom: 20px;

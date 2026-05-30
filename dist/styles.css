@@ -51,7 +51,7 @@ body {
 @media only screen and (max-width: 575px) {
   #main {
     max-width: 100%;
-    padding: 0 8px;
+    padding: 0 16px;
   }
 }
 
@@ -369,7 +369,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color: black;
-  font-family: "Avenir";
+  font-family: "Avenir-Roman";
   gap: 4px;
   cursor: pointer;
 }
@@ -377,7 +377,7 @@ header a:hover {
 #account_name {
   font-size: 12px;
   color: black;
-  font-family: "Avenir";
+  font-family: "Avenir-Roman";
 }
 
 #register, #request_quote {
@@ -391,7 +391,7 @@ header a:hover {
 #my_company {
   font-size: 12px;
   color: black;
-  font-family: "Avenir";
+  font-family: "Avenir-Roman";
   text-decoration: none;
 }
 #my_company:hover {
@@ -403,7 +403,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color: black;
-  font-family: "Avenir";
+  font-family: "Avenir-Roman";
   gap: 4px;
   font-size: 12px;
 }
@@ -413,7 +413,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color: black;
-  font-family: "Avenir";
+  font-family: "Avenir-Roman";
   gap: 4px;
   font-size: 12px;
 }
@@ -429,14 +429,19 @@ header a:hover {
   padding-top: 8px;
 }
 
-#post-header_container {
+#post_header_container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   max-width: 1400px;
   margin: auto;
-  padding: 0 32px;
+  padding: 0 16px;
+  height: 80px;
+}
+#post_header_container > a img {
+  width: 90px;
+  height: 64px;
 }
 
 #search_bar_wrapper {
@@ -448,13 +453,22 @@ header a:hover {
 }
 #search_bar_wrapper #search_bar {
   width: 100%;
-  border-radius: 2px;
+  border-radius: 4px;
   background-color: #fff;
   height: 42px;
   font-size: 1rem;
+  padding-left: 16px;
   padding-right: 40px;
   border: none;
   outline: none;
+  font-family: "Avenir-Roman", sans-serif;
+  color: #303031;
+}
+#search_bar_wrapper #search_bar::placeholder {
+  color: #909090;
+}
+#search_bar_wrapper #search_bar:focus::placeholder {
+  color: transparent;
 }
 #search_bar_wrapper #search_icon {
   position: absolute;
@@ -471,7 +485,7 @@ header a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 32px;
+  gap: 16px;
 }
 
 #quick_order {
@@ -578,6 +592,13 @@ header a:hover {
 }
 #qo-dropdown .qo-qty-stepper .qo-qty-minus:hover, #qo-dropdown .qo-qty-stepper .qo-qty-plus:hover {
   background-color: #e5e5e5;
+}
+#qo-dropdown .qo-qty-stepper .qo-qty-minus {
+  color: #CC0202;
+}
+#qo-dropdown .qo-qty-stepper .qo-qty-minus svg {
+  width: 28px;
+  height: 28px;
 }
 #qo-dropdown .qo-qty-stepper .qo-qty-value {
   flex: 1;
@@ -765,7 +786,7 @@ header a:hover {
   #pre-header_container {
     padding: 0 24px;
   }
-  #post-header_container {
+  #post_header_container {
     padding: 0 24px;
   }
   #search_bar_wrapper {
@@ -799,9 +820,14 @@ header a:hover {
     display: none;
   }
   /* Tighten post-header container padding */
-  #post-header_container {
+  #post_header_container {
     padding: 0 16px;
     min-height: unset;
+    height: 80px;
+  }
+  #post_header_container > a img {
+    width: 90px;
+    height: 64px;
   }
   #post-header {
     padding-top: 0;
@@ -809,6 +835,7 @@ header a:hover {
   /* Show SM-only location/phone icons */
   .sm-only-icon {
     display: flex;
+    padding: 8px;
   }
   /* Shrink icon padding */
   .header_icons {
@@ -817,11 +844,14 @@ header a:hover {
   #sign_in {
     flex-direction: row;
     gap: 6px;
-    padding: 6px 4px;
+    padding: 8px;
     font-size: 12px;
   }
   #cart {
-    padding: 6px 4px;
+    padding: 8px;
+  }
+  .cart-label {
+    display: none;
   }
   /* Show SM search row as second row */
   #sm-search-row {
@@ -840,16 +870,9 @@ header a:hover {
     align-items: center;
     flex-shrink: 0;
   }
-  #sm-search-row .sm-search-cat {
-    background-color: rgba(255, 255, 255, 0.15);
-    border: none;
-    border-radius: 2px 0 0 2px;
-    cursor: pointer;
-    padding: 0 8px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
+  #sm-search-row #sm-hamburger svg {
+    width: 32px;
+    height: 32px;
   }
   #sm-search-row #sm-search-bar {
     flex: 1;
@@ -871,6 +894,10 @@ header a:hover {
     align-items: center;
     flex-shrink: 0;
   }
+  #sm-search-row #sm-search-btn svg {
+    width: 28px;
+    height: 28px;
+  }
 }
 @media only screen and (max-width: 575px) {
   /* Hide pre-header entirely */
@@ -889,7 +916,7 @@ header a:hover {
     display: none;
   }
   /* Tighten post-header container padding */
-  #post-header_container {
+  #post_header_container {
     padding: 0 8px;
     min-height: unset;
   }
@@ -912,12 +939,15 @@ header a:hover {
   #cart {
     padding: 6px 4px;
   }
+  .cart-label {
+    display: none;
+  }
   /* Show SM search row as second row */
   #sm-search-row {
     display: flex;
     align-items: center;
     gap: 0;
-    padding: 6px 8px 8px;
+    padding: 6px 16px 8px;
     background-color: #20485c;
   }
   #sm-search-row #sm-hamburger {
@@ -929,16 +959,9 @@ header a:hover {
     align-items: center;
     flex-shrink: 0;
   }
-  #sm-search-row .sm-search-cat {
-    background-color: rgba(255, 255, 255, 0.15);
-    border: none;
-    border-radius: 2px 0 0 2px;
-    cursor: pointer;
-    padding: 0 6px;
-    height: 34px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
+  #sm-search-row #sm-hamburger svg {
+    width: 32px;
+    height: 32px;
   }
   #sm-search-row #sm-search-bar {
     flex: 1;
@@ -1066,7 +1089,6 @@ footer {
 
 .footer-link {
   font-family: "Avenir-Roman";
-  font-weight: 500;
   font-size: 16px;
   color: #fff;
   text-decoration: none;
@@ -1107,8 +1129,7 @@ footer {
   align-items: center;
   gap: 8px;
   color: #fff;
-  font-family: "Avenir-heavy";
-  font-weight: 700;
+  font-family: "Avenir-Roman";
   font-size: 16px;
 }
 
@@ -1137,6 +1158,7 @@ footer {
 .footer-col-pair {
   display: flex;
   flex-direction: column;
+  gap: 32px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .footer-col-pair {
@@ -1164,7 +1186,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 0;
+  padding: 0;
 }
 
 .footer-accordion-body {
@@ -1244,8 +1266,7 @@ footer {
 }
 .footer-copyright {
   text-align: center;
-  font-family: "Avenir-heavy";
-  font-weight: 700;
+  font-family: "Avenir-Roman";
   font-size: 16px;
   color: #fff;
   padding-bottom: 20px;
@@ -1444,6 +1465,16 @@ nav ul {
   .new-home-categories-grid {
     display: flex;
     flex-direction: column;
+    align-items: center;
+  }
+  .new-category-square {
+    width: auto;
+    place-self: center;
+  }
+  .new-category-square img {
+    width: auto;
+    height: auto;
+    aspect-ratio: unset;
   }
 }
 #hero, #hero_B2B {
@@ -1716,6 +1747,7 @@ nav ul {
 
 #trusted_brands {
   width: 100%;
+  margin-bottom: 32px;
 }
 
 .trusted-brands-wrapper {
@@ -1819,25 +1851,26 @@ nav ul {
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .trusted-brand-logo {
-    width: 80px;
+    width: 88px;
     height: 32px;
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   .trusted-brand-logo {
-    width: 64px;
+    width: 70px;
     height: 32px;
   }
 }
 @media only screen and (max-width: 575px) {
   .trusted-brand-logo {
-    width: 52px;
-    height: 28px;
+    width: 70px;
+    height: 32px;
   }
 }
 .trusted-brand-logo img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .trusted-brand-logo:nth-last-child(1) {

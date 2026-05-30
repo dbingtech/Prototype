@@ -104,5 +104,15 @@
     .new-home-categories-grid {
         display: flex;
         flex-direction: column;
+        align-items: center;
+    }
+    .new-category-square {
+        width: auto;
+        place-self: center;
+    }
+    .new-category-square img {
+        width: auto;
+        height: auto;
+        aspect-ratio: unset;
     }
 }

@@ -50,14 +50,14 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color:colors.$text;
-  font-family: "Avenir";
+  font-family: "Avenir-Roman";
   gap:4px;
   cursor: pointer;
 }
 #account_name {
   font-size: 12px;
   color: colors.$text;
-  font-family: "Avenir";
+  font-family: "Avenir-Roman";
 }
 #register, #request_quote {
   font-size: 12px;
@@ -68,7 +68,7 @@ header a:hover {
 #my_company {
   font-size: 12px;
   color: colors.$text;
-  font-family: "Avenir";
+  font-family: "Avenir-Roman";
   text-decoration: none;
   &:hover {
     text-decoration: underline;
@@ -79,7 +79,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color:colors.$text;
-  font-family: "Avenir";
+  font-family: "Avenir-Roman";
   gap:4px;
   font-size: 12px;
 }
@@ -88,7 +88,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color:colors.$text;
-  font-family: "Avenir";
+  font-family: "Avenir-Roman";
   gap:4px;
   font-size: 12px;
 }
@@ -102,14 +102,20 @@ header a:hover {
     padding-top:8px;
 
 }
-#post-header_container {
+#post_header_container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   max-width: 1400px;
   margin: auto;
-  padding: 0 32px;
+  padding: 0 16px;
+  height: 80px;
+
+  & > a img {
+    width: 90px;
+    height: 64px;
+  }
 }
 #search_bar_wrapper {
   position: relative;
@@ -119,13 +125,18 @@ header a:hover {
   margin: 0 32px;
   #search_bar {
     width: 100%;
-    border-radius: 2px;
+    border-radius: 4px;
     background-color: colors.$white;
     height: 42px;
     font-size: 1rem;
+    padding-left: 16px;
     padding-right: 40px;
     border: none;
     outline: none;
+    font-family: "Avenir-Roman", sans-serif;
+    color:colors.$medgray20;
+     &::placeholder { color: colors.$medgray60; }
+     &:focus::placeholder { color: transparent; }
   }
   #search_icon {
     position: absolute;
@@ -142,7 +153,7 @@ header a:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap:32px;
+  gap: 16px;
 }
 
 // ----------------------------Icon spacing
@@ -251,6 +262,11 @@ header a:hover {
       align-items: center;
       justify-content: center;
       &:hover { background-color: colors.$lightgray02; }
+    }
+
+    .qo-qty-minus {
+      color: colors.$red;
+      svg { width: 28px; height: 28px; }
     }
 
     .qo-qty-value {
@@ -426,7 +442,7 @@ header a:hover {
     padding: 0 24px;
   }
 
-  #post-header_container {
+  #post_header_container {
     padding: 0 24px;
   }
 
@@ -459,9 +475,15 @@ header a:hover {
   #quick_order { display: none; }
 
   /* Tighten post-header container padding */
-  #post-header_container {
+  #post_header_container {
     padding: 0 16px;
     min-height: unset;
+    height: 80px;
+  }
+
+  #post_header_container > a img {
+    width: 90px;
+    height: 64px;
   }
 
   #post-header {
@@ -471,6 +493,7 @@ header a:hover {
   /* Show SM-only location/phone icons */
   .sm-only-icon {
     display: flex;
+    padding: 8px;
   }
 
   /* Shrink icon padding */
@@ -481,13 +504,15 @@ header a:hover {
   #sign_in {
     flex-direction: row;
     gap: 6px;
-    padding: 6px 4px;
+    padding: 8px;
     font-size: 12px;
   }
 
   #cart {
-    padding: 6px 4px;
+    padding: 8px;
   }
+
+  .cart-label { display: none; }
 
   /* Show SM search row as second row */
   #sm-search-row {
@@ -505,18 +530,7 @@ header a:hover {
       display: flex;
       align-items: center;
       flex-shrink: 0;
-    }
-
-    .sm-search-cat {
-      background-color: rgba(255, 255, 255, 0.15);
-      border: none;
-      border-radius: 2px 0 0 2px;
-      cursor: pointer;
-      padding: 0 8px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
+      svg { width: 32px; height: 32px; }
     }
 
     #sm-search-bar {
@@ -539,6 +553,8 @@ header a:hover {
       display: flex;
       align-items: center;
       flex-shrink: 0;
+
+      svg { width: 28px; height: 28px; }
     }
   }
 }
@@ -555,7 +571,7 @@ header a:hover {
   #quick_order { display: none; }
 
   /* Tighten post-header container padding */
-  #post-header_container {
+  #post_header_container {
     padding: 0 8px;
     min-height: unset;
   }
@@ -584,12 +600,14 @@ header a:hover {
     padding: 6px 4px;
   }
 
+  .cart-label { display: none; }
+
   /* Show SM search row as second row */
   #sm-search-row {
     display: flex;
     align-items: center;
     gap: 0;
-    padding: 6px 8px 8px;
+    padding: 6px 16px 8px;
     background-color: colors.$bdiblue;
 
     #sm-hamburger {
@@ -600,18 +618,7 @@ header a:hover {
       display: flex;
       align-items: center;
       flex-shrink: 0;
-    }
-
-    .sm-search-cat {
-      background-color: rgba(255, 255, 255, 0.15);
-      border: none;
-      border-radius: 2px 0 0 2px;
-      cursor: pointer;
-      padding: 0 6px;
-      height: 34px;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
+      svg { width: 32px; height: 32px; }
     }
 
     #sm-search-bar {
