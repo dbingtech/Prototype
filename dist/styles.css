@@ -2463,6 +2463,206 @@ nav ul {
   background-color: #20485c;
 }
 
+#hero_B2B {
+  width: 1336px;
+  height: 264px;
+  margin: 0 auto 32px;
+  padding: 0 32px;
+}
+#hero_B2B .hidden-h1 {
+  display: none;
+}
+#hero_B2B h1 {
+  font-family: "Avenir-Heavy", sans-serif;
+  color: #20485c;
+}
+#hero_B2B .hero-buttons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  #hero_B2B {
+    width: 100%;
+    padding: 0 32px;
+    height: auto;
+    margin: 16px auto;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  #hero_B2B {
+    width: 100%;
+    padding: 0 24px;
+    height: auto;
+    margin: 16px auto;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  #hero_B2B {
+    width: 100%;
+    padding: 0 24px;
+    height: auto;
+    margin: 16px auto;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  #hero_B2B {
+    width: 100%;
+    padding: 0 16px;
+    height: auto;
+    margin: 16px auto;
+  }
+}
+@media only screen and (max-width: 575px) {
+  #hero_B2B {
+    width: 100%;
+    padding: 0 8px;
+    height: auto;
+    margin: 16px auto;
+  }
+}
+
+.visible-h1 {
+  display: block;
+  font-family: "Avenir-Heavy", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: #20485c;
+  margin: 0;
+  line-height: 1;
+}
+
+.hero-b2b-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  height: 100%;
+}
+
+.hero-b2b-welcome {
+  font-family: "Avenir-Heavy", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: #20485c;
+  margin: 0;
+  line-height: 1;
+}
+
+.hero-b2b-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.hero-b2b-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 4px;
+}
+
+.hero-b2b-col-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-family: "Avenir-Heavy", sans-serif;
+  font-weight: 700;
+  color: black;
+  white-space: nowrap;
+}
+
+.hero-b2b-latest {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.hero-b2b-type {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.hero-b2b-link {
+  font-family: "Avenir", sans-serif;
+  font-size: 16px;
+  color: #0000ee;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.hero-b2b-detail {
+  display: flex;
+  gap: 8px;
+  font-family: "Avenir", sans-serif;
+  font-size: 16px;
+  color: black;
+  white-space: nowrap;
+}
+
+#ad-carousel {
+  position: relative;
+  width: 769px;
+}
+@media only screen and (min-width: 1400px) {
+  #ad-carousel {
+    max-width: 769px;
+  }
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  #ad-carousel {
+    max-width: 653px;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  #ad-carousel {
+    max-width: 464px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  #ad-carousel {
+    display: none;
+  }
+}
+#ad-carousel .carousel-track {
+  overflow: hidden;
+  width: 100%;
+}
+#ad-carousel .carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.7s ease-in-out;
+}
+#ad-carousel .carousel-slide.active {
+  position: relative;
+  opacity: 1;
+}
+#ad-carousel .carousel-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+#ad-carousel .carousel-dot {
+  width: 32px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #d3d4d4;
+  cursor: pointer;
+}
+#ad-carousel .carousel-dot.active {
+  background-color: #20485c;
+}
+
 #hero2 {
   width: 100%;
   height: 264px;
