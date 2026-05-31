@@ -7,11 +7,20 @@
     margin: 0 auto 32px;
     padding: 0 32px;
     .hidden-h1 {
-      display:none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
     h1 {
       font-family: "Avenir-Heavy", sans-serif;
-        color: colors.$bdiblue;
+      font-size: 40px;
+      color: colors.$bdiblue;
     }
 
     .hero-buttons {

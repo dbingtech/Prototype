@@ -33,39 +33,43 @@
     font-weight: 300;
     font-style: normal;
 }
-
+h1 {
+    font-size: 40px;
+    font-family: "Avenir-Heavy";
+    font-weight: 700;
+}
 h2 {
     font-size: 32px;
-    font-family: "Avenir-heavy";
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 h3{
     font-size: 28px;
-    font-family: "Avenir-heavy";
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 h4{
     font-size: 24px;
-    font-family: "Avenir-heavy";
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 h5 {
     font-size: 20px;
-    font-family: "Avenir-heavy";
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 h6 {
     font-size: 18px;
-    font-family: "Avenir-heavy";
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 p {
     font-size: 16px;
-    font-family: "Avenir";
+    font-family: "Avenir-Roman";
 }
 a {
     font-size: 16px;
-    font-family: "Avenir";
+    font-family: "Avenir-Roman";
     color: colors.$hyperlinkblue;
 }
 
