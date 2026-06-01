@@ -1879,6 +1879,7 @@ footer {
 
 nav:not([aria-label=breadcrumb]) {
   background-color: #20485c;
+  border-top: 0.5px solid #fff;
 }
 
 nav ul {

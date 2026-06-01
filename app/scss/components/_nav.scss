@@ -1,6 +1,7 @@
 @use '../globals/colors' as colors; 
 nav:not([aria-label="breadcrumb"]){
   background-color: colors.$bdiblue;
+  border-top: 0.5px solid colors.$white;
 }
 
 nav ul{
