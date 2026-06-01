@@ -83,6 +83,7 @@
                         if (e.key === 'Escape') ccOverlay.classList.remove('active');
                     });
                 }
+
             });
         
         // Load nav
@@ -92,7 +93,8 @@
         
             // Load nav
         const navbarEl = document.getElementById('navbar_B2B') || document.getElementById('navbar');
-        const navbarFile = document.getElementById('navbar_B2B') ? 'navbar_B2B.html' : 'navbar.html';
+        if (navbarEl) {
+        const navbarFile = navbarEl.id === 'navbar_B2B' ? 'navbar_B2B.html' : 'navbar.html';
         fetch(navbarFile)
             .then(response => response.text())
             .then(data => {
@@ -150,7 +152,8 @@
                     navQuotes.style.display = 'none';
                 }
             });
-        
+        } // end if (navbarEl)
+
         // Load footer
         fetch('footer.html')
             .then(response => response.text())
