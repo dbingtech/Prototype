@@ -299,7 +299,7 @@ header a:hover {
     &:focus { outline: none; border-color: colors.$bdiblue; }
   }
 }
-#sign_in {
+#my_account {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -424,7 +424,7 @@ header a:hover {
     gap: 8px;
   }
 
-  #sign_in {
+  #my_account {
     padding: 8px;
     gap: 6px;
   }
@@ -436,6 +436,8 @@ header a:hover {
 @include sm {
   /* Hide pre-header entirely */
   #pre-header { display: none; }
+
+  .my-account-label { display: none; }
 
   /* Hide regular search bar */
   #search_bar_wrapper { display: none; }
@@ -468,10 +470,10 @@ header a:hover {
 
   /* Shrink icon padding */
   .header_icons {
-    gap: 4px;
+    gap: 16px;
   }
 
-  #sign_in {
+  #my_account {
     flex-direction: row;
     gap: 6px;
     padding: 8px;
@@ -533,6 +535,8 @@ header a:hover {
   /* Hide pre-header entirely */
   #pre-header { display: none; }
 
+  .my-account-label { display: none; }
+
   /* Hide regular search bar */
   #search_bar_wrapper { display: none; }
 
@@ -556,10 +560,10 @@ header a:hover {
   }
 
   .header_icons {
-    gap: 2px;
+    gap: 16px;
   }
 
-  #sign_in {
+  #my_account {
     flex-direction: row;
     gap: 4px;
     padding: 6px 4px;

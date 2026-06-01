@@ -1,5 +1,9 @@
 @mixin xsm {
-  @media only screen and (max-width: 575px) { @content; }
+  @media only screen and (min-width: 375px) and (max-width: 575px) { @content; }
+  @media only screen and (max-width: 374px) { @content; }
+}
+@mixin sub-xsm {
+  @media only screen and (max-width: 374px) { @content; }
 }
 @mixin sm {
   @media only screen and (min-width: 576px) and (max-width: 767px) { @content; }
