@@ -9,15 +9,21 @@
     @include xsm { display: none; }
 }
 
-// ── XXL layout (base / ≥1400px) ──────────────────────────────────
+// ── XXL layout (≥1400px) — hidden; XL layout used instead ────────────
 .ads-layout-xxl {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 16px;
 }
 
-.ads-layout-xl { display: none; }
+// ── XL/LG/XXL: heading above 4-across ads ────────────────────────────
+.ads-layout-xl {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
 
 .homepage-ads-heading {
     font-family: "Avenir-Heavy";
@@ -74,21 +80,12 @@
     }
 }
 
-// ── Shared xl/lg row styles (always defined, only visible when .ads-layout-xl is shown)
 .ads-row {
     display: flex;
-    align-items: center;
-    gap: 32px;
-    width: 100%;
-}
-
-.ads-row--top    { justify-content: flex-start; }
-.ads-row--bottom { justify-content: flex-end; }
-
-.ads-pair {
-    display: flex;
     gap: 8px;
-    flex-shrink: 0;
+    align-items: stretch;
+    justify-content: center;
+    width: 100%;
 }
 
 .ads-text {
@@ -99,21 +96,23 @@
     color: black;
     margin: 0;
     white-space: nowrap;
-    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
 }
 
-.ads-row--top    .ads-text { text-align: right; }
-.ads-row--bottom .ads-text { text-align: left; }
-
-// ── XL layout (1200–1399px) ───────────────────────────────────────
+// ── XL (1200–1399px): gap 6px — 4×275 + 3×6 = 1118px ───────────────
 @include xl {
-    .ads-layout-xxl { display: none; }
-    .ads-layout-xl  { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+    .ads-row     { gap: 6px; }
+    .homepage-ad { width: 275px; height: 159px; }
+    .ads-text    { font-size: 36px; }
 }
 
-// ── LG layout (992–1199px): same structure, 32px font ────────────
+// ── LG (992–1199px): gap 4px — 4×228 + 3×4 = 924px ─────────────────
 @include lg {
-    .ads-layout-xxl { display: none; }
-    .ads-layout-xl  { display: flex; flex-direction: column; gap: 8px; width: 100%; }
-    .ads-text       { font-size: 32px; }
+    .ads-row     { gap: 4px; }
+    .homepage-ad { width: 228px; height: 132px; }
+    .ads-text    { font-size: 32px; }
 }

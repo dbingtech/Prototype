@@ -419,12 +419,8 @@
         @media (max-width: 1199px) {
             .nav-links li:nth-last-child(-n+3) { display: none; }
         }
-        /* MD (768–991px): hide last 4 */
+        /* MD + SM + XSM (<992px): hide entire navbar */
         @media (max-width: 991px) {
-            .nav-links li:nth-last-child(-n+4) { display: none; }
-        }
-        /* SM + XSM (<768px): hide entire navbar */
-        @media (max-width: 767px) {
             .navbar { display: none; }
         }
     </style>
@@ -450,8 +446,7 @@
                 <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#232f3e" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6l-6-6z"/></svg>
             </div>
             <div class="menu-section-items" id="products-items">
-                <button type="button" class="menu-item">Automation Components</button>
-                <button type="button" class="menu-item">Automation Systems</button>
+                <button type="button" class="menu-item">Automation</button>
                 <button type="button" class="menu-item">Bearings</button>
                 <button type="button" class="menu-item">Checmicals</button>
                 <button type="button" class="menu-item">Clutches + Brakes</button>
@@ -460,12 +455,15 @@
                 <button type="button" class="menu-item">Fasteners</button>
                 <button type="button" class="menu-item">Fluid Power</button>
                 <button type="button" class="menu-item">General Industrial Products</button>
+                <button type="button" class="menu-item">Lighting</button>
                 <button type="button" class="menu-item">Linear Motion Products</button>
                 <button type="button" class="menu-item">Material Handling</button>
+                <button type="button" class="menu-item">Office Supplies</button>
                 <button type="button" class="menu-item">Mechanical Power Transmission</button>
-                <button type="button" class="menu-item">Saftey Prodcucts</button>
+                <button type="button" class="menu-item">Safety Products</button>
                 <button type="button" class="menu-item">Sealing Devices</button>
                 <button type="button" class="menu-item">Tools</button>
+                <button type="button" class="menu-item">Unclassified</button>
             </div>
         </div>
 
@@ -540,19 +538,34 @@
                 <span class="all-label">All</span>
             </div>
 
-            <ul class="nav-links">
-                <li><a href="#">Bearings</a></li>
-                <li><a href="#">Electric Motors</a></li>
-                <li><a href="#">Shaft Couplings</a></li>
-                <li><a href="#">Oil Seals</a></li>
-                <li><a href="#">Belts</a></li>
-                <li><a href="#">Roller Chain</a></li>
-                <li><a href="#">Fluid Power</a></li>
-            </ul>
-
-            <div class="separator"></div>
-
             <div class="navbar-right">
+                <div class="dropdown">
+                    <button type="button" class="dropdown-toggle">
+                        Products
+                        <span class="dropdown-arrow"></span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#">Automation</a>
+                        <a href="#">Bearings</a>
+                        <a href="#">Chemicals</a>
+                        <a href="#">Clutches + Brakes</a>
+                        <a href="#">Electrical Power Transmission</a>
+                        <a href="#">Electrical Products</a>
+                        <a href="#">Fasteners</a>
+                        <a href="#">Fluid Power</a>
+                        <a href="#">General Industrial Products</a>
+                        <a href="#">Lighting</a>
+                        <a href="#">Linear Motion Products</a>
+                        <a href="#">Material Handling</a>
+                        <a href="#">Office Supplies</a>
+                        <a href="#">Mechanical Power Transmission</a>
+                        <a href="#">Safety Products</a>
+                        <a href="#">Sealing Devices</a>
+                        <a href="#">Tools</a>
+                        <a href="#">Unclassified</a>
+                    </div>
+                </div>
+
                 <div class="dropdown">
                     <button type="button" class="dropdown-toggle">
                         Services
@@ -570,20 +583,9 @@
                     </div>
                 </div>
 
-                <div class="dropdown">
-                    <button type="button" class="dropdown-toggle">
-                        Knowledge
-                        <span class="dropdown-arrow"></span>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a href="#">Brands</a>
-                        <a href="#">Industries</a>
-                        <a href="#">Knowledge Base</a>
-                        <a href="#">Product Guide</a>
-                        <a href="#">Product Showcase</a>
-                    </div>
-                </div>
-
+                <a href="#" class="nav-link-quotes">Brands</a>
+                <a href="#" class="nav-link-quotes">Industries</a>
+                <a href="#" class="nav-link-quotes">Knowledge Base</a>
                 <a href="#" id="nav-quotes" class="nav-link-quotes">Quotes</a>
             </div>
 

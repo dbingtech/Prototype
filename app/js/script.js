@@ -84,6 +84,30 @@
                     });
                 }
 
+                // Mini cart modal
+                const cartOverlay = document.getElementById('cart_modal_overlay');
+                if (cartOverlay) {
+                    const cartModal = cartOverlay.querySelector('.cart-modal');
+                    document.getElementById('cart').addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        const rect = this.getBoundingClientRect();
+                        cartModal.style.top = rect.bottom + 8 + 'px';
+                        cartModal.style.right = (window.innerWidth - rect.right) + 'px';
+                        cartOverlay.classList.add('active');
+                    });
+                    cartOverlay.addEventListener('click', function (e) {
+                        if (!e.target.closest('.cart-modal')) {
+                            cartOverlay.classList.remove('active');
+                        }
+                    });
+                    document.getElementById('cart_modal_close').addEventListener('click', function () {
+                        cartOverlay.classList.remove('active');
+                    });
+                    document.addEventListener('keydown', function (e) {
+                        if (e.key === 'Escape') cartOverlay.classList.remove('active');
+                    });
+                }
+
             });
         
         // Load nav
