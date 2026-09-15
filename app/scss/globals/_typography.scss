@@ -1,75 +1,46 @@
 @use '../globals/colors' as colors;
 
-@font-face {
-    font-family: "Avenir-Black";
-    src: url('../app/fonts/Avenir/Avenir-Black.ttf') format('truetype');
-    font-display:auto;
-}
-@font-face {
-    font-family: "Avenir-Heavy";
-    src: url('../app/fonts/Avenir/Avenir-Heavy.ttf') format('truetype');
-    font-display:auto;
-}
-@font-face {
-    font-family: "Avenir-Medium";
-    src: url('../app/fonts/Avenir/Avenir-Medium.ttf') format('truetype');
-    font-display:auto;
-}
-@font-face {
-    font-family: "Avenir-Roman";
-    src: url('../app/fonts/Avenir/Avenir-Roman.ttf') format('truetype');
-    font-weight: 450;
-    font-style: normal;
-}
-@font-face {
-    font-family: "Avenir-Book";
-    src: url('../app/fonts/Avenir/Avenir-Book.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
-@font-face {
-    font-family: "Avenir-Light";
-    src: url('../app/fonts/Avenir/Avenir-Light.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
-}
+// Avenir is no longer used site-wide; "Open Sans" is loaded via the Google
+// Fonts <link> in each page's <head> (see app/scss/globals/_boilerplate.scss
+// for the body-level fallback), so the local @font-face declarations that
+// used to back these Avenir-* family names have been removed.
 h1 {
     font-size: 40px;
-    font-family: "Avenir-Heavy";
+    font-family: "Open Sans", sans-serif;
     font-weight: 700;
 }
 h2 {
     font-size: 32px;
-    font-family: "Avenir-Heavy";
+    font-family: "Open Sans", sans-serif;
     font-weight: 700;
 }
 h3{
     font-size: 28px;
-    font-family: "Avenir-Heavy";
+    font-family: "Open Sans", sans-serif;
     font-weight: 700;
 }
 h4{
     font-size: 24px;
-    font-family: "Avenir-Heavy";
+    font-family: "Open Sans", sans-serif;
     font-weight: 700;
 }
 h5 {
     font-size: 20px;
-    font-family: "Avenir-Heavy";
+    font-family: "Open Sans", sans-serif;
     font-weight: 700;
 }
 h6 {
     font-size: 18px;
-    font-family: "Avenir-Heavy";
+    font-family: "Open Sans", sans-serif;
     font-weight: 700;
 }
 p {
     font-size: 16px;
-    font-family: "Avenir-Roman";
+    font-family: "Open Sans", sans-serif;
 }
 a {
     font-size: 16px;
-    font-family: "Avenir-Roman";
+    font-family: "Open Sans", sans-serif;
     color: colors.$hyperlinkblue;
 }
 
