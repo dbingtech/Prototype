@@ -1,47 +1,43 @@
 @use '../globals/colors' as colors;
 
-// Avenir is no longer used site-wide; "Open Sans" is loaded via the Google
-// Fonts <link> in each page's <head> (see app/scss/globals/_boilerplate.scss
-// for the body-level fallback), so the local @font-face declarations that
-// used to back these Avenir-* family names have been removed.
+// @font-face declarations for Avenir live in _avenir.scss (forwarded via
+// globals/_index.scss), so this file only sets the element-level defaults.
 h1 {
     font-size: 40px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 h2 {
     font-size: 32px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 h3{
     font-size: 28px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 h4{
     font-size: 24px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 h5 {
     font-size: 20px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 h6 {
     font-size: 18px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Avenir-Heavy";
     font-weight: 700;
 }
 p {
     font-size: 16px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Avenir-Roman";
 }
 a {
     font-size: 16px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Avenir-Roman";
     color: colors.$hyperlinkblue;
 }
-
-
