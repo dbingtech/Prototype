@@ -1,43 +1,43 @@
 @use '../globals/colors' as colors;
 
-// @font-face declarations for Avenir live in _avenir.scss (forwarded via
-// globals/_index.scss), so this file only sets the element-level defaults.
+// @font-face declarations for Inter live in _open-sans.scss (forwarded
+// via globals/_index.scss), so this file only sets the element-level defaults.
 h1 {
     font-size: 40px;
-    font-family: "Avenir-Heavy";
+    font-family: "Inter";
     font-weight: 700;
 }
 h2 {
     font-size: 32px;
-    font-family: "Avenir-Heavy";
+    font-family: "Inter";
     font-weight: 700;
 }
 h3{
     font-size: 28px;
-    font-family: "Avenir-Heavy";
+    font-family: "Inter";
     font-weight: 700;
 }
 h4{
     font-size: 24px;
-    font-family: "Avenir-Heavy";
+    font-family: "Inter";
     font-weight: 700;
 }
 h5 {
     font-size: 20px;
-    font-family: "Avenir-Heavy";
+    font-family: "Inter";
     font-weight: 700;
 }
 h6 {
     font-size: 18px;
-    font-family: "Avenir-Heavy";
+    font-family: "Inter";
     font-weight: 700;
 }
 p {
     font-size: 16px;
-    font-family: "Avenir-Roman";
+    font-family: "Inter";
 }
 a {
     font-size: 16px;
-    font-family: "Avenir-Roman";
+    font-family: "Inter";
     color: colors.$hyperlinkblue;
 }

@@ -1,0 +1,41 @@
+// Inter @font-face declarations. All weights are sliced from one variable
+// font file (font-variation-settings pins the exact weight so it renders
+// correctly regardless of the font-weight the consuming rule happens to
+// set). Latin subset only — matches the coverage of the font it replaces.
+@font-face {
+    font-family: "Inter";
+    src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Inter";
+    src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
+    font-weight: 700;
+    font-display: auto;
+    font-variation-settings: "wght" 700;
+}
+@font-face {
+    font-family: "Inter Black";
+    src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
+    font-display: auto;
+    font-variation-settings: "wght" 800;
+}
+@font-face {
+    font-family: "Inter Medium";
+    src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
+    font-display: auto;
+    font-variation-settings: "wght" 600;
+}
+@font-face {
+    font-family: "Inter Book";
+    src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Inter Light";
+    src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}

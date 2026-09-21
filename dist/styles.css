@@ -62,82 +62,86 @@ body {
 }
 
 @font-face {
-  font-family: "Avenir-Black";
-  src: url("../app/fonts/Avenir/Avenir-Black.ttf") format("truetype");
-  font-display: auto;
-}
-@font-face {
-  font-family: "Avenir-Heavy";
-  src: url("../app/fonts/Avenir/Avenir-Heavy.ttf") format("truetype");
-  font-display: auto;
-}
-@font-face {
-  font-family: "Avenir-Medium";
-  src: url("../app/fonts/Avenir/Avenir-Medium.ttf") format("truetype");
-  font-display: auto;
-}
-@font-face {
-  font-family: "Avenir-Roman";
-  src: url("../app/fonts/Avenir/Avenir-Roman.ttf") format("truetype");
-  font-weight: 450;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Avenir-Book";
-  src: url("../app/fonts/Avenir/Avenir-Book.ttf") format("truetype");
+  font-family: "Inter";
+  src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
-  font-family: "Avenir-Light";
-  src: url("../app/fonts/Avenir/Avenir-Light.ttf") format("truetype");
+  font-family: "Inter";
+  src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
+  font-weight: 700;
+  font-display: auto;
+  font-variation-settings: "wght" 700;
+}
+@font-face {
+  font-family: "Inter Black";
+  src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
+  font-display: auto;
+  font-variation-settings: "wght" 800;
+}
+@font-face {
+  font-family: "Inter Medium";
+  src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
+  font-display: auto;
+  font-variation-settings: "wght" 600;
+}
+@font-face {
+  font-family: "Inter Book";
+  src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Inter Light";
+  src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
 }
 h1 {
   font-size: 40px;
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-weight: 700;
 }
 
 h2 {
   font-size: 32px;
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-weight: 700;
 }
 
 h3 {
   font-size: 28px;
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-weight: 700;
 }
 
 h4 {
   font-size: 24px;
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-weight: 700;
 }
 
 h5 {
   font-size: 20px;
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-weight: 700;
 }
 
 h6 {
   font-size: 18px;
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-weight: 700;
 }
 
 p {
   font-size: 16px;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
 }
 
 a {
   font-size: 16px;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   color: #0000ee;
 }
 
@@ -248,7 +252,7 @@ a {
   padding: 8px;
   border-radius: 12px;
   border: 1px solid transparent;
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-weight: 700;
   font-size: 16px;
   text-transform: capitalize;
@@ -381,7 +385,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color: black;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   gap: 4px;
   width: auto;
   cursor: pointer;
@@ -390,7 +394,7 @@ header a:hover {
 #account_name {
   font-size: 12px;
   color: black;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
 }
 
 #register, #request_quote {
@@ -400,7 +404,7 @@ header a:hover {
 #my_company {
   font-size: 12px;
   color: black;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   text-decoration: none;
 }
 #my_company:hover {
@@ -412,7 +416,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color: black;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   gap: 4px;
   font-size: 12px;
 }
@@ -422,7 +426,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color: black;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   gap: 4px;
   font-size: 12px;
 }
@@ -470,7 +474,7 @@ header a:hover {
   padding-right: 40px;
   border: none;
   outline: none;
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #303031;
 }
 #search_bar_wrapper #search_bar::placeholder {
@@ -502,7 +506,7 @@ header a:hover {
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #fff;
   padding: 11px 8px;
   position: relative;
@@ -543,14 +547,14 @@ header a:hover {
   padding: 8px;
 }
 #qo-dropdown .qo-title {
-  font-family: "Avenir-Heavy", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 700;
   font-size: 16px;
   font-weight: 800;
   color: black;
 }
 #qo-dropdown .qo-desc {
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   color: black;
 }
@@ -570,7 +574,7 @@ header a:hover {
   border-radius: 4px;
   padding: 4px 12px;
   font-size: 16px;
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #6a6a6a;
   box-sizing: border-box;
 }
@@ -614,7 +618,7 @@ header a:hover {
   flex: 1;
   text-align: center;
   font-size: 16px;
-  font-family: "Avenir", sans-serif;
+  font-family: "Inter", sans-serif;
   color: black;
 }
 #qo-dropdown .qo-divider {
@@ -629,7 +633,7 @@ header a:hover {
   border: 1px solid #afaa99;
   padding: 8px;
   font-size: 16px;
-  font-family: "Avenir", sans-serif;
+  font-family: "Inter", sans-serif;
   color: rgba(0, 0, 0, 0.4);
   resize: none;
   box-sizing: border-box;
@@ -659,6 +663,7 @@ header a:hover {
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  font-family: "Inter", sans-serif;
   color: #fff;
   padding: 11px 8px;
 }
@@ -1098,7 +1103,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color: black;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   gap: 4px;
   cursor: pointer;
 }
@@ -1106,7 +1111,7 @@ header a:hover {
 #account_name {
   font-size: 12px;
   color: black;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
 }
 
 #register, #request_quote {
@@ -1120,7 +1125,7 @@ header a:hover {
 #my_company {
   font-size: 12px;
   color: black;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   text-decoration: none;
 }
 #my_company:hover {
@@ -1132,7 +1137,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color: black;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   gap: 4px;
   font-size: 12px;
 }
@@ -1142,7 +1147,7 @@ header a:hover {
   flex-direction: row;
   align-items: center;
   color: black;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   gap: 4px;
   font-size: 12px;
 }
@@ -1172,7 +1177,7 @@ header a:hover {
   flex-shrink: 0;
 }
 #business_badge span {
-  font-family: "Avenir-Book", sans-serif;
+  font-family: "Inter Book", sans-serif;
   font-size: 12px;
   color: #fff;
   white-space: nowrap;
@@ -1211,7 +1216,7 @@ header a:hover {
   padding-right: 40px;
   border: none;
   outline: none;
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #303031;
 }
 #search_bar_wrapper #search_bar::placeholder {
@@ -1244,7 +1249,7 @@ header a:hover {
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #fff;
   padding: 11px 8px;
   position: relative;
@@ -1285,14 +1290,14 @@ header a:hover {
   padding: 8px;
 }
 #qo-dropdown .qo-title {
-  font-family: "Avenir-Heavy", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 700;
   font-size: 16px;
   font-weight: 800;
   color: black;
 }
 #qo-dropdown .qo-desc {
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   color: black;
 }
@@ -1312,7 +1317,7 @@ header a:hover {
   border-radius: 4px;
   padding: 4px 12px;
   font-size: 16px;
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #6a6a6a;
   box-sizing: border-box;
 }
@@ -1356,7 +1361,7 @@ header a:hover {
   flex: 1;
   text-align: center;
   font-size: 16px;
-  font-family: "Avenir", sans-serif;
+  font-family: "Inter", sans-serif;
   color: black;
 }
 #qo-dropdown .qo-divider {
@@ -1371,7 +1376,7 @@ header a:hover {
   border: 1px solid #afaa99;
   padding: 8px;
   font-size: 16px;
-  font-family: "Avenir", sans-serif;
+  font-family: "Inter", sans-serif;
   color: rgba(0, 0, 0, 0.4);
   resize: none;
   box-sizing: border-box;
@@ -1401,6 +1406,7 @@ header a:hover {
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  font-family: "Inter", sans-serif;
   color: #fff;
   padding: 11px 8px;
 }
@@ -1903,7 +1909,7 @@ footer {
 }
 
 .footer-heading {
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-weight: 700;
   font-size: 24px;
   color: #fff;
@@ -1936,7 +1942,7 @@ footer {
 }
 
 .footer-link {
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   font-size: 16px;
   color: #fff;
   text-decoration: none;
@@ -1982,7 +1988,7 @@ footer {
   align-items: center;
   gap: 8px;
   color: #fff;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   font-size: 16px;
 }
 
@@ -2146,7 +2152,7 @@ footer {
 }
 .footer-copyright {
   text-align: center;
-  font-family: "Avenir-Roman";
+  font-family: "Inter";
   font-size: 16px;
   color: #fff;
   padding-bottom: 20px;
@@ -2423,7 +2429,7 @@ nav ul {
 }
 
 .homepage-ads-heading {
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-size: 40px;
   font-weight: 700;
   text-transform: uppercase;
@@ -2436,7 +2442,7 @@ nav ul {
   gap: 24px;
 }
 .homepage-ads-heading span {
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .homepage-ads-heading {
@@ -2558,7 +2564,7 @@ nav ul {
 }
 
 .ads-text {
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-size: 40px;
   font-weight: 700;
   text-transform: uppercase;
@@ -2614,7 +2620,7 @@ nav ul {
   border: 0;
 }
 #hero h1, #hero_B2B h1 {
-  font-family: "Avenir-Heavy", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 40px;
   color: #20485c;
 }
@@ -2682,7 +2688,7 @@ nav ul {
 }
 
 .hero-b2b-welcome {
-  font-family: "Avenir-Heavy", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 40px;
   font-weight: 700;
   color: #20485c;
@@ -2710,7 +2716,7 @@ nav ul {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
-  font-family: "Avenir-Heavy", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 700;
   color: black;
   white-space: nowrap;
@@ -2727,7 +2733,7 @@ nav ul {
 }
 
 .hero-b2b-link {
-  font-family: "Avenir", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   color: #0000ee;
   text-decoration: underline;
@@ -2737,7 +2743,7 @@ nav ul {
 .hero-b2b-detail {
   display: flex;
   gap: 8px;
-  font-family: "Avenir", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   color: black;
   white-space: nowrap;
@@ -2821,7 +2827,7 @@ nav ul {
   border: 0;
 }
 #hero_B2B h1 {
-  font-family: "Avenir-Heavy", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 40px;
   color: #20485c;
 }
@@ -2882,7 +2888,7 @@ nav ul {
 
 .visible-h1 {
   display: block;
-  font-family: "Avenir-Heavy", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 40px;
   font-weight: 700;
   color: #20485c;
@@ -2899,7 +2905,7 @@ nav ul {
 }
 
 .hero-b2b-welcome {
-  font-family: "Avenir-Heavy", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 40px;
   font-weight: 700;
   color: #20485c;
@@ -2927,7 +2933,7 @@ nav ul {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
-  font-family: "Avenir-Heavy", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 700;
   color: black;
   white-space: nowrap;
@@ -2944,7 +2950,7 @@ nav ul {
 }
 
 .hero-b2b-link {
-  font-family: "Avenir", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   color: #0000ee;
   text-decoration: underline;
@@ -2954,7 +2960,7 @@ nav ul {
 .hero-b2b-detail {
   display: flex;
   gap: 8px;
-  font-family: "Avenir", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   color: black;
   white-space: nowrap;
@@ -3040,7 +3046,7 @@ nav ul {
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-weight: 600;
   font-size: 24px;
   text-align: center;
@@ -3178,7 +3184,7 @@ nav ul {
   transform: translateX(-50%);
   background: #fff;
   padding: 4px 8px;
-  font-family: "Avenir-Heavy";
+  font-family: "Inter";
   font-size: 20px;
   color: #6a6a6a;
   text-transform: uppercase;
@@ -3312,7 +3318,7 @@ nav ul {
   margin: 0;
 }
 .cc-fieldset legend {
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 12px;
   color: #6a6a6a;
   padding: 0 4px;
@@ -3323,7 +3329,7 @@ nav ul {
   width: 100%;
   border: none;
   outline: none;
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   color: #20485c;
   background-color: transparent;
@@ -3381,7 +3387,7 @@ nav ul {
   justify-content: space-between;
 }
 .cart-modal-header h2 {
-  font-family: "Avenir-Heavy", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 24px;
   font-weight: 700;
   color: black;
@@ -3409,7 +3415,7 @@ nav ul {
 }
 
 .cart-modal-empty {
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   color: black;
   margin: 0;
@@ -3423,7 +3429,7 @@ nav ul {
 }
 
 .cart-modal-view-link {
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   color: #0000ee;
   text-decoration: underline;
@@ -3473,7 +3479,7 @@ nav ul {
 .breadcrumb-item {
   display: flex;
   align-items: center;
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   color: black;
   white-space: nowrap;
@@ -3491,12 +3497,12 @@ nav ul {
   content: "/";
   margin: 0 8px;
   color: black;
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
 }
 .breadcrumb-item.active {
   color: black;
-  font-family: "Avenir-Roman", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 .breadcrumb-item.breadcrumb-home-icon svg {
   display: block;

@@ -24,7 +24,7 @@
 .breadcrumb-item {
     display: flex;
     align-items: center;
-    font-family: "Avenir-Roman", sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 16px;
     color: colors.$text;
     white-space: nowrap;
@@ -45,14 +45,14 @@
         content: "/";
         margin: 0 8px;
         color: colors.$text;
-        font-family: "Avenir-Roman", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 16px;
     }
 
     // Current (last) item — not a link
     &.active {
         color: colors.$text;
-        font-family: "Avenir-Roman", sans-serif;
+        font-family: "Inter", sans-serif;
     }
 
     // Home icon variant
