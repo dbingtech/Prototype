@@ -170,6 +170,19 @@
                 if (navQuotes && !document.getElementById('header_B2B')) {
                     navQuotes.style.display = 'none';
                 }
+
+                const productScroll = document.getElementById('product-scroll');
+                const productScrollLeft = document.getElementById('product-scroll-left');
+                const productScrollRight = document.getElementById('product-scroll-right');
+                if (productScroll && productScrollLeft && productScrollRight) {
+                    const scrollAmount = 160;
+                    productScrollLeft.addEventListener('click', function () {
+                        productScroll.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                    });
+                    productScrollRight.addEventListener('click', function () {
+                        productScroll.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    });
+                }
             });
         } // end if (navbarEl)
 
