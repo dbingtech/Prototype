@@ -614,6 +614,9 @@ header a:hover {
   width: 28px;
   height: 28px;
 }
+#qo-dropdown .qo-qty-stepper .qo-qty-minus.is-disabled {
+  color: #909090;
+}
 #qo-dropdown .qo-qty-stepper .qo-qty-value {
   flex: 1;
   text-align: center;
@@ -1356,6 +1359,9 @@ header a:hover {
 #qo-dropdown .qo-qty-stepper .qo-qty-minus svg {
   width: 28px;
   height: 28px;
+}
+#qo-dropdown .qo-qty-stepper .qo-qty-minus.is-disabled {
+  color: #909090;
 }
 #qo-dropdown .qo-qty-stepper .qo-qty-value {
   flex: 1;

@@ -293,6 +293,10 @@ header a:hover {
     .qo-qty-minus {
       color: colors.$red;
       svg { width: 28px; height: 28px; }
+
+      &.is-disabled {
+        color: colors.$medgray60;
+      }
     }
 
     .qo-qty-value {

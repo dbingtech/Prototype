@@ -28,7 +28,9 @@
 
                 function updateMinusIcon(stepper) {
                     const n = parseInt(stepper.querySelector('.qo-qty-value').textContent);
-                    stepper.querySelector('.qo-qty-minus').innerHTML = n <= 1 ? trashSvg : minusSvg;
+                    const minusBtn = stepper.querySelector('.qo-qty-minus');
+                    minusBtn.innerHTML = n <= 1 ? trashSvg : minusSvg;
+                    minusBtn.classList.toggle('is-disabled', n <= 1);
                 }
 
                 document.querySelectorAll('.qo-qty-stepper').forEach(function (stepper) {
