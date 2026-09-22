@@ -111,11 +111,6 @@
             });
         
         // Load nav
-        fetch('nav.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('nav').innerHTML = data);
-        
-            // Load nav
         const navbarEl = document.getElementById('navbar_B2B') || document.getElementById('navbar');
         if (navbarEl) {
         const navbarFile = navbarEl.id === 'navbar_B2B' ? 'navbar_B2B.html' : 'navbar.html';
