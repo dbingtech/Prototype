@@ -78,11 +78,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid transparent;
+    outline: 1px solid transparent;
+    outline-offset: -1px;
 }
 .new-category-square:hover {
     color: colors.$bdiblue;
-    border: 1px solid colors.$medgray;
+    outline: 1px solid colors.$medgray;
 }
 
 .new-category-square img {

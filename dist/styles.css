@@ -2336,12 +2336,13 @@ nav ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid transparent;
+  outline: 1px solid transparent;
+  outline-offset: -1px;
 }
 
 .new-category-square:hover {
   color: #20485c;
-  border: 1px solid #6a6a6a;
+  outline: 1px solid #6a6a6a;
 }
 
 .new-category-square img {
