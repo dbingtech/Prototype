@@ -16,9 +16,11 @@
     border-top: 1.5px solid #aaabab;
     border-bottom: 1.5px solid #aaabab;
     height: 90px;
+    max-width: 1400px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    overflow: hidden;
     padding: 0 16px;
     background: colors.$white;
 
@@ -27,6 +29,24 @@
     @include md  { height: 64px; padding: 0 8px; }
     @include sm  { height: 56px; padding: 0 8px; }
     @include xsm { height: 48px; padding: 0 4px; }
+}
+
+.trusted-brands-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    gap: 56px;
+    animation: trusted-brands-scroll 30s linear infinite;
+
+    @include lg  { gap: 40px; }
+    @include md  { gap: 32px; }
+    @include sm  { gap: 24px; }
+    @include xsm { gap: 16px; }
+}
+
+@keyframes trusted-brands-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
 }
 
 .trusted-brands-label {
@@ -51,6 +71,7 @@
 .trusted-brand-logo {
     width: 125px;
     height: 48px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -66,8 +87,4 @@
         height: 100%;
         object-fit: contain;
     }
-
-    @include md  { &:nth-last-child(1) { display: none; } }
-    @include sm  { &:nth-last-child(-n+2) { display: none; } }
-    @include xsm { &:nth-last-child(-n+3) { display: none; } }
 }

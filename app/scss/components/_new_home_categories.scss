@@ -52,22 +52,18 @@
     }
 }
 
-// .category-labels {
-//     font-family: "Inter";
-//     font-weight: 700;
-//     font-size: 24px;
-//     text-transform: uppercase;
-//     text-decoration: none;
-//     margin-left: auto;
-//     padding-right: 8px;
-//     text-align: right;
+.new-category-label {
+    font-family: "Inter";
+    font-weight: 500;
+    font-size: 18px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: colors.$text;
+    text-align: right;
+    padding-right: 8px;
 
-//     @include xl { font-size: 20px; }
-//     @include lg { font-size: 18px; }
-//     @include md { font-size: 18px; }
-//     @include sm { font-size: 16px; }
-//     @include xsm { font-size: 14px; }
-// }
+    @include lg { font-size: 14px; }
+}
 
 .new-category-square {
     color: colors.$bdiblue;
@@ -78,6 +74,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border: 1px solid colors.$medgray80;
     outline: 1px solid transparent;
     outline-offset: -1px;
 }
@@ -87,10 +84,14 @@
 }
 
 .new-category-square img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 328 / 131;
+    width: 150px;
+    height: 133px;
+    aspect-ratio: 150 / 133;
+    flex-shrink: 0;
     display: block;
+
+    @include xl { width: 127px; height: 113px; }
+    @include lg { width: 106px; height: 94px; }
 }
 
 
