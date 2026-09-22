@@ -19,16 +19,16 @@
     font-family: "Inter Black";
     src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
     font-display: auto;
-    font-variation-settings: "wght" 800;
+    font-variation-settings: "wght" 900;
 }
 @font-face {
     font-family: "Inter Medium";
     src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
     font-display: auto;
-    font-variation-settings: "wght" 600;
+    font-variation-settings: "wght" 500;
 }
 @font-face {
-    font-family: "Inter Book";
+    font-family: "Inter Regular";
     src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;

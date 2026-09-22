@@ -35,21 +35,15 @@
         @include xsm { font-size: 18px; width: 308px; padding: 0; }
     }
 
-    img {
+    iframe {
         display: block;
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        aspect-ratio: 16 / 9;
+        height: auto;
+        border: 0;
+        transform: translateY(-37%);
+        pointer-events: none;
     }
-
-    // iframe {
-    //     display: block;
-    //     width: 100%;
-    //     aspect-ratio: 16 / 9;
-    //     height: auto;
-    //     transform: translateY(-37%);
-    //     pointer-events: none;
-    // }
 
     @include lg  { margin-top: 24px; }
     @include md  { margin-top: 24px; }

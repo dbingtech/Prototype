@@ -78,16 +78,16 @@ body {
   font-family: "Inter Black";
   src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
   font-display: auto;
-  font-variation-settings: "wght" 800;
+  font-variation-settings: "wght" 900;
 }
 @font-face {
   font-family: "Inter Medium";
   src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
   font-display: auto;
-  font-variation-settings: "wght" 600;
+  font-variation-settings: "wght" 500;
 }
 @font-face {
-  font-family: "Inter Book";
+  font-family: "Inter Regular";
   src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
@@ -1177,7 +1177,7 @@ header a:hover {
   flex-shrink: 0;
 }
 #business_badge span {
-  font-family: "Inter Book", sans-serif;
+  font-family: "Inter Regular", sans-serif;
   font-size: 12px;
   color: #fff;
   white-space: nowrap;
@@ -3089,11 +3089,14 @@ nav ul {
     padding: 0;
   }
 }
-#hero2 img {
+#hero2 iframe {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  aspect-ratio: 16/9;
+  height: auto;
+  border: 0;
+  transform: translateY(-37%);
+  pointer-events: none;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   #hero2 {
