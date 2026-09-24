@@ -1,10 +1,10 @@
 @use '../globals/responsive' as *;
 
 #hero2 {
+    // Edge to edge, fixed height. LG/XL/XXL only; hidden below 992px.
     width: 100%;
-    max-width: 1400px;
     height: 264px;
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
     overflow: hidden;
 
@@ -31,9 +31,6 @@
         margin: 0;
 
         @include lg  { font-size: 28px; max-width: 100%; padding: 0 24px; }
-        @include md  { max-width: 100%; padding: 0 16px; }
-        @include sm  { font-size: 20px; width: 500px; padding: 0; }
-        @include xsm { font-size: 18px; width: 308px; padding: 0; }
     }
 
     iframe {
@@ -47,7 +44,7 @@
     }
 
     @include lg  { margin-top: 24px; }
-    @include md  { margin-top: 24px; }
-    @include sm  { margin-top: 16px; }
-    @include xsm { margin-top: 16px; }
+    @include md  { display: none; }
+    @include sm  { display: none; }
+    @include xsm { display: none; }
 }

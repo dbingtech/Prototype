@@ -456,6 +456,12 @@ header a:hover {
   width: 90px;
   height: 64px;
 }
+@media only screen and (min-width: 1400px) {
+  #post_header_container > a img {
+    width: 118px;
+    height: 84px;
+  }
+}
 
 #search_bar_wrapper {
   position: relative;
@@ -1200,6 +1206,12 @@ header a:hover {
 #post_header_container > a img {
   width: 90px;
   height: 64px;
+}
+@media only screen and (min-width: 1400px) {
+  #post_header_container > a img {
+    width: 118px;
+    height: 84px;
+  }
 }
 
 #search_bar_wrapper {
@@ -3065,9 +3077,8 @@ nav ul {
 
 #hero2 {
   width: 100%;
-  max-width: 1400px;
   height: 264px;
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   overflow: hidden;
 }
@@ -3099,33 +3110,6 @@ nav ul {
     padding: 0 24px;
   }
 }
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  #hero2 .hero2-overlay-text {
-    max-width: 100%;
-    padding: 0 16px;
-  }
-}
-@media only screen and (min-width: 576px) and (max-width: 767px) {
-  #hero2 .hero2-overlay-text {
-    font-size: 20px;
-    width: 500px;
-    padding: 0;
-  }
-}
-@media only screen and (min-width: 375px) and (max-width: 575px) {
-  #hero2 .hero2-overlay-text {
-    font-size: 18px;
-    width: 308px;
-    padding: 0;
-  }
-}
-@media only screen and (max-width: 374px) {
-  #hero2 .hero2-overlay-text {
-    font-size: 18px;
-    width: 308px;
-    padding: 0;
-  }
-}
 #hero2 iframe {
   display: block;
   width: 100%;
@@ -3142,22 +3126,22 @@ nav ul {
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   #hero2 {
-    margin-top: 24px;
+    display: none;
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   #hero2 {
-    margin-top: 16px;
+    display: none;
   }
 }
 @media only screen and (min-width: 375px) and (max-width: 575px) {
   #hero2 {
-    margin-top: 16px;
+    display: none;
   }
 }
 @media only screen and (max-width: 374px) {
   #hero2 {
-    margin-top: 16px;
+    display: none;
   }
 }
 

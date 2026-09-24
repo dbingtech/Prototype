@@ -115,6 +115,13 @@ header a:hover {
     height: 64px;
   }
 }
+
+@include xxl {
+  #post_header_container > a img {
+    width: 118px;
+    height: 84px;
+  }
+}
 #search_bar_wrapper {
   position: relative;
   display: flex;
