@@ -14,9 +14,19 @@
         height: 100%;
         padding: 0;
         margin: 0;
+
+        // Darkens the video 20%; sits above the iframe, below the text.
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+        }
     }
 
     .hero2-overlay-text {
+        z-index: 1;
         position: absolute;
         top: 50%;
         left: 50%;
