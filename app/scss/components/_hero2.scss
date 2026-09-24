@@ -15,12 +15,12 @@
         padding: 0;
         margin: 0;
 
-        // Darkens the video 20%; sits above the iframe, below the text.
+        // Darkens the video 30%; sits above the iframe, below the text.
         &::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.3);
             pointer-events: none;
         }
     }

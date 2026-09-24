@@ -238,7 +238,29 @@
             });
         fetch('hero2.html')
             .then(response => response.text())
-            .then(data => document.getElementById('hero2').innerHTML = data);
+            .then(data => {
+                document.getElementById('hero2').innerHTML = data;
+
+                // Restart the video 10 seconds before it ends (skips the outro)
+                const SKIP_END_SECONDS = 10;
+                window.onYouTubeIframeAPIReady = function () {
+                    const player = new YT.Player('hero2_video', {
+                        events: {
+                            onReady: function () {
+                                setInterval(() => {
+                                    const duration = player.getDuration();
+                                    if (duration > SKIP_END_SECONDS && player.getCurrentTime() >= duration - SKIP_END_SECONDS) {
+                                        player.seekTo(0, true);
+                                    }
+                                }, 250);
+                            }
+                        }
+                    });
+                };
+                const ytApi = document.createElement('script');
+                ytApi.src = 'https://www.youtube.com/iframe_api';
+                document.head.appendChild(ytApi);
+            });
         fetch('trusted_brands.html')
             .then(response => response.text())
             .then(data => document.getElementById('trusted_brands').innerHTML = data);
