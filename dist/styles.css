@@ -3124,7 +3124,7 @@ nav ul {
   aspect-ratio: 16/9;
   height: auto;
   border: 0;
-  transform: translateY(calc(-37% + 20px));
+  transform: translateY(calc(-37% + 88px));
   pointer-events: none;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
