@@ -3168,12 +3168,11 @@ nav ul {
   border-top: 1.5px solid #aaabab;
   border-bottom: 1.5px solid #aaabab;
   height: 90px;
-  max-width: 1400px;
-  margin: 0 auto;
+  margin: 0;
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding: 0 16px;
+  padding: 0;
   background: #fff;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
@@ -3184,31 +3183,26 @@ nav ul {
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .trusted-brands-bar {
     height: 72px;
-    padding: 0 12px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .trusted-brands-bar {
     height: 64px;
-    padding: 0 8px;
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   .trusted-brands-bar {
     height: 56px;
-    padding: 0 8px;
   }
 }
 @media only screen and (min-width: 375px) and (max-width: 575px) {
   .trusted-brands-bar {
     height: 48px;
-    padding: 0 4px;
   }
 }
 @media only screen and (max-width: 374px) {
   .trusted-brands-bar {
     height: 48px;
-    padding: 0 4px;
   }
 }
 

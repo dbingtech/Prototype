@@ -16,19 +16,18 @@
     border-top: 1.5px solid #aaabab;
     border-bottom: 1.5px solid #aaabab;
     height: 90px;
-    max-width: 1400px;
-    margin: 0 auto;
+    margin: 0;
     display: flex;
     align-items: center;
     overflow: hidden;
-    padding: 0 16px;
+    padding: 0;
     background: colors.$white;
 
     @include xl  { height: 80px; }
-    @include lg  { height: 72px; padding: 0 12px; }
-    @include md  { height: 64px; padding: 0 8px; }
-    @include sm  { height: 56px; padding: 0 8px; }
-    @include xsm { height: 48px; padding: 0 4px; }
+    @include lg  { height: 72px; }
+    @include md  { height: 64px; }
+    @include sm  { height: 56px; }
+    @include xsm { height: 48px; }
 }
 
 .trusted-brands-track {
