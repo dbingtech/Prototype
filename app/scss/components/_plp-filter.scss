@@ -1,5 +1,6 @@
 @use '../globals/colors' as colors;
 @use '../globals/focus' as focus;
+@use '../globals/responsive' as *;
 
 // PLP filter sidebar (plp-filter.html). Checkbox and input styles are shared with the PLP cards.
 $-plp-rule: #E6E6E6;     // filter dividers
@@ -296,3 +297,80 @@ $-plp-divider: #ACABAB;  // categories divider
     &[aria-checked="true"] .plp-switch-knob { left: 14px; }
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
+
+// ----------------------------LG and smaller (< 1200px): filter becomes a slide-in panel
+// opened by the "Filter" button (.plp-filter-open) at the top of the results.
+
+.plp-filter-open,
+.plp-filter-close {
+    display: none;
+}
+
+@mixin plp-filter-drawer {
+    .plp-filter-open {
+        @include focus.focus-ring-base;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        align-self: flex-start;
+        padding: 8px 16px;
+        background-color: colors.$white;
+        border: 1px solid colors.$bdiblue;
+        border-radius: 4px;
+        font-family: inherit;
+        font-size: 20px;
+        font-weight: 500;
+        color: colors.$text;
+        cursor: pointer;
+
+        &:hover { background-color: colors.$lightgray03; }
+        &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+    }
+
+    #plp_filter {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1600;
+        width: 316px;
+        max-width: 85vw;
+        overflow-y: auto;
+        background-color: colors.$white;
+        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+        transform: translateX(-100%);
+        visibility: hidden;
+        transition: transform 0.3s ease, visibility 0.3s ease;
+
+        &.is-open {
+            transform: translateX(0);
+            visibility: visible;
+        }
+    }
+
+    .plp-filter-close {
+        @include focus.focus-ring-base;
+        display: flex;
+        margin-left: auto;
+        padding: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+    }
+
+    .plp-filter-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 1550;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        &[hidden] { display: none; }
+    }
+}
+
+@include lg  { @include plp-filter-drawer; }
+@include md  { @include plp-filter-drawer; }
+@include sm  { @include plp-filter-drawer; }
+@include xsm { @include plp-filter-drawer; }

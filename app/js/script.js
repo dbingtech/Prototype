@@ -567,6 +567,43 @@
             });
         } // end if (plpFilterEl)
 
+        // PLP filter panel (LG and smaller): the "Filter" button opens the filter as a slide-in panel
+        const plpFilterOpen = document.getElementById('plp_filter_open');
+        if (plpFilterOpen && plpFilterEl) {
+            const backdrop = document.getElementById('plp_filter_backdrop');
+
+            function setFilterPanel(open) {
+                plpFilterEl.classList.toggle('is-open', open);
+                plpFilterOpen.setAttribute('aria-expanded', String(open));
+                backdrop.hidden = !open;
+                document.body.style.overflow = open ? 'hidden' : '';
+                if (open) {
+                    const closeBtn = plpFilterEl.querySelector('.plp-filter-close');
+                    if (closeBtn) closeBtn.focus();
+                } else {
+                    plpFilterOpen.focus();
+                }
+            }
+
+            plpFilterOpen.addEventListener('click', function () { setFilterPanel(true); });
+            backdrop.addEventListener('click', function () { setFilterPanel(false); });
+            plpFilterEl.addEventListener('click', function (e) {
+                if (e.target.closest('.plp-filter-close')) setFilterPanel(false);
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && plpFilterEl.classList.contains('is-open')) setFilterPanel(false);
+            });
+            // Back to desktop width: put the sidebar back
+            window.matchMedia('(min-width: 1200px)').addEventListener('change', function (mq) {
+                if (mq.matches && plpFilterEl.classList.contains('is-open')) {
+                    plpFilterEl.classList.remove('is-open');
+                    plpFilterOpen.setAttribute('aria-expanded', 'false');
+                    backdrop.hidden = true;
+                    document.body.style.overflow = '';
+                }
+            });
+        } // end if (plpFilterOpen)
+
         // Load PLP cards: data-card picks the version (plp-card.html / plp-card-B2B.html),
         // data-count sets how many copies; {{n}} in the card keeps ids unique
         const plpCardsEl = document.getElementById('plp_cards');

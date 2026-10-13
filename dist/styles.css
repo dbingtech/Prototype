@@ -4837,6 +4837,351 @@ nav ul {
   outline-offset: 2px;
 }
 
+.plp-filter-open,
+.plp-filter-close {
+  display: none;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .plp-filter-open {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    align-self: flex-start;
+    padding: 8px 16px;
+    background-color: #fff;
+    border: 1px solid #20485c;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    cursor: pointer;
+  }
+  .plp-filter-open:hover {
+    background-color: #F2f2f2;
+  }
+  .plp-filter-open:focus-visible {
+    outline: 3px solid #20485c;
+    outline-offset: 2px;
+  }
+  #plp_filter {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1600;
+    width: 316px;
+    max-width: 85vw;
+    overflow-y: auto;
+    background-color: #fff;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0.3s ease;
+  }
+  #plp_filter.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+  .plp-filter-close {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    display: flex;
+    margin-left: auto;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .plp-filter-close:focus-visible {
+    outline: 3px solid #20485c;
+    outline-offset: 2px;
+  }
+  .plp-filter-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1550;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .plp-filter-backdrop[hidden] {
+    display: none;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .plp-filter-open {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    align-self: flex-start;
+    padding: 8px 16px;
+    background-color: #fff;
+    border: 1px solid #20485c;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    cursor: pointer;
+  }
+  .plp-filter-open:hover {
+    background-color: #F2f2f2;
+  }
+  .plp-filter-open:focus-visible {
+    outline: 3px solid #20485c;
+    outline-offset: 2px;
+  }
+  #plp_filter {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1600;
+    width: 316px;
+    max-width: 85vw;
+    overflow-y: auto;
+    background-color: #fff;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0.3s ease;
+  }
+  #plp_filter.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+  .plp-filter-close {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    display: flex;
+    margin-left: auto;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .plp-filter-close:focus-visible {
+    outline: 3px solid #20485c;
+    outline-offset: 2px;
+  }
+  .plp-filter-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1550;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .plp-filter-backdrop[hidden] {
+    display: none;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .plp-filter-open {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    align-self: flex-start;
+    padding: 8px 16px;
+    background-color: #fff;
+    border: 1px solid #20485c;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    cursor: pointer;
+  }
+  .plp-filter-open:hover {
+    background-color: #F2f2f2;
+  }
+  .plp-filter-open:focus-visible {
+    outline: 3px solid #20485c;
+    outline-offset: 2px;
+  }
+  #plp_filter {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1600;
+    width: 316px;
+    max-width: 85vw;
+    overflow-y: auto;
+    background-color: #fff;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0.3s ease;
+  }
+  #plp_filter.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+  .plp-filter-close {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    display: flex;
+    margin-left: auto;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .plp-filter-close:focus-visible {
+    outline: 3px solid #20485c;
+    outline-offset: 2px;
+  }
+  .plp-filter-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1550;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .plp-filter-backdrop[hidden] {
+    display: none;
+  }
+}
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  .plp-filter-open {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    align-self: flex-start;
+    padding: 8px 16px;
+    background-color: #fff;
+    border: 1px solid #20485c;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    cursor: pointer;
+  }
+  .plp-filter-open:hover {
+    background-color: #F2f2f2;
+  }
+  .plp-filter-open:focus-visible {
+    outline: 3px solid #20485c;
+    outline-offset: 2px;
+  }
+  #plp_filter {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1600;
+    width: 316px;
+    max-width: 85vw;
+    overflow-y: auto;
+    background-color: #fff;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0.3s ease;
+  }
+  #plp_filter.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+  .plp-filter-close {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    display: flex;
+    margin-left: auto;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .plp-filter-close:focus-visible {
+    outline: 3px solid #20485c;
+    outline-offset: 2px;
+  }
+  .plp-filter-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1550;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .plp-filter-backdrop[hidden] {
+    display: none;
+  }
+}
+@media only screen and (max-width: 374px) {
+  .plp-filter-open {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    align-self: flex-start;
+    padding: 8px 16px;
+    background-color: #fff;
+    border: 1px solid #20485c;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    cursor: pointer;
+  }
+  .plp-filter-open:hover {
+    background-color: #F2f2f2;
+  }
+  .plp-filter-open:focus-visible {
+    outline: 3px solid #20485c;
+    outline-offset: 2px;
+  }
+  #plp_filter {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1600;
+    width: 316px;
+    max-width: 85vw;
+    overflow-y: auto;
+    background-color: #fff;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0.3s ease;
+  }
+  #plp_filter.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+  .plp-filter-close {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    display: flex;
+    margin-left: auto;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .plp-filter-close:focus-visible {
+    outline: 3px solid #20485c;
+    outline-offset: 2px;
+  }
+  .plp-filter-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1550;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .plp-filter-backdrop[hidden] {
+    display: none;
+  }
+}
 .compare-modal {
   position: fixed;
   bottom: 16px;
@@ -5089,7 +5434,7 @@ nav ul {
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   #plp {
-    grid-template-columns: 260px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
