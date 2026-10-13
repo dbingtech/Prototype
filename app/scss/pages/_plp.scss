@@ -1,6 +1,7 @@
 @use '../globals/colors' as colors;
 @use '../globals/focus' as focus;
 @use '../globals/responsive' as *;
+@use '../globals/page-title';
 
 $-plp-divider: #ACABAB;  // result dividers
 
@@ -51,14 +52,7 @@ $-plp-divider: #ACABAB;  // result dividers
 }
 
 .plp-title {
-    margin: 0;
-    padding: 4px 0;
-    font-size: 32px;
-    font-weight: 700;
-    color: colors.$bdiblue;
-
-    @include sm  { font-size: 24px; }
-    @include xsm { font-size: 24px; }
+    @include page-title.page-title;
 }
 
 .plp-divider {
@@ -252,7 +246,10 @@ $-plp-divider: #ACABAB;  // result dividers
 .plp-card--b2b {
     grid-template-columns: 179px minmax(0, 1fr) 1px 256px;
 
-    @include md { grid-template-columns: 179px minmax(0, 1fr); }
+    @include md  { grid-template-columns: 179px minmax(0, 1fr); }
+    // SM/XSM: one full-width column, same as the guest card
+    @include sm  { grid-template-columns: minmax(0, 1fr); }
+    @include xsm { grid-template-columns: minmax(0, 1fr); }
 }
 
 .plp-card-image--motor {
@@ -309,6 +306,9 @@ $-plp-divider: #ACABAB;  // result dividers
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    @include sm  { width: 100%; }
+    @include xsm { width: 100%; }
 }
 
 // ----------------------------Favorite toggle (both cards)

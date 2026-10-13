@@ -1,0 +1,28 @@
+@use 'colors';
+@use 'responsive' as *;
+
+// Page Title tokens (e.g. "Results for "6202"" on the PLP).
+// This file only defines tokens and a mixin; it outputs no CSS on its own.
+//
+// Use in a component:   @use '../globals/page-title';  .my-title { @include page-title.page-title; }
+// Or in markup:         <h1 class="page-title">...</h1>   (class lives in _typography.scss)
+
+$size-xl: 32px;   // XXL, XL (1200px+)
+$size-lg: 28px;   // LG, MD  (768-1199px)
+$size-sm: 24px;   // SM, XSM (< 768px)
+$weight: 600;     // all breakpoints
+$color: colors.$bdiblue;
+
+@mixin page-title {
+    margin: 0;
+    padding: 4px 0;
+    font-family: "Inter", sans-serif;
+    font-size: $size-xl;
+    font-weight: $weight;
+    color: $color;
+
+    @include lg  { font-size: $size-lg; }
+    @include md  { font-size: $size-lg; }
+    @include sm  { font-size: $size-sm; }
+    @include xsm { font-size: $size-sm; }
+}

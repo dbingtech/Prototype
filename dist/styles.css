@@ -145,6 +145,40 @@ a {
   color: #0000ee;
 }
 
+.page-title {
+  margin: 0;
+  padding: 4px 0;
+  font-family: "Inter", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #20485c;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .page-title {
+    font-size: 28px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .page-title {
+    font-size: 28px;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .page-title {
+    font-size: 24px;
+  }
+}
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  .page-title {
+    font-size: 24px;
+  }
+}
+@media only screen and (max-width: 374px) {
+  .page-title {
+    font-size: 24px;
+  }
+}
+
 .cat-image {
   width: 96px;
   height: 96px;
@@ -5565,9 +5599,20 @@ nav ul {
 .plp-title {
   margin: 0;
   padding: 4px 0;
+  font-family: "Inter", sans-serif;
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 600;
   color: #20485c;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .plp-title {
+    font-size: 28px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .plp-title {
+    font-size: 28px;
+  }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   .plp-title {
@@ -5847,6 +5892,21 @@ nav ul {
     grid-template-columns: 179px minmax(0, 1fr);
   }
 }
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .plp-card--b2b {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  .plp-card--b2b {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media only screen and (max-width: 374px) {
+  .plp-card--b2b {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 
 .plp-card-image--motor {
   margin: 10px;
@@ -5913,6 +5973,21 @@ nav ul {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .plp-card-buttons {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  .plp-card-buttons {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 374px) {
+  .plp-card-buttons {
+    width: 100%;
+  }
 }
 
 .plp-fav-btn {
