@@ -30,7 +30,9 @@ $-plp-divider: #ACABAB;  // categories divider
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2' d='M3 8.5l3.2 3.2L13 4.8'/%3E%3C/svg%3E");
         }
         &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+        &:disabled { opacity: 0.4; cursor: not-allowed; }
     }
+    &:has(input:disabled) { color: colors.$medgray; cursor: not-allowed; }
 
     &--16 input { width: 16px; height: 16px; }
     &--20 input { width: 20px; height: 20px; }

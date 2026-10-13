@@ -702,6 +702,129 @@
             });
         } // end if (plpEl)
 
+        // Compare modal (compare-modal.html): checking a card's Compare box adds it to a bar
+        // fixed to the bottom of the screen (image + Global SAP Number). Up to 10 items.
+        const compareEl = document.getElementById('compare_modal');
+        if (compareEl && plpEl) {
+            const COMPARE_MAX = 10;
+            const compareSelected = [];  // { key, input, image, imageAlt, sapNumber, href }
+            let comparePanel = null;
+
+            function compareInputs() {
+                return plpEl.querySelectorAll('.plp-card-actions input[type="checkbox"]');
+            }
+
+            function renderCompare() {
+                const full = compareSelected.length >= COMPARE_MAX;
+                compareInputs().forEach(function (input) {
+                    input.disabled = full && !input.checked;
+                    input.closest('label').title = input.disabled ? 'You can compare up to ' + COMPARE_MAX + ' items' : '';
+                });
+                if (!comparePanel) return;
+
+                const list = comparePanel.querySelector('.compare-items');
+                const template = document.getElementById('compare_card_template').content.querySelector('.compare-card');
+                list.replaceChildren();
+                compareSelected.forEach(function (item) {
+                    const card = template.cloneNode(true);
+                    card.dataset.key = item.key;
+                    const img = card.querySelector('.compare-card-img');
+                    img.src = item.image;
+                    img.alt = item.imageAlt;
+                    const link = card.querySelector('.compare-card-link');
+                    link.textContent = item.sapNumber;
+                    link.href = item.href;
+                    card.querySelector('.compare-card-remove').setAttribute('aria-label', 'Remove ' + item.sapNumber + ' from compare');
+                    list.appendChild(card);
+                });
+
+                const n = compareSelected.length;
+                comparePanel.querySelector('.compare-count-number').textContent = n;
+                comparePanel.querySelector('.compare-count-label').textContent = n === 1 ? 'item selected' : 'items selected';
+                comparePanel.querySelector('.compare-count-max').hidden = !full;
+                comparePanel.hidden = n === 0;
+                // keep the page's bottom content reachable above the fixed bar
+                document.body.style.paddingBottom = n ? comparePanel.offsetHeight + 32 + 'px' : '';
+                updateCompareScroll();
+            }
+
+            function updateCompareScroll() {
+                const list = comparePanel.querySelector('.compare-items');
+                comparePanel.querySelector('.compare-scroll--prev').hidden = list.scrollLeft <= 0;
+                comparePanel.querySelector('.compare-scroll--next').hidden =
+                    list.scrollLeft + list.clientWidth >= list.scrollWidth - 1;
+            }
+
+            plpEl.addEventListener('change', function (e) {
+                const input = e.target;
+                if (!input.matches('.plp-card-actions input[type="checkbox"]')) return;
+                const card = input.closest('.plp-card');
+                const key = card.getAttribute('aria-labelledby');
+                const i = compareSelected.findIndex(function (item) { return item.key === key; });
+                if (input.checked && i === -1) {
+                    if (compareSelected.length >= COMPARE_MAX) {
+                        input.checked = false;
+                        return;
+                    }
+                    const image = card.querySelector('.plp-card-image');
+                    const title = card.querySelector('.plp-card-title');
+                    compareSelected.push({
+                        key: key,
+                        input: input,
+                        image: image.getAttribute('src'),
+                        imageAlt: image.alt,
+                        sapNumber: title.textContent.trim(),
+                        href: title.getAttribute('href')
+                    });
+                } else if (!input.checked && i !== -1) {
+                    compareSelected.splice(i, 1);
+                }
+                renderCompare();
+                if (input.checked && comparePanel) {
+                    const list = comparePanel.querySelector('.compare-items');
+                    list.scrollLeft = list.scrollWidth;  // show the newest item
+                    updateCompareScroll();
+                }
+            });
+
+            fetch('compare-modal.html')
+                .then(response => response.text())
+                .then(data => {
+                    compareEl.innerHTML = data;
+                    comparePanel = document.getElementById('compare_modal_panel');
+                    const list = comparePanel.querySelector('.compare-items');
+                    const toggle = comparePanel.querySelector('.compare-toggle');
+
+                    toggle.addEventListener('click', function () {
+                        const open = !comparePanel.classList.contains('is-open');
+                        comparePanel.classList.toggle('is-open', open);
+                        this.setAttribute('aria-expanded', String(open));
+                        this.setAttribute('aria-label', open ? 'Hide compare items' : 'Show compare items');
+                        document.getElementById('compare_items_area').hidden = !open;
+                        renderCompare();
+                    });
+
+                    comparePanel.querySelector('.compare-scroll--prev').addEventListener('click', function () {
+                        list.scrollBy({ left: -116, behavior: 'smooth' });
+                    });
+                    comparePanel.querySelector('.compare-scroll--next').addEventListener('click', function () {
+                        list.scrollBy({ left: 116, behavior: 'smooth' });
+                    });
+                    list.addEventListener('scroll', updateCompareScroll);
+
+                    // Remove (x) unchecks the card's Compare box, which updates the bar
+                    list.addEventListener('click', function (e) {
+                        const remove = e.target.closest('.compare-card-remove');
+                        if (!remove) return;
+                        const item = compareSelected.find(function (it) { return it.key === remove.closest('.compare-card').dataset.key; });
+                        item.input.checked = false;
+                        item.input.dispatchEvent(new Event('change', { bubbles: true }));
+                    });
+
+                    renderCompare();
+                });
+        } // end if (compareEl)
+
 
 // function focusSearchField (){
 //     const searchfield = document.getElementsByClassName("search-field").focus();

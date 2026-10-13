@@ -1,0 +1,28 @@
+<section class="compare-modal is-open" id="compare_modal_panel" aria-label="Compare products" hidden>
+  <button type="button" class="compare-toggle" aria-expanded="true" aria-controls="compare_items_area" aria-label="Hide compare items">
+    <img src="images/icons/compare/chevron_16.svg" alt="" width="16" height="16">
+  </button>
+  <div class="compare-panel">
+    <div class="compare-items-area" id="compare_items_area">
+      <button type="button" class="compare-scroll compare-scroll--prev" aria-label="Scroll compare items left" hidden>
+        <img src="images/icons/compare/slider_chevron.svg" alt="" width="8" height="19">
+      </button>
+      <ul class="compare-items"></ul>
+      <button type="button" class="compare-scroll compare-scroll--next" aria-label="Scroll compare items right" hidden>
+        <img src="images/icons/compare/slider_chevron.svg" alt="" width="8" height="19">
+      </button>
+    </div>
+    <div class="compare-footer">
+      <p class="compare-count" aria-live="polite"><strong class="compare-count-number">0</strong> <span class="compare-count-label">items selected</span> <span class="compare-count-max" hidden>(10 max)</span></p>
+      <button type="button" class="btn btn--secondary btn--small compare-submit">Compare</button>
+    </div>
+  </div>
+  <!-- Compare card cloned per selected product by script.js -->
+  <template id="compare_card_template">
+    <li class="compare-card">
+      <button type="button" class="compare-card-remove"><img src="images/icons/compare/close_16.svg" alt="" width="16" height="16"></button>
+      <img class="compare-card-img" src="" alt="" width="64" height="64">
+      <a class="compare-card-link" href="pdp.html"></a>
+    </li>
+  </template>
+</section>

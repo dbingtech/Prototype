@@ -1,0 +1,157 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+
+// Compare bar (compare-modal.html): fixed to the bottom of the screen while items are selected
+.compare-modal {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1500;  // above page content, below the header modals (2000)
+    width: 596px;
+    max-width: calc(100vw - 32px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    font-family: "Inter", sans-serif;
+    color: colors.$text;
+
+    &[hidden] { display: none; }
+
+    // Open: toggle sits under the panel (chevron down). Closed: above it (chevron up).
+    &.is-open .compare-toggle { order: 1; }
+    &.is-open .compare-toggle img { transform: rotate(-90deg); }
+    .compare-toggle img { transform: rotate(90deg); }
+
+    p { margin: 0; }
+}
+
+.compare-toggle {
+    @include focus.focus-ring-base;
+    display: flex;
+    padding: 8px;
+    background-color: colors.$white;
+    border: 1px solid colors.$medgray70;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover { background-color: colors.$lightgray03; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
+.compare-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    background-color: colors.$lightgray03;
+    border: 1px solid colors.$medgray70;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.compare-items-area {
+    position: relative;
+
+    &[hidden] { display: none; }
+}
+
+.compare-items {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 108px;
+    margin: 0;
+    padding: 0 12px;
+    list-style: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;  // the slider chevrons replace the scrollbar
+
+    &::-webkit-scrollbar { display: none; }
+}
+
+.compare-scroll {
+    @include focus.focus-ring-base;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    padding: 0;
+    background-color: colors.$white;
+    border: none;
+    cursor: pointer;
+
+    &--prev { left: 0;  img { transform: scaleX(-1); } }
+    &--next { right: 0; }
+
+    &[hidden] { display: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); outline-offset: -3px; }
+}
+
+.compare-card {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 100px;  // grows for longer Global SAP Numbers
+    background-color: colors.$white;
+
+    // centered when they fit, scrollable when they don't
+    &:first-child { margin-left: auto; }
+    &:last-child  { margin-right: auto; }
+}
+
+.compare-card-remove {
+    @include focus.focus-ring-base;
+    align-self: flex-end;
+    display: flex;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:hover { background-color: colors.$lightgray02; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
+.compare-card-img {
+    object-fit: contain;
+}
+
+.compare-card-link {
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 20px;
+    color: colors.$text;
+    text-decoration: underline;
+}
+
+.compare-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.compare-count {
+    font-size: 18px;
+
+    strong { font-weight: 700; }
+    .compare-count-label { text-transform: uppercase; }
+    .compare-count-max { font-size: 14px; color: colors.$medgray; }
+}
+
+.compare-submit {
+    font-weight: 500;
+}
