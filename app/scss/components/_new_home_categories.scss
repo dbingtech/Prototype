@@ -19,6 +19,9 @@
     max-width: 1336px;
     margin: 0 auto;
     font-size: 24px;
+
+    @include sm  { font-size: 20px; font-weight: 600; }
+    @include xsm { font-size: 20px; font-weight: 600; }
 }
 
 .new-home-categories-grid{
@@ -102,19 +105,15 @@
     }
 }
 
+// Phones: one column, every box full width so they all match
 @include xsm {
     .new-home-categories-grid {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
     }
     .new-category-square {
-        width: auto;
-        place-self: center;
-    }
-    .new-category-square img {
-        width: auto;
-        height: auto;
-        aspect-ratio: unset;
+        width: 100%;
+        box-sizing: border-box;
     }
 }

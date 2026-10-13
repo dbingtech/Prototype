@@ -167,6 +167,53 @@
         min-height: 290px;
         padding: 16px;
       }
+
+      /* MD, SM, XSM (< 992px): no ad; the two panels share the width */
+      @media (max-width: 991px) {
+        .reg-ads,
+        .reg-v-divider--ads { display: none; }
+        .reg-panel {
+          flex: 1 1 0;
+          width: auto;
+          min-width: 0;
+        }
+        .reg-panel .btn,
+        .reg-input {
+          width: 100%;
+          max-width: 432px;
+          box-sizing: border-box;
+        }
+        .reg-input-wrapper { width: 100%; max-width: 100%; }
+      }
+
+      /* SM, XSM (< 768px): stack Sign-In to Continue above Register */
+      @media (max-width: 767px) {
+        .reg-layout {
+          flex-direction: column;
+          min-height: 0;
+        }
+        .reg-v-divider {
+          width: auto;
+          height: 1px;
+          margin: 8px 16px;
+        }
+        .reg-panel .btn { margin-top: 0; }
+        .reg-panel { padding: 16px 0; }
+      }
+
+      /* SM only (576-767px): center the stacked panels with equal side space;
+         content inside stays left-aligned */
+      @media (min-width: 576px) and (max-width: 767px) {
+        .reg-layout {
+          max-width: 464px;
+          margin: 0 auto;
+        }
+      }
+
+      /* XSM (< 576px): site-standard 16px side margins */
+      @media (max-width: 575px) {
+        #main { padding: 16px; }
+      }
     </style>
     <title>Prototype-Home
     </title>
@@ -231,9 +278,9 @@
           <button type="button" class="btn btn--primary btn--xlarge">Register</button>
         </div>
 
-        <div class="reg-v-divider"></div>
+        <div class="reg-v-divider reg-v-divider--ads"></div>
 
-        <!-- Ads -->
+        <!-- Ads (hidden below 992px) -->
         <div class="reg-ads">
           <img src="images/ads/SignInAd.png" alt="Advertisement">
         </div>

@@ -430,11 +430,12 @@
             border-left: 6px solid transparent;
             border-right: 6px solid transparent;
             border-top: 7px solid white;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease 0.15s;
         }
 
         .dropdown:hover .dropdown-arrow {
             transform: rotate(180deg);
+            transition-delay: 0.35s;
         }
 
         .dropdown-menu {
@@ -449,14 +450,17 @@
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
-            transition: all 0.3s ease;
+            /* 0.15s grace before closing so the pointer can move down into the menu */
+            transition: all 0.3s ease 0.15s;
             z-index: 1000;
         }
 
+        /* Wait 0.35s before opening so passing over the toggle doesn't trigger it */
         .dropdown:hover .dropdown-menu {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
+            transition-delay: 0.35s;
         }
 
         .dropdown-menu a {

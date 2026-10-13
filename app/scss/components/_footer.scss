@@ -87,7 +87,8 @@ footer {
     align-items: center;
     justify-content: center;
     gap: 32px;
-    margin-bottom: 16px;
+    padding: 8px 0;
+    margin-bottom: 24px;  // space above the copyright (Figma: 24px gap)
 }
 
 .footer-country {
@@ -102,23 +103,20 @@ footer {
 .footer-social {
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 24px;
     align-items: center;
 }
 
+// Figma order: YouTube, Instagram, Facebook, LinkedIn (28px white circle icons)
 .footer-social-icon {
-    color: colors.$white;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.15);
-    transition: background-color 0.2s ease;
+    transition: opacity 0.2s ease;
 
-    &:hover {
-        background-color: rgba(255, 255, 255, 0.3);
+    &:hover { opacity: 0.8; }
+    &:focus-visible {
+        outline: 2px solid colors.$white;
+        outline-offset: 2px;
     }
 }
 
@@ -156,55 +154,56 @@ footer {
     }
 }
 
-@include md {
+// ----------------------------Mobile/tablet footer (< 992px): accordion, per Figma "Size=Mobile"
+// 16px above/below each heading, white divider under every section (including the last),
+// country and social icons on separate centered rows, roomier copyright.
+@mixin footer-mobile {
+    #footer-container { padding: 24px 24px 0; }
+    .footer-flex-container { gap: 0; }
+
     .footer-chevron { display: block; }
-    .footer-accordion-header { cursor: pointer; }
+    .footer-accordion-header {
+        cursor: pointer;
+        padding: 16px 0;
+    }
+    .footer-heading {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+    }
+    .footer-link { font-size: 16px; }
     .footer-accordion-body {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.35s ease;
+        transition: max-height 0.35s ease, padding 0.35s ease;
     }
     .footer-accordion-group.open .footer-accordion-body {
         max-height: 500px;
+        padding-bottom: 16px;
     }
-    .footer-accordion-group { border-bottom: 1px solid rgba(255, 255, 255, 1); }
-    .footer-flex-container > .footer-flex-col:last-child .footer-accordion-group:last-child { border-bottom: none; }
+    .footer-accordion-group { border-bottom: 1px solid colors.$white; }
+
+    .footer-bottom {
+        margin-top: 16px;
+        padding: 0;
+        border-top: none;
+    }
+    .footer-bottom-center {
+        flex-direction: column;
+        gap: 32px;
+        margin-bottom: 16px;
+    }
+    .footer-copyright { padding: 12px 0 24px; }
 }
 
-@include sm {
-    .footer-chevron { display: block; }
-    .footer-accordion-header { cursor: pointer; }
-    .footer-accordion-body {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.35s ease;
-    }
-    .footer-accordion-group.open .footer-accordion-body {
-        max-height: 500px;
-    }
-    .footer-accordion-group { border-bottom: 1px solid rgba(255, 255, 255, 1); }
-    .footer-flex-container > .footer-flex-col:last-child .footer-accordion-group:last-child { border-bottom: none; }
-}
-
-@include xsm {
-    .footer-chevron { display: block; }
-    .footer-accordion-header { cursor: pointer; }
-    .footer-accordion-body {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.35s ease;
-    }
-    .footer-accordion-group.open .footer-accordion-body {
-        max-height: 500px;
-    }
-    .footer-accordion-group { border-bottom: 1px solid rgba(255, 255, 255, 1); }
-    .footer-flex-container > .footer-flex-col:last-child .footer-accordion-group:last-child { border-bottom: none; }
-}
+@include md  { @include footer-mobile; }
+@include sm  { @include footer-mobile; }
+@include xsm { @include footer-mobile; }
 
 .footer-copyright {
     text-align: center;
     font-family: "Inter";
     font-size: 16px;
     color: colors.$white;
-    padding-bottom: 20px;
+    padding: 12px 0 20px;
 }
