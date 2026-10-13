@@ -56,6 +56,9 @@ $-plp-divider: #ACABAB;  // result dividers
     font-size: 32px;
     font-weight: 700;
     color: colors.$bdiblue;
+
+    @include sm  { font-size: 24px; }
+    @include xsm { font-size: 24px; }
 }
 
 .plp-divider {

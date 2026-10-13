@@ -4060,6 +4060,71 @@ nav ul {
   fill: black;
 }
 
+.breadcrumb-home a {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-home-icon-img {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .breadcrumb-item {
+    font-size: 14px;
+  }
+  .breadcrumb-item + .breadcrumb-item::before {
+    font-size: 14px;
+  }
+  .breadcrumb-home-text {
+    display: none;
+  }
+  .breadcrumb-home-icon-img {
+    display: block;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .breadcrumb-item {
+    font-size: 14px;
+  }
+  .breadcrumb-item + .breadcrumb-item::before {
+    font-size: 14px;
+  }
+  .breadcrumb-home-text {
+    display: none;
+  }
+  .breadcrumb-home-icon-img {
+    display: block;
+  }
+}
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  .breadcrumb-item {
+    font-size: 14px;
+  }
+  .breadcrumb-item + .breadcrumb-item::before {
+    font-size: 14px;
+  }
+  .breadcrumb-home-text {
+    display: none;
+  }
+  .breadcrumb-home-icon-img {
+    display: block;
+  }
+}
+@media only screen and (max-width: 374px) {
+  .breadcrumb-item {
+    font-size: 14px;
+  }
+  .breadcrumb-item + .breadcrumb-item::before {
+    font-size: 14px;
+  }
+  .breadcrumb-home-text {
+    display: none;
+  }
+  .breadcrumb-home-icon-img {
+    display: block;
+  }
+}
 #pdpcard {
   padding: 24px 0;
 }
@@ -5503,6 +5568,21 @@ nav ul {
   font-size: 32px;
   font-weight: 700;
   color: #20485c;
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .plp-title {
+    font-size: 24px;
+  }
+}
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  .plp-title {
+    font-size: 24px;
+  }
+}
+@media only screen and (max-width: 374px) {
+  .plp-title {
+    font-size: 24px;
+  }
 }
 
 .plp-divider {

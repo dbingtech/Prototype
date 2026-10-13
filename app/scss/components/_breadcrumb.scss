@@ -61,3 +61,21 @@
         fill: colors.$text;
     }
 }
+
+// ----------------------------MD and smaller (< 992px): "Home" becomes a house icon, text 14px
+.breadcrumb-home a { display: flex; align-items: center; }
+.breadcrumb-home-icon-img { display: none; }
+
+@mixin breadcrumb-compact {
+    .breadcrumb-item {
+        font-size: 14px;
+
+        & + .breadcrumb-item::before { font-size: 14px; }
+    }
+    .breadcrumb-home-text { display: none; }
+    .breadcrumb-home-icon-img { display: block; }
+}
+
+@include md  { @include breadcrumb-compact; }
+@include sm  { @include breadcrumb-compact; }
+@include xsm { @include breadcrumb-compact; }
