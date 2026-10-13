@@ -13,8 +13,9 @@ $focus-ring-offset: 2px;
   outline-offset: $focus-ring-offset;
 }
 
-@mixin focus-ring {
-  outline: $focus-ring-width solid $focus-ring-color;
+// Pass colors.$bdiblue for controls on a light background
+@mixin focus-ring($color: $focus-ring-color) {
+  outline: $focus-ring-width solid $color;
   outline-offset: $focus-ring-offset;
 }
 

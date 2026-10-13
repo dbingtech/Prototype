@@ -1,4 +1,5 @@
 @use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
 
 #cart_modal_overlay {
     position: fixed;
@@ -17,69 +18,169 @@
 .cart-modal {
     position: absolute;
     background-color: colors.$white;
-    border-radius: 12px;
-    border: 1px solid colors.$lightgray01;
-    padding: 24px;
-    width: 380px;
+    border-radius: 4px;
+    border: 1px solid colors.$medgray70;
+    padding: 8px 14px;
+    width: 358px;
+    max-height: calc(100vh - 140px);
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    align-items: center;
+    gap: 16px;
+    font-family: "Inter", sans-serif;
+    color: colors.$text;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 }
 
 .cart-modal-header {
     display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 0;
+}
+
+.cart-modal-title-row {
+    display: flex;
     align-items: center;
     justify-content: space-between;
 
     h2 {
-        font-family: "Inter", sans-serif;
-        font-size: 24px;
-        font-weight: 700;
-        color: colors.$text;
+        font-size: 20px;
+        font-weight: 400;
         margin: 0;
     }
 }
 
 .cart-modal-close {
+    @include focus.focus-ring-base;
+    display: flex;
     background: none;
     border: none;
-    font-size: 24px;
-    line-height: 1;
-    color: colors.$medgray;
     cursor: pointer;
     padding: 0;
 
-    &:hover {
-        color: colors.$text;
+    &:focus-visible {
+        @include focus.focus-ring(colors.$bdiblue);
     }
 }
 
-.cart-modal-body {
+.cart-modal-summary {
     display: flex;
     align-items: center;
-    justify-content: center;
-    min-height: 40px;
+    justify-content: space-between;
+    padding: 0 24px;
+    font-size: 16px;
+    white-space: nowrap;
+
+    strong {
+        font-weight: 700;
+        margin-right: 12px;
+    }
+}
+
+.cart-modal-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.cart-divider {
+    width: 100%;
+    line-height: 0;
+
+    img {
+        display: block;
+        width: 100%;
+    }
+}
+
+.cart-line-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.cart-line-item-img {
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.cart-line-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-self: stretch;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.cart-line-item-name {
+    font-weight: 600;
+    color: colors.$text;
+    text-decoration: underline;
+}
+
+.cart-line-item-part,
+.cart-line-item-qty {
+    font-weight: 600;
+}
+
+.cart-line-item-label {
+    color: colors.$medgray;
+}
+
+.cart-line-item-part .cart-line-item-label {
+    font-weight: 400;
+}
+
+.cart-line-item-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    align-self: stretch;
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.cart-line-item-qty {
+    color: colors.$bdiblue;
 }
 
 .cart-modal-empty {
-    font-family: "Inter", sans-serif;
     font-size: 16px;
-    color: colors.$text;
     margin: 0;
+    padding: 0 8px;
 }
 
 .cart-modal-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    justify-content: center;
+    gap: 64px;
+    padding: 8px 0;
 }
 
 .cart-modal-view-link {
-    font-family: "Inter", sans-serif;
     font-size: 16px;
     color: colors.$hyperlinkblue;
     text-decoration: underline;
     white-space: nowrap;
+}
+
+// The flex rules above would otherwise override [hidden] (Cart vs Added to Cart views)
+.cart-modal [hidden] {
+    display: none;
 }

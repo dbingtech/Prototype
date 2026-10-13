@@ -11,9 +11,29 @@
   <body>
     <div id="header"></div>
     <div id="navbar"></div>
+    <div id="breadcrumbs">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Search Results</li>
+        </ol>
+      </nav>
+    </div>
 
     <div id="main">
-    
+      <div id="plp">
+      <div id="plp_filter"></div>
+
+      <section class="plp-results" aria-labelledby="plp_title">
+        <h1 class="plp-title" id="plp_title">Results for &ldquo;6202&rdquo;</h1>
+        <div class="plp-pill-bar" id="plp_pill_bar" hidden>
+          <ul class="plp-pills" aria-label="Applied filters"></ul>
+          <button type="button" class="plp-reset-filters" id="plp_reset_filters">Reset Filters</button>
+        </div>
+        <div id="plp_cards" data-card="plp-card.html" data-count="6"></div>
+        <p class="plp-copy-status" role="status"></p>
+      </section>
+      </div>
     </div>
     <div id="footer"></div>
   </body>

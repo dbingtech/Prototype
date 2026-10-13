@@ -3,695 +3,768 @@
 @use '../globals/responsive' as *;
 @use '../globals/focus' as focus;
 
-header {
-  color:colors.$text;
-  text-decoration: none;
-}
-header a:hover {
-  text-decoration: underline;
-}
-#pre-header {
-  background-color: colors.$white;
-  padding: 8px 0;
-  font-size: 12px;
-
-  a {
-    color: colors.$text;
+// Scoped to the B2B header so these rules don't leak into header.html
+#header_B2B {
+  header {
+    color:colors.$text;
     text-decoration: none;
   }
-
-  a:hover {
+  header a:hover {
     text-decoration: underline;
   }
-}
-#pre-header_container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1400px;
-  margin: auto;
-  padding: 0 32px;
-}
-.pre-header_left {
-  display: flex;
-  flex-direction: row;
-  gap:1em;
-  width:100%;
-}
-.pre-header_right {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap:1em;
-  width:100%;
-}
-#country_currency {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color:colors.$text;
-  font-family: "Inter";
-  gap:4px;
-  cursor: pointer;
-}
-#account_name {
-  font-size: 12px;
-  color: colors.$text;
-  font-family: "Inter";
-}
-#register, #request_quote {
-  font-size: 12px;
-}
-#header_B2B {
-  #register { display: none; }
-}
-#my_company {
-  font-size: 12px;
-  color: colors.$text;
-  font-family: "Inter";
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-#find_location{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color:colors.$text;
-  font-family: "Inter";
-  gap:4px;
-  font-size: 12px;
-}
-#branch_phone{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color:colors.$text;
-  font-family: "Inter";
-  gap:4px;
-  font-size: 12px;
-}
-#vertical_line{
-  height: 20px;
-  border-left: 1px solid #AAABAB;
-}
-#post-header {
-  background-color: colors.$bdiblue;
-  min-height: 100px;
-    padding-top:8px;
-
-}
-#business_badge {
-  align-self: stretch;
-  width: 14px;
-  // #post-header is 100px tall (its min-height) but #post_header_container is only
-  // 80px, centered inside it (8px padding-top + ~12px leftover below); stretch past
-  // the row's own box so the badge reaches the true top/bottom of the header.
-  height: 100px;
-  margin-top: -8px;
-  margin-bottom: -12px;
-  background-color: colors.$red;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-
-  span {
-    font-family: "Inter Regular", sans-serif;
-    font-size: 12px;
-    color: colors.$white;
-    white-space: nowrap;
-    transform: rotate(-90deg);
-  }
-}
-#post_header_container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1400px;
-  margin: auto;
-  padding: 0 16px;
-  height: 80px;
-
-  & > a img {
-    width: 90px;
-    height: 64px;
-  }
-}
-
-@include xxl {
-  #post_header_container > a img {
-    width: 118px;
-    height: 84px;
-  }
-}
-#search_bar_wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex: 1 1 auto;
-  margin: 0 32px;
-  #search_bar {
-    width: 100%;
-    border-radius: 4px;
+  #pre-header {
     background-color: colors.$white;
-    height: 42px;
-    font-size: 1rem;
-    padding-left: 16px;
-    padding-right: 40px;
-    border: none;
-    @include focus.focus-ring-base;
-    &:focus-visible { @include focus.focus-ring; }
-    font-family: "Inter", sans-serif;
-    color:colors.$medgray20;
-     &::placeholder { color: colors.$medgray60; }
-     &:focus::placeholder { color: transparent; }
+    padding: 8px 0;
+    font-size: 12px;
+
+    a {
+      color: colors.$text;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   }
-  #search_icon {
-    position: absolute;
-    right: 12px;
+  #pre-header_container {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    background: none;
-    border: none;
-    padding: 0;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: auto;
+    padding: 0 32px;
+  }
+  .pre-header_left {
+    display: flex;
+    flex-direction: row;
+    gap:1em;
+    width:100%;
+  }
+  .pre-header_right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap:1em;
+    width:100%;
+  }
+  #country_currency {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color:colors.$text;
+    font-family: "Inter";
+    gap:4px;
     cursor: pointer;
   }
-}
-.header_icons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  align-self: stretch;
-  gap: 16px;
-}
-
-// ----------------------------Icon spacing
-// Wrapper is the positioning context for #qo-dropdown; the trigger is #quick_order_btn
-#quick_order {
-  display: flex;
-  position: relative;
-}
-#quick_order_btn {
-  @include focus.header-action-reset;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-family:"Inter", sans-serif;
-  color: colors.$white;
-  padding: 11px 8px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-  &:hover {
-    background-color: colors.$williamblue;
+  #account_name {
+    font-size: 12px;
+    color: colors.$text;
+    font-family: "Inter";
   }
-}
-
-// ----------------------------Header action focus/open states
-#quick_order_btn, #my_account, #cart {
-  @include focus.focus-ring-base;
-  &:focus-visible {
-    @include focus.focus-ring;
-    background-color: colors.$williamblue;
-  }
-  // Keep the hover fill while the trigger's overlay is open
-  &[aria-expanded="true"] {
-    background-color: colors.$williamblue;
-  }
-}
-
-#qo-dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  width: 757px;
-  background-color: colors.$white;
-  border: 1px solid colors.$darkbeige;
-  z-index: 200;
-  padding: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-  &.active {
-    display: block;
-  }
-
-  .qo-panel {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 0;
-  }
-
-  .qo-left, .qo-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 8px;
-  }
-
-  .qo-title {
-    font-family: "Inter", sans-serif;
-  font-weight: 700;
-    font-size: 16px;
-    font-weight: 800;
-    color: black;
-  }
-
-  .qo-desc {
-    font-family: "Inter", sans-serif;
-    font-size: 16px;
-    color: black;
-  }
-
-  .qo-fields {
-    display: flex;
-    gap: 16px;
-  }
-
-  .qo-parts-col, .qo-qty-col {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .qo-input {
-    width: 144px;
-    height: 42px;
-    border: 1px solid colors.$medgray;
-    border-radius: 4px;
-    padding: 4px 12px;
-    font-size: 16px;
-    font-family: "Inter", sans-serif;
-    color: colors.$medgray;
-    box-sizing: border-box;
-    &::placeholder { color: colors.$medgray; }
-    &:focus { outline: none; border-color: colors.$bdiblue; }
-  }
-
-  .qo-qty-stepper {
-    display: flex;
-    align-items: center;
-    width: 144px;
-    height: 42px;
-    border: 1px solid colors.$darkbeige;
-    border-radius: 20px;
-    overflow: hidden;
-
-    .qo-qty-minus, .qo-qty-plus {
-      flex: 1;
-      height: 100%;
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      &:hover { background-color: colors.$lightgray02; }
-    }
-
-    .qo-qty-minus {
-      color: colors.$red;
-      svg { width: 28px; height: 28px; }
-
-      &.is-disabled {
-        color: colors.$medgray60;
-      }
-    }
-
-    .qo-qty-value {
-      flex: 1;
-      text-align: center;
-      font-size: 16px;
-      font-family: "Inter", sans-serif;
-      color: black;
-    }
-  }
-
-  .qo-divider {
-    width: 1px;
-    background-color: #aaabab;
-    align-self: stretch;
-    flex-shrink: 0;
-  }
-
-  .qo-textarea {
-    flex: 1;
-    min-height: 120px;
-    border: 1px solid colors.$darkbeige;
-    padding: 8px;
-    font-size: 16px;
-    font-family: "Inter", sans-serif;
-    color: rgba(0, 0, 0, 0.4);
-    resize: none;
-    box-sizing: border-box;
-    &:focus { outline: none; border-color: colors.$bdiblue; }
-  }
-}
-#my_account {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: colors.$white;
-  text-decoration: none;
-  padding: 11px 8px;
-  white-space: nowrap;
-  position: relative;
-  &:hover {
-    background-color: colors.$williamblue;
-  }
-}
-#cart {
-  @include focus.header-action-reset;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  font-family: "Inter", sans-serif;
-  color: colors.$white;
-  padding: 11px 8px;
-  cursor: pointer;
-  &:hover {
-    background-color: colors.$williamblue;
-  }
-}
-
-/* ----------------------------Search Bar */
-      .search_bar {
-        grid-area: search;
-        align-items: center;
-        border-radius: 2px;
-        width:auto;
-        background-color: colors.$white;
-        height: 42px;
-        }
-
-      #search-dropdown {
-        position:relative;
-        border:none;
-        background-color: none;
-        cursor: pointer;
-      }
-      #search-options{
-        position: relative;
-        display: none;
-        visibility:hidden;
-        z-index: 1;
-      }
-      .search-vertical-line {
-        height: 34px;
-        border-left: 2px solid colors.$bdiblue;
-      }
-      .search-input-outer{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-
-      }
-      .search-input {
-        padding: 0 8px;
-        height: 32px;
-        border: none;
-        width:auto;
-      }
-      .search-field:focus::placeholder {
-        color: transparent;
-        border: none;
-      }
-  .chat {
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .quick-order {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .sign-in {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .cart{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-/* SM-only icons — hidden by default, shown at SM */
-.sm-only-icon {
-  display: none;
-  color: colors.$white;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-}
-
-/* SM search row — hidden by default */
-#sm-search-row {
-  display: none;
-}
-
-@include md {
-  #support { display: none; }
-  #quick_order { display: none; }
-
-  #pre-header_container {
-    padding: 0 24px;
-  }
-
-  #post_header_container {
-    padding: 0 24px;
-  }
-
-  #search_bar_wrapper {
-    margin: 0 16px;
-  }
-
-  .header_icons {
-    gap: 8px;
-  }
-
-  #business_badge {
-    margin-left: 8px; // header_icons gap is 8px here; add 8px more to keep 16px total from Cart
-  }
-
-  #my_account {
-    padding: 8px;
-    gap: 6px;
-  }
-  #cart {
-    padding: 8px;
-  }
-}
-
-@include sm {
-  /* Hide pre-header entirely */
-  #pre-header { display: none; }
-
-  .my-account-label { display: none; }
-
-  /* Hide regular search bar */
-  #search_bar_wrapper { display: none; }
-
-  /* Hide support and quick order */
-  #support { display: none; }
-  #quick_order { display: none; }
-
-  /* Tighten post-header container padding */
-  #post_header_container {
-    padding: 0 16px;
-    min-height: unset;
-    height: 80px;
-  }
-
-  #post_header_container > a img {
-    width: 90px;
-    height: 64px;
-  }
-
-  #post-header {
-    padding-top: 0;
-  }
-
-  #business_badge {
-    height: auto;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  /* Show SM-only location/phone icons */
-  .sm-only-icon {
-    display: flex;
-    padding: 8px;
-  }
-
-  /* Shrink icon padding */
-  .header_icons {
-    gap: 16px;
-  }
-
-  #my_account {
-    flex-direction: row;
-    gap: 6px;
-    padding: 8px;
+  #register, #request_quote {
     font-size: 12px;
   }
-
-  #cart {
-    padding: 8px;
+  #register { display: none; }
+  #my_company {
+    font-size: 12px;
+    color: colors.$text;
+    font-family: "Inter";
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
   }
+  #find_location{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color:colors.$text;
+    font-family: "Inter";
+    gap:4px;
+    font-size: 12px;
+  }
+  #branch_phone{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color:colors.$text;
+    font-family: "Inter";
+    gap:4px;
+    font-size: 12px;
+  }
+  #vertical_line{
+    height: 20px;
+    border-left: 1px solid #AAABAB;
+  }
+  #post-header {
+    background-color: colors.$bdiblue;
+    min-height: 100px;
+      padding-top:8px;
 
-  .cart-label { display: none; }
-
-  /* Show SM search row as second row */
-  #sm-search-row {
+  }
+  #business_badge {
+    align-self: stretch;
+    width: 14px;
+    // #post-header is 100px tall (its min-height) but #post_header_container is only
+    // 80px, centered inside it (8px padding-top + ~12px leftover below); stretch past
+    // the row's own box so the badge reaches the true top/bottom of the header.
+    height: 100px;
+    margin-top: -8px;
+    margin-bottom: -12px;
+    background-color: colors.$red;
     display: flex;
     align-items: center;
-    gap: 0;
-    padding: 6px 16px 8px;
-    background-color: colors.$bdiblue;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
 
-    #sm-hamburger {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px 8px 4px 0;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-      svg { width: 32px; height: 32px; }
+    span {
+      font-family: "Inter Regular", sans-serif;
+      font-size: 12px;
+      color: colors.$white;
+      white-space: nowrap;
+      transform: rotate(-90deg);
     }
+  }
+  #post_header_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: auto;
+    padding: 0 16px;
+    height: 80px;
 
-    #sm-search-bar {
-      flex: 1;
-      height: 36px;
+    & > a img {
+      width: 90px;
+      height: 64px;
+    }
+  }
+
+  @include xxl {
+    #post_header_container > a img {
+      width: 118px;
+      height: 84px;
+    }
+  }
+  #search_bar_wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    margin: 0 32px;
+    #search_bar {
+      width: 100%;
+      border-radius: 4px;
+      background-color: colors.$white;
+      height: 42px;
+      font-size: 1rem;
+      padding-left: 16px;
+      padding-right: 40px;
       border: none;
       @include focus.focus-ring-base;
       &:focus-visible { @include focus.focus-ring; }
-      padding: 0 8px;
-      font-size: 14px;
-      border-radius: 0;
+      font-family: "Inter", sans-serif;
+      color:colors.$medgray20;
+       &::placeholder { color: colors.$medgray60; }
+       &:focus::placeholder { color: transparent; }
     }
-
-    #sm-search-btn {
-      background-color: colors.$white;
-      border: none;
-      border-radius: 0 2px 2px 0;
-      cursor: pointer;
-      padding: 0 10px;
-      height: 36px;
+    #search_icon {
+      position: absolute;
+      right: 12px;
       display: flex;
       align-items: center;
-      flex-shrink: 0;
-
-      svg { width: 28px; height: 28px; }
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
     }
   }
-}
-
-@include xsm {
-  /* Hide pre-header entirely */
-  #pre-header { display: none; }
-
-  .my-account-label { display: none; }
-
-  /* Hide regular search bar */
-  #search_bar_wrapper { display: none; }
-
-  /* Hide support and quick order */
-  #support { display: none; }
-  #quick_order { display: none; }
-
-  /* Tighten post-header container padding */
-  #post_header_container {
-    padding: 0 8px;
-    min-height: unset;
-  }
-
-  #post-header {
-    padding-top: 0;
-  }
-
-  #business_badge {
-    height: auto;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  /* Show SM-only location/phone icons */
-  .sm-only-icon {
-    display: flex;
-  }
-
   .header_icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: stretch;
     gap: 16px;
   }
 
-  #my_account {
-    flex-direction: row;
-    gap: 4px;
-    padding: 6px 4px;
-    font-size: 11px;
-  }
-
-  #cart {
-    padding: 6px 4px;
-  }
-
-  .cart-label { display: none; }
-
-  /* Show SM search row as second row */
-  #sm-search-row {
+  // ----------------------------Icon spacing
+  // Wrapper is the positioning context for #qo-dropdown; the trigger is #quick_order_btn
+  #quick_order {
     display: flex;
+    position: relative;
+  }
+  #quick_order_btn {
+    @include focus.header-action-reset;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0;
-    padding: 6px 16px 8px;
-    background-color: colors.$bdiblue;
+    gap: 4px;
+    font-family:"Inter", sans-serif;
+    color: colors.$white;
+    padding: 11px 8px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    &:hover {
+      background-color: colors.$williamblue;
+    }
+  }
 
-    #sm-hamburger {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px 6px 4px 0;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-      svg { width: 32px; height: 32px; }
+  // ----------------------------Header action focus/open states
+  #quick_order_btn, #my_account, #cart {
+    @include focus.focus-ring-base;
+    &:focus-visible {
+      @include focus.focus-ring;
+      background-color: colors.$williamblue;
+    }
+    // Keep the hover fill while the trigger's overlay is open
+    &[aria-expanded="true"] {
+      background-color: colors.$williamblue;
+    }
+  }
+
+  #qo-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 757px;
+    background-color: colors.$white;
+    border: 1px solid colors.$darkbeige;
+    z-index: 200;
+    padding: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    &.active {
+      display: block;
     }
 
-    #sm-search-bar {
+    .qo-panel {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .qo-left, .qo-right {
       flex: 1;
-      height: 34px;
-      border: none;
-      @include focus.focus-ring-base;
-      &:focus-visible { @include focus.focus-ring; }
-      padding: 0 6px;
-      font-size: 13px;
-      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 8px;
     }
 
-    #sm-search-btn {
-      background-color: colors.$white;
-      border: none;
-      border-radius: 0 2px 2px 0;
-      cursor: pointer;
-      padding: 0 8px;
-      height: 34px;
+    .qo-title {
+      font-family: "Inter", sans-serif;
+    font-weight: 700;
+      font-size: 16px;
+      font-weight: 800;
+      color: black;
+    }
+
+    .qo-desc {
+      font-family: "Inter", sans-serif;
+      font-size: 16px;
+      color: black;
+    }
+
+    .qo-fields {
+      display: flex;
+      gap: 16px;
+    }
+
+    .qo-parts-col, .qo-qty-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .qo-input {
+      width: 144px;
+      height: 42px;
+      border: 1px solid colors.$medgray;
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 16px;
+      font-family: "Inter", sans-serif;
+      color: colors.$medgray;
+      box-sizing: border-box;
+      &::placeholder { color: colors.$medgray; }
+      &:focus { outline: none; border-color: colors.$bdiblue; }
+    }
+
+    .qo-qty-stepper {
       display: flex;
       align-items: center;
+      width: 144px;
+      height: 42px;
+      border: 1px solid colors.$darkbeige;
+      border-radius: 20px;
+      overflow: hidden;
+
+      .qo-qty-minus, .qo-qty-plus {
+        flex: 1;
+        height: 100%;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover { background-color: colors.$lightgray02; }
+      }
+
+      .qo-qty-minus {
+        color: colors.$red;
+        svg { width: 28px; height: 28px; }
+
+        &.is-disabled {
+          color: colors.$medgray60;
+        }
+      }
+
+      .qo-qty-value {
+        flex: 1;
+        text-align: center;
+        font-size: 16px;
+        font-family: "Inter", sans-serif;
+        color: black;
+      }
+    }
+
+    .qo-divider {
+      width: 1px;
+      background-color: #aaabab;
+      align-self: stretch;
       flex-shrink: 0;
+    }
+
+    .qo-textarea {
+      flex: 1;
+      min-height: 120px;
+      border: 1px solid colors.$darkbeige;
+      padding: 8px;
+      font-size: 16px;
+      font-family: "Inter", sans-serif;
+      color: rgba(0, 0, 0, 0.4);
+      resize: none;
+      box-sizing: border-box;
+      &:focus { outline: none; border-color: colors.$bdiblue; }
+    }
+  }
+  #my_account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: colors.$white;
+    text-decoration: none;
+    padding: 11px 8px;
+    white-space: nowrap;
+    position: relative;
+    &:hover {
+      background-color: colors.$williamblue;
+    }
+  }
+  #cart {
+    @include focus.header-action-reset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-family: "Inter", sans-serif;
+    color: colors.$white;
+    padding: 11px 8px;
+    cursor: pointer;
+    &:hover {
+      background-color: colors.$williamblue;
+    }
+  }
+
+  /* ----------------------------Search Bar */
+        .search_bar {
+          grid-area: search;
+          align-items: center;
+          border-radius: 2px;
+          width:auto;
+          background-color: colors.$white;
+          height: 42px;
+          }
+
+        #search-dropdown {
+          position:relative;
+          border:none;
+          background-color: none;
+          cursor: pointer;
+        }
+        #search-options{
+          position: relative;
+          display: none;
+          visibility:hidden;
+          z-index: 1;
+        }
+        .search-vertical-line {
+          height: 34px;
+          border-left: 2px solid colors.$bdiblue;
+        }
+        .search-input-outer{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+
+        }
+        .search-input {
+          padding: 0 8px;
+          height: 32px;
+          border: none;
+          width:auto;
+        }
+        .search-field:focus::placeholder {
+          color: transparent;
+          border: none;
+        }
+    .chat {
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .quick-order {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .sign-in {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cart{
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+  /* SM-only icons — hidden by default, shown at SM */
+  .sm-only-icon {
+    display: none;
+    color: colors.$white;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+  }
+
+  /* SM search row — hidden by default */
+  #sm-search-row {
+    display: none;
+  }
+
+  @include md {
+    /* Hide pre-header entirely */
+    #pre-header { display: none; }
+
+    .my-account-label { display: none; }
+
+    /* Hide regular search bar */
+    #search_bar_wrapper { display: none; }
+
+    /* Hide support and quick order */
+    #support { display: none; }
+    #quick_order { display: none; }
+
+    /* Tighten post-header container padding */
+    #post_header_container {
+      padding: 0 16px;
+      min-height: unset;
+      height: 80px;
+    }
+
+    #post_header_container > a img {
+      width: 90px;
+      height: 64px;
+    }
+
+    #post-header {
+      padding-top: 0;
+    }
+
+    #business_badge {
+      height: auto;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    /* Show SM-only location/phone icons */
+    .sm-only-icon {
+      display: flex;
+      padding: 8px;
+    }
+
+    /* Shrink icon padding */
+    .header_icons {
+      gap: 16px;
+    }
+
+    #my_account {
+      flex-direction: row;
+      gap: 6px;
+      padding: 8px;
+      font-size: 12px;
+    }
+
+    #cart {
+      padding: 8px;
+    }
+
+    .cart-label { display: none; }
+
+    /* Show SM search row as second row */
+    #sm-search-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 6px 16px 8px;
+      background-color: colors.$bdiblue;
+
+      #sm-hamburger {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px 8px 4px 0;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        svg { width: 32px; height: 32px; }
+      }
+
+      #sm-search-bar {
+        flex: 1;
+        height: 36px;
+        border: none;
+        @include focus.focus-ring-base;
+        &:focus-visible { @include focus.focus-ring; }
+        padding: 0 8px;
+        font-size: 14px;
+        border-radius: 0;
+      }
+
+      #sm-search-btn {
+        background-color: colors.$white;
+        border: none;
+        border-radius: 0 2px 2px 0;
+        cursor: pointer;
+        padding: 0 10px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+
+        svg { width: 28px; height: 28px; }
+      }
+    }
+  }
+
+  @include sm {
+    /* Hide pre-header entirely */
+    #pre-header { display: none; }
+
+    .my-account-label { display: none; }
+
+    /* Hide regular search bar */
+    #search_bar_wrapper { display: none; }
+
+    /* Hide support and quick order */
+    #support { display: none; }
+    #quick_order { display: none; }
+
+    /* Tighten post-header container padding */
+    #post_header_container {
+      padding: 0 16px;
+      min-height: unset;
+      height: 80px;
+    }
+
+    #post_header_container > a img {
+      width: 90px;
+      height: 64px;
+    }
+
+    #post-header {
+      padding-top: 0;
+    }
+
+    #business_badge {
+      height: auto;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    /* Show SM-only location/phone icons */
+    .sm-only-icon {
+      display: flex;
+      padding: 8px;
+    }
+
+    /* Shrink icon padding */
+    .header_icons {
+      gap: 16px;
+    }
+
+    #my_account {
+      flex-direction: row;
+      gap: 6px;
+      padding: 8px;
+      font-size: 12px;
+    }
+
+    #cart {
+      padding: 8px;
+    }
+
+    .cart-label { display: none; }
+
+    /* Show SM search row as second row */
+    #sm-search-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 6px 16px 8px;
+      background-color: colors.$bdiblue;
+
+      #sm-hamburger {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px 8px 4px 0;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        svg { width: 32px; height: 32px; }
+      }
+
+      #sm-search-bar {
+        flex: 1;
+        height: 36px;
+        border: none;
+        @include focus.focus-ring-base;
+        &:focus-visible { @include focus.focus-ring; }
+        padding: 0 8px;
+        font-size: 14px;
+        border-radius: 0;
+      }
+
+      #sm-search-btn {
+        background-color: colors.$white;
+        border: none;
+        border-radius: 0 2px 2px 0;
+        cursor: pointer;
+        padding: 0 10px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+
+        svg { width: 28px; height: 28px; }
+      }
+    }
+  }
+
+  @include xsm {
+    /* Hide pre-header entirely */
+    #pre-header { display: none; }
+
+    .my-account-label { display: none; }
+
+    /* Hide regular search bar */
+    #search_bar_wrapper { display: none; }
+
+    /* Hide support and quick order */
+    #support { display: none; }
+    #quick_order { display: none; }
+
+    /* Tighten post-header container padding */
+    #post_header_container {
+      padding: 0 8px;
+      min-height: unset;
+    }
+
+    #post-header {
+      padding-top: 0;
+    }
+
+    #business_badge {
+      height: auto;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    /* Show SM-only location/phone icons */
+    .sm-only-icon {
+      display: flex;
+    }
+
+    .header_icons {
+      gap: 16px;
+    }
+
+    #my_account {
+      flex-direction: row;
+      gap: 4px;
+      padding: 6px 4px;
+      font-size: 11px;
+    }
+
+    #cart {
+      padding: 6px 4px;
+    }
+
+    .cart-label { display: none; }
+
+    /* Show SM search row as second row */
+    #sm-search-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 6px 16px 8px;
+      background-color: colors.$bdiblue;
+
+      #sm-hamburger {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px 6px 4px 0;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        svg { width: 32px; height: 32px; }
+      }
+
+      #sm-search-bar {
+        flex: 1;
+        height: 34px;
+        border: none;
+        @include focus.focus-ring-base;
+        &:focus-visible { @include focus.focus-ring; }
+        padding: 0 6px;
+        font-size: 13px;
+        border-radius: 0;
+      }
+
+      #sm-search-btn {
+        background-color: colors.$white;
+        border: none;
+        border-radius: 0 2px 2px 0;
+        cursor: pointer;
+        padding: 0 8px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+      }
     }
   }
 }

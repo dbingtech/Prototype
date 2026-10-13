@@ -1,0 +1,279 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+@use '../globals/responsive' as *;
+
+// Width and side padding come from #main
+#pdpcard {
+    padding: 24px 0;
+
+    @include md  { padding: 16px 0; }
+    @include sm  { padding: 16px 0; }
+    @include xsm { padding: 16px 0; }
+}
+
+.pdp-card {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr) 280px;
+    grid-template-areas: "media info buy";
+    gap: 32px;
+    font-family: "Inter", sans-serif;
+    color: colors.$text;
+
+    @include lg {
+        grid-template-columns: 200px minmax(0, 1fr) 220px;
+        gap: 24px;
+    }
+    @include md {
+        grid-template-columns: 200px minmax(0, 1fr);
+        grid-template-areas: "media info" "buy buy";
+        gap: 24px;
+    }
+    @include sm {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "media" "info" "buy";
+        gap: 16px;
+    }
+    @include xsm {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "media" "info" "buy";
+        gap: 16px;
+    }
+
+    p { margin: 0; }
+
+    // Shared icon button (favorite, copy, info, share)
+    .pdp-card-icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2px;
+        background: none;
+        border: none;
+        border-radius: 4px;
+        color: colors.$medgray30;
+        cursor: pointer;
+        @include focus.focus-ring-base;
+        &:hover { background-color: colors.$lightgray03; }
+        &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+    }
+}
+
+// ----------------------------Media
+.pdp-card-media {
+    grid-area: media;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.pdp-card-media-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.pdp-card-compare {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    cursor: pointer;
+
+    input {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        accent-color: colors.$bdiblue;
+        cursor: pointer;
+        @include focus.focus-ring-base;
+        &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+    }
+}
+.pdp-card .pdp-card-favorite {
+    color: colors.$red;
+    &[aria-pressed="true"] svg path { fill: currentColor; }
+}
+.pdp-card-image {
+    width: 100%;
+    max-width: 240px;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+.pdp-card-thumbs {
+    display: flex;
+    gap: 8px;
+}
+.pdp-card-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: colors.$white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: colors.$text;
+    cursor: pointer;
+    @include focus.focus-ring-base;
+    &:hover { border-color: colors.$lightgray01; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+
+    img {
+        width: 28px;
+        height: auto;
+    }
+}
+
+// ----------------------------Details
+.pdp-card-info {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.pdp-card-brand {
+    font-size: 16px;
+}
+.pdp-card .pdp-card-title {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: 800;
+}
+.pdp-card-name {
+    font-size: 16px;
+    text-transform: uppercase;
+}
+.pdp-card .pdp-card-desc {
+    font-size: 16px;
+    line-height: 1.45;
+    color: colors.$medgray;
+}
+.pdp-card-ids {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 12px 0 0;
+}
+.pdp-card-id-row {
+    display: grid;
+    grid-template-columns: 96px auto;
+    align-items: center;
+    font-size: 16px;
+
+    dt { color: colors.$medgray; }
+    dd {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
+    }
+}
+.pdp-card-id-value {
+    min-width: 64px;
+    font-weight: 700;
+}
+.pdp-card .pdp-card-copy-status {
+    min-height: 1.2em;
+    font-size: 12px;
+    color: colors.$medgray;
+}
+
+// ----------------------------Buy box
+.pdp-card-buy {
+    grid-area: buy;
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+
+    @include md  { gap: 16px; }
+    @include sm  { gap: 16px; }
+    @include xsm { gap: 16px; }
+}
+.pdp-card-buy-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pdp-card-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+}
+.pdp-card .pdp-card-info-btn {
+    color: colors.$bdiblue;
+}
+.pdp-card-purchase {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+
+    @include sm  { align-items: stretch; }
+    @include xsm { align-items: stretch; }
+}
+.pdp-card .pdp-card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+
+    @include sm  { justify-content: flex-end; }
+    @include xsm { justify-content: flex-end; }
+}
+.pdp-card-amount {
+    font-size: 20px;
+    font-weight: 700;
+}
+.pdp-card-unit {
+    font-size: 12px;
+    font-style: italic;
+}
+.pdp-card-add {
+    @include focus.focus-ring-base;
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+
+    @include sm  { width: 100%; }
+    @include xsm { width: 100%; }
+}
+
+// ----------------------------Prop 65 notice: quiet tooltip on hover/focus; links to P65Warnings.ca.gov
+.pdp-card-p65 {
+    position: relative;
+    display: inline-flex;
+    border-radius: 2px;
+    cursor: pointer;
+    @include focus.focus-ring-base;
+
+    svg { display: block; }
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+
+    &:hover .pdp-card-p65-tip,
+    &:focus .pdp-card-p65-tip {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.pdp-card-p65-tip {
+    position: absolute;
+    left: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    padding: 4px 8px;
+    background-color: colors.$white;
+    border: 1px solid colors.$lightgray01;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    font-size: 14px;
+    font-weight: 400;
+    color: colors.$darkgray;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+}

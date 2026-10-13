@@ -352,6 +352,52 @@
             flex-shrink: 0;
         }
 
+        /* Scrollable product links */
+        .product-scroll-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            min-width: 0;
+        }
+
+        .product-scroll {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            min-width: 0;
+        }
+
+        .product-scroll a {
+            font-size: 16px;
+        }
+
+        .product-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scroll-chevron {
+            width: 20px;
+            height: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border-radius: 3px;
+            transition: background-color 0.2s ease;
+        }
+
+        .scroll-chevron:hover {
+            background-color: #3c6378;
+        }
+
         /* Dropdowns */
         .dropdown {
             position: relative;
@@ -440,7 +486,8 @@
             display: flex;
             align-items: center;
             gap: 32px;
-            flex-shrink: 0;
+            flex-shrink: 1;
+            min-width: 0;
             margin-left: 16px;
         }
 
@@ -461,20 +508,6 @@
             background-color: #3c6378;
         }
 
-        /* XXL (â‰¥1400px): all 6 nav links visible â€” default, no rule needed */
-
-        /* XL (1200â€“1399px): hide last 1 */
-        @media (max-width: 1399px) {
-            .nav-links li:nth-last-child(1) { display: none; }
-        }
-        /* LG (992â€“1199px): hide last 3 */
-        @media (max-width: 1199px) {
-            .nav-links li:nth-last-child(-n+3) { display: none; }
-        }
-        /* MD (768â€“991px): hide last 4 */
-        @media (max-width: 991px) {
-            .nav-links li:nth-last-child(-n+4) { display: none; }
-        }
         /* SM + XSM (<768px): hide entire navbar bar — sm-hamburger in header handles mobile */
         @media (max-width: 767px) {
             .navbar { display: none; }
@@ -490,7 +523,7 @@
 
         <!-- Welcome (B2B signed-in) -->
         <div class="menu-section">
-            <div class="menu-welcome">Welcome, Guadalupe!</div>
+            <div class="menu-welcome">Welcome, Tony!</div>
         </div>
 
         <!-- B2B Account Links -->
@@ -577,7 +610,7 @@
             </a>
             <a href="storelocator.html" class="menu-help-item">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="#20485c" d="M2.01 21L23 12L2.01 3L2 10l15 2l-15 2z"/></svg>
-                Umbrella Corporation
+                Stark Enterprises
             </a>
             <a href="storelocator.html" class="menu-help-item">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20"><path fill="#20485c" d="M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13m0-11a2 2 0 1 0 0-4a2 2 0 0 0 0 4"/></svg>
@@ -644,17 +677,29 @@
                 <a href="#" class="nav-link-quotes">Invoices</a>
                 <a href="#" class="nav-link-quotes">Orders</a>
                 <a href="#" id="nav-quotes" class="nav-link-quotes">Quotes</a>
+
+                <div class="separator"></div>
+
+                <div class="product-scroll-group">
+                    <button type="button" class="scroll-chevron scroll-chevron-left" id="product-scroll-left" aria-label="Scroll left">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#ffffff" d="M15.41 7.41L14 6l-6 6l6 6l1.41-1.41L10.83 12z"/></svg>
+                    </button>
+
+                    <div class="product-scroll" id="product-scroll">
+                        <a href="#" class="nav-link-quotes">Bearings</a>
+                        <a href="#" class="nav-link-quotes">Electric Motors</a>
+                        <a href="#" class="nav-link-quotes">Shaft Couplings</a>
+                        <a href="#" class="nav-link-quotes">Oil Seals</a>
+                        <a href="#" class="nav-link-quotes">Belts</a>
+                        <a href="#" class="nav-link-quotes">Roller Chain</a>
+                        <a href="#" class="nav-link-quotes">Fluid Power</a>
+                    </div>
+
+                    <button type="button" class="scroll-chevron scroll-chevron-right" id="product-scroll-right" aria-label="Scroll right">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#ffffff" d="M8.59 16.59L10 18l6-6l-6-6l-1.41 1.41L13.17 12z"/></svg>
+                    </button>
+                </div>
             </div>
-
-            <div class="separator"></div>
-
-            <ul class="nav-links">
-                <li><a href="#">Bearings</a></li>
-                <li><a href="#">Electric Motors</a></li>
-                <li><a href="#">Shaft Couplings</a></li>
-                <li><a href="#">Oil Seals</a></li>
-                <li><a href="#">Belts</a></li>
-            </ul>
 
         </div>
     </nav>

@@ -437,31 +437,99 @@ header a:hover {
 }
 
 @include md {
+  /* Hide pre-header entirely */
+  #pre-header { display: none; }
+
+  /* Hide regular search bar */
+  #search_bar_wrapper { display: none; }
+
+  /* Hide support and quick order */
   #support { display: none; }
   #quick_order { display: none; }
 
-  #pre-header_container {
-    padding: 0 24px;
-  }
-
+  /* Tighten post-header container padding */
   #post_header_container {
-    padding: 0 24px;
+    padding: 0 16px;
+    min-height: unset;
+    height: 80px;
   }
 
-  #search_bar_wrapper {
-    margin: 0 16px;
+  #post_header_container > a img {
+    width: 90px;
+    height: 64px;
   }
 
+  #post-header {
+    padding-top: 0;
+  }
+
+  /* Show SM-only location/phone icons */
+  .sm-only-icon {
+    display: flex;
+    padding: 8px;
+  }
+
+  /* Shrink icon padding */
   .header_icons {
-    gap: 8px;
+    gap: 4px;
   }
 
   #sign_in {
-    padding: 8px;
+    flex-direction: row;
     gap: 6px;
+    padding: 8px;
+    font-size: 12px;
   }
+
   #cart {
     padding: 8px;
+  }
+
+  .cart-label { display: none; }
+
+  /* Show SM search row as second row */
+  #sm-search-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 6px 16px 8px;
+    background-color: colors.$bdiblue;
+
+    #sm-hamburger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px 4px 0;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      svg { width: 32px; height: 32px; }
+    }
+
+    #sm-search-bar {
+      flex: 1;
+      height: 36px;
+      border: none;
+      @include focus.focus-ring-base;
+      &:focus-visible { @include focus.focus-ring; }
+      padding: 0 8px;
+      font-size: 14px;
+      border-radius: 0;
+    }
+
+    #sm-search-btn {
+      background-color: colors.$white;
+      border: none;
+      border-radius: 0 2px 2px 0;
+      cursor: pointer;
+      padding: 0 10px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+
+      svg { width: 28px; height: 28px; }
+    }
   }
 }
 

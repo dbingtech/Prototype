@@ -30,7 +30,7 @@
 <!--SearchBar-->
     <div id="search_bar_wrapper">
             <input type="text" id="search_bar" placeholder="What can we help you find?">
-            <button id="search_icon" type="button" aria-label="Search" onclick="document.getElementById('search_bar').dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',bubbles:true}))">
+            <button id="search_icon" type="button" aria-label="Search">
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="#20485c" d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5S14 7.01 14 9.5S11.99 14 9.5 14"/></svg>
             </button>
     </div>
@@ -167,15 +167,40 @@
     <div id="cart_modal_overlay">
       <div class="cart-modal" role="dialog" aria-labelledby="cart_modal_title">
         <div class="cart-modal-header">
-          <h2 id="cart_modal_title">Cart</h2>
-          <button type="button" id="cart_modal_close" class="cart-modal-close" aria-label="Close">&times;</button>
+          <div class="cart-modal-title-row">
+            <h2 id="cart_modal_title">Cart</h2>
+            <button type="button" id="cart_modal_close" class="cart-modal-close" aria-label="Close">
+              <img src="images/icons/mini_cart/close_32.svg" alt="" width="32" height="32">
+            </button>
+          </div>
+          <div class="cart-modal-summary">
+            <span><strong>Items:</strong> <span id="cart_modal_count">0</span></span>
+            <span><strong>Total:</strong> <span id="cart_modal_total">$0.00</span></span>
+          </div>
         </div>
-        <div class="cart-modal-body">
-          <p class="cart-modal-empty">Your cart is empty</p>
-        </div>
+        <!-- "Added to Cart" view: filled by addToMiniCart() in script.js -->
+        <ul class="cart-modal-items" id="cart_modal_added" hidden></ul>
+        <ul class="cart-modal-items"></ul>
+        <!-- Line item + divider cloned by addToMiniCart() in script.js -->
+        <template id="cart_line_template">
+          <li class="cart-line-item">
+            <img src="" alt="" width="88" height="88" class="cart-line-item-img">
+            <div class="cart-line-item-info">
+              <span class="cart-line-item-brand"></span>
+              <a href="#" class="cart-line-item-name"></a>
+              <span class="cart-line-item-part"><span class="cart-line-item-label">Part No</span> </span>
+            </div>
+            <div class="cart-line-item-meta">
+              <span class="cart-line-item-qty"><span class="cart-line-item-label">Qty:</span> </span>
+              <span class="cart-line-item-price"></span>
+            </div>
+          </li>
+          <li class="cart-divider" aria-hidden="true"><img src="images/icons/mini_cart/divider.svg" alt="" width="232" height="1"></li>
+        </template>
+        <p class="cart-modal-empty" hidden>Your cart is empty</p>
         <div class="cart-modal-footer">
           <a href="#" class="cart-modal-view-link">View Cart</a>
-          <button type="button" class="btn btn--primary btn--small">Check Out</button>
+          <button type="button" class="btn btn--primary btn--small">Checkout</button>
         </div>
       </div>
     </div>

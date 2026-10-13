@@ -1,0 +1,81 @@
+<section class="pdp-card" aria-labelledby="pdp_title">
+  <!-- Media: compare, favorite, main image, thumbnails -->
+  <div class="pdp-card-media">
+    <div class="pdp-card-media-top">
+      <label class="pdp-card-compare">
+        <input type="checkbox" id="pdp_compare">
+        Compare
+      </label>
+      <button type="button" id="pdp_favorite" class="pdp-card-icon-btn pdp-card-favorite" aria-label="Add to favorites" aria-pressed="false">
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4 7.2 4c2 0 3.6 1.1 4.8 2.8C13.2 5.1 14.8 4 16.8 4c3.6 0 5.8 3.6 4.5 7.1c-1.8 4.8-9.3 9.4-9.3 9.4"/></svg>
+      </button>
+    </div>
+    <img class="pdp-card-image" src="images/products/bearing.png" alt="SKF 6202 single row ball bearing" width="328" height="328">
+    <div class="pdp-card-thumbs">
+      <button type="button" class="pdp-card-thumb" aria-label="View 360 degree image">
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32"><text x="16" y="15" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="currentColor">360°</text><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M4 17c0 3 5.4 5.5 12 5.5s12-2.5 12-5.5m-4.5 7.5l3-1.8l-1.8-3"/></svg>
+      </button>
+      <button type="button" class="pdp-card-thumb" aria-label="View image 2">
+        <img src="images/logos/Size=64.png" alt="" width="28" height="20">
+      </button>
+      <button type="button" class="pdp-card-thumb" aria-label="View image 3">
+        <img src="images/logos/Size=64.png" alt="" width="28" height="20">
+      </button>
+      <button type="button" class="pdp-card-thumb" aria-label="View image 4">
+        <img src="images/logos/Size=64.png" alt="" width="28" height="20">
+      </button>
+    </div>
+  </div>
+
+  <!-- Product details -->
+  <div class="pdp-card-info">
+    <p class="pdp-card-brand">SKF</p>
+    <h1 class="pdp-card-title" id="pdp_title">6202</h1>
+    <p class="pdp-card-name">6202 BALL BEARING ; 15MM BORE 35MM OD 11MM WD SR OPEN</p>
+    <p class="pdp-card-desc">Single Row Ball Bearing; 15MM Bore; 35MM Outside Diameter; 11MM Outer Race Width; Open; ABEC 1 | ISO P0; No Filling Slot; No Snap Ring; C0-Medium Internal Clearance; Steel Cage</p>
+    <dl class="pdp-card-ids">
+      <div class="pdp-card-id-row">
+        <dt>BDI No.</dt>
+        <dd>
+          <span class="pdp-card-id-value">1420800</span>
+          <button type="button" class="pdp-card-icon-btn pdp-card-copy" data-copy="1420800" aria-label="Copy BDI number">
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect width="12" height="14" x="8" y="7" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h2"/></g></svg>
+          </button>
+          <a class="pdp-card-p65" href="https://www.p65warnings.ca.gov" target="_blank" rel="noopener noreferrer" aria-label="Proposition 65 warning (opens in a new tab)" aria-describedby="pdp_p65_tip">
+            <svg class="pdp-card-notice" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="#F9E784" stroke="#1B1C1C" stroke-linejoin="round" stroke-width="1.5" d="M12 3L2 21h20z"/><path stroke="#1B1C1C" stroke-linecap="round" stroke-width="2" d="M12 10v5m0 2.5v.01"/></svg>
+            <span class="pdp-card-p65-tip" id="pdp_p65_tip" role="tooltip">WARNING: Cancer and Reproductive Harm - www.P65Warnings.ca.gov</span>
+          </a>
+        </dd>
+      </div>
+      <div class="pdp-card-id-row">
+        <dt>Mfr Part No.</dt>
+        <dd>
+          <span class="pdp-card-id-value">6202</span>
+          <button type="button" class="pdp-card-icon-btn pdp-card-copy" data-copy="6202" aria-label="Copy manufacturer part number">
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect width="12" height="14" x="8" y="7" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h2"/></g></svg>
+          </button>
+        </dd>
+      </div>
+    </dl>
+    <p class="pdp-card-copy-status" role="status"></p>
+  </div>
+
+  <!-- Availability, price, add to cart -->
+  <div class="pdp-card-buy">
+    <div class="pdp-card-buy-top">
+      <span class="pdp-card-status">
+        Available
+        <button type="button" class="pdp-card-icon-btn pdp-card-info-btn" aria-label="Availability details">
+          <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path stroke="#fff" stroke-linecap="round" stroke-width="2.5" d="M12 7v6.5m0 3.5v.01"/></svg>
+        </button>
+      </span>
+      <button type="button" class="pdp-card-icon-btn pdp-card-share" aria-label="Share">
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15V3m0 0L8 7m4-4l4 4M8 11H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-2"/></svg>
+      </button>
+    </div>
+    <div class="pdp-card-purchase">
+      <p class="pdp-card-price"><span class="pdp-card-amount">$26.60</span> <span class="pdp-card-unit">/ each</span></p>
+      <button type="button" class="btn btn--primary btn--small pdp-card-add">Add To Cart</button>
+    </div>
+  </div>
+</section>
