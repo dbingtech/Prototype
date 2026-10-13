@@ -1,6 +1,7 @@
 
 @use '../globals/colors' as colors;
 @use '../globals/responsive' as *;
+@use '../globals/focus' as focus;
 
 header {
   color:colors.$text;
@@ -163,7 +164,8 @@ header a:hover {
     padding-left: 16px;
     padding-right: 40px;
     border: none;
-    outline: none;
+    @include focus.focus-ring-base;
+    &:focus-visible { @include focus.focus-ring; }
     font-family: "Inter", sans-serif;
     color:colors.$medgray20;
      &::placeholder { color: colors.$medgray60; }
@@ -189,7 +191,13 @@ header a:hover {
 }
 
 // ----------------------------Icon spacing
+// Wrapper is the positioning context for #qo-dropdown; the trigger is #quick_order_btn
 #quick_order {
+  display: flex;
+  position: relative;
+}
+#quick_order_btn {
+  @include focus.header-action-reset;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -197,11 +205,23 @@ header a:hover {
   font-family:"Inter", sans-serif;
   color: colors.$white;
   padding: 11px 8px;
-  position: relative;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
   &:hover {
+    background-color: colors.$williamblue;
+  }
+}
+
+// ----------------------------Header action focus/open states
+#quick_order_btn, #my_account, #cart {
+  @include focus.focus-ring-base;
+  &:focus-visible {
+    @include focus.focus-ring;
+    background-color: colors.$williamblue;
+  }
+  // Keep the hover fill while the trigger's overlay is open
+  &[aria-expanded="true"] {
     background-color: colors.$williamblue;
   }
 }
@@ -350,6 +370,7 @@ header a:hover {
   }
 }
 #cart {
+  @include focus.header-action-reset;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -357,6 +378,7 @@ header a:hover {
   font-family: "Inter", sans-serif;
   color: colors.$white;
   padding: 11px 8px;
+  cursor: pointer;
   &:hover {
     background-color: colors.$williamblue;
   }
@@ -556,7 +578,8 @@ header a:hover {
       flex: 1;
       height: 36px;
       border: none;
-      outline: none;
+      @include focus.focus-ring-base;
+      &:focus-visible { @include focus.focus-ring; }
       padding: 0 8px;
       font-size: 14px;
       border-radius: 0;
@@ -652,7 +675,8 @@ header a:hover {
       flex: 1;
       height: 34px;
       border: none;
-      outline: none;
+      @include focus.focus-ring-base;
+      &:focus-visible { @include focus.focus-ring; }
       padding: 0 6px;
       font-size: 13px;
       border-radius: 0;

@@ -7,20 +7,32 @@
             .then(data => {
                 headerEl.innerHTML = data;
 
-                const quickOrder = document.getElementById('quick_order');
+                const quickOrderBtn = document.getElementById('quick_order_btn');
                 const qoDropdown = document.getElementById('qo-dropdown');
 
-                quickOrder.addEventListener('click', function (e) {
+                function setQuickOrderOpen(open, returnFocus) {
+                    qoDropdown.classList.toggle('active', open);
+                    quickOrderBtn.setAttribute('aria-expanded', String(open));
+                    if (!open && returnFocus) quickOrderBtn.focus();
+                }
+
+                quickOrderBtn.addEventListener('click', function (e) {
                     e.stopPropagation();
-                    qoDropdown.classList.toggle('active');
+                    setQuickOrderOpen(!qoDropdown.classList.contains('active'), false);
                 });
 
                 document.addEventListener('click', function () {
-                    qoDropdown.classList.remove('active');
+                    if (qoDropdown.classList.contains('active')) setQuickOrderOpen(false, false);
                 });
 
                 qoDropdown.addEventListener('click', function (e) {
                     e.stopPropagation();
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && qoDropdown.classList.contains('active')) {
+                        setQuickOrderOpen(false, true);
+                    }
                 });
 
                 const trashSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m18 9l-.84 8.398c-.127 1.273-.19 1.909-.48 2.39a2.5 2.5 0 0 1-1.075.973C15.098 21 14.46 21 13.18 21h-2.36c-1.279 0-1.918 0-2.425-.24a2.5 2.5 0 0 1-1.076-.973c-.288-.48-.352-1.116-.48-2.389L6 9m7.5 6.5v-5m-3 5v-5m-6-4h4.615m0 0l.386-2.672c.112-.486.516-.828.98-.828h3.038c.464 0 .867.342.98.828l.386 2.672m-5.77 0h5.77m0 0H19.5"/></svg>`;
@@ -51,7 +63,7 @@
                 const user = JSON.parse(localStorage.getItem('user'));
                 const signInEl = document.getElementById('sign_in');
                 if (user && user.signedIn && signInEl && !document.getElementById('header_B2B')) {
-                    signInEl.innerHTML = '<img src="images/icons/user/Size=28, Color=White.svg" alt="Sign In" width="28" height="28">Sign In';
+                    signInEl.innerHTML = '<img src="images/icons/user/Size=28, Color=White.svg" alt="" width="28" height="28">Sign In';
                     signInEl.href = '#';
                     signInEl.addEventListener('click', function (e) {
                         e.preventDefault();
@@ -90,23 +102,31 @@
                 const cartOverlay = document.getElementById('cart_modal_overlay');
                 if (cartOverlay) {
                     const cartModal = cartOverlay.querySelector('.cart-modal');
-                    document.getElementById('cart').addEventListener('click', function (e) {
+                    const cartBtn = document.getElementById('cart');
+                    const cartClose = document.getElementById('cart_modal_close');
+
+                    function closeCartModal() {
+                        if (!cartOverlay.classList.contains('active')) return;
+                        cartOverlay.classList.remove('active');
+                        cartBtn.setAttribute('aria-expanded', 'false');
+                        cartBtn.focus();
+                    }
+
+                    cartBtn.addEventListener('click', function (e) {
                         e.stopPropagation();
                         const rect = this.getBoundingClientRect();
                         cartModal.style.top = rect.bottom + 8 + 'px';
                         cartModal.style.right = (window.innerWidth - rect.right) + 'px';
                         cartOverlay.classList.add('active');
+                        cartBtn.setAttribute('aria-expanded', 'true');
+                        cartClose.focus();
                     });
                     cartOverlay.addEventListener('click', function (e) {
-                        if (!e.target.closest('.cart-modal')) {
-                            cartOverlay.classList.remove('active');
-                        }
+                        if (!e.target.closest('.cart-modal')) closeCartModal();
                     });
-                    document.getElementById('cart_modal_close').addEventListener('click', function () {
-                        cartOverlay.classList.remove('active');
-                    });
+                    cartClose.addEventListener('click', closeCartModal);
                     document.addEventListener('keydown', function (e) {
-                        if (e.key === 'Escape') cartOverlay.classList.remove('active');
+                        if (e.key === 'Escape') closeCartModal();
                     });
                 }
 

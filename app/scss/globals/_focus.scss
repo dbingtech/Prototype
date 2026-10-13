@@ -1,0 +1,28 @@
+@use 'colors';
+
+// Keyboard focus ring for controls on the blue header background.
+// Uses outline (not border/box-shadow) so there's no layout shift and the
+// ring still renders in Windows forced-colors mode.
+$focus-ring-color: colors.$white;
+$focus-ring-width: 3px;
+$focus-ring-offset: 2px;
+
+// Base state: transparent outline is replaced by the system color in forced-colors mode
+@mixin focus-ring-base {
+  outline: 2px solid transparent;
+  outline-offset: $focus-ring-offset;
+}
+
+@mixin focus-ring {
+  outline: $focus-ring-width solid $focus-ring-color;
+  outline-offset: $focus-ring-offset;
+}
+
+// Resets native <button> styling so a header action looks like its <a>/<div> siblings
+@mixin header-action-reset {
+  background: none;
+  border: none;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
