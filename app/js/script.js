@@ -1,7 +1,9 @@
 ﻿// Load components
 // Load header
-        const headerEl = document.getElementById('header_B2B') || document.getElementById('header');
-        const headerFile = document.getElementById('header_B2B') ? 'header_B2B.html' : 'header.html';
+        // The placeholder's id names the file to load (header_SS -> header_SS.html)
+        const headerEl = document.querySelector('#header_SS, #header_punchout, #header_EMP, #header_B2B, #header');
+        if (headerEl) {
+        const headerFile = headerEl.id + '.html';
         fetch(headerFile)
             .then(response => response.text())
             .then(data => {
@@ -62,7 +64,7 @@
 
                 const user = JSON.parse(localStorage.getItem('user'));
                 const signInEl = document.getElementById('sign_in');
-                if (user && user.signedIn && signInEl && !document.getElementById('header_B2B')) {
+                if (user && user.signedIn && signInEl && headerEl.id === 'header') {
                     signInEl.innerHTML = '<img src="images/icons/user/Size=28, Color=White.svg" alt="" width="28" height="28">Sign In';
                     signInEl.href = '#';
                     signInEl.addEventListener('click', function (e) {
@@ -73,7 +75,8 @@
                 }
 
                 // Search: spyglass (and Enter) go to the PLP for this header's version
-                const plpPage = document.getElementById('header_B2B') ? 'plp_B2B.html' : 'plp.html';
+                // SS, punchout and EMP use the B2B PLP until they get their own
+                const plpPage = headerEl.id === 'header' ? 'plp.html' : 'plp_B2B.html';
                 ['search_icon', 'sm-search-btn'].forEach(function (id) {
                     const btn = document.getElementById(id);
                     if (btn) btn.addEventListener('click', function () {
@@ -278,11 +281,12 @@
                 }
 
             });
-        
+        } // end if (headerEl)
+
         // Load nav
-        const navbarEl = document.getElementById('navbar_B2B') || document.getElementById('navbar');
+        const navbarEl = document.querySelector('#navbar_SS, #navbar_punchout, #navbar_EMP, #navbar_B2B, #navbar');
         if (navbarEl) {
-        const navbarFile = navbarEl.id === 'navbar_B2B' ? 'navbar_B2B.html' : 'navbar.html';
+        const navbarFile = navbarEl.id + '.html';
         fetch(navbarFile)
             .then(response => response.text())
             .then(data => {
@@ -364,8 +368,9 @@
                 });
             });
         // Load hero
-        const heroEl = document.getElementById('hero_B2B') || document.getElementById('hero');
-        const heroFile = document.getElementById('hero_B2B') ? 'hero_B2B.html' : 'hero.html';
+        const heroEl = document.querySelector('#hero_SS, #hero_punchout, #hero_EMP, #hero_B2B, #hero');
+        if (heroEl) {
+        const heroFile = heroEl.id + '.html';
         fetch(heroFile)
             .then(response => response.text())
             .then(data => {
@@ -398,6 +403,7 @@
 
                 startTimer();
             });
+        } // end if (heroEl)
         fetch('hero2.html')
             .then(response => response.text())
             .then(data => {
@@ -469,6 +475,11 @@
             .then(data => {
                 plpFilterEl.innerHTML = data;
 
+                // Has Customer Part No. / Contracted: signed-in (B2B-style header) pages only
+                if (!headerEl || headerEl.id === 'header') {
+                    plpFilterEl.querySelectorAll('[data-b2b-only]').forEach(function (el) { el.remove(); });
+                }
+
                 plpFilterEl.querySelectorAll('.plp-facet-toggle').forEach(function (btn) {
                     btn.addEventListener('click', function () {
                         const open = this.getAttribute('aria-expanded') !== 'true';
@@ -486,6 +497,125 @@
                     });
                 });
 
+                // Categories: clicking a category with subcategories drills into them. On the last
+                // level (nothing below it) a click selects the category instead: it turns semibold and
+                // the chevrons go away. The breadcrumb follows the path after the search crumb
+                // (Results for "6202"); every crumb before the current one links back to its level,
+                // and the search crumb links back to the top-level categories.
+                const SUBCATEGORIES = {
+                    'Bearings': ['Ball Bearings (80,093)', 'Mounted Units & Inserts (188,511)', 'Plain Bearings (30,029)', 'Roller Bearings (105,380)'],
+                    'Ball Bearings': ['Angular Contact Ball Bearings (10,692)', 'Miniature Precision Ball Bearings (123)', 'Precision Ball Bearings (19,932)',
+                        'Self Aligning Ball Bearings (2,903)', 'Single Row Ball Bearings (34,142)', 'Thrust Ball Bearings (2,773)']
+                };
+                const categoryList = plpFilterEl.querySelector('.plp-category-list');
+                if (categoryList) {
+                    const categoryTemplate = categoryList.querySelector('li');
+                    const topCategories = Array.from(categoryList.children, function (li) { return li.cloneNode(true); });
+                    const categoryShowMore = categoryList.nextElementSibling;
+                    const hasShowMore = categoryShowMore && categoryShowMore.classList.contains('plp-show-more');
+                    const crumbList = document.querySelector('#breadcrumbs .breadcrumb');
+                    const searchCrumb = crumbList && crumbList.querySelector('.breadcrumb-item.active');
+                    const searchLabel = searchCrumb && searchCrumb.textContent;
+                    const categoryPath = [];   // e.g. ['Bearings', 'Ball Bearings']
+                    let selectedCategory = null;   // last-level category picked on the current level
+
+                    // Search crumb link: back to the top-level categories, Show More reset
+                    function showTopCategories() {
+                        categoryPath.length = 0;
+                        selectedCategory = null;
+                        categoryList.classList.remove('plp-category-list--leaf', 'is-expanded');
+                        categoryList.replaceChildren(...topCategories.map(function (li) { return li.cloneNode(true); }));
+                        categoryList.scrollTop = 0;
+                        if (hasShowMore) {
+                            categoryShowMore.hidden = false;
+                            categoryShowMore.setAttribute('aria-expanded', 'false');
+                            categoryShowMore.textContent = 'Show More';
+                        }
+                        renderCategoryCrumbs();
+                    }
+
+                    function categoryName(label) {
+                        return label.replace(/\s*\([\d,]+\)\s*$/, '');
+                    }
+
+                    function showSubcategories(name) {
+                        const subs = SUBCATEGORIES[name];
+                        selectedCategory = null;
+                        categoryList.classList.remove('plp-category-list--leaf');
+                        categoryList.replaceChildren(...subs.map(function (label) {
+                            const li = categoryTemplate.cloneNode(true);
+                            li.querySelector('span').textContent = label;
+                            return li;
+                        }));
+                        // No Show More for subcategories: open the list far enough to show them all (up to 7)
+                        categoryList.classList.toggle('is-expanded', subs.length > 5);
+                        categoryList.scrollTop = 0;
+                        if (hasShowMore) categoryShowMore.hidden = true;
+                        renderCategoryCrumbs();
+                    }
+
+                    function renderCategoryCrumbs() {
+                        if (!searchCrumb) return;
+                        crumbList.querySelectorAll('.breadcrumb-category').forEach(function (li) { li.remove(); });
+                        // The search crumb is the current page at the top level and a link below it
+                        searchCrumb.classList.toggle('active', categoryPath.length === 0);
+                        if (categoryPath.length) {
+                            const searchLink = document.createElement('a');
+                            searchLink.href = '#';
+                            searchLink.textContent = searchLabel;
+                            searchLink.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                showTopCategories();
+                            });
+                            searchCrumb.replaceChildren(searchLink);
+                        } else {
+                            searchCrumb.textContent = searchLabel;
+                        }
+                        const trail = selectedCategory ? categoryPath.concat(selectedCategory) : categoryPath;
+                        trail.forEach(function (name, i) {
+                            const li = document.createElement('li');
+                            li.className = 'breadcrumb-item breadcrumb-category';
+                            if (i === trail.length - 1) {
+                                li.classList.add('active');
+                                li.textContent = name;
+                            } else {
+                                const a = document.createElement('a');
+                                a.href = '#';
+                                a.textContent = name;
+                                a.addEventListener('click', function (e) {
+                                    e.preventDefault();
+                                    categoryPath.length = i + 1;
+                                    showSubcategories(name);
+                                });
+                                li.appendChild(a);
+                            }
+                            crumbList.appendChild(li);
+                        });
+                    }
+
+                    categoryList.addEventListener('click', function (e) {
+                        const link = e.target.closest('.plp-category-link');
+                        if (!link) return;
+                        const name = categoryName(link.querySelector('span').textContent);
+                        if (SUBCATEGORIES[name]) {
+                            e.preventDefault();
+                            categoryPath.push(name);
+                            showSubcategories(name);
+                            return;
+                        }
+                        // Last level only: none of the categories shown here has subcategories
+                        const level = categoryPath[categoryPath.length - 1];
+                        if (!level || SUBCATEGORIES[level].some(function (label) { return SUBCATEGORIES[categoryName(label)]; })) return;
+                        e.preventDefault();
+                        selectedCategory = name;
+                        categoryList.classList.add('plp-category-list--leaf');
+                        categoryList.querySelectorAll('.plp-category-link').forEach(function (a) {
+                            a.classList.toggle('is-selected', a === link);
+                        });
+                        renderCategoryCrumbs();
+                    });
+                }
+
                 plpFilterEl.querySelectorAll('.plp-switch').forEach(function (sw) {
                     sw.addEventListener('click', function () {
                         const mm = this.getAttribute('aria-checked') !== 'true';
@@ -493,6 +623,18 @@
                         const labels = this.parentElement.querySelectorAll('.plp-unit-label');
                         labels[0].classList.toggle('is-active', !mm);
                         labels[1].classList.toggle('is-active', mm);
+
+                        // Swap the facet's values (data-in / data-mm), and any pills already added for them
+                        this.closest('.plp-facet').querySelectorAll('[data-mm]').forEach(function (span) {
+                            span.textContent = mm ? span.dataset.mm : span.dataset.in;
+                            const input = span.previousElementSibling;
+                            if (!input || !input.pill) return;
+                            const pillText = input.pill.querySelector('span');
+                            const label = pillText.textContent.split(': ')[0];
+                            const value = span.textContent.replace(/\s*\([\d,]+\)\s*$/, '');
+                            pillText.textContent = label + ': ' + value;
+                            input.pill.querySelector('button').setAttribute('aria-label', 'Remove filter ' + label + ': ' + value);
+                        });
                     });
                 });
 
@@ -605,7 +747,8 @@
         } // end if (plpFilterOpen)
 
         // Load PLP cards: data-card picks the version (plp-card.html / plp-card-B2B.html),
-        // data-count sets how many copies; {{n}} in the card keeps ids unique
+        // data-count sets how many copies; {{n}} in the card keeps ids unique. The cards stay
+        // inside #plp_cards (.plp-card-grid), which lays them out 2-up at MD and SM.
         const plpCardsEl = document.getElementById('plp_cards');
         if (plpCardsEl) {
         const cardCount = parseInt(plpCardsEl.dataset.count, 10) || 1;
@@ -616,7 +759,7 @@
                 for (let n = 1; n <= cardCount; n++) {
                     cards.push(data.replace(/\{\{n\}\}/g, n));
                 }
-                plpCardsEl.outerHTML = cards.join('<hr class="plp-divider">');
+                plpCardsEl.innerHTML = cards.join('<hr class="plp-divider">');
             });
         } // end if (plpCardsEl)
 
@@ -861,6 +1004,70 @@
                     renderCompare();
                 });
         } // end if (compareEl)
+
+        // Availability modal (availability-modal.html): the info icon next to "Available" on a
+        // card opens the lead-time note under the icon. Locate Sales Office shows the nearest
+        // offices. Closes on a click outside, Escape, or a second click on the icon.
+        if (plpEl) {
+            let availModal = null;
+            let availBtn = null;   // icon that opened the modal
+
+            fetch('availability-modal.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                    availModal = document.getElementById('availability_modal');
+                    document.getElementById('availability_modal_form').addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        const offices = document.getElementById('availability_modal_offices');
+                        offices.hidden = false;
+                        offices.scrollTop = 0;
+                        placeAvailModal();
+                    });
+                });
+
+            // Under the icon, right edges lined up; kept on screen with a 16px margin
+            function placeAvailModal() {
+                const r = availBtn.getBoundingClientRect();
+                const width = availModal.offsetWidth;
+                const left = Math.max(16, Math.min(r.right - width, document.documentElement.clientWidth - width - 16));
+                availModal.style.top = (r.bottom + window.scrollY + 4) + 'px';
+                availModal.style.left = (left + window.scrollX) + 'px';
+            }
+
+            function closeAvailModal(returnFocus) {
+                if (!availModal || availModal.hidden) return;
+                availModal.hidden = true;
+                availBtn.setAttribute('aria-expanded', 'false');
+                if (returnFocus) availBtn.focus();
+            }
+
+            plpEl.addEventListener('click', function (e) {
+                const btn = e.target.closest('.plp-stock-info-btn');
+                if (!btn || !availModal) return;
+                e.stopPropagation();
+                const reopen = availModal.hidden || btn !== availBtn;
+                closeAvailModal(false);
+                if (!reopen) return;
+                availBtn = btn;
+                document.getElementById('availability_modal_offices').hidden = true;
+                availModal.hidden = false;
+                btn.setAttribute('aria-expanded', 'true');
+                placeAvailModal();
+                document.getElementById('availability_modal_zip').focus();
+            });
+
+            document.addEventListener('click', function (e) {
+                if (availModal && !availModal.hidden && !e.target.closest('#availability_modal')) closeAvailModal(false);
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeAvailModal(true);
+            });
+            // Resizing (including a scrollbar appearing when the office list opens) keeps it under the icon
+            window.addEventListener('resize', function () {
+                if (availModal && !availModal.hidden) placeAvailModal();
+            });
+        } // end if (plpEl)
 
 
 // function focusSearchField (){

@@ -1,0 +1,103 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+
+// Availability modal (availability-modal.html): opened from the info icon next to
+// "Available" on a PLP card; script.js places it under the icon.
+.availability-modal {
+    position: absolute;
+    z-index: 1000;
+    width: 438px;
+    max-width: calc(100vw - 32px);
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: colors.$white;
+    border: 1px solid colors.$lightgray01;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    color: colors.$text;
+
+    &[hidden] { display: none; }
+
+    p { margin: 0; }
+}
+
+.availability-modal-text {
+    line-height: 19px;
+}
+
+.availability-modal-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.availability-modal-zip {
+    @include focus.focus-ring-base;
+    width: 144px;
+    height: 42px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border: 1px solid colors.$medgray;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 16px;
+    color: colors.$text;
+
+    &::placeholder { color: colors.$medgray60; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
+.availability-modal-locate {
+    width: 192px;
+}
+
+// Sales offices: scrolls after three cards, gray track / dark thumb per the wireframe
+.availability-modal-offices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 416px;
+    margin: 16px 0 0;
+    padding: 0 10px 0 0;
+    list-style: none;
+    overflow-y: auto;
+    scrollbar-color: colors.$medgray colors.$lightgray01;
+
+    &[hidden] { display: none; }
+
+    &::-webkit-scrollbar { width: 14px; }
+    &::-webkit-scrollbar-track { background-color: colors.$lightgray01; }
+    &::-webkit-scrollbar-thumb {
+        background-color: colors.$medgray;
+        border: 3px solid colors.$lightgray01;
+        border-radius: 7px;
+    }
+}
+
+.availability-office {
+    flex-shrink: 0;
+    padding: 8px;
+    border: 1px solid colors.$medgray80;
+    border-radius: 4px;
+    line-height: 23px;
+}
+
+.availability-office-name {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 24px;
+}
+
+.availability-office-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: colors.$text;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+}

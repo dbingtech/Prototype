@@ -1,0 +1,711 @@
+﻿    <style>
+       /* Overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 999;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Side Menu */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -290px;
+            width: 290px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .side-menu.active {
+            left: 0;
+        }
+
+        #closeMenu {
+            position: fixed;
+            top: 8px;
+            left: calc(290px + 8px);
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            line-height: 1;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            padding: 0;
+        }
+
+        @media (min-width: 768px) {
+            .side-menu {
+                width: 290px;
+                left: -290px;
+            }
+            #closeMenu {
+                left: calc(290px + 8px);
+            }
+        }
+
+        .side-menu.active ~ #closeMenu {
+            display: flex;
+        }
+
+        .menu-welcome {
+            padding: 14px 20px;
+            font-family: "Inter", sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: #20485c;
+            text-align: center;
+        }
+
+        .menu-help-settings {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px 20px;
+            border-top: 1px solid #20485c;
+        }
+
+        .menu-help-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: black;
+            text-decoration: none;
+            font-family: "Inter", sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .menu-help-item img,
+        .menu-help-item svg {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .menu-sign-out {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            background-color: #f9e784 !important;
+            color: #20485c !important;
+            border-radius: 12px !important;
+            padding: 8px !important;
+            height: 42px;
+            font-family: "Inter", sans-serif;
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        .menu-header {
+            background-color: #232f3e;
+            color: white;
+            padding: 16px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-header svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .menu-section {
+            position: relative;
+        }
+
+        .menu-section::after {
+            content: '';
+            display: block;
+            margin: 0 16px;
+            border-bottom: 1px solid #20485c;
+        }
+
+        .menu-section-title {
+            padding: 14px 20px;
+            font-family: "Inter", sans-serif;
+            font-size: 18px;
+            font-weight: 550;
+            color: #232f3e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+            text-decoration: none;
+        }
+
+        .menu-section:has(#find_location),
+        .menu-section:has(#branch_phone),
+        .menu-section:has(#country_currency) {
+            position: relative;
+        }
+
+        .menu-section:has(#find_location)::after,
+        .menu-section:has(#branch_phone)::after,
+        .menu-section:has(#country_currency)::after {
+            display: none;
+        }
+
+        #find_location.menu-section-title,
+        #branch_phone.menu-section-title,
+        #country_currency.menu-section-title {
+            gap: 12px;
+            justify-content: flex-start;
+            font-family: "Inter", sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        #find_location.menu-section-title svg,
+        #branch_phone.menu-section-title svg {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .menu-section-title .chevron {
+            transition: transform 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .menu-section-title.collapsed .chevron {
+            transform: rotate(-90deg);
+        }
+
+        .menu-section-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .menu-item {
+            padding: 20px 20px 20px 36px;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .menu-item-arrow {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #20485c;
+            width: 100vw;
+            height: 48px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .navbar-inner {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+        }
+
+        /* Hamburger + All */
+        .hamburger-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .hamburger {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2px 0;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            border-radius: 0;
+        }
+
+        .hamburger-group:hover .hamburger span,
+        .hamburger-group:hover .all-label {
+            color: #e0e0e0;
+        }
+
+        .hamburger-group:hover .hamburger span {
+            background-color: #e0e0e0;
+        }
+
+        .all-label {
+            color: white;
+            font-size: 18px;
+            font-family: "Inter", sans-serif;
+        }
+
+        /* Nav links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex: 1;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: "Inter", sans-serif;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            border-radius: 3px;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #3c6378;
+        }
+
+        /* Separator */
+        .separator {
+            width: 1px;
+            height: 24px;
+            background-color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        /* Scrollable product links */
+        .product-scroll-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            min-width: 0;
+        }
+
+        .product-scroll {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            min-width: 0;
+        }
+
+        .product-scroll a {
+            font-size: 16px;
+        }
+
+        .product-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scroll-chevron {
+            width: 20px;
+            height: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border-radius: 3px;
+            transition: background-color 0.2s ease;
+        }
+
+        .scroll-chevron:hover {
+            background-color: #3c6378;
+        }
+
+        /* Dropdowns */
+        .dropdown {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .dropdown-toggle {
+            color: white;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-family: "Inter", sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 3px;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-toggle:hover {
+            background-color: #3c6378;
+        }
+
+        .dropdown-arrow {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 7px solid white;
+            transition: transform 0.3s ease 0.15s;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+            transition-delay: 0.35s;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #ffffff;
+            min-width: 180px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            margin-top: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            /* 0.15s grace before closing so the pointer can move down into the menu */
+            transition: all 0.3s ease 0.15s;
+            z-index: 1000;
+        }
+
+        /* Wait 0.35s before opening so passing over the toggle doesn't trigger it */
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            transition-delay: 0.35s;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: #20485c;
+            text-decoration: none;
+            font-size: 16px;
+            font-family: "Inter", sans-serif;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: rgba(32, 72, 92, 0.1);
+        }
+
+        .dropdown-menu a:first-child {
+            border-radius: 4px 4px 0 0;
+        }
+
+        .dropdown-menu a:last-child {
+            border-radius: 0 0 4px 4px;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            flex-shrink: 1;
+            min-width: 0;
+            margin-left: 16px;
+        }
+
+        /* Quotes link */
+        .nav-link-quotes {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: "Inter", sans-serif;
+            padding: 6px 10px;
+            border-radius: 3px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: background-color 0.2s ease;
+        }
+
+        .nav-link-quotes:hover {
+            background-color: #3c6378;
+        }
+
+        /* MD + SM + XSM (<992px): hide entire navbar bar — sm-hamburger in header handles mobile */
+        @media (max-width: 991px) {
+            .navbar { display: none; }
+        }
+    </style>
+
+<body>
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+
+        <!-- Welcome (B2B signed-in) -->
+        <div class="menu-section">
+            <div class="menu-welcome">Welcome, Steve Rogers!</div>
+        </div>
+
+        <!-- B2B Account Links -->
+        <div class="menu-section">
+            <a href="invoices.html" class="menu-section-title">Invoices</a>
+            <a href="orders.html" class="menu-section-title">Orders</a>
+            <a href="quotes.html" class="menu-section-title">Quotes</a>
+        </div>
+
+        <div class="menu-section">
+            <a href="quick_order.html" class="menu-section-title">Quick Order</a>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-section-title collapsed" id="products-title">
+                Products
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#232f3e" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6l-6-6z"/></svg>
+            </div>
+            <div class="menu-section-items" id="products-items">
+                <button type="button" class="menu-item">Automation Components</button>
+                <button type="button" class="menu-item">Automation Systems</button>
+                <button type="button" class="menu-item">Bearings</button>
+                <button type="button" class="menu-item">Chemicals</button>
+                <button type="button" class="menu-item">Clutches + Brakes</button>
+                <button type="button" class="menu-item">Electrical Power Transmission</button>
+                <button type="button" class="menu-item">Electrical Products</button>
+                <button type="button" class="menu-item">Fasteners</button>
+                <button type="button" class="menu-item">Fluid Power</button>
+                <button type="button" class="menu-item">General Industrial Products</button>
+                <button type="button" class="menu-item">Linear Motion Products</button>
+                <button type="button" class="menu-item">Material Handling</button>
+                <button type="button" class="menu-item">Mechanical Power Transmission</button>
+                <button type="button" class="menu-item">Safety Products</button>
+                <button type="button" class="menu-item">Sealing Devices</button>
+                <button type="button" class="menu-item">Tools</button>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-section-title collapsed" id="services-title">
+                Services
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#232f3e" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6l-6-6z"/></svg>
+            </div>
+            <div class="menu-section-items" id="services-items">
+                <button type="button" class="menu-item">Automation</button>
+                <button type="button" class="menu-item">BDI Additive</button>
+                <button type="button" class="menu-item">Fluid Power</button>
+                <button type="button" class="menu-item">Full Service Integration (FSI)</button>
+                <button type="button" class="menu-item">Gearbox Build Center</button>
+                <button type="button" class="menu-item">SmartSUPPLY</button>
+                <button type="button" class="menu-item">Value Creation</button>
+                <button type="button" class="menu-item">Akron Gear &amp; Engineering</button>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-section-title collapsed" id="knowledge-title">
+                Knowledge
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#232f3e" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6l-6-6z"/></svg>
+            </div>
+            <div class="menu-section-items" id="knowledge-items">
+                <button type="button" class="menu-item">Brands</button>
+                <button type="button" class="menu-item">Industries</button>
+                <button type="button" class="menu-item">Knowledge Base</button>
+                <button type="button" class="menu-item">Product Guide</button>
+                <button type="button" class="menu-item">Product Showcase</button>
+                <button type="button" class="menu-item">Success Made Easier</button>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <a href="/overstock.html" class="menu-section-title">Overstock</a>
+        </div>
+
+        <!-- Help & Settings (B2B) -->
+        <div class="menu-help-settings">
+            <a href="account.html" class="menu-help-item">
+                <img src="images/icons/my_account/Size=28.svg" alt="" width="28" height="28">
+                My Account
+            </a>
+            <a href="my-company.html" class="menu-help-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="#20485c" d="M12 7V3H2v18h20V7zm-2 12H4v-2h6zm0-4H4v-2h6zm0-4H4V9h6zm0-4H4V5h6zm10 12h-8V9h8zm-2-8h-4v2h4zm0 4h-4v2h4z"/></svg>
+                My Company
+            </a>
+            <a href="storelocator.html" class="menu-help-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="#20485c" d="M2.01 21L23 12L2.01 3L2 10l15 2l-15 2z"/></svg>
+                Stark Enterprises
+            </a>
+            <a href="storelocator.html" class="menu-help-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20"><path fill="#20485c" d="M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13m0-11a2 2 0 1 0 0-4a2 2 0 0 0 0 4"/></svg>
+                Cleveland
+            </a>
+            <a href="tel:216-676-5211" class="menu-help-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="#20485c" fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.88 1.88 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.29 11.29 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.88 1.88 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75z" clip-rule="evenodd"/></svg>
+                216-676-5211
+            </a>
+            <div class="menu-help-item js-cc-modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="21" viewBox="0 0 32 24"><g fill="none"><path fill="#f7fcff" fill-rule="evenodd" d="M0 0h32v24H0z" clip-rule="evenodd"/><path fill="#e31d1c" fill-rule="evenodd" d="M0 14.667v2h32v-2zm0 3.666v2h32v-2zm0-11v2h32v-2zM0 22v2h32v-2zm0-11v2h32v-2zM0 0v2h32V0zm0 3.667v2h32v-2z" clip-rule="evenodd"/><path fill="#2e42a5" d="M0 0h20v13H0z"/><path fill="#f7fcff" fill-rule="evenodd" d="m1.722 2.939l-.726.509l.245-.906l-.645-.574h.843l.282-.74l.331.74h.718l-.564.574l.218.906zm4 0l-.726.509l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274.509l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.842l.644.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zM.996 7.449l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74H.596l.645.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.842l.644.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zM.996 11.449l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74H.596l.645.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.842l.644.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274-7.49l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.843l.645.574zm.726 3.49l-.726.51l.245-.906l-.645-.574h.843l.282-.74l.331.74h.718l-.564.574l.218.906zm-.726 4.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.843l.645.574zM3.722 4.938l-.726.51l.245-.906l-.645-.574h.843l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.843l.645.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm-8.726 4.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.843l.645.574zm4.726-.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm3.274.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.842l.644.574zm4.726-4.51l-.726.51l.245-.906l-.644-.574h.842l.282-.74l.331.74h.718l-.564.574l.218.906zm-.726 4.51l.726-.51l.702.51l-.218-.906l.564-.574h-.718l-.331-.74l-.282.74h-.842l.644.574z" clip-rule="evenodd"/></svg>
+                USA
+            </div>
+            <a href="index.html" class="menu-sign-out">Sign Out</a>
+        </div>
+    </div>
+    <button type="button" id="closeMenu">&times;</button>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+
+            <div class="hamburger-group" id="hamburger">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span class="all-label">All</span>
+            </div>
+
+            <div class="navbar-right">
+                <div class="dropdown">
+                    <button type="button" class="dropdown-toggle">
+                        Services
+                        <span class="dropdown-arrow"></span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#">Automation</a>
+                        <a href="#">BDI Additive</a>
+                        <a href="#">Fluid Power Automation Shop</a>
+                        <a href="#">Full Service Integration (FSI)</a>
+                        <a href="#">Gearbox Build Center</a>
+                        <a href="#">SmartSUPPLY</a>
+                        <a href="#">Value Creation</a>
+                        <a href="#">Akron Gear & Engineering</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button type="button" class="dropdown-toggle">
+                        Knowledge
+                        <span class="dropdown-arrow"></span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#">Brands</a>
+                        <a href="#">Industries</a>
+                        <a href="#">Knowledge Base</a>
+                        <a href="#">Product Guide</a>
+                        <a href="#">Product Showcase</a>
+                        <a href="#">Success Made Easier</a>
+                    </div>
+                </div>
+
+                <a href="#" class="nav-link-quotes">Invoices</a>
+                <a href="#" class="nav-link-quotes">Orders</a>
+                <a href="#" id="nav-quotes" class="nav-link-quotes" aria-label="Quotes (99)">Quotes<span class="nav-count-badge" aria-hidden="true">99</span></a>
+
+                <div class="separator"></div>
+
+                <div class="product-scroll-group">
+                    <button type="button" class="scroll-chevron scroll-chevron-left" id="product-scroll-left" aria-label="Scroll left">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#ffffff" d="M15.41 7.41L14 6l-6 6l6 6l1.41-1.41L10.83 12z"/></svg>
+                    </button>
+
+                    <div class="product-scroll" id="product-scroll">
+                        <a href="#" class="nav-link-quotes">Bearings</a>
+                        <a href="#" class="nav-link-quotes">Electric Motors</a>
+                        <a href="#" class="nav-link-quotes">Shaft Couplings</a>
+                        <a href="#" class="nav-link-quotes">Oil Seals</a>
+                        <a href="#" class="nav-link-quotes">Belts</a>
+                        <a href="#" class="nav-link-quotes">Roller Chain</a>
+                        <a href="#" class="nav-link-quotes">Fluid Power</a>
+                    </div>
+
+                    <button type="button" class="scroll-chevron scroll-chevron-right" id="product-scroll-right" aria-label="Scroll right">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#ffffff" d="M8.59 16.59L10 18l6-6l-6-6l-1.41 1.41L13.17 12z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+

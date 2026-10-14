@@ -136,7 +136,7 @@ header a:hover {
     height: 42px;
     font-size: 1rem;
     padding-left: 16px;
-    padding-right: 40px;
+    padding-right: 52px;
     border: none;
     @include focus.focus-ring-base;
     &:focus-visible { @include focus.focus-ring; }
@@ -147,13 +147,18 @@ header a:hover {
   }
   #search_icon {
     position: absolute;
-    right: 12px;
+    right: 0;
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 42px;
     background: none;
     border: none;
+    border-radius: 0 4px 4px 0;
     padding: 0;
     cursor: pointer;
+    &:hover { background-color: colors.$lightgray03; }
   }
 }
 .header_icons {
@@ -527,6 +532,7 @@ header a:hover {
       display: flex;
       align-items: center;
       flex-shrink: 0;
+      &:hover { background-color: colors.$lightgray03; }
 
       svg { width: 28px; height: 28px; }
     }
@@ -624,6 +630,7 @@ header a:hover {
       display: flex;
       align-items: center;
       flex-shrink: 0;
+      &:hover { background-color: colors.$lightgray03; }
 
       svg { width: 28px; height: 28px; }
     }
@@ -713,6 +720,7 @@ header a:hover {
       display: flex;
       align-items: center;
       flex-shrink: 0;
+      &:hover { background-color: colors.$lightgray03; }
     }
   }
 }

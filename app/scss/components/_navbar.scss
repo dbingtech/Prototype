@@ -75,3 +75,25 @@ nav ul{
   width: .5px;
   margin: 0 16px;
 }
+
+// Signed-in navbars: count badge on the upper right of "Quotes" (20x16 pill, per the B2B wireframe)
+#nav-quotes {
+  position: relative;
+}
+.nav-count-badge {
+  position: absolute;
+  top: -4px;
+  right: 6px;
+  min-width: 20px;
+  height: 16px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: colors.$red;
+  color: colors.$white;
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+  pointer-events: none;
+}

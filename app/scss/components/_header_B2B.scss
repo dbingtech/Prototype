@@ -3,8 +3,8 @@
 @use '../globals/responsive' as *;
 @use '../globals/focus' as focus;
 
-// Scoped to the B2B header so these rules don't leak into header.html
-#header_B2B {
+// Scoped to the B2B-style headers (B2B, SmartSupply, punchout, employee) so these rules don't leak into header.html
+#header_B2B, #header_SS, #header_punchout, #header_EMP {
   header {
     color:colors.$text;
     text-decoration: none;
@@ -66,7 +66,7 @@
     font-size: 12px;
   }
   #register { display: none; }
-  #my_company {
+  #my_company, #sign_into_customer {
     font-size: 12px;
     color: colors.$text;
     font-family: "Inter";
@@ -162,7 +162,7 @@
       height: 42px;
       font-size: 1rem;
       padding-left: 16px;
-      padding-right: 40px;
+      padding-right: 52px;
       border: none;
       @include focus.focus-ring-base;
       &:focus-visible { @include focus.focus-ring; }
@@ -173,13 +173,18 @@
     }
     #search_icon {
       position: absolute;
-      right: 12px;
+      right: 0;
       display: flex;
       align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 42px;
       background: none;
       border: none;
+      border-radius: 0 4px 4px 0;
       padding: 0;
       cursor: pointer;
+      &:hover { background-color: colors.$lightgray03; }
     }
   }
   .header_icons {
@@ -562,6 +567,7 @@
         display: flex;
         align-items: center;
         flex-shrink: 0;
+        &:hover { background-color: colors.$lightgray03; }
 
         svg { width: 28px; height: 28px; }
       }
@@ -667,6 +673,7 @@
         display: flex;
         align-items: center;
         flex-shrink: 0;
+        &:hover { background-color: colors.$lightgray03; }
 
         svg { width: 28px; height: 28px; }
       }
@@ -764,7 +771,24 @@
         display: flex;
         align-items: center;
         flex-shrink: 0;
+        &:hover { background-color: colors.$lightgray03; }
       }
     }
   }
+}
+
+// Punchout header: gray badge (Figma "Gray/Light 01") in place of the red Business badge
+#header_punchout #business_badge {
+  width: 24px;
+  background-color: colors.$lightgray01;
+
+  span {
+    color: colors.$text;
+  }
+}
+
+// SmartSupply header: SmartSUPPLY logo at a fixed 42px height (width follows the aspect ratio)
+#header_SS #post_header_container > a img {
+  width: auto;
+  height: 42px;
 }

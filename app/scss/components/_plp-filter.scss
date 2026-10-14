@@ -206,7 +206,17 @@ $-plp-divider: #ACABAB;  // categories divider
     }
     img { flex-shrink: 0; transform: rotate(180deg); }
     &:hover span { text-decoration: underline; }
+
+    // Selected last-level category. The bold Inter face is pinned to 700, so the
+    // variation setting is what makes this a true semibold.
+    &.is-selected span {
+        font-weight: 600;
+        font-variation-settings: "wght" 600;
+    }
 }
+
+// Last level (no further subcategories): no chevrons
+.plp-category-list--leaf .plp-category-link img { display: none; }
 
 // 5 rows visible, no scrollbar; Show More shows 7 rows with a scrollbar
 .plp-facet-list {
@@ -295,6 +305,11 @@ $-plp-divider: #ACABAB;  // categories divider
         transition: left 0.2s ease;
     }
     &[aria-checked="true"] .plp-switch-knob { left: 14px; }
+    // mm: the knob covers the right end, so mirror the track to round the exposed left end
+    &[aria-checked="true"]::before {
+        left: 0;
+        border-radius: 8px 0 0 8px;
+    }
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 

@@ -62,6 +62,25 @@ $-plp-divider: #ACABAB;  // result dividers
     border-top: 1px solid $-plp-divider;
 }
 
+// Cards (#plp_cards): a single list with dividers; MD and SM: 2-up grid without dividers
+@mixin plp-two-up {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 16px;
+
+    .plp-divider { display: none; }
+}
+
+.plp-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @include md { @include plp-two-up; }
+    @include sm { @include plp-two-up; }
+}
+
 .plp-card {
     display: grid;
     grid-template-columns: 172px minmax(0, 1fr) 1px 256px;
@@ -145,6 +164,33 @@ $-plp-divider: #ACABAB;  // result dividers
 
 .plp-card-attention {
     margin: 1px;
+}
+
+// Info icon next to "Available": opens the availability modal. Same 44px round
+// hit target as the favorites heart, with a BDI Blue halo on hover (8%) / press
+// and while the modal is open (16%). Negative margins keep the 23px footprint.
+.plp-stock-info-btn {
+    @include focus.focus-ring-base;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin: -10.5px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover { background-color: rgba(colors.$bdiblue, 0.08); }
+    &:active,
+    &[aria-expanded="true"] { background-color: rgba(colors.$bdiblue, 0.16); }
+    &:focus-visible {
+        outline: 2px solid colors.$bdiblue;
+        outline-offset: 0;
+    }
 }
 
 .plp-card-title {
@@ -495,3 +541,33 @@ $-pill-border: #557C92;
 
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); outline-offset: -3px; }
 }
+
+// ----------------------------MD and SM: stacked card in the 2-up grid
+// Actions, 128px image, details, then price and buttons centered (256px wide)
+@mixin plp-card-stacked {
+    .plp-card,
+    .plp-card--b2b {
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+        gap: 12px;
+        padding: 4px;
+    }
+    .plp-card-details { grid-column: 1; grid-row: auto; padding-top: 0; }
+    .plp-card-buy {
+        grid-column: 1;
+        grid-row: auto;
+        justify-self: center;
+        width: 256px;
+        max-width: 100%;
+    }
+    .plp-card-buttons,
+    .plp-add-to-cart { width: 100%; }
+    .plp-card-image { width: 128px; height: auto; }
+    // Narrower label column so the ID rows fit the 256px details area at SM
+    .plp-card-ids--grid { grid-template-columns: 88px max-content 24px; }
+    // The MD/SM wireframes show BDI No. and Mfr Part No. only
+    .plp-card-ids .plp-card-id-row--cust { display: none; }
+}
+
+@include md { @include plp-card-stacked; }
+@include sm { @include plp-card-stacked; }

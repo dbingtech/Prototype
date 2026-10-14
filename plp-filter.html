@@ -7,6 +7,9 @@
   </div>
   <div class="plp-filter-top">
     <label class="plp-check plp-check--16"><input type="checkbox"><span>In Stock</span></label>
+    <!-- Signed-in (B2B-style header) only; removed for guests when the filter loads -->
+    <label class="plp-check plp-check--16" data-b2b-only><input type="checkbox"><span>Has Customer Part No.</span></label>
+    <label class="plp-check plp-check--16" data-b2b-only><input type="checkbox"><span>Contracted</span></label>
     <div class="plp-input plp-input--md">
       <input type="text" placeholder="Search Within" aria-label="Search within results">
       <button type="button" class="plp-input-btn" aria-label="Search"><img src="images/icons/plp/spyglass_24.svg" alt="" width="24" height="24"></button>
@@ -73,12 +76,43 @@
   <section class="plp-facet" id="facet_bore_inch">
     <h2 class="plp-facet-header">
       <button type="button" class="plp-facet-toggle" aria-expanded="false" aria-controls="facet_bore_inch_body">
-        Bore - Inch
+        Bore
         <img class="plp-chevron" src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32">
       </button>
     </h2>
     <div class="plp-facet-body" id="facet_bore_inch_body" hidden>
-      <p class="plp-facet-empty">No options available</p>
+      <div class="plp-input-toggle">
+      <div class="plp-input plp-input--sm">
+        <input type="text" placeholder="Search Bore" aria-label="Search Bore">
+        <button type="button" class="plp-input-btn" aria-label="Search"><img src="images/icons/plp/spyglass_24.svg" alt="" width="24" height="24"></button>
+      </div>
+      <div class="plp-unit-toggle">
+        <span class="plp-unit-label is-active">in</span>
+        <button type="button" class="plp-switch" role="switch" aria-checked="false" aria-label="Show Bore in millimeters">
+          <img class="plp-switch-knob" src="images/icons/plp/toggle_knob.svg" alt="" width="18" height="18">
+        </button>
+        <span class="plp-unit-label">mm</span>
+      </div>
+    </div>
+      <ul class="plp-facet-list">
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="0.591 (427)" data-mm="15.0 (427)">0.591 (427)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="0.625 (57)" data-mm="15.875 (57)">0.625 (57)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="0.63 (35)" data-mm="16.0 (35)">0.63 (35)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.003 (31)" data-mm="25.476 (31)">1.003 (31)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="0.5 (12)" data-mm="12.7 (12)">0.5 (12)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.001 (4)" data-mm="25.425 (4)">1.001 (4)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.006 (4)" data-mm="25.552 (4)">1.006 (4)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.005 (3)" data-mm="25.527 (3)">1.005 (3)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="3.937 (3)" data-mm="100.0 (3)">3.937 (3)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.0 (2)" data-mm="25.4 (2)">1.0 (2)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.018 (2)" data-mm="25.857 (2)">1.018 (2)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="4.724 (2)" data-mm="120.0 (2)">4.724 (2)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.563 (1)" data-mm="39.7 (1)">1.563 (1)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="4.331 (1)" data-mm="110.0 (1)">4.331 (1)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="5.118 (1)" data-mm="130.0 (1)">5.118 (1)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="5.276 (1)" data-mm="134.0 (1)">5.276 (1)</span></label></li>
+      </ul>
+      <button type="button" class="plp-show-more" aria-expanded="false">Show More</button>
     </div>
   </section>
   <section class="plp-facet" id="facet_outside_diameter">
@@ -103,12 +137,12 @@
       </div>
     </div>
       <ul class="plp-facet-list">
-        <li><label class="plp-check plp-check--20"><input type="checkbox"><span>1.378 (529)</span></label></li>
-        <li><label class="plp-check plp-check--20"><input type="checkbox"><span>1.254 (31)</span></label></li>
-        <li><label class="plp-check plp-check--20"><input type="checkbox"><span>1.253 (8)</span></label></li>
-        <li><label class="plp-check plp-check--20"><input type="checkbox"><span>1.255 (3)</span></label></li>
-        <li><label class="plp-check plp-check--20"><input type="checkbox"><span>5.906 (3)</span></label></li>
-        <li><label class="plp-check plp-check--20"><input type="checkbox"><span>1.25 (2)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.378 (529)" data-mm="35.0 (529)">1.378 (529)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.254 (31)" data-mm="31.852 (31)">1.254 (31)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.253 (8)" data-mm="31.826 (8)">1.253 (8)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.255 (3)" data-mm="31.877 (3)">1.255 (3)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="5.906 (3)" data-mm="150.0 (3)">5.906 (3)</span></label></li>
+        <li><label class="plp-check plp-check--20"><input type="checkbox"><span data-in="1.25 (2)" data-mm="31.75 (2)">1.25 (2)</span></label></li>
       </ul>
       <button type="button" class="plp-show-more" aria-expanded="false">Show More</button>
     </div>

@@ -1,0 +1,32 @@
+<!-- Opened from the info icon next to "Available" on a PLP card (script.js positions it under the icon) -->
+<section class="availability-modal" id="availability_modal" role="dialog" aria-labelledby="availability_modal_text" hidden>
+  <p class="availability-modal-text" id="availability_modal_text">Out of stock items usually ship in 1-5 business days, but lead times can vary. Please call your nearest BDI sales office for current lead time.</p>
+  <form class="availability-modal-form" id="availability_modal_form">
+    <input type="text" class="availability-modal-zip" id="availability_modal_zip" inputmode="numeric" autocomplete="postal-code" placeholder="zip code" aria-label="Zip code">
+    <button type="submit" class="btn btn--primary availability-modal-locate">Locate Sales Office</button>
+  </form>
+  <!-- Shown after Locate Sales Office (prototype: always the same offices) -->
+  <ul class="availability-modal-offices" id="availability_modal_offices" aria-label="Nearest sales offices" hidden>
+    <li class="availability-office">
+      <p class="availability-office-name">Cleveland</p>
+      <p>7555 E. Pleasant Valley Road, Suite 180</p>
+      <p>Independence, OH 44131-5562</p>
+      <p>United States</p>
+      <a class="availability-office-phone" href="tel:216-676-5211"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="#20485c" fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.88 1.88 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.29 11.29 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.88 1.88 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75z" clip-rule="evenodd"/></svg>216-676-5211</a>
+    </li>
+    <li class="availability-office">
+      <p class="availability-office-name">Cleveland</p>
+      <p>7555 E. Pleasant Valley Road, Suite 180</p>
+      <p>Independence, OH 44131-5562</p>
+      <p>United States</p>
+      <a class="availability-office-phone" href="tel:216-676-5211"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="#20485c" fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.88 1.88 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.29 11.29 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.88 1.88 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75z" clip-rule="evenodd"/></svg>216-676-5211</a>
+    </li>
+    <li class="availability-office">
+      <p class="availability-office-name">Cleveland</p>
+      <p>7555 E. Pleasant Valley Road, Suite 180</p>
+      <p>Independence, OH 44131-5562</p>
+      <p>United States</p>
+      <a class="availability-office-phone" href="tel:216-676-5211"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="#20485c" fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.88 1.88 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.29 11.29 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.88 1.88 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75z" clip-rule="evenodd"/></svg>216-676-5211</a>
+    </li>
+  </ul>
+</section>

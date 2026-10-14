@@ -68,41 +68,89 @@
       }
       .reg-input::placeholder { color: #6a6a6a; }
       .reg-input:focus { outline: none; border-color: #20485c; }
-      .reg-tooltip-wrapper {
-        position: relative;
+      /* Prototype-only: demo logins panel, fixed to the upper right */
+      .demo-logins {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 1500;
+        width: 400px;
+        max-width: calc(100vw - 32px);
+        background-color: #fff;
+        border: 1px solid #aaabab;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        font-family: "Inter", sans-serif;
+        color: #303031;
+      }
+      .demo-logins[hidden] { display: none; }
+      .demo-logins-header {
         display: flex;
         align-items: center;
-        width: 100%;
-      }
-      .reg-tooltip-wrapper:hover .reg-tooltip { opacity: 1; visibility: visible; }
-      .reg-tooltip {
-        position: absolute;
-        top: calc(100% + 8px);
-        left: 0;
-        background-color: #414143;
+        justify-content: space-between;
+        padding: 8px 8px 8px 16px;
+        background-color: #20485c;
         color: #fff;
-        font-family: "Inter", sans-serif;
+        border-radius: 7px 7px 0 0;
+      }
+      .demo-logins-header h2 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+      }
+      .demo-logins-close {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 24px;
+        line-height: 1;
+        padding: 4px 8px;
+        cursor: pointer;
+      }
+      .demo-logins-hint {
+        font-size: 12px;
+        color: #6a6a6a;
+        margin: 8px 16px 0;
+      }
+      .demo-logins-table {
+        width: 100%;
+        border-collapse: collapse;
         font-size: 13px;
-        padding: 8px 12px;
-        border-radius: 4px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.2s ease, visibility 0.2s ease;
-        z-index: 200;
+        margin: 4px 0 8px;
+      }
+      .demo-logins-table th,
+      .demo-logins-table td {
+        text-align: left;
+        padding: 6px 16px 6px 0;
+        vertical-align: top;
         white-space: nowrap;
-        pointer-events: none;
       }
-      .reg-tooltip::before {
-        content: '';
-        position: absolute;
-        bottom: 100%;
-        left: 16px;
-        border: 6px solid transparent;
-        border-bottom-color: #414143;
+      .demo-logins-table td:first-child {
+        white-space: normal;
+        overflow-wrap: anywhere;
       }
+      .demo-logins-table th:first-child,
+      .demo-logins-table td:first-child { padding-left: 16px; }
+      .demo-logins-table thead th {
+        font-weight: 600;
+        border-bottom: 1px solid #aaabab;
+      }
+      .demo-logins-page {
+        display: block;
+        font-size: 12px;
+        color: #6a6a6a;
+      }
+      .demo-logins-table tbody tr { cursor: pointer; }
+      .demo-logins-table tbody tr:hover,
+      .demo-logins-table tbody tr:focus-visible { background-color: #eef3f5; }
+      .demo-logins-table tbody tr:focus-visible { outline: 2px solid #20485c; outline-offset: -2px; }
+      .demo-logins-open {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 1500;
+      }
+      .demo-logins-open[hidden] { display: none; }
       .reg-options-row {
         display: flex;
         align-items: center;
@@ -231,15 +279,9 @@
             <h2>Sign-In to Continue</h2>
             <div class="reg-title-divider"></div>
           </div>
-          <div class="reg-tooltip-wrapper">
-            <div class="reg-input-wrapper">
-              <span class="reg-required">*</span>
-              <input type="email" id="signin-email" class="reg-input" placeholder="Email" required>
-            </div>
-            <div class="reg-tooltip">
-              <span>Username: B2B</span>
-              <span>Password: B2B</span>
-            </div>
+          <div class="reg-input-wrapper">
+            <span class="reg-required">*</span>
+            <input type="email" id="signin-email" class="reg-input" placeholder="Email" required>
           </div>
           <div class="reg-input-wrapper">
             <span class="reg-required">*</span>
@@ -288,12 +330,73 @@
       </div>
     </div>
     <div id="footer"></div>
+
+    <!-- Prototype-only: demo logins (built from CREDENTIALS below) -->
+    <section class="demo-logins" id="demo_logins" role="dialog" aria-labelledby="demo_logins_title">
+      <div class="demo-logins-header">
+        <h2 id="demo_logins_title">Demo Logins</h2>
+        <button type="button" class="demo-logins-close" id="demo_logins_close" aria-label="Close demo logins">&times;</button>
+      </div>
+      <p class="demo-logins-hint">Click a row to fill in the sign-in fields.</p>
+      <table class="demo-logins-table">
+        <thead>
+          <tr><th scope="col">Username</th><th scope="col">Password</th><th scope="col">Goes to</th></tr>
+        </thead>
+        <tbody id="demo_logins_rows"></tbody>
+      </table>
+    </section>
+    <button type="button" class="btn btn--secondary btn--xsmall demo-logins-open" id="demo_logins_open" aria-controls="demo_logins" hidden>Demo Logins</button>
+
     <script>
       const CREDENTIALS = [
-        { email: 'B2C-BDI@bdi-usa.com',      password: 'B2C-BDI',    type: 'B2C',         redirect: 'index_B2C.html' },
+        { email: 'B2C',                        password: 'B2C',        type: 'B2C',         redirect: 'index_B2C.html' },
         { email: 'B2B',                        password: 'B2B',        type: 'B2B',         redirect: 'index_B2B.html' },
-        { email: 'Smartsupply@bdi-usa.com',   password: 'Smartsupply', type: 'SmartSupply', redirect: 'index.html' },
+        { email: 'smartsupply',                password: 'smartsupply', type: 'SmartSupply', redirect: 'index_SS.html' },
+        { email: 'punchout',                   password: 'punchout',   type: 'Punchout',    redirect: 'index_punchout.html' },
+        { email: 'emp',                        password: 'emp',        type: 'Employee',    redirect: 'index_EMP.html' },
       ];
+
+      // Demo logins panel
+      const demoPanel = document.getElementById('demo_logins');
+      const demoOpen = document.getElementById('demo_logins_open');
+      const demoRows = document.getElementById('demo_logins_rows');
+
+      CREDENTIALS.forEach(function (c) {
+        const row = document.createElement('tr');
+        row.tabIndex = 0;
+        row.title = 'Fill in ' + c.type + ' login';
+        [c.email, c.password, c.type].forEach(function (text) {
+          const cell = document.createElement('td');
+          cell.textContent = text;
+          row.appendChild(cell);
+        });
+        const page = document.createElement('span');
+        page.className = 'demo-logins-page';
+        page.textContent = c.redirect;
+        row.lastChild.appendChild(page);
+        function fill() {
+          document.getElementById('signin-email').value = c.email;
+          document.getElementById('signin-password').value = c.password;
+          document.getElementById('signin-email').dispatchEvent(new Event('input'));
+          document.getElementById('signin-btn').focus();
+        }
+        row.addEventListener('click', fill);
+        row.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fill(); }
+        });
+        demoRows.appendChild(row);
+      });
+
+      function setDemoOpen(open) {
+        demoPanel.hidden = !open;
+        demoOpen.hidden = open;
+        (open ? document.getElementById('demo_logins_close') : demoOpen).focus();
+      }
+      document.getElementById('demo_logins_close').addEventListener('click', function () { setDemoOpen(false); });
+      demoOpen.addEventListener('click', function () { setDemoOpen(true); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !demoPanel.hidden) setDemoOpen(false);
+      });
 
       document.getElementById('signin-btn').addEventListener('click', function () {
         const email = document.getElementById('signin-email').value.trim();
