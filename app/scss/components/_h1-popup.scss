@@ -1,0 +1,70 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+
+// Pop-up on index.html that reveals the visually hidden SEO h1 from hero.html
+#h1_popup_overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+
+    &.active {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.h1-popup {
+    position: relative;
+    max-width: 480px;
+    width: 100%;
+    padding: 32px 32px 24px;
+    background-color: colors.$white;
+    border-radius: 12px;
+    border: 1px solid colors.$lightgray01;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    font-family: "Inter", sans-serif;
+}
+
+.h1-popup-label {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: colors.$medgray;
+}
+
+.h1-popup-text {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: colors.$bdiblue;
+}
+
+.h1-popup-close {
+    @include focus.header-action-reset;
+    @include focus.focus-ring-base;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 1;
+    color: colors.$darkgray;
+    cursor: pointer;
+
+    &:hover {
+        background-color: colors.$lightgray03;
+    }
+
+    &:focus-visible {
+        @include focus.focus-ring(colors.$bdiblue);
+    }
+}

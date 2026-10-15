@@ -402,6 +402,49 @@
                 });
 
                 startTimer();
+
+                // index.html only: after 1.5s, pop up the visually hidden h1's text.
+                // Checked by filename because index_B2C.html also loads #hero.
+                const page = window.location.pathname.split('/').pop();
+                const hiddenH1 = heroEl.querySelector('.hidden-h1');
+                if ((page === '' || page === 'index.html') && hiddenH1) {
+                    setTimeout(function () {
+                        const h1Overlay = document.createElement('div');
+                        h1Overlay.id = 'h1_popup_overlay';
+                        h1Overlay.innerHTML =
+                            '<div class="h1-popup" role="dialog" aria-modal="true" aria-labelledby="h1_popup_label">' +
+                                '<button type="button" class="h1-popup-close" aria-label="Close">&times;</button>' +
+                                '<p class="h1-popup-label" id="h1_popup_label">Hidden H1 on this page for SEO:</p>' +
+                                '<p class="h1-popup-text"></p>' +
+                            '</div>';
+                        // textContent so the h1 text is shown as-is, never parsed as HTML
+                        h1Overlay.querySelector('.h1-popup-text').textContent = hiddenH1.textContent.trim();
+                        document.body.appendChild(h1Overlay);
+
+                        // Auto-close 5s after it opens
+                        const h1AutoClose = setTimeout(closeH1Popup, 5000);
+
+                        function closeH1Popup() {
+                            clearTimeout(h1AutoClose);
+                            h1Overlay.classList.remove('active');
+                            document.removeEventListener('keydown', onH1PopupKey);
+                        }
+                        function onH1PopupKey(e) {
+                            if (e.key === 'Escape') closeH1Popup();
+                        }
+                        h1Overlay.querySelector('.h1-popup-close').addEventListener('click', closeH1Popup);
+                        h1Overlay.addEventListener('click', function (e) {
+                            if (!e.target.closest('.h1-popup')) closeH1Popup();
+                        });
+                        document.addEventListener('keydown', onH1PopupKey);
+
+                        // Next frame so the opacity transition runs
+                        requestAnimationFrame(function () {
+                            h1Overlay.classList.add('active');
+                            h1Overlay.querySelector('.h1-popup-close').focus();
+                        });
+                    }, 1500);
+                }
             });
         } // end if (heroEl)
         fetch('hero2.html')
@@ -466,6 +509,75 @@
                 });
             });
         } // end if (pdpcardEl)
+
+        // PDP details (pdp.html): jump links, attribute filters, compare, pagination
+        const pdpDetailsEl = document.getElementById('pdp_details');
+        if (pdpDetailsEl) {
+            // Jump links: mark the clicked section as current
+            const jumpLinks = pdpDetailsEl.querySelectorAll('.pdp-jump-link');
+            jumpLinks.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    jumpLinks.forEach(function (l) { l.removeAttribute('aria-current'); });
+                    this.setAttribute('aria-current', 'true');
+                });
+            });
+
+            // Select / De-select All mirrors the attribute boxes (some checked = indeterminate)
+            const altAll = document.getElementById('pdp_alt_all');
+            const altAttrs = Array.from(pdpDetailsEl.querySelectorAll('.pdp-alt-attr input'));
+            function checkedAttrCount() {
+                return altAttrs.filter(function (input) { return input.checked; }).length;
+            }
+            altAll.addEventListener('change', function () {
+                altAttrs.forEach(function (input) { input.checked = altAll.checked; });
+            });
+            altAttrs.forEach(function (input) {
+                input.addEventListener('change', function () {
+                    const n = checkedAttrCount();
+                    altAll.checked = n === altAttrs.length;
+                    altAll.indeterminate = n > 0 && n < altAttrs.length;
+                });
+            });
+
+            // Prototype: there's no search behind these yet, so just confirm the action
+            const altStatus = document.getElementById('pdp_alt_status');
+            document.getElementById('pdp_alt_refresh').addEventListener('click', function () {
+                altStatus.textContent = 'Results refreshed using ' + checkedAttrCount() + ' of ' + altAttrs.length + ' attributes.';
+            });
+            const compareStatus = document.getElementById('pdp_compare_status');
+            document.getElementById('pdp_compare_selected').addEventListener('click', function () {
+                const n = pdpDetailsEl.querySelectorAll('.pdp-alt-table input:checked').length;
+                compareStatus.textContent = n
+                    ? 'Comparing ' + n + (n === 1 ? ' item' : ' items') + ' with this item.'
+                    : 'Select at least one item to compare.';
+            });
+
+            // Pagination (visual only): current page and items per page
+            const pages = pdpDetailsEl.querySelectorAll('.pdp-page');
+            const prevPage = pdpDetailsEl.querySelector('.pdp-page-arrow[data-step="-1"]');
+            const nextPage = pdpDetailsEl.querySelector('.pdp-page-arrow[data-step="1"]');
+            let currentPage = 0;
+            function goToPage(i) {
+                pages[currentPage].removeAttribute('aria-current');
+                currentPage = i;
+                pages[currentPage].setAttribute('aria-current', 'page');
+                prevPage.disabled = i === 0;
+                nextPage.disabled = i === pages.length - 1;
+            }
+            pages.forEach(function (btn, i) {
+                btn.addEventListener('click', function () { goToPage(i); });
+            });
+            [prevPage, nextPage].forEach(function (btn) {
+                btn.addEventListener('click', function () { goToPage(currentPage + Number(this.dataset.step)); });
+            });
+            const perPageOpts = pdpDetailsEl.querySelectorAll('.pdp-per-page-opt');
+            perPageOpts.forEach(function (opt) {
+                opt.addEventListener('click', function () {
+                    perPageOpts.forEach(function (o) { o.removeAttribute('aria-current'); });
+                    this.setAttribute('aria-current', 'true');
+                });
+            });
+        } // end if (pdpDetailsEl)
 
         // Load PLP filter (plp-filter.html): facet accordions, Show More, unit toggle
         const plpFilterEl = document.getElementById('plp_filter');
