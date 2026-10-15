@@ -1,0 +1,47 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+@use '../globals/responsive' as *;
+
+@mixin -centered {
+    right: auto;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+// Back to top: fixed button, shown once the page has scrolled (script.js adds .is-visible)
+.back-to-top {
+    @include focus.focus-ring-base;
+    position: fixed;
+    right: 128px;
+    bottom: 128px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    background-color: colors.$white;
+    border: 1px solid colors.$bdiblue;
+    border-radius: 50%;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, box-shadow 0.15s ease;
+
+    &.is-visible {
+        opacity: 1;
+        visibility: visible;
+    }
+    &:hover { box-shadow: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+
+    // chevron_32 points left; turn it up
+    img { transform: rotate(90deg); }
+
+    // Phones: centered along the bottom edge
+    @include sm  { @include -centered; }
+    @include xsm { @include -centered; }
+}

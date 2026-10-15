@@ -64,7 +64,8 @@ $-pdp-divider: #ACABAB;  // section and card dividers
     &:hover { background-color: colors.$lightgray03; }
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 
-    &[aria-current="true"] {
+    // Navy fill stays on Specifications; Alternatives never gets it
+    &--primary {
         background-color: colors.$bdiblue;
         color: colors.$white;
         font-weight: 600;
@@ -88,6 +89,9 @@ $-pdp-divider: #ACABAB;  // section and card dividers
     font-weight: 600;
     color: colors.$bdiblue;
     text-transform: uppercase;
+
+    // Focused by the jump links; no ring after a mouse click
+    &:focus:not(:focus-visible) { outline: none; }
 }
 
 // ----------------------------Specifications

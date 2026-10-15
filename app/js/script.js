@@ -513,12 +513,19 @@
         // PDP details (pdp.html): jump links, attribute filters, compare, pagination
         const pdpDetailsEl = document.getElementById('pdp_details');
         if (pdpDetailsEl) {
-            // Jump links: mark the clicked section as current
-            const jumpLinks = pdpDetailsEl.querySelectorAll('.pdp-jump-link');
-            jumpLinks.forEach(function (link) {
-                link.addEventListener('click', function () {
-                    jumpLinks.forEach(function (l) { l.removeAttribute('aria-current'); });
-                    this.setAttribute('aria-current', 'true');
+            // Jump links: smooth-scroll to the section (instant if the user prefers reduced motion),
+            // then move focus to its heading so keyboard and screen reader users land there too
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            pdpDetailsEl.querySelectorAll('.pdp-jump-link').forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    const section = document.querySelector(this.getAttribute('href'));
+                    if (!section) return;
+                    e.preventDefault();
+                    section.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+                    history.pushState(null, '', this.getAttribute('href'));
+                    const heading = section.querySelector('.pdp-section-title');
+                    heading.setAttribute('tabindex', '-1');
+                    heading.focus({ preventScroll: true });
                 });
             });
 
@@ -578,6 +585,24 @@
                 });
             });
         } // end if (pdpDetailsEl)
+
+        // Back to top: appears after one screen of scrolling; smooth unless the user prefers reduced motion
+        const backToTop = document.getElementById('back_to_top');
+        if (backToTop) {
+            function updateBackToTop() {
+                backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight);
+            }
+            window.addEventListener('scroll', updateBackToTop, { passive: true });
+            updateBackToTop();
+
+            backToTop.addEventListener('click', function () {
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+                // Keyboard users continue from the top of the page, not the end of it
+                const first = document.querySelector('#header a[href], #header button');
+                if (first) first.focus({ preventScroll: true });
+            });
+        } // end if (backToTop)
 
         // Load PLP filter (plp-filter.html): facet accordions, Show More, unit toggle
         const plpFilterEl = document.getElementById('plp_filter');

@@ -205,22 +205,21 @@
 .pdp-card .pdp-card-info-btn {
     color: colors.$bdiblue;
 }
+// Shrinks to the button's width on the right; the price centers above the button
 .pdp-card-purchase {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
+    align-self: flex-end;
     gap: 8px;
 
-    @include sm  { align-items: stretch; }
-    @include xsm { align-items: stretch; }
+    @include sm  { align-self: stretch; }
+    @include xsm { align-self: stretch; }
 }
 .pdp-card .pdp-card-price {
     display: flex;
     align-items: baseline;
     gap: 4px;
-
-    @include sm  { justify-content: flex-end; }
-    @include xsm { justify-content: flex-end; }
 }
 .pdp-card-amount {
     font-size: 20px;
