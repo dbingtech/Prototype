@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logos/Favicon.png" />
+    <link rel="stylesheet" type="text/css" href="dist/styles.css" />
+    <script src="app/js/script.js" async></script>
+    <title>PDP: B2B
+    </title>
+  </head>
+  <body>
+    <div id="header_B2B"></div>
+    <div id="navbar_B2B"></div>
+    <div id="breadcrumbs">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item breadcrumb-home"><a href="index_B2B.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
+          <li class="breadcrumb-item"><a href="plp_B2B.html">General Purpose AC Motors</a></li>
+        </ol>
+      </nav>
+    </div>
+
+    <div id="main">
+      <div id="pdpcard_B2B"></div>
+
+      <div id="pdp_details">
+        <!-- Jump links: in-page nav to the sections below -->
+        <nav class="pdp-jump-links" aria-label="Product sections">
+          <a class="pdp-jump-link pdp-jump-link--primary" href="#pdp_inventory">Inventory Totals</a>
+          <a class="pdp-jump-link" href="#pdp_specs">Specifications</a>
+          <a class="pdp-jump-link" href="#pdp_alternatives">Alternatives</a>
+        </nav>
+
+        <!-- Inventory Totals: BDI warehouses and factory side by side on LG+, stacked below -->
+        <section class="pdp-section" id="pdp_inventory" aria-labelledby="pdp_inventory_title">
+          <h2 class="pdp-section-title" id="pdp_inventory_title">Inventory Totals</h2>
+          <div class="pdp-inv-intro">
+            <p>Our advanced distribution technology automatically ships your product from the closest warehouse(s), with enough stock to fill your order.</p>
+            <p class="pdp-inv-call">Need it faster? Please call us at <a href="tel:+18335052801">833-505-2801</a></p>
+          </div>
+          <div class="pdp-inv-groups">
+            <div class="pdp-inv-group">
+              <h3 class="pdp-inv-title" id="pdp_inv_bdi_title">BDI Warehouse Stock</h3>
+              <table class="pdp-inv-table" aria-labelledby="pdp_inv_bdi_title">
+                <thead>
+                  <tr>
+                    <th scope="col">Location</th>
+                    <th scope="col" class="pdp-inv-qty">Qty</th>
+                    <th scope="col">Estimated Delivery</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="pdp-inv-loc">BDI US Cleveland</td>
+                    <td class="pdp-inv-qty" data-label="Qty">52</td>
+                    <td data-label="Estimated Delivery">1-3 Business Days</td>
+                  </tr>
+                  <tr>
+                    <td class="pdp-inv-loc">BDI US Dallas</td>
+                    <td class="pdp-inv-qty" data-label="Qty">63</td>
+                    <td data-label="Estimated Delivery">1-3 Business Days</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th scope="row">Total:</th>
+                    <td class="pdp-inv-qty">115</td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+              </table>
+              <p class="pdp-inv-note">*Delivery estimates are based on lead time plus overnight shipping. These are estimates and actual results may vary.</p>
+            </div>
+            <div class="pdp-inv-group">
+              <h3 class="pdp-inv-title" id="pdp_inv_factory_title">Factory Stock</h3>
+              <table class="pdp-inv-table pdp-inv-table--factory" aria-labelledby="pdp_inv_factory_title">
+                <thead>
+                  <tr>
+                    <th scope="col">Location</th>
+                    <th scope="col" class="pdp-inv-qty">Qty</th>
+                    <th scope="col">Estimated Delivery</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="pdp-inv-loc">Factory Stock</td>
+                    <td class="pdp-inv-qty" data-label="Qty">9,999</td>
+                    <td data-label="Estimated Delivery">Contact Local BDI Sales Office</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Specifications + Alternatives (pdp-sections.html) -->
+        <div id="pdp_sections"></div>
+      </div>
+    </div>
+    <div id="footer"></div>
+    <button type="button" class="back-to-top" id="back_to_top" aria-label="Back to top">
+      <img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32">
+    </button>
+  </body>
+</html>

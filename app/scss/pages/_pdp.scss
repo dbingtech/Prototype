@@ -42,13 +42,15 @@ $-pdp-divider: #ACABAB;  // section and card dividers
 }
 
 // ----------------------------Jump links
+// Wraps when three links (pdp_B2B.html) don't fit on a phone
 .pdp-jump-links {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 64px;
+    gap: 8px 64px;
     margin-bottom: 24px;
 
-    @include -mobile { gap: 32px; margin-bottom: 16px; }
+    @include -mobile { gap: 8px 32px; margin-bottom: 16px; }
 }
 .pdp-jump-link {
     @include focus.focus-ring-base;
@@ -58,6 +60,7 @@ $-pdp-divider: #ACABAB;  // section and card dividers
     font-weight: 500;
     letter-spacing: 0.9px;
     text-transform: uppercase;
+    white-space: nowrap;
     color: colors.$text;
     text-decoration: none;
 
@@ -76,6 +79,9 @@ $-pdp-divider: #ACABAB;  // section and card dividers
 .pdp-section {
     scroll-margin-top: 16px;
 
+    // Clear the condensed card pinned to the top at XXL (113px tall, see _pdpcard.scss)
+    @include xxl { scroll-margin-top: 129px; }
+
     & + & {
         margin-top: 16px;
         padding-top: 16px;
@@ -93,6 +99,145 @@ $-pdp-divider: #ACABAB;  // section and card dividers
     // Focused by the jump links; no ring after a mouse click
     &:focus:not(:focus-visible) { outline: none; }
 }
+
+// ----------------------------Inventory Totals (pdp_B2B.html)
+// No divider between Inventory Totals and Specifications in the B2B wireframe, just space
+#pdp_inventory { margin-bottom: 16px; }
+
+.pdp-inv-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 0;
+    font-size: 16px;
+}
+#pdp_details .pdp-inv-call {
+    font-weight: 600;
+
+    a { color: inherit; }
+}
+// BDI Warehouse and Factory Stock side by side on LG+, stacked below
+.pdp-inv-groups {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+
+    @include -mobile {
+        flex-direction: column;
+        gap: 24px;
+    }
+}
+.pdp-inv-group {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    @include -mobile { width: 100%; }
+}
+.pdp-inv-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: colors.$bdiblue;
+}
+.pdp-inv-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 16px;
+
+    th,
+    td {
+        height: 42px;
+        padding: 8px;
+        box-sizing: border-box;
+        text-align: left;
+        vertical-align: middle;
+    }
+    thead th,
+    tfoot th,
+    tfoot td {
+        background-color: colors.$bdiblue;
+        color: colors.$white;
+        font-weight: 600;
+    }
+    tbody tr:nth-child(even) { background-color: colors.$tablerow; }
+    tfoot th { text-align: right; }
+
+    .pdp-inv-qty {
+        width: 88px;
+        text-align: center;
+    }
+    &--factory .pdp-inv-qty { width: 128px; }
+}
+
+// MD and smaller: each location becomes a block of label/value rows
+@include -mobile {
+    .pdp-inv-table {
+        display: block;
+
+        thead,
+        tbody,
+        tfoot,
+        thead tr { display: block; }
+
+        // Only the "Location" header stays, as a bar over the list
+        thead th { display: none; }
+        thead th:first-child {
+            display: block;
+            height: auto;
+            padding: 4px 8px;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        tbody tr {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 12px 4px;
+        }
+        td {
+            height: auto;
+            padding: 0;
+        }
+        .pdp-inv-qty {
+            width: auto;
+            text-align: left;
+        }
+        .pdp-inv-loc { font-size: 18px; }
+        td[data-label] {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+        td[data-label]::before {
+            content: attr(data-label);
+            font-weight: 800;
+        }
+
+        // Total reads as a bold line under the list
+        tfoot tr {
+            display: flex;
+            gap: 16px;
+            padding: 8px 4px;
+        }
+        tfoot th,
+        tfoot td {
+            flex: 1;
+            height: auto;
+            padding: 0;
+            background-color: transparent;
+            color: colors.$text;
+            font-weight: 800;
+            text-align: left;
+        }
+        tfoot td:empty { display: none; }
+    }
+}
+#pdp_details .pdp-inv-note { font-size: 16px; }
 
 // ----------------------------Specifications
 .pdp-specs {

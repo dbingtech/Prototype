@@ -484,12 +484,22 @@
             .then(data => document.getElementById('homepage_ads').innerHTML = data);
 
         // Load PDP card
-        const pdpcardEl = document.getElementById('pdpcard');
+        // The placeholder's id names the file to load (pdpcard_B2B -> pdpcard_B2B.html)
+        const pdpcardEl = document.querySelector('#pdpcard_B2B, #pdpcard');
         if (pdpcardEl) {
-        fetch('pdpcard.html')
+        fetch(pdpcardEl.id + '.html')
             .then(response => response.text())
             .then(data => {
                 pdpcardEl.innerHTML = data;
+
+                // Compare: checking it takes the user down to Alternatives to pick items to compare with.
+                // Focus stays on the checkbox; unchecking doesn't scroll.
+                document.getElementById('pdp_compare').addEventListener('change', function () {
+                    const alternatives = document.getElementById('pdp_alternatives');
+                    if (!this.checked || !alternatives) return;
+                    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    alternatives.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+                });
 
                 const favoriteBtn = document.getElementById('pdp_favorite');
                 favoriteBtn.addEventListener('click', function () {
@@ -507,10 +517,89 @@
                             .catch(() => copyStatus.textContent = 'Copy failed');
                     });
                 });
+
+                // Share: copy the page URL and confirm in a message bar under the breadcrumbs.
+                // The status element stays in the page (empty = hidden) so screen readers announce each message.
+                const breadcrumbsEl = document.getElementById('breadcrumbs');
+                const shareBtn = pdpcardEl.querySelector('.pdp-card-share');
+                if (breadcrumbsEl && shareBtn) {
+                    const shareMsgWrap = document.createElement('div');
+                    shareMsgWrap.id = 'pdp_share_message';
+                    shareMsgWrap.innerHTML = '<p class="pdp-share-message" role="status"></p>';
+                    breadcrumbsEl.after(shareMsgWrap);
+                    const shareMsg = shareMsgWrap.firstElementChild;
+                    let shareMsgTimer;
+
+                    function showShareMessage(text, failed) {
+                        clearTimeout(shareMsgTimer);
+                        shareMsg.textContent = text;
+                        shareMsg.classList.toggle('pdp-share-message--error', failed);
+                        shareMsgTimer = setTimeout(function () { shareMsg.textContent = ''; }, 4000);
+                    }
+                    shareBtn.addEventListener('click', function () {
+                        navigator.clipboard.writeText(window.location.href)
+                            .then(() => showShareMessage('URL Copied', false))
+                            .catch(() => showShareMessage('Couldn\'t copy the URL', true));
+                    });
+                }
+
+                // Condensed card: pins to the top once the full card scrolls out of view (XXL only, see _pdpcard.scss).
+                // Built from the loaded card so guest and B2B stay in sync; Add To Cart passes the click to the card's button.
+                const card = pdpcardEl.querySelector('.pdp-card');
+                const mini = document.createElement('div');
+                mini.className = 'pdp-mini';
+                mini.setAttribute('role', 'region');
+                mini.setAttribute('aria-label', 'Product summary');
+                mini.innerHTML =
+                    '<div class="pdp-mini-inner">' +
+                        '<img class="pdp-mini-image" alt="" width="88" height="88">' +
+                        '<div class="pdp-mini-details">' +
+                            '<div class="pdp-mini-top"><p class="pdp-mini-brand"></p></div>' +
+                            '<a class="pdp-mini-title" href="#"></a>' +
+                            '<p class="pdp-mini-name"></p>' +
+                        '</div>' +
+                        '<div class="pdp-mini-buy">' +
+                            '<p class="pdp-mini-price"><span class="pdp-mini-amount"></span> <span class="pdp-mini-unit"></span></p>' +
+                            '<button type="button" class="btn btn--primary pdp-mini-add">Add To Cart</button>' +
+                        '</div>' +
+                    '</div>';
+                mini.querySelector('.pdp-mini-image').src = card.querySelector('.pdp-card-image').src;
+                mini.querySelector('.pdp-mini-brand').textContent = card.querySelector('.pdp-card-brand').textContent;
+                mini.querySelector('.pdp-mini-title').textContent = card.querySelector('.pdp-card-title').textContent;
+                mini.querySelector('.pdp-mini-name').textContent = card.querySelector('.pdp-card-name').textContent;
+                mini.querySelector('.pdp-mini-amount').textContent = card.querySelector('.pdp-card-amount').textContent;
+                mini.querySelector('.pdp-mini-unit').textContent = card.querySelector('.pdp-card-unit').textContent;
+
+                // Stock line: "In Stock" (B2B) or "Available" (guest), with its icon
+                const stock = card.querySelector('.pdp-card-stock, .pdp-card-status');
+                if (stock) {
+                    const miniStock = document.createElement('p');
+                    miniStock.className = 'pdp-mini-status' + (stock.classList.contains('pdp-card-stock') ? ' pdp-mini-status--in' : '');
+                    miniStock.textContent = stock.textContent.trim();
+                    const stockIcon = stock.querySelector('img, svg');
+                    if (stockIcon) miniStock.append(stockIcon.cloneNode(true));
+                    mini.querySelector('.pdp-mini-top').append(miniStock);
+                }
+
+                // Title goes back to the full card
+                mini.querySelector('.pdp-mini-title').addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+                });
+                const cardAdd = card.querySelector('.pdp-card-add.btn--primary');
+                mini.querySelector('.pdp-mini-add').addEventListener('click', function () { cardAdd.click(); });
+                document.body.append(mini);
+
+                // Visible only after the card has scrolled up past the top, not before it comes into view
+                new IntersectionObserver(function (entries) {
+                    const entry = entries[0];
+                    mini.classList.toggle('is-visible', !entry.isIntersecting && entry.boundingClientRect.top < 0);
+                }).observe(card);
             });
         } // end if (pdpcardEl)
 
-        // PDP details (pdp.html): jump links, attribute filters, compare, pagination
+        // PDP details (pdp.html, pdp_B2B.html): jump links, attribute filters, compare, pagination
         const pdpDetailsEl = document.getElementById('pdp_details');
         if (pdpDetailsEl) {
             // Jump links: smooth-scroll to the section (instant if the user prefers reduced motion),
@@ -529,61 +618,72 @@
                 });
             });
 
-            // Select / De-select All mirrors the attribute boxes (some checked = indeterminate)
-            const altAll = document.getElementById('pdp_alt_all');
-            const altAttrs = Array.from(pdpDetailsEl.querySelectorAll('.pdp-alt-attr input'));
-            function checkedAttrCount() {
-                return altAttrs.filter(function (input) { return input.checked; }).length;
-            }
-            altAll.addEventListener('change', function () {
-                altAttrs.forEach(function (input) { input.checked = altAll.checked; });
-            });
-            altAttrs.forEach(function (input) {
-                input.addEventListener('change', function () {
-                    const n = checkedAttrCount();
-                    altAll.checked = n === altAttrs.length;
-                    altAll.indeterminate = n > 0 && n < altAttrs.length;
-                });
-            });
+            // Specifications + Alternatives are shared by pdp.html and pdp_B2B.html
+            fetch('pdp-sections.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('pdp_sections').innerHTML = data;
 
-            // Prototype: there's no search behind these yet, so just confirm the action
-            const altStatus = document.getElementById('pdp_alt_status');
-            document.getElementById('pdp_alt_refresh').addEventListener('click', function () {
-                altStatus.textContent = 'Results refreshed using ' + checkedAttrCount() + ' of ' + altAttrs.length + ' attributes.';
-            });
-            const compareStatus = document.getElementById('pdp_compare_status');
-            document.getElementById('pdp_compare_selected').addEventListener('click', function () {
-                const n = pdpDetailsEl.querySelectorAll('.pdp-alt-table input:checked').length;
-                compareStatus.textContent = n
-                    ? 'Comparing ' + n + (n === 1 ? ' item' : ' items') + ' with this item.'
-                    : 'Select at least one item to compare.';
-            });
+                    // A deep link (e.g. pdp.html#pdp_alternatives) lands before its section exists; go there once it does
+                    const hashTarget = location.hash && document.getElementById(location.hash.slice(1));
+                    if (hashTarget) hashTarget.scrollIntoView();
 
-            // Pagination (visual only): current page and items per page
-            const pages = pdpDetailsEl.querySelectorAll('.pdp-page');
-            const prevPage = pdpDetailsEl.querySelector('.pdp-page-arrow[data-step="-1"]');
-            const nextPage = pdpDetailsEl.querySelector('.pdp-page-arrow[data-step="1"]');
-            let currentPage = 0;
-            function goToPage(i) {
-                pages[currentPage].removeAttribute('aria-current');
-                currentPage = i;
-                pages[currentPage].setAttribute('aria-current', 'page');
-                prevPage.disabled = i === 0;
-                nextPage.disabled = i === pages.length - 1;
-            }
-            pages.forEach(function (btn, i) {
-                btn.addEventListener('click', function () { goToPage(i); });
-            });
-            [prevPage, nextPage].forEach(function (btn) {
-                btn.addEventListener('click', function () { goToPage(currentPage + Number(this.dataset.step)); });
-            });
-            const perPageOpts = pdpDetailsEl.querySelectorAll('.pdp-per-page-opt');
-            perPageOpts.forEach(function (opt) {
-                opt.addEventListener('click', function () {
-                    perPageOpts.forEach(function (o) { o.removeAttribute('aria-current'); });
-                    this.setAttribute('aria-current', 'true');
+                    // Select / De-select All mirrors the attribute boxes (some checked = indeterminate)
+                    const altAll = document.getElementById('pdp_alt_all');
+                    const altAttrs = Array.from(pdpDetailsEl.querySelectorAll('.pdp-alt-attr input'));
+                    function checkedAttrCount() {
+                        return altAttrs.filter(function (input) { return input.checked; }).length;
+                    }
+                    altAll.addEventListener('change', function () {
+                        altAttrs.forEach(function (input) { input.checked = altAll.checked; });
+                    });
+                    altAttrs.forEach(function (input) {
+                        input.addEventListener('change', function () {
+                            const n = checkedAttrCount();
+                            altAll.checked = n === altAttrs.length;
+                            altAll.indeterminate = n > 0 && n < altAttrs.length;
+                        });
+                    });
+
+                    // Prototype: there's no search behind these yet, so just confirm the action
+                    const altStatus = document.getElementById('pdp_alt_status');
+                    document.getElementById('pdp_alt_refresh').addEventListener('click', function () {
+                        altStatus.textContent = 'Results refreshed using ' + checkedAttrCount() + ' of ' + altAttrs.length + ' attributes.';
+                    });
+                    const compareStatus = document.getElementById('pdp_compare_status');
+                    document.getElementById('pdp_compare_selected').addEventListener('click', function () {
+                        const n = pdpDetailsEl.querySelectorAll('.pdp-alt-table input:checked').length;
+                        compareStatus.textContent = n
+                            ? 'Comparing ' + n + (n === 1 ? ' item' : ' items') + ' with this item.'
+                            : 'Select at least one item to compare.';
+                    });
+
+                    // Pagination (visual only): current page and items per page
+                    const pages = pdpDetailsEl.querySelectorAll('.pdp-page');
+                    const prevPage = pdpDetailsEl.querySelector('.pdp-page-arrow[data-step="-1"]');
+                    const nextPage = pdpDetailsEl.querySelector('.pdp-page-arrow[data-step="1"]');
+                    let currentPage = 0;
+                    function goToPage(i) {
+                        pages[currentPage].removeAttribute('aria-current');
+                        currentPage = i;
+                        pages[currentPage].setAttribute('aria-current', 'page');
+                        prevPage.disabled = i === 0;
+                        nextPage.disabled = i === pages.length - 1;
+                    }
+                    pages.forEach(function (btn, i) {
+                        btn.addEventListener('click', function () { goToPage(i); });
+                    });
+                    [prevPage, nextPage].forEach(function (btn) {
+                        btn.addEventListener('click', function () { goToPage(currentPage + Number(this.dataset.step)); });
+                    });
+                    const perPageOpts = pdpDetailsEl.querySelectorAll('.pdp-per-page-opt');
+                    perPageOpts.forEach(function (opt) {
+                        opt.addEventListener('click', function () {
+                            perPageOpts.forEach(function (o) { o.removeAttribute('aria-current'); });
+                            this.setAttribute('aria-current', 'true');
+                        });
+                    });
                 });
-            });
         } // end if (pdpDetailsEl)
 
         // Back to top: appears after one screen of scrolling; smooth unless the user prefers reduced motion
@@ -599,10 +699,50 @@
                 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
                 // Keyboard users continue from the top of the page, not the end of it
-                const first = document.querySelector('#header a[href], #header button');
+                const first = headerEl && headerEl.querySelector('a[href], button');
                 if (first) first.focus({ preventScroll: true });
             });
         } // end if (backToTop)
+
+        // Compare page (compare.html): highlight attributes whose values differ; the × removes that product's column
+        const compareTable = document.querySelector('.compare-table');
+        if (compareTable) {
+            const compareStatusEl = document.querySelector('.compare-status');
+
+            function markCompareDiffs() {
+                compareTable.querySelectorAll('.compare-attr').forEach(function (group) {
+                    const values = Array.from(group.querySelectorAll('td'), function (td) { return td.textContent.trim(); });
+                    group.classList.toggle('compare-attr--diff', new Set(values).size > 1);
+                });
+            }
+            markCompareDiffs();
+
+            compareTable.addEventListener('click', function (e) {
+                const removeBtn = e.target.closest('.compare-remove');
+                if (!removeBtn) return;
+                const col = removeBtn.closest('th');
+                const i = Array.from(col.parentElement.children).indexOf(col);
+                const name = col.getAttribute('abbr');
+                col.remove();
+                compareTable.querySelectorAll('.compare-attr').forEach(function (group) {
+                    group.rows[1].cells[i].remove();
+                    group.rows[0].cells[0].colSpan -= 1;
+                });
+                markCompareDiffs();
+                compareStatusEl.textContent = 'Removed ' + name + ' from compare.';
+
+                // Keep keyboard focus nearby: the next column's ×, else the previous one, else the empty message
+                const removeBtns = compareTable.querySelectorAll('.compare-remove');
+                if (removeBtns.length) {
+                    removeBtns[Math.min(i, removeBtns.length - 1)].focus();
+                } else {
+                    document.querySelector('.compare-table-scroll').hidden = true;
+                    const empty = document.querySelector('.compare-empty');
+                    empty.hidden = false;
+                    empty.querySelector('a').focus();
+                }
+            });
+        } // end if (compareTable)
 
         // Load PLP filter (plp-filter.html): facet accordions, Show More, unit toggle
         const plpFilterEl = document.getElementById('plp_filter');
