@@ -8414,6 +8414,12 @@ nav ul {
   background-color: #FFFFAA;
 }
 
+.compare-attr-label {
+  display: inline-block;
+  position: sticky;
+  left: 4px;
+}
+
 .compare-available {
   display: inline-flex;
   align-items: center;

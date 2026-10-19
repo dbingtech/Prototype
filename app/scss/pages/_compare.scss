@@ -154,6 +154,12 @@ $-compare-divider: colors.$medgray70;
     // Values differ between products
     &--diff td { background-color: colors.$paleyellow; }
 }
+// The label row spans every column; the label itself stays at the left edge while the columns scroll under it
+.compare-attr-label {
+    display: inline-block;
+    position: sticky;
+    left: 4px;
+}
 .compare-available {
     display: inline-flex;
     align-items: center;
