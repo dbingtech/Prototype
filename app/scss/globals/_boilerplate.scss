@@ -18,6 +18,10 @@ body {
     margin-right: auto;
     padding: 0;
     overflow-x: hidden;
+    // XSM is the smallest layout: below 375px the page keeps its 375px width and scrolls sideways
+    min-width: 375px;
+
+    @include sub-xsm { overflow-x: auto; }
 }
 #main {
     width: 100%;

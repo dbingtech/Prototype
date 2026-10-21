@@ -77,8 +77,6 @@
     &:nth-child(n + 3) {
         @include xsm { display: none; }
     }
-
-    @include sub-xsm { min-width: 0; }
 }
 
 .group-by-card-top {

@@ -96,6 +96,9 @@ $-plp-divider: #ACABAB;  // result dividers
         background-color: colors.$medgray70;
     }
 
+    // XL: SM buttons (192px), so the price column narrows to match
+    @include xl { grid-template-columns: 172px minmax(0, 1fr) 1px 192px; }
+
     @include md {
         grid-template-columns: 172px minmax(0, 1fr);
         &::after { display: none; }
@@ -248,6 +251,7 @@ $-plp-divider: #ACABAB;  // result dividers
     gap: 10px;
     width: 256px;
 
+    @include xl  { width: 192px; }
     @include md  { grid-column: 1 / -1; grid-row: auto; justify-self: end; }
     @include sm  { grid-column: 1; grid-row: auto; width: 100%; }
     @include xsm { grid-column: 1; grid-row: auto; width: 100%; }
@@ -276,6 +280,7 @@ $-plp-divider: #ACABAB;  // result dividers
     width: 256px;
     font-weight: 500;
 
+    @include xl  { width: 192px; }  // Button | SM
     @include sm  { width: 100%; }
     @include xsm { width: 100%; }
 }
@@ -292,6 +297,7 @@ $-plp-divider: #ACABAB;  // result dividers
 .plp-card--b2b {
     grid-template-columns: 179px minmax(0, 1fr) 1px 256px;
 
+    @include xl  { grid-template-columns: 179px minmax(0, 1fr) 1px 192px; }
     @include md  { grid-template-columns: 179px minmax(0, 1fr); }
     // SM/XSM: one full-width column, same as the guest card
     @include sm  { grid-template-columns: minmax(0, 1fr); }
@@ -461,6 +467,11 @@ $-pill-border: #557C92;
     }
 }
 
+// Facet pills start a new row under the category pills (category pills always come first)
+.plp-pill--category + .plp-pill:not(.plp-pill--category) {
+    grid-column-start: 1;
+}
+
 .plp-pill-remove {
     @include focus.focus-ring-base;
     display: flex;
@@ -504,6 +515,7 @@ $-pill-border: #557C92;
     background-color: colors.$white;
     filter: drop-shadow(1px 1px 1px colors.$darkgray);
 
+    @include xl  { width: 192px; }
     @include sm  { width: 100%; }
     @include xsm { width: 100%; }
 
@@ -540,6 +552,49 @@ $-pill-border: #557C92;
     @include focus.focus-ring-base;
 
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); outline-offset: -3px; }
+}
+
+// ----------------------------SmartSUPPLY crib item card (plp-card-SS-crib.html)
+// Navy/100 background with a BDI Blue bar down the left edge; Crib Item pill above the price
+.plp-card--crib {
+    padding-right: 8px;
+    background-color: colors.$navy100;
+    border-left: 8px solid colors.$bdiblue;
+
+    .plp-card-buy {
+        align-self: stretch;
+        justify-content: flex-start;
+        gap: 8px;
+    }
+}
+
+// Stacked card (MD and smaller): keep the content off the bar (.plp-card.plp-card--crib beats the stacked card padding)
+.plp-card.plp-card--crib {
+    @include md  { padding: 4px 4px 4px 12px; }
+    @include sm  { padding: 4px 4px 4px 12px; }
+    @include xsm { padding: 4px 4px 4px 12px; }
+}
+
+.plp-card-buy-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 8px 0;
+    box-sizing: border-box;
+}
+
+.plp-crib-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 88px;
+    padding: 4px 12px;
+    box-sizing: border-box;
+    background-color: colors.$lightgray02;
+    border: 1px solid $-pill-border;
+    border-radius: 16px;
+    font-size: 14px;
 }
 
 // ----------------------------MD and SM: stacked card in the 2-up grid

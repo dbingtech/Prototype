@@ -75,8 +75,9 @@
                 }
 
                 // Search: spyglass (and Enter) go to the PLP for this header's version
-                // B2C uses the guest PLP; SS, punchout and EMP use the B2B PLP until they get their own
-                const plpPage = headerEl.id === 'header' || headerEl.id === 'header_B2C' ? 'plp.html' : 'plp_B2B.html';
+                // B2C uses the guest PLP; punchout and EMP use the B2B PLP until they get their own
+                const plpPage = headerEl.id === 'header' || headerEl.id === 'header_B2C' ? 'plp.html'
+                    : headerEl.id === 'header_SS' ? 'plp_SS.html' : 'plp_B2B.html';
                 ['search_icon', 'sm-search-btn'].forEach(function (id) {
                     const btn = document.getElementById(id);
                     if (btn) btn.addEventListener('click', function () {
@@ -177,13 +178,14 @@
                     const dividerTemplate = lineTemplate.querySelector('.cart-divider');
                     let cartReturnFocus = cartBtn;
 
-                    // added = true shows the Figma "Added to Cart" state (just the new line item)
-                    function openCartModal(added) {
+                    // added = true shows the Figma "Added to Cart" state (just the new line item);
+                    // addedTitle replaces that heading (e.g. "Added to Requisition" on SmartSUPPLY)
+                    function openCartModal(added, addedTitle) {
                         const rect = cartBtn.getBoundingClientRect();
                         cartModal.style.top = rect.bottom + 8 + 'px';
                         cartModal.style.right = (window.innerWidth - rect.right) + 'px';
                         const empty = !cartItems.querySelector('.cart-line-item');
-                        cartTitle.textContent = added ? 'Added to Cart' : 'Cart';
+                        cartTitle.textContent = added ? addedTitle || 'Added to Cart' : 'Cart';
                         cartSummary.hidden = added || empty;
                         cartItems.hidden = added || empty;
                         cartEmpty.hidden = added || !empty;
@@ -214,7 +216,7 @@
                     });
 
                     // Mini cart API for Add To Cart buttons (e.g. PLP cards).
-                    // item = { key, sku, brand, name, price, image, imageAlt }; key defaults to sku.
+                    // item = { key, sku, brand, name, price, image, imageAlt, addedTitle }; key defaults to sku.
                     function findLine(key) {
                         return Array.from(cartItems.querySelectorAll('.cart-line-item'))
                             .find(function (li) { return li.dataset.key === key; });
@@ -260,7 +262,7 @@
                         updateCartCount();
                         cartAdded.replaceChildren(line.cloneNode(true));
                         cartReturnFocus = trigger || cartBtn;
-                        openCartModal(true);
+                        openCartModal(true, item.addedTitle);
                     };
 
                     // Sets a line's quantity without opening the cart; 0 removes the line
@@ -313,9 +315,9 @@
                 closeMenu.addEventListener('click', closeMenuFunc);
                 menuOverlay.addEventListener('click', closeMenuFunc);
 
-                ['products', 'services', 'knowledge'].forEach(function (section) {
-                    document.getElementById(section + '-title').addEventListener('click', function () {
-                        const items = document.getElementById(section + '-items');
+                // Accordion sections (Products, Services, Knowledge, Material Control): the title toggles the list after it
+                sideMenu.querySelectorAll('.menu-section-items').forEach(function (items) {
+                    items.previousElementSibling.addEventListener('click', function () {
                         const isCollapsed = this.classList.contains('collapsed');
                         if (isCollapsed) {
                             items.style.maxHeight = '2000px';
@@ -783,9 +785,10 @@
 
                 // Categories: clicking a category with subcategories drills into them. On the last
                 // level (nothing below it) a click selects the category instead: it turns semibold and
-                // the chevrons go away. The breadcrumb follows the path after the search crumb
-                // (Results for "6202"); every crumb before the current one links back to its level,
-                // and the search crumb links back to the top-level categories.
+                // the chevrons go away. Each category in the path gets a pill in the pill bar
+                // (Category: Bearings, Category: Ball Bearings, ...); removing a pill goes back up to
+                // the level it was picked from, and Reset Filters goes back to the top-level categories.
+                let resetCategories = null;
                 const SUBCATEGORIES = {
                     'Bearings': ['Ball Bearings (80,093)', 'Mounted Units & Inserts (188,511)', 'Plain Bearings (30,029)', 'Roller Bearings (105,380)'],
                     'Ball Bearings': ['Angular Contact Ball Bearings (10,692)', 'Miniature Precision Ball Bearings (123)', 'Precision Ball Bearings (19,932)',
@@ -797,13 +800,10 @@
                     const topCategories = Array.from(categoryList.children, function (li) { return li.cloneNode(true); });
                     const categoryShowMore = categoryList.nextElementSibling;
                     const hasShowMore = categoryShowMore && categoryShowMore.classList.contains('plp-show-more');
-                    const crumbList = document.querySelector('#breadcrumbs .breadcrumb');
-                    const searchCrumb = crumbList && crumbList.querySelector('.breadcrumb-item.active');
-                    const searchLabel = searchCrumb && searchCrumb.textContent;
                     const categoryPath = [];   // e.g. ['Bearings', 'Ball Bearings']
                     let selectedCategory = null;   // last-level category picked on the current level
 
-                    // Search crumb link: back to the top-level categories, Show More reset
+                    // Back to the top-level categories, Show More reset
                     function showTopCategories() {
                         categoryPath.length = 0;
                         selectedCategory = null;
@@ -815,8 +815,9 @@
                             categoryShowMore.setAttribute('aria-expanded', 'false');
                             categoryShowMore.textContent = 'Show More';
                         }
-                        renderCategoryCrumbs();
+                        renderCategoryPills();
                     }
+                    resetCategories = showTopCategories;
 
                     function categoryName(label) {
                         return label.replace(/\s*\([\d,]+\)\s*$/, '');
@@ -835,46 +836,41 @@
                         categoryList.classList.toggle('is-expanded', subs.length > 5);
                         categoryList.scrollTop = 0;
                         if (hasShowMore) categoryShowMore.hidden = true;
-                        renderCategoryCrumbs();
+                        renderCategoryPills();
                     }
 
-                    function renderCategoryCrumbs() {
-                        if (!searchCrumb) return;
-                        crumbList.querySelectorAll('.breadcrumb-category').forEach(function (li) { li.remove(); });
-                        // The search crumb is the current page at the top level and a link below it
-                        searchCrumb.classList.toggle('active', categoryPath.length === 0);
-                        if (categoryPath.length) {
-                            const searchLink = document.createElement('a');
-                            searchLink.href = '#';
-                            searchLink.textContent = searchLabel;
-                            searchLink.addEventListener('click', function (e) {
-                                e.preventDefault();
-                                showTopCategories();
-                            });
-                            searchCrumb.replaceChildren(searchLink);
-                        } else {
-                            searchCrumb.textContent = searchLabel;
-                        }
+                    // Category pills go ahead of the facet pills, in path order
+                    function renderCategoryPills() {
+                        if (!pillList) return;
+                        pillList.querySelectorAll('.plp-pill--category').forEach(function (li) { li.remove(); });
                         const trail = selectedCategory ? categoryPath.concat(selectedCategory) : categoryPath;
-                        trail.forEach(function (name, i) {
-                            const li = document.createElement('li');
-                            li.className = 'breadcrumb-item breadcrumb-category';
-                            if (i === trail.length - 1) {
-                                li.classList.add('active');
-                                li.textContent = name;
-                            } else {
-                                const a = document.createElement('a');
-                                a.href = '#';
-                                a.textContent = name;
-                                a.addEventListener('click', function (e) {
-                                    e.preventDefault();
-                                    categoryPath.length = i + 1;
-                                    showSubcategories(name);
-                                });
-                                li.appendChild(a);
-                            }
-                            crumbList.appendChild(li);
+                        const pills = trail.map(function (name, i) {
+                            const pill = document.createElement('li');
+                            pill.className = 'plp-pill plp-pill--category';
+                            pill.innerHTML = '<span></span><button type="button" class="plp-pill-remove">' +
+                                '<img src="images/icons/plp/close_24.svg" alt="" width="24" height="24"></button>';
+                            pill.querySelector('span').textContent = 'Category: ' + name;
+                            pill.querySelector('button').setAttribute('aria-label', 'Remove filter Category: ' + name);
+                            pill.querySelector('button').addEventListener('click', function () {
+                                if (i === categoryPath.length) {
+                                    // The selected last-level category: unselect it, stay on its level
+                                    selectedCategory = null;
+                                    categoryList.classList.remove('plp-category-list--leaf');
+                                    categoryList.querySelectorAll('.plp-category-link.is-selected').forEach(function (a) {
+                                        a.classList.remove('is-selected');
+                                    });
+                                    renderCategoryPills();
+                                } else if (i === 0) {
+                                    showTopCategories();
+                                } else {
+                                    categoryPath.length = i;
+                                    showSubcategories(categoryPath[i - 1]);
+                                }
+                            });
+                            return pill;
                         });
+                        pillList.prepend(...pills);
+                        updatePillBar();
                     }
 
                     categoryList.addEventListener('click', function (e) {
@@ -896,7 +892,7 @@
                         categoryList.querySelectorAll('.plp-category-link').forEach(function (a) {
                             a.classList.toggle('is-selected', a === link);
                         });
-                        renderCategoryCrumbs();
+                        renderCategoryPills();
                     });
                 }
 
@@ -989,6 +985,7 @@
                         input.checked = false;
                         input.dispatchEvent(new Event('change', { bubbles: true }));
                     });
+                    if (resetCategories) resetCategories();
                 });
             });
         } // end if (plpFilterEl)
@@ -1031,17 +1028,20 @@
         } // end if (plpFilterOpen)
 
         // Load PLP cards: data-card picks the version (plp-card.html / plp-card-B2B.html),
-        // data-count sets how many copies; {{n}} in the card keeps ids unique. The cards stay
-        // inside #plp_cards (.plp-card-grid), which lays them out 2-up at MD and SM.
+        // data-count sets how many copies; {{n}} in the card keeps ids unique. data-alt-card
+        // swaps another card in at the data-alt-at positions (plp_SS.html: crib items at 2,3).
+        // The cards stay inside #plp_cards (.plp-card-grid), which lays them out 2-up at MD and SM.
         const plpCardsEl = document.getElementById('plp_cards');
         if (plpCardsEl) {
         const cardCount = parseInt(plpCardsEl.dataset.count, 10) || 1;
-        fetch(plpCardsEl.dataset.card || 'plp-card.html')
-            .then(response => response.text())
-            .then(data => {
+        const altAt = (plpCardsEl.dataset.altAt || '').split(',').map(Number);
+        Promise.all([plpCardsEl.dataset.card || 'plp-card.html', plpCardsEl.dataset.altCard].map(function (file) {
+            return file ? fetch(file).then(response => response.text()) : '';
+        }))
+            .then(([data, altData]) => {
                 const cards = [];
                 for (let n = 1; n <= cardCount; n++) {
-                    cards.push(data.replace(/\{\{n\}\}/g, n));
+                    cards.push((altData && altAt.includes(n) ? altData : data).replace(/\{\{n\}\}/g, n));
                 }
                 plpCardsEl.innerHTML = cards.join('<hr class="plp-divider">');
             });
@@ -1144,7 +1144,8 @@
                         price: card.querySelector('.plp-price-amount').textContent.replace(/\$\s+(?=\d)/, '$').trim() +
                             ' / ' + unit.textContent.replace('/', '').trim(),
                         image: image.getAttribute('src'),
-                        imageAlt: image.alt
+                        imageAlt: image.alt,
+                        addedTitle: addBtn.dataset.addedTitle
                     }, pill.querySelector('.plp-qty-input'));
                     return;
                 }

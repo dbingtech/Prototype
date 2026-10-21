@@ -21,7 +21,9 @@
     border-radius: 4px;
     border: 1px solid colors.$medgray70;
     padding: 8px 14px;
-    width: 358px;
+    width: max-content;  // grows to fit the widest line item instead of scrolling sideways
+    min-width: 358px;
+    max-width: calc(100vw - 16px);
     max-height: calc(100vh - 140px);
     box-sizing: border-box;
     display: flex;
@@ -89,6 +91,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    overflow-x: hidden;
     overflow-y: auto;
     min-height: 0;
 }
@@ -107,6 +110,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    gap: 12px;
     width: 100%;
     flex-shrink: 0;
 }

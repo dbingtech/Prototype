@@ -16,6 +16,12 @@ body {
   margin-right: auto;
   padding: 0;
   overflow-x: hidden;
+  min-width: 375px;
+}
+@media only screen and (max-width: 374px) {
+  body {
+    overflow-x: auto;
+  }
 }
 
 #main {
@@ -3967,7 +3973,9 @@ nav ul {
   border-radius: 4px;
   border: 1px solid #ACABAB;
   padding: 8px 14px;
-  width: 358px;
+  width: max-content;
+  min-width: 358px;
+  max-width: calc(100vw - 16px);
   max-height: calc(100vh - 140px);
   box-sizing: border-box;
   display: flex;
@@ -4034,6 +4042,7 @@ nav ul {
   margin: 0;
   padding: 0;
   list-style: none;
+  overflow-x: hidden;
   overflow-y: auto;
   min-height: 0;
 }
@@ -4051,6 +4060,7 @@ nav ul {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  gap: 12px;
   width: 100%;
   flex-shrink: 0;
 }
@@ -6845,6 +6855,10 @@ nav ul {
   white-space: nowrap;
 }
 
+.plp-pill--category + .plp-pill:not(.plp-pill--category) {
+  grid-column-start: 1;
+}
+
 .plp-pill-remove {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -6965,6 +6979,60 @@ nav ul {
   outline: 3px solid #20485c;
   outline-offset: 2px;
   outline-offset: -3px;
+}
+
+.plp-card--crib {
+  padding-right: 8px;
+  background-color: #C3E8FF;
+  border-left: 8px solid #20485c;
+}
+.plp-card--crib .plp-card-buy {
+  align-self: stretch;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .plp-card.plp-card--crib {
+    padding: 4px 4px 4px 12px;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .plp-card.plp-card--crib {
+    padding: 4px 4px 4px 12px;
+  }
+}
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  .plp-card.plp-card--crib {
+    padding: 4px 4px 4px 12px;
+  }
+}
+@media only screen and (max-width: 374px) {
+  .plp-card.plp-card--crib {
+    padding: 4px 4px 4px 12px;
+  }
+}
+
+.plp-card-buy-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 8px 0;
+  box-sizing: border-box;
+}
+
+.plp-crib-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  padding: 4px 12px;
+  box-sizing: border-box;
+  background-color: #e5e5e5;
+  border: 1px solid #557C92;
+  border-radius: 16px;
+  font-size: 14px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -8578,11 +8646,6 @@ nav ul {
     display: none;
   }
 }
-@media only screen and (max-width: 374px) {
-  .group-by-card {
-    min-width: 0;
-  }
-}
 
 .group-by-card-top {
   display: flex;
@@ -8666,4 +8729,22 @@ nav ul {
 
 .group-by-add-to-cart {
   max-width: 100%;
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  .plp-card {
+    grid-template-columns: 172px minmax(0, 1fr) 1px 192px;
+  }
+  .plp-card-buy {
+    width: 192px;
+  }
+  .plp-add-to-cart {
+    width: 192px;
+  }
+  .plp-card--b2b {
+    grid-template-columns: 179px minmax(0, 1fr) 1px 192px;
+  }
+  .plp-qty {
+    width: 192px;
+  }
 }
