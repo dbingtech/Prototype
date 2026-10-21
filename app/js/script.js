@@ -1,7 +1,7 @@
 ﻿// Load components
 // Load header
         // The placeholder's id names the file to load (header_SS -> header_SS.html)
-        const headerEl = document.querySelector('#header_SS, #header_punchout, #header_EMP, #header_B2B, #header');
+        const headerEl = document.querySelector('#header_SS, #header_punchout, #header_EMP, #header_B2B, #header_B2C, #header');
         if (headerEl) {
         const headerFile = headerEl.id + '.html';
         fetch(headerFile)
@@ -75,8 +75,8 @@
                 }
 
                 // Search: spyglass (and Enter) go to the PLP for this header's version
-                // SS, punchout and EMP use the B2B PLP until they get their own
-                const plpPage = headerEl.id === 'header' ? 'plp.html' : 'plp_B2B.html';
+                // B2C uses the guest PLP; SS, punchout and EMP use the B2B PLP until they get their own
+                const plpPage = headerEl.id === 'header' || headerEl.id === 'header_B2C' ? 'plp.html' : 'plp_B2B.html';
                 ['search_icon', 'sm-search-btn'].forEach(function (id) {
                     const btn = document.getElementById(id);
                     if (btn) btn.addEventListener('click', function () {
@@ -284,7 +284,7 @@
         } // end if (headerEl)
 
         // Load nav
-        const navbarEl = document.querySelector('#navbar_SS, #navbar_punchout, #navbar_EMP, #navbar_B2B, #navbar');
+        const navbarEl = document.querySelector('#navbar_SS, #navbar_punchout, #navbar_EMP, #navbar_B2B, #navbar_B2C, #navbar');
         if (navbarEl) {
         const navbarFile = navbarEl.id + '.html';
         fetch(navbarFile)
@@ -475,6 +475,13 @@
         fetch('trusted_brands.html')
             .then(response => response.text())
             .then(data => document.getElementById('trusted_brands').innerHTML = data);
+        // Load Buy Again / Keep Shopping For (B2B and B2C homepages)
+        const groupByEl = document.getElementById('group_by');
+        if (groupByEl) {
+        fetch('group_by.html')
+            .then(response => response.text())
+            .then(data => groupByEl.innerHTML = data);
+        }
         // Load home categories
         fetch('new_home_categories.html')
             .then(response => response.text())

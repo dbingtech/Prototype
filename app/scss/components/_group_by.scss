@@ -1,0 +1,158 @@
+@use '../globals/responsive' as *;
+@use '../globals/colors' as colors;
+
+// Buy Again / Keep Shopping For (group_by.html) — B2B and B2C homepages, under the hero.
+// Two groups side by side (LG+), stacked below that. 3 cards per group; 2 on XSM.
+#group_by {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    padding: 24px 32px;
+
+    @include xl  { max-width: 1200px; }
+    @include lg  { max-width: 992px;  padding: 24px; }
+    @include md  { max-width: 768px;  padding: 24px; }
+    @include sm  { max-width: 576px;  padding: 16px; }
+    @include xsm { max-width: 100%;   padding: 16px; }
+}
+
+.group-by {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+
+    @include md  { flex-direction: column; }
+    @include sm  { flex-direction: column; }
+    @include xsm { flex-direction: column; }
+}
+
+.group-by-group {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: colors.$white;
+}
+
+.group-by-title {
+    width: 100%;
+    margin: 0;
+    padding: 8px 0;
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    color: colors.$text;
+
+    @include xsm { font-size: 20px; }
+}
+
+.group-by-cards {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.group-by-card {
+    flex: 1 1 0;
+    min-width: 152px;
+    max-width: 200px;
+    min-height: 316px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    background: colors.$white;
+    border: 1px solid colors.$medgray;
+
+    // Adjacent cards share one border
+    & + & { border-left: 0; }
+
+    // XSM: 2 cards per group
+    &:nth-child(n + 3) {
+        @include xsm { display: none; }
+    }
+
+    @include sub-xsm { min-width: 0; }
+}
+
+.group-by-card-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0 4px;
+}
+
+.group-by-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    padding: 8px 4px;
+    color: colors.$text;
+}
+
+.group-by-brand,
+.group-by-card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: "Inter";
+    font-size: 16px;
+}
+
+.group-by-card-title {
+    font-weight: 600;
+    color: colors.$text;
+    text-decoration: underline;
+}
+
+.group-by-media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+}
+
+.group-by-image {
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+
+    // Crops match the Figma image_88 slot
+    &--motor     { height: 66px; object-fit: cover; border-radius: 56px; }
+    &--chemicals { width: 57px;  object-fit: cover; }
+    &--grease    { width: 25px;  object-fit: cover; }
+}
+
+.group-by-buy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    padding: 4px 0;
+}
+
+.group-by-price {
+    margin: 0;
+    padding: 8px 0;
+    color: colors.$text;
+    white-space: nowrap;
+}
+
+.group-by-price-amount {
+    font-weight: 600;
+}
+
+.group-by-add-to-cart {
+    max-width: 100%;
+}

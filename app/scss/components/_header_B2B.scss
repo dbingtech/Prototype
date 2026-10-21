@@ -3,8 +3,8 @@
 @use '../globals/responsive' as *;
 @use '../globals/focus' as focus;
 
-// Scoped to the B2B-style headers (B2B, SmartSupply, punchout, employee) so these rules don't leak into header.html
-#header_B2B, #header_SS, #header_punchout, #header_EMP {
+// Scoped to the B2B-style headers (B2B, B2C, SmartSupply, punchout, employee) so these rules don't leak into header.html
+#header_B2B, #header_B2C, #header_SS, #header_punchout, #header_EMP {
   header {
     color:colors.$text;
     text-decoration: none;
