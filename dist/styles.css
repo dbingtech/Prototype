@@ -518,6 +518,13 @@ header a:hover {
   padding-top: 8px;
 }
 
+@media only screen and (min-width: 992px) {
+  #header #post-header {
+    box-sizing: border-box;
+    min-height: 112px;
+    padding: 16px 0;
+  }
+}
 #post_header_container {
   display: flex;
   flex-direction: row;
@@ -2272,6 +2279,18 @@ header a:hover {
   }
 }
 
+@media only screen and (min-width: 992px) {
+  #header_B2B #post-header {
+    box-sizing: border-box;
+    min-height: 112px;
+    padding: 16px 0;
+  }
+  #header_B2B #business_badge {
+    height: 112px;
+    margin-top: -16px;
+    margin-bottom: -16px;
+  }
+}
 #header_punchout #business_badge {
   width: 24px;
   background-color: #d3d4d4;

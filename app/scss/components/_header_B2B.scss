@@ -777,6 +777,26 @@
   }
 }
 
+// B2B header LG+: 112px tall (matches the guest header), the 80px logo / search row centered with 16px of
+// blue above and below; the Business badge stretches 16px past the row to keep the full height
+@mixin -b2b-post-header-desktop {
+  #header_B2B {
+    #post-header {
+      box-sizing: border-box;
+      min-height: 112px;
+      padding: 16px 0;
+    }
+    #business_badge {
+      height: 112px;
+      margin-top: -16px;
+      margin-bottom: -16px;
+    }
+  }
+}
+@include lg  { @include -b2b-post-header-desktop; }
+@include xl  { @include -b2b-post-header-desktop; }
+@include xxl { @include -b2b-post-header-desktop; }
+
 // Punchout header: gray badge (Figma "Gray/Light 01") in place of the red Business badge
 #header_punchout #business_badge {
   width: 24px;

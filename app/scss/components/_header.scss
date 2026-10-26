@@ -105,6 +105,18 @@ header a:hover {
     padding-top:8px;
 
 }
+// Guest header (#header) LG+: 112px tall, the 80px logo / search row centered with 16px of blue above
+// and below. Scoped to #header because the plain #post-header rules also reach the B2B-style headers.
+@mixin -post-header-desktop {
+  #header #post-header {
+    box-sizing: border-box;
+    min-height: 112px;
+    padding: 16px 0;
+  }
+}
+@include lg  { @include -post-header-desktop; }
+@include xl  { @include -post-header-desktop; }
+@include xxl { @include -post-header-desktop; }
 #post_header_container {
   display: flex;
   flex-direction: row;
