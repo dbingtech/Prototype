@@ -787,8 +787,17 @@
   }
 }
 
-// SmartSupply header: SmartSUPPLY logo at a fixed 42px height (width follows the aspect ratio)
+// SmartSupply header: SmartSUPPLY logo at a fixed 42px height (width follows the aspect ratio).
+// SM and XSM: 30px (about 145px wide), so the logo and the four header icons fit down to a 360px screen;
+// at 42px (about 202px wide) they ran past the screen and widened the page
 #header_SS #post_header_container > a img {
   width: auto;
   height: 42px;
+
+  @include sm  { height: 30px; }
+  @include xsm { height: 30px; }
+}
+// SmartSupply XSM: no location / phone icons in the header (logo, account and cart only)
+#header_SS .sm-only-icon {
+  @include xsm { display: none; }
 }

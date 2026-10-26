@@ -409,12 +409,13 @@ $-plp-divider: #ACABAB;  // result dividers
         .plp-fav-icon--on  { display: block; }
     }
 
+    // Tooltip opens leftward from the heart's right edge: the heart sits at the card's right edge when
+    // stacked, and a centered tooltip (hidden or not) ran past the screen and widened the page
     &::after {
         content: attr(aria-label);
         position: absolute;
         top: calc(100% + 4px);
-        left: 50%;
-        transform: translateX(-50%);
+        right: 0;
         padding: 4px 8px;
         border-radius: 4px;
         background-color: colors.$medgray10;

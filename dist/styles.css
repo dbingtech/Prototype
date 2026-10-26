@@ -2284,6 +2284,16 @@ header a:hover {
   width: auto;
   height: 42px;
 }
+@media only screen and (max-width: 575px) {
+  #header_SS #post_header_container > a img {
+    height: 30px;
+  }
+}
+@media only screen and (max-width: 374px) {
+  #header_SS .sm-only-icon {
+    display: none;
+  }
+}
 
 footer {
   background-color: #20485c;
@@ -7077,8 +7087,7 @@ html:has(.pdp-zoom[open]) {
   content: attr(aria-label);
   position: absolute;
   top: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%);
+  right: 0;
   padding: 4px 8px;
   border-radius: 4px;
   background-color: #1B1C1C;
