@@ -8,9 +8,15 @@
     @include sm  { @content; }
     @include xsm { @content; }
 }
+// LG and larger: media | info | buy side by side
+@mixin -columns {
+    @include xxl { @content; }
+    @include xl  { @content; }
+    @include lg  { @content; }
+}
 
 // Width and side padding come from #main
-#pdpcard, #pdpcard_B2B {
+#pdpcard, #pdpcard_B2B, #pdpcard_SS {
     padding: 24px 0;
 
     @include md  { padding: 16px 0; }
@@ -330,7 +336,8 @@
 // B2B: fills the Add To Cart / Buy Now column, which sets the width
 .pdp-card-buttons .plp-qty { width: 100%; }
 
-// ----------------------------Prop 65 notice: quiet tooltip on hover/focus; links to P65Warnings.ca.gov
+// ----------------------------Prop 65 notice: quiet tooltip on hover (LG+ only) and keyboard focus; links to P65Warnings.ca.gov.
+// MD and smaller (script.js): tapping the icon opens the tooltip (.is-open) under the BDI No. value; tapping it opens the site.
 .pdp-card-p65 {
     position: relative;
     display: inline-flex;
@@ -342,10 +349,24 @@
 
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 
-    &:hover .pdp-card-p65-tip,
-    &:focus .pdp-card-p65-tip {
+    &:focus-visible .pdp-card-p65-tip {
         opacity: 1;
         visibility: visible;
+    }
+    @include -columns {
+        &:hover .pdp-card-p65-tip {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+    @include -stacked {
+        position: static;  // the tooltip anchors to the dd instead, so it has the row's width to wrap in
+
+        &.is-open .pdp-card-p65-tip {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
     }
 }
 
@@ -368,6 +389,14 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.15s ease, visibility 0.15s ease;
+
+    @include -stacked {
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        transform: none;
+        white-space: normal;
+    }
 }
 
 // ----------------------------B2B (pdpcard_B2B.html): stock badge, Cust No., availability, was-price, Buy Now
@@ -424,6 +453,22 @@
         font-weight: 800;
     }
     .pdp-card-unit { font-size: 14px; }
+}
+// SmartSUPPLY (pdpcard_SS.html): the price lines up with the item number. Share pins to the top right
+// of the buy box; 24px = the brand row (20px) + the info column's 4px gap
+.pdp-card--ss {
+    @include -columns {
+        .pdp-card-buy { position: relative; }
+        .pdp-card-buy-top {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        .pdp-card-purchase {
+            justify-content: flex-start;
+            padding-top: 24px;
+        }
+    }
 }
 .pdp-card .pdp-card-price-was {
     font-size: 14px;

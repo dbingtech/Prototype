@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logos/Favicon.png" />
+    <link rel="stylesheet" type="text/css" href="dist/styles.css" />
+    <script src="app/js/script.js" async></script>
+    <title>PDP: SmartSUPPLY
+    </title>
+  </head>
+  <body>
+    <div id="header_SS"></div>
+    <div id="navbar_SS"></div>
+    <div id="breadcrumbs">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item breadcrumb-home"><a href="index_SS.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
+          <li class="breadcrumb-item"><a href="plp_SS.html">Impact Drivers</a></li>
+        </ol>
+      </nav>
+    </div>
+
+    <div id="main">
+      <div id="pdpcard_SS"></div>
+
+      <div id="pdp_details">
+        <!-- Availability summary, above Specifications: links to Inventory Details, with a tooltip -->
+        <p class="pdp-availability" id="pdp_availability">
+          <a class="pdp-availability-link" href="#pdp_inventory" aria-describedby="pdp_availability_tip">
+            <span class="pdp-availability-label">Availability</span>
+            <span><span class="pdp-availability-qty">2</span> BDI Stock</span>
+          </a>
+          <span class="pdp-availability-tip" id="pdp_availability_tip" role="tooltip">Inventory Details</span>
+        </p>
+
+        <!-- Specifications + Alternatives (pdp-sections-SS.html); Inventory Details goes between them -->
+        <div id="pdp_sections" data-sections="pdp-sections-SS.html"></div>
+        <!-- Inventory Details: script.js moves it between Specifications and Alternatives once they load.
+             BDI warehouse stock only (no factory stock on SmartSUPPLY) -->
+        <section class="pdp-section" id="pdp_inventory" aria-labelledby="pdp_inventory_title">
+          <h2 class="pdp-section-title" id="pdp_inventory_title">Inventory Details</h2>
+          <div class="pdp-inv-intro">
+            <p>Our advanced distribution technology automatically ships your product from the closest warehouse(s), with enough stock to fill your order.</p>
+            <p class="pdp-inv-call">Need it faster? Please call us at <a href="tel:+12166765211">216-676-5211</a></p>
+          </div>
+          <div class="pdp-inv-groups">
+            <div class="pdp-inv-group">
+              <h3 class="pdp-inv-title" id="pdp_inv_bdi_title">BDI Warehouse Stock</h3>
+              <table class="pdp-inv-table" aria-labelledby="pdp_inv_bdi_title">
+                <thead>
+                  <tr>
+                    <th scope="col">Location</th>
+                    <th scope="col" class="pdp-inv-qty">Qty</th>
+                    <th scope="col">Quickest Estimated Delivery</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="pdp-inv-loc">BDI US Reno (Branch 1125)</td>
+                    <td class="pdp-inv-qty" data-label="Qty">2</td>
+                    <td data-label="Quickest Estimated Delivery">1-3 Business Days</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th scope="row">Total:</th>
+                    <td class="pdp-inv-qty">2</td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+              </table>
+              <p class="pdp-inv-note">*Delivery estimates are based on lead time plus overnight shipping. These are estimates and actual results may vary.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div id="footer"></div>
+    <button type="button" class="back-to-top" id="back_to_top" aria-label="Back to top">
+      <img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32">
+    </button>
+  </body>
+</html>

@@ -302,6 +302,8 @@ $-pdp-divider: #ACABAB;  // section and card dividers
 @include -desktop {
     .pdp-spec:nth-child(4n+3) > *,
     .pdp-spec:nth-child(4n+4) > * { background-color: colors.$tablerow; }
+    // A long value on its own row (pdp-sections-SS.html: Long Description) runs across the rest of it
+    .pdp-spec--wide dd { grid-column: span 3; }
 }
 @include -mobile {
     .pdp-spec:nth-child(even) > * { background-color: colors.$tablerow; }

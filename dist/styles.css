@@ -101,6 +101,13 @@ body {
 @font-face {
   font-family: "Inter";
   src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
+  font-weight: 600;
+  font-display: auto;
+  font-variation-settings: "wght" 600;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../app/fonts/Inter/Inter-Variable.woff2") format("woff2");
   font-weight: 700;
   font-display: auto;
   font-variation-settings: "wght" 700;
@@ -318,7 +325,7 @@ a {
   border-radius: 12px;
   border: 1px solid transparent;
   font-family: "Inter";
-  font-weight: 700;
+  font-weight: 600;
   font-size: 16px;
   text-transform: capitalize;
   text-align: center;
@@ -4337,26 +4344,26 @@ nav ul {
     display: block;
   }
 }
-#pdpcard, #pdpcard_B2B {
+#pdpcard, #pdpcard_B2B, #pdpcard_SS {
   padding: 24px 0;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  #pdpcard, #pdpcard_B2B {
+  #pdpcard, #pdpcard_B2B, #pdpcard_SS {
     padding: 16px 0;
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
-  #pdpcard, #pdpcard_B2B {
+  #pdpcard, #pdpcard_B2B, #pdpcard_SS {
     padding: 16px 0;
   }
 }
 @media only screen and (min-width: 375px) and (max-width: 575px) {
-  #pdpcard, #pdpcard_B2B {
+  #pdpcard, #pdpcard_B2B, #pdpcard_SS {
     padding: 16px 0;
   }
 }
 @media only screen and (max-width: 374px) {
-  #pdpcard, #pdpcard_B2B {
+  #pdpcard, #pdpcard_B2B, #pdpcard_SS {
     padding: 16px 0;
   }
 }
@@ -4841,9 +4848,25 @@ nav ul {
   outline: 3px solid #20485c;
   outline-offset: 2px;
 }
-.pdp-card-p65:hover .pdp-card-p65-tip, .pdp-card-p65:focus .pdp-card-p65-tip {
+.pdp-card-p65:focus-visible .pdp-card-p65-tip {
   opacity: 1;
   visibility: visible;
+}
+@media only screen and (min-width: 992px) {
+  .pdp-card-p65:hover .pdp-card-p65-tip {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .pdp-card-p65 {
+    position: static;
+  }
+  .pdp-card-p65.is-open .pdp-card-p65-tip {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 }
 
 .pdp-card-p65-tip {
@@ -4865,6 +4888,15 @@ nav ul {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+@media only screen and (max-width: 991px) {
+  .pdp-card-p65-tip {
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    transform: none;
+    white-space: normal;
+  }
 }
 
 .pdp-card .pdp-card-image--motor {
@@ -4942,6 +4974,21 @@ nav ul {
 }
 .pdp-card--b2b .pdp-card-unit {
   font-size: 14px;
+}
+
+@media only screen and (min-width: 992px) {
+  .pdp-card--ss .pdp-card-buy {
+    position: relative;
+  }
+  .pdp-card--ss .pdp-card-buy-top {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .pdp-card--ss .pdp-card-purchase {
+    justify-content: flex-start;
+    padding-top: 24px;
+  }
 }
 
 .pdp-card .pdp-card-price-was {
@@ -6844,7 +6891,6 @@ html:has(.pdp-zoom[open]) {
 
 .plp-add-to-cart {
   width: 256px;
-  font-weight: 500;
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   .plp-add-to-cart {
@@ -7228,10 +7274,9 @@ html:has(.pdp-zoom[open]) {
   background-color: #C3E8FF;
   border-left: 8px solid #20485c;
 }
-.plp-card--crib .plp-card-buy {
-  align-self: stretch;
-  justify-content: flex-start;
-  gap: 8px;
+
+#plp_cards > .plp-card--crib:nth-of-type(1) {
+  background-color: #D4EEFF;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -7255,26 +7300,17 @@ html:has(.pdp-zoom[open]) {
   }
 }
 
-.plp-card-buy-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 8px 8px 0;
-  box-sizing: border-box;
-}
-
 .plp-crib-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 88px;
-  padding: 4px 12px;
-  box-sizing: border-box;
-  background-color: #e5e5e5;
-  border: 1px solid #557C92;
-  border-radius: 16px;
-  font-size: 14px;
+  padding: 2px 8px;
+  background-color: #20485c;
+  border: 1px solid #C7C6C6;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -7929,6 +7965,11 @@ html:has(.pdp-zoom[open]) {
   .pdp-spec:nth-child(4n+3) > *,
   .pdp-spec:nth-child(4n+4) > * {
     background-color: #E2F3FF;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .pdp-spec--wide dd {
+    grid-column: span 3;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {

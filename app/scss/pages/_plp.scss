@@ -278,7 +278,6 @@ $-plp-divider: #ACABAB;  // result dividers
 
 .plp-add-to-cart {
     width: 256px;
-    font-weight: 500;
 
     @include xl  { width: 192px; }  // Button | SM
     @include sm  { width: 100%; }
@@ -555,18 +554,15 @@ $-pill-border: #557C92;
 }
 
 // ----------------------------SmartSUPPLY crib item card (plp-card-SS-crib.html)
-// Navy/100 background with a BDI Blue bar down the left edge; Crib Item pill above the price
+// Navy/100 background with a BDI Blue bar down the left edge; Crib Item pill under the image
 .plp-card--crib {
     padding-right: 8px;
     background-color: colors.$navy100;
     border-left: 8px solid colors.$bdiblue;
-
-    .plp-card-buy {
-        align-self: stretch;
-        justify-content: flex-start;
-        gap: 8px;
-    }
 }
+
+// 1st product card (the first crib item) gets the lighter background; hr dividers sit between the articles
+#plp_cards > .plp-card--crib:nth-of-type(1) { background-color: colors.$navy50; }
 
 // Stacked card (MD and smaller): keep the content off the bar (.plp-card.plp-card--crib beats the stacked card padding)
 .plp-card.plp-card--crib {
@@ -575,26 +571,17 @@ $-pill-border: #557C92;
     @include xsm { padding: 4px 4px 4px 12px; }
 }
 
-.plp-card-buy-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 8px 8px 0;
-    box-sizing: border-box;
-}
-
 .plp-crib-pill {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 88px;
-    padding: 4px 12px;
-    box-sizing: border-box;
-    background-color: colors.$lightgray02;
-    border: 1px solid $-pill-border;
-    border-radius: 16px;
-    font-size: 14px;
+    padding: 2px 8px;
+    background-color: colors.$bdiblue;
+    border: 1px solid colors.$medgray80;
+    border-radius: 4px;
+    color: colors.$white;
+    font-size: 12px;
+    white-space: nowrap;
 }
 
 // ----------------------------MD and SM: stacked card in the 2-up grid

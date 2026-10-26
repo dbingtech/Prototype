@@ -11,6 +11,13 @@
 @font-face {
     font-family: "Inter";
     src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
+    font-weight: 600;
+    font-display: auto;
+    font-variation-settings: "wght" 600;
+}
+@font-face {
+    font-family: "Inter";
+    src: url('../app/fonts/Inter/Inter-Variable.woff2') format('woff2');
     font-weight: 700;
     font-display: auto;
     font-variation-settings: "wght" 700;

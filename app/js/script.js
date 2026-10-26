@@ -545,7 +545,7 @@
 
         // Load PDP card
         // The placeholder's id names the file to load (pdpcard_B2B -> pdpcard_B2B.html)
-        const pdpcardEl = document.querySelector('#pdpcard_B2B, #pdpcard');
+        const pdpcardEl = document.querySelector('#pdpcard_SS, #pdpcard_B2B, #pdpcard');
         if (pdpcardEl) {
         fetch(pdpcardEl.id + '.html')
             .then(response => response.text())
@@ -589,6 +589,30 @@
                     });
                 });
 
+                // Prop 65 on MD and smaller (no hover there): the first tap on the icon opens the warning instead of
+                // the site; with it open, tapping the warning (or the icon, or Enter) follows the link.
+                // Tapping anywhere else or Escape closes it.
+                const p65 = pdpcardEl.querySelector('.pdp-card-p65');
+                if (p65) {
+                    const p65Stacked = window.matchMedia('(max-width: 991px)');  // MD, SM, XSM
+                    p65.addEventListener('click', function (e) {
+                        if (!p65Stacked.matches) return;
+                        if (p65.classList.contains('is-open')) {
+                            p65.classList.remove('is-open');
+                            return;
+                        }
+                        e.preventDefault();
+                        p65.classList.add('is-open');
+                    });
+                    document.addEventListener('click', function (e) {
+                        if (!p65.contains(e.target)) p65.classList.remove('is-open');
+                    });
+                    document.addEventListener('keydown', function (e) {
+                        if (e.key === 'Escape') p65.classList.remove('is-open');
+                    });
+                    p65Stacked.addEventListener('change', function () { p65.classList.remove('is-open'); });
+                }
+
                 // Share: copy the page URL and confirm in a message floated at the right end of the breadcrumbs row
                 // (the empty space above the buy box), so nothing below moves.
                 // The status element stays in the page (empty = hidden) so screen readers announce each message.
@@ -617,7 +641,7 @@
                 // B2B on MD and smaller: "In Stock" jumps down to the Availability summary under the stacked card
                 // (smooth unless the user prefers reduced motion) and focuses it. It's only a link while that
                 // layout shows; without an href it's plain text.
-                const stockLink = card.querySelector('a.pdp-card-stock');
+                const stockLink = pdpcardEl.querySelector('a.pdp-card-stock');
                 const availabilityEl = document.getElementById('pdp_availability');
                 if (stockLink && availabilityEl) {
                     const stackedLayout = window.matchMedia('(max-width: 991px)');  // MD, SM, XSM
@@ -723,6 +747,7 @@
                 });
                 const cardAdd = card.querySelector('.pdp-card-add.btn--primary');
                 const miniAdd = mini.querySelector('.pdp-mini-add');
+                if (cardAdd) miniAdd.textContent = cardAdd.textContent;  // e.g. "Add To Requisition" on SmartSUPPLY
                 document.body.append(mini);
 
                 // Add To Cart -> quantity pill, on the card and the condensed card at once so they stay in step
@@ -766,7 +791,8 @@
                             price: card.querySelector('.pdp-card-amount').textContent.replace(/\$\s+(?=\d)/, '$').trim() + ' ' +
                                 card.querySelector('.pdp-card-unit').textContent.trim(),
                             image: image.getAttribute('src'),
-                            imageAlt: image.alt
+                            imageAlt: image.alt,
+                            addedTitle: cardAdd.dataset.addedTitle
                         }, pills[0].querySelector('.plp-qty-input'));
                     }
 
@@ -823,7 +849,7 @@
             });
         } // end if (pdpcardEl)
 
-        // PDP details (pdp.html, pdp_B2B.html): attribute filters, compare, pagination
+        // PDP details (pdp.html, pdp_B2B.html, pdp_SS.html): attribute filters, compare, pagination
         const pdpDetailsEl = document.getElementById('pdp_details');
         if (pdpDetailsEl) {
             // pdp_B2B.html: the Availability summary goes to Inventory Details (smooth unless the user prefers
@@ -843,11 +869,13 @@
                 });
             }
 
-            // Specifications + Alternatives are shared by pdp.html and pdp_B2B.html
-            fetch('pdp-sections.html')
+            // Specifications + Alternatives are shared by pdp.html and pdp_B2B.html;
+            // data-sections picks another file (pdp_SS.html: pdp-sections-SS.html)
+            const pdpSectionsEl = document.getElementById('pdp_sections');
+            fetch(pdpSectionsEl.dataset.sections || 'pdp-sections.html')
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('pdp_sections').innerHTML = data;
+                    pdpSectionsEl.innerHTML = data;
 
                     // pdp_B2B.html: Inventory Details goes between Specifications and Alternatives
                     const inventoryEl = document.getElementById('pdp_inventory');
@@ -879,12 +907,14 @@
                     document.getElementById('pdp_alt_refresh').addEventListener('click', function () {
                         altStatus.textContent = 'Results refreshed using ' + checkedAttrCount() + ' of ' + altAttrs.length + ' attributes.';
                     });
+                    // Compare Selected opens the compare page (static sample products for now) once an item is checked
                     const compareStatus = document.getElementById('pdp_compare_status');
                     document.getElementById('pdp_compare_selected').addEventListener('click', function () {
-                        const n = pdpDetailsEl.querySelectorAll('.pdp-alt-table input:checked').length;
-                        compareStatus.textContent = n
-                            ? 'Comparing ' + n + (n === 1 ? ' item' : ' items') + ' with this item.'
-                            : 'Select at least one item to compare.';
+                        if (pdpDetailsEl.querySelector('.pdp-alt-table input:checked')) {
+                            window.location.href = 'compare.html';
+                            return;
+                        }
+                        compareStatus.textContent = 'Select at least one item to compare.';
                     });
 
                     // Pagination (visual only): current page and items per page
@@ -1249,7 +1279,7 @@
 
         // Load PLP cards: data-card picks the version (plp-card.html / plp-card-B2B.html),
         // data-count sets how many copies; {{n}} in the card keeps ids unique. data-alt-card
-        // swaps another card in at the data-alt-at positions (plp_SS.html: crib items at 2,3).
+        // swaps another card in at the data-alt-at positions (plp_SS.html: crib items at 1,3).
         // The cards stay inside #plp_cards (.plp-card-grid), which lays them out 2-up at MD and SM.
         const plpCardsEl = document.getElementById('plp_cards');
         if (plpCardsEl) {

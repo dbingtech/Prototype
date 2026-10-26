@@ -1,0 +1,93 @@
+<section class="pdp-card pdp-card--b2b pdp-card--ss" aria-labelledby="pdp_title">
+  <!-- Media: compare, favorite, main image, thumbnails -->
+  <div class="pdp-card-media">
+    <div class="pdp-card-media-top">
+      <label class="pdp-card-compare">
+        <input type="checkbox" id="pdp_compare">
+        Compare
+      </label>
+      <button type="button" id="pdp_favorite" class="plp-fav-btn pdp-card-favorite" aria-label="Add to favorites" aria-pressed="false">
+        <img class="plp-fav-icon plp-fav-icon--off" src="images/icons/plp/heart_24.svg" alt="" width="24" height="24">
+        <img class="plp-fav-icon plp-fav-icon--on" src="images/icons/plp/heart_filled_28.svg" alt="" width="24" height="24">
+      </button>
+    </div>
+    <button type="button" class="pdp-card-image-btn" aria-label="Enlarge image">
+      <img class="pdp-card-image" src="images/products/mini_cart_tool.png" alt="Milwaukee Tools 2656-20 M18 hex impact driver" width="300" height="300">
+    </button>
+    <div class="pdp-card-thumbs">
+      <button type="button" class="pdp-card-thumb" aria-label="View 360 degree image">
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32"><text x="16" y="15" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="currentColor">360°</text><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M4 17c0 3 5.4 5.5 12 5.5s12-2.5 12-5.5m-4.5 7.5l3-1.8l-1.8-3"/></svg>
+      </button>
+      <button type="button" class="pdp-card-thumb" aria-label="View image 2">
+        <img src="images/logos/Size=64.png" alt="" width="28" height="20">
+      </button>
+      <button type="button" class="pdp-card-thumb" aria-label="View image 3">
+        <img src="images/logos/Size=64.png" alt="" width="28" height="20">
+      </button>
+      <button type="button" class="pdp-card-thumb" aria-label="View image 4">
+        <img src="images/logos/Size=64.png" alt="" width="28" height="20">
+      </button>
+    </div>
+  </div>
+
+  <!-- Product details -->
+  <div class="pdp-card-info">
+    <div class="pdp-card-brand-row">
+      <p class="pdp-card-brand">Milwaukee Tools</p>
+      <!-- Links to the Availability summary on MD and smaller (script.js adds the href there; no href = plain text) -->
+      <a class="pdp-card-stock">In Stock <img src="images/icons/plp/checkmark_20.svg" alt="" width="20" height="20"></a>
+    </div>
+    <h1 class="pdp-card-title" id="pdp_title">2656-20</h1>
+    <p class="pdp-card-name">2656-20 M18 HEX IMPACTDRIVER ; 18V 5-1/2" L 0-2750RPM 1500"-LBS</p>
+    <p class="pdp-card-desc">Impact Driver; M18; 1/4" Hex</p>
+    <dl class="pdp-card-ids">
+      <div class="pdp-card-id-row">
+        <dt>BDI No.</dt>
+        <dd>
+          <span class="pdp-card-id-value">20095409</span>
+          <button type="button" class="pdp-card-icon-btn pdp-card-copy" data-copy="20095409" aria-label="Copy BDI number">
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect width="12" height="14" x="8" y="7" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h2"/></g></svg>
+          </button>
+          <a class="pdp-card-p65" href="https://www.p65warnings.ca.gov" target="_blank" rel="noopener noreferrer" aria-label="Proposition 65 warning (opens in a new tab)" aria-describedby="pdp_p65_tip">
+            <svg class="pdp-card-notice" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#F9E784" stroke="#1B1C1C" stroke-linejoin="round" stroke-width="1.5" d="M12 3L2 21h20z"/><path stroke="#1B1C1C" stroke-linecap="round" stroke-width="2" d="M12 10v5m0 2.5v.01"/></svg>
+            <span class="pdp-card-p65-tip" id="pdp_p65_tip" role="tooltip">WARNING: Cancer and Reproductive Harm - www.P65Warnings.ca.gov</span>
+          </a>
+        </dd>
+      </div>
+      <div class="pdp-card-id-row">
+        <dt>Mfr Part No.</dt>
+        <dd>
+          <span class="pdp-card-id-value">2656-20</span>
+          <button type="button" class="pdp-card-icon-btn pdp-card-copy" data-copy="2656-20" aria-label="Copy manufacturer part number">
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect width="12" height="14" x="8" y="7" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h2"/></g></svg>
+          </button>
+        </dd>
+      </div>
+      <div class="pdp-card-id-row pdp-card-id-row--cust">
+        <dt>Cust No.</dt>
+        <dd>
+          <span class="pdp-card-id-value">1287448;</span>
+          <span class="pdp-card-id-value">1522642</span>
+        </dd>
+      </div>
+    </dl>
+    <hr class="pdp-card-divider">
+  </div>
+
+  <!-- Price, Add To Requisition, Buy Now -->
+  <div class="pdp-card-buy">
+    <div class="pdp-card-buy-top">
+      <button type="button" class="pdp-card-icon-btn pdp-card-share" aria-label="Share">
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15V3m0 0L8 7m4-4l4 4M8 11H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-2"/></svg>
+      </button>
+    </div>
+    <div class="pdp-card-purchase">
+      <p class="pdp-card-price"><span class="pdp-card-amount">$ 298.95</span> <span class="pdp-card-unit">/ each</span></p>
+      <p class="pdp-card-price-was"><span class="pdp-visually-hidden">Was </span><s>$ 307.95 / each</s></p>
+      <div class="pdp-card-buttons">
+        <button type="button" class="btn btn--primary pdp-card-add" data-added-title="Added to Requisition">Add To Requisition</button>
+        <button type="button" class="btn btn--secondary pdp-card-add">Buy Now</button>
+      </div>
+    </div>
+  </div>
+</section>
