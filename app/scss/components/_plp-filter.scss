@@ -124,6 +124,8 @@ $-plp-divider: #ACABAB;  // categories divider
     gap: 8px;
     padding: 4px 8px 12px;
     border-bottom: 1px solid $-plp-rule;
+
+    &[hidden] { display: none; }  // Categories, once a last-level category is picked (script.js)
 }
 
 .plp-facet-header {

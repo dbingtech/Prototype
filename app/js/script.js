@@ -370,6 +370,16 @@
                     productScrollRight.addEventListener('click', function () {
                         productScroll.scrollBy({ left: scrollAmount, behavior: 'smooth' });
                     });
+
+                    // Left chevron only once the links have scrolled left (none at the start).
+                    // If it had focus when it hides, focus moves to the right chevron instead of being lost.
+                    function updateScrollLeft() {
+                        const atStart = productScroll.scrollLeft <= 1;
+                        if (atStart && document.activeElement === productScrollLeft) productScrollRight.focus();
+                        productScrollLeft.style.display = atStart ? 'none' : '';
+                    }
+                    productScroll.addEventListener('scroll', updateScrollLeft, { passive: true });
+                    updateScrollLeft();
                 }
             });
         } // end if (navbarEl)
@@ -1046,6 +1056,7 @@
                 };
                 const categoryList = plpFilterEl.querySelector('.plp-category-list');
                 if (categoryList) {
+                    const categoriesFacet = categoryList.closest('.plp-facet');
                     const categoryTemplate = categoryList.querySelector('li');
                     const topCategories = Array.from(categoryList.children, function (li) { return li.cloneNode(true); });
                     const categoryShowMore = categoryList.nextElementSibling;
@@ -1089,16 +1100,25 @@
                         renderCategoryPills();
                     }
 
-                    // Category pills go ahead of the facet pills, in path order
+                    // Category pills sit with the facet pills in the order they were applied: pills still on the
+                    // category path stay where they are, ones that left it are removed, new levels go at the end
                     function renderCategoryPills() {
+                        // A last-level category picked: nothing left to choose, so the Categories section hides
+                        // until its pill is removed
+                        categoriesFacet.hidden = !!selectedCategory;
                         if (!pillList) return;
-                        pillList.querySelectorAll('.plp-pill--category').forEach(function (li) { li.remove(); });
                         const trail = selectedCategory ? categoryPath.concat(selectedCategory) : categoryPath;
-                        const pills = trail.map(function (name, i) {
+                        pillList.querySelectorAll('.plp-pill--category').forEach(function (li) {
+                            if (trail[li.dataset.level] !== li.dataset.category) li.remove();
+                        });
+                        trail.forEach(function (name, i) {
+                            if (pillList.querySelector('.plp-pill--category[data-level="' + i + '"]')) return;
                             const pill = document.createElement('li');
                             pill.className = 'plp-pill plp-pill--category';
+                            pill.dataset.level = i;
+                            pill.dataset.category = name;
                             pill.innerHTML = '<span></span><button type="button" class="plp-pill-remove">' +
-                                '<img src="images/icons/plp/close_24.svg" alt="" width="24" height="24"></button>';
+                                '<img src="images/icons/plp/close_24.svg" alt="" width="14" height="14"></button>';
                             pill.querySelector('span').textContent = 'Category: ' + name;
                             pill.querySelector('button').setAttribute('aria-label', 'Remove filter Category: ' + name);
                             pill.querySelector('button').addEventListener('click', function () {
@@ -1117,9 +1137,8 @@
                                     showSubcategories(categoryPath[i - 1]);
                                 }
                             });
-                            return pill;
+                            pillList.appendChild(pill);
                         });
-                        pillList.prepend(...pills);
                         updatePillBar();
                     }
 
@@ -1143,6 +1162,9 @@
                             a.classList.toggle('is-selected', a === link);
                         });
                         renderCategoryPills();
+                        // The link just clicked is now hidden: keyboard focus goes on to the next section
+                        const nextToggle = categoriesFacet.nextElementSibling && categoriesFacet.nextElementSibling.querySelector('.plp-facet-toggle');
+                        if (nextToggle) nextToggle.focus();
                     });
                 }
 
@@ -1191,8 +1213,54 @@
                     list.scrollTop = 0;
                 }
 
+                // The bar keeps its space with no pills; only Reset Filters goes away
                 function updatePillBar() {
-                    if (pillBar) pillBar.hidden = pillList.children.length === 0;
+                    if (pillBar) pillBar.classList.toggle('is-empty', pillList.children.length === 0);
+                    updatePillScroll();
+                }
+
+                // Pill row overflowing (.is-scrollable): a mouse drag slides it sideways (touch already swipes).
+                // A drag only starts past 5px, and the click that ends it is swallowed so it can't remove a pill.
+                function updatePillScroll() {
+                    if (pillList) pillList.classList.toggle('is-scrollable', pillList.scrollWidth > pillList.clientWidth);
+                }
+                if (pillList) {
+                    let dragStartX = 0;
+                    let dragStartScroll = 0;
+                    let dragging = false;
+                    let dragged = false;
+                    new ResizeObserver(updatePillScroll).observe(pillList);
+
+                    pillList.addEventListener('pointerdown', function (e) {
+                        if (e.pointerType !== 'mouse' || e.button !== 0 || !pillList.classList.contains('is-scrollable')) return;
+                        dragging = true;
+                        dragged = false;
+                        dragStartX = e.clientX;
+                        dragStartScroll = pillList.scrollLeft;
+                    });
+                    pillList.addEventListener('pointermove', function (e) {
+                        if (!dragging) return;
+                        const dx = e.clientX - dragStartX;
+                        if (!dragged) {
+                            if (Math.abs(dx) < 5) return;
+                            dragged = true;
+                            pillList.setPointerCapture(e.pointerId);
+                            pillList.classList.add('is-dragging');
+                        }
+                        pillList.scrollLeft = dragStartScroll - dx;
+                    });
+                    function endPillDrag() {
+                        dragging = false;
+                        pillList.classList.remove('is-dragging');
+                    }
+                    pillList.addEventListener('pointerup', endPillDrag);
+                    pillList.addEventListener('pointercancel', endPillDrag);
+                    pillList.addEventListener('click', function (e) {
+                        if (!dragged) return;
+                        e.stopPropagation();
+                        e.preventDefault();
+                        dragged = false;
+                    }, true);
                 }
 
                 function addPill(input) {
@@ -1203,7 +1271,7 @@
                     const pill = document.createElement('li');
                     pill.className = 'plp-pill';
                     pill.innerHTML = '<span></span><button type="button" class="plp-pill-remove">' +
-                        '<img src="images/icons/plp/close_24.svg" alt="" width="24" height="24"></button>';
+                        '<img src="images/icons/plp/close_24.svg" alt="" width="14" height="14"></button>';
                     pill.querySelector('span').textContent = label + ': ' + value;
                     pill.querySelector('button').setAttribute('aria-label', 'Remove filter ' + label + ': ' + value);
                     pill.querySelector('button').addEventListener('click', function () {

@@ -257,6 +257,22 @@ $-plp-divider: #ACABAB;  // result dividers
     @include xsm { grid-column: 1; grid-row: auto; width: 100%; }
 }
 
+// LG+ (details and price side by side): the price lines up with the item number (Global SAP Number).
+// Both columns start at the top; 32px puts the 24px price on the 20px title's baseline: title top =
+// 8px details padding + brand row (23px with the Available icon, 20px with In Stock) + 8px gap,
+// and the guest price box is 32px with the amount at its bottom, so both card types come out at 32px.
+@mixin plp-card-price-top {
+    .plp-card-details { align-self: start; }
+    .plp-card-buy {
+        align-self: start;
+        justify-content: flex-start;
+        padding-top: 32px;
+    }
+}
+@include xxl { @include plp-card-price-top; }
+@include xl  { @include plp-card-price-top; }
+@include lg  { @include plp-card-price-top; }
+
 .plp-price {
     display: flex;
     align-items: flex-end;
@@ -421,43 +437,52 @@ $-plp-divider: #ACABAB;  // result dividers
 // ----------------------------Applied-filter pills + Reset Filters
 $-pill-border: #557C92;
 
+// Always holds one row of pills' height so the cards don't jump when the first filter is added;
+// with no pills (.is-empty, script.js) Reset Filters keeps its space but isn't shown or focusable
 .plp-pill-bar {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 16px;
+    min-height: 40px;  // a 32px pill + the list's 4px top and bottom padding
 
-    &[hidden] { display: none; }
+    &.is-empty .plp-reset-filters { visibility: hidden; }
 }
 
+// All pills on one line (category pills first); scrolls sideways when they don't fit
 .plp-pills {
     flex: 1;
     min-width: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
     gap: 16px;
     margin: 0;
     padding: 4px 8px;
+    overflow-x: auto;
+    scrollbar-width: thin;
     list-style: none;
 
-    @include md  { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    @include sm  { grid-template-columns: minmax(0, 1fr); }
-    @include xsm { grid-template-columns: minmax(0, 1fr); }
+    // Mouse drag-to-scroll (script.js) once the pills overflow; the X keeps its pointer cursor
+    &.is-scrollable {
+        cursor: grab;
+        user-select: none;
+    }
+    &.is-dragging { cursor: grabbing; }
+    img { pointer-events: none; }  // no native image drag on the X while dragging the row
 }
 
 .plp-pill {
-    justify-self: start;
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     min-width: 88px;
-    max-width: 100%;
-    padding: 4px 12px;
+    height: 32px;
+    padding: 0 0 0 12px;  // the X fills the right end
     box-sizing: border-box;
     background-color: colors.$lightgray02;
     border: 1px solid $-pill-border;
     border-radius: 16px;
-    font-size: 16px;
+    font-size: 14px;
 
     span {
         overflow: hidden;
@@ -466,22 +491,23 @@ $-pill-border: #557C92;
     }
 }
 
-// Facet pills start a new row under the category pills (category pills always come first)
-.plp-pill--category + .plp-pill:not(.plp-pill--category) {
-    grid-column-start: 1;
-}
-
+// 14px X (script.js) centered in the pill's right end: full height inside the border and 31px wide,
+// so with the pill's 1px border it reads as a 32x32 block that turns gray/200 on hover
 .plp-pill-remove {
     @include focus.focus-ring-base;
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    align-self: stretch;
+    width: 31px;
     padding: 0;
     background: none;
     border: none;
-    border-radius: 50%;
+    border-radius: 0 15px 15px 0;
     cursor: pointer;
 
-    &:hover { background-color: rgba(colors.$text, 0.08); }
+    &:hover { background-color: colors.$medgray80; }
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 
