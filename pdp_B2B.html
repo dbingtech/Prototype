@@ -29,21 +29,20 @@
         <p class="pdp-availability" id="pdp_availability">
           <a class="pdp-availability-link" href="#pdp_inventory" aria-describedby="pdp_availability_tip">
             <span class="pdp-availability-label">Availability</span>
-            <span><span class="pdp-availability-qty">18</span> BDI Stock</span>
-            <span><span class="pdp-availability-qty">135</span> Factory Stock</span>
+            <span><span class="pdp-availability-qty">2</span> BDI Stock</span>
           </a>
           <span class="pdp-availability-tip" id="pdp_availability_tip" role="tooltip">Inventory Details</span>
         </p>
 
-        <!-- Specifications + Alternatives (pdp-sections.html); Inventory Details goes between them -->
-        <div id="pdp_sections"></div>
+        <!-- Specifications + Alternatives (pdp-sections-B2B.html); Inventory Details goes between them -->
+        <div id="pdp_sections" data-sections="pdp-sections-B2B.html"></div>
         <!-- Inventory Details: script.js moves it between Specifications and Alternatives once they load.
-             BDI warehouses and factory side by side on LG+, stacked below -->
+             BDI warehouse stock only -->
         <section class="pdp-section" id="pdp_inventory" aria-labelledby="pdp_inventory_title">
           <h2 class="pdp-section-title" id="pdp_inventory_title">Inventory Details</h2>
           <div class="pdp-inv-intro">
             <p>Our advanced distribution technology automatically ships your product from the closest warehouse(s), with enough stock to fill your order.</p>
-            <p class="pdp-inv-call">Need it faster? Please call us at <a href="tel:+18335052801">833-505-2801</a></p>
+            <p class="pdp-inv-call">Need it faster? Please call us at <a href="tel:+12166765211">216-676-5211</a></p>
           </div>
           <div class="pdp-inv-groups">
             <div class="pdp-inv-group">
@@ -53,49 +52,25 @@
                   <tr>
                     <th scope="col">Location</th>
                     <th scope="col" class="pdp-inv-qty">Qty</th>
-                    <th scope="col">Estimated Delivery</th>
+                    <th scope="col">Quickest Estimated Delivery</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="pdp-inv-loc">BDI US Cleveland</td>
-                    <td class="pdp-inv-qty" data-label="Qty">52</td>
-                    <td data-label="Estimated Delivery">1-3 Business Days</td>
-                  </tr>
-                  <tr>
-                    <td class="pdp-inv-loc">BDI US Dallas</td>
-                    <td class="pdp-inv-qty" data-label="Qty">63</td>
-                    <td data-label="Estimated Delivery">1-3 Business Days</td>
+                    <td class="pdp-inv-loc">BDI US Nevada DC</td>
+                    <td class="pdp-inv-qty" data-label="Qty">2</td>
+                    <td data-label="Quickest Estimated Delivery">1-3 Business Days</td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
                     <th scope="row">Total:</th>
-                    <td class="pdp-inv-qty">115</td>
+                    <td class="pdp-inv-qty">2</td>
                     <td></td>
                   </tr>
                 </tfoot>
               </table>
               <p class="pdp-inv-note">*Delivery estimates are based on lead time plus overnight shipping. These are estimates and actual results may vary.</p>
-            </div>
-            <div class="pdp-inv-group">
-              <h3 class="pdp-inv-title" id="pdp_inv_factory_title">Factory Stock</h3>
-              <table class="pdp-inv-table pdp-inv-table--factory" aria-labelledby="pdp_inv_factory_title">
-                <thead>
-                  <tr>
-                    <th scope="col">Location</th>
-                    <th scope="col" class="pdp-inv-qty">Qty</th>
-                    <th scope="col">Estimated Delivery</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="pdp-inv-loc">Factory Stock</td>
-                    <td class="pdp-inv-qty" data-label="Qty">9,999</td>
-                    <td data-label="Estimated Delivery">Contact Local BDI Sales Office</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </section>

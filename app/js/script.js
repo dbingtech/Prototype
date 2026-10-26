@@ -880,7 +880,7 @@
             }
 
             // Specifications + Alternatives are shared by pdp.html and pdp_B2B.html;
-            // data-sections picks another file (pdp_SS.html: pdp-sections-SS.html)
+            // data-sections picks another file (pdp_B2B.html: pdp-sections-B2B.html, pdp_SS.html: pdp-sections-SS.html)
             const pdpSectionsEl = document.getElementById('pdp_sections');
             fetch(pdpSectionsEl.dataset.sections || 'pdp-sections.html')
                 .then(response => response.text())
