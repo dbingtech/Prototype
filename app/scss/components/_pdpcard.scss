@@ -441,7 +441,10 @@
     @include sm  { width: 100%; }
     @include xsm { width: 100%; }
 }
-// Share stays top right; the price block centers in the space below it
+// B2B and SmartSUPPLY (pdpcard_B2B.html, pdpcard_SS.html). Stacked (MD and smaller): share stays top right
+// and the price block centers in the space below it.
+// LG+: the price lines up with the item number. Share pins to the top right of the buy box;
+// 24px = the brand row (20px) + the info column's 4px gap
 .pdp-card--b2b {
     .pdp-card-buy { gap: 16px; }
     .pdp-card-purchase {
@@ -453,10 +456,7 @@
         font-weight: 800;
     }
     .pdp-card-unit { font-size: 14px; }
-}
-// SmartSUPPLY (pdpcard_SS.html): the price lines up with the item number. Share pins to the top right
-// of the buy box; 24px = the brand row (20px) + the info column's 4px gap
-.pdp-card--ss {
+
     @include -columns {
         .pdp-card-buy { position: relative; }
         .pdp-card-buy-top {

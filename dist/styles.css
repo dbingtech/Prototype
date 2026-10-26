@@ -4977,15 +4977,15 @@ nav ul {
 }
 
 @media only screen and (min-width: 992px) {
-  .pdp-card--ss .pdp-card-buy {
+  .pdp-card--b2b .pdp-card-buy {
     position: relative;
   }
-  .pdp-card--ss .pdp-card-buy-top {
+  .pdp-card--b2b .pdp-card-buy-top {
     position: absolute;
     top: 0;
     right: 0;
   }
-  .pdp-card--ss .pdp-card-purchase {
+  .pdp-card--b2b .pdp-card-purchase {
     justify-content: flex-start;
     padding-top: 24px;
   }
