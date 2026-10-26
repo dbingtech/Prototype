@@ -1,5 +1,5 @@
 @use '../globals/colors' as colors; 
-// Only the site navbar is navy; other <nav>s (breadcrumbs, PDP jump links, pagination) keep their own styles
+// Only the site navbar is navy; other <nav>s (breadcrumbs, pagination) keep their own styles
 .navbar, .nav_container{
   background-color: colors.$bdiblue;
   border-top: 0.5px solid colors.$white;

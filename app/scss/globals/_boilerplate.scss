@@ -35,3 +35,10 @@ body {
     @include sm  { max-width: 576px;  padding: 0 16px; }
     @include xsm { max-width: 100%;   padding: 0 16px; }
 }
+// Mobile (MD and smaller): every checkbox is 24x24. "html" outranks the component rules that size
+// them on desktop (.plp-check--16/--20 input, .pdp-card-compare input). register.html sizes its own.
+html input[type="checkbox"] {
+    @include md  { width: 24px; height: 24px; }
+    @include sm  { width: 24px; height: 24px; }
+    @include xsm { width: 24px; height: 24px; }
+}

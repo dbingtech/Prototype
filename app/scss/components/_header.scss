@@ -56,6 +56,10 @@ header a:hover {
   width:auto;
   cursor: pointer;
 }
+// All headers: hovering the flag or the country underlines the country (the flag itself can't be underlined)
+#pre-header #country_currency:hover {
+  text-decoration: underline;
+}
 #account_name {
   font-size: 12px;
   color: colors.$text;
@@ -650,7 +654,7 @@ header a:hover {
 
   /* Tighten post-header container padding */
   #post_header_container {
-    padding: 0 8px;
+    padding: 0 16px;
     min-height: unset;
   }
 

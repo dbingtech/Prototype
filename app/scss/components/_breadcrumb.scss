@@ -1,15 +1,17 @@
 @use '../globals/colors' as colors;
 @use '../globals/responsive' as *;
 
+// Same max-width as #main at each breakpoint (_boilerplate.scss) so the trail lines up with the page content
 #breadcrumbs {
     max-width: 1400px;
     margin: 0 auto;
     padding: 12px 32px;
 
-    @include lg  { padding: 10px 24px; }
-    @include md  { padding: 10px 24px; }
-    @include sm  { padding: 8px 16px; }
-    @include xsm { padding: 8px 8px; }
+    @include xl  { max-width: 1200px; }
+    @include lg  { max-width: 992px; padding: 10px 24px; }
+    @include md  { max-width: 768px; padding: 10px 24px; }
+    @include sm  { max-width: 576px; padding: 8px 16px; }
+    @include xsm { padding: 8px 16px; }
 }
 
 .breadcrumb {

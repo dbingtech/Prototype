@@ -172,6 +172,13 @@
         cursor: pointer;
         flex-shrink: 0;
       }
+      /* Mobile (MD and smaller): 24x24 like every other checkbox (_boilerplate.scss) */
+      @media only screen and (max-width: 991px) {
+        .reg-checkbox-label input[type="checkbox"] {
+          width: 24px;
+          height: 24px;
+        }
+      }
       .reg-options-sep {
         width: 1px;
         height: 18px;

@@ -178,6 +178,18 @@
                     const dividerTemplate = lineTemplate.querySelector('.cart-divider');
                     let cartReturnFocus = cartBtn;
 
+                    // Count badge: red circle on the cart icon's top right, hidden while the cart is empty.
+                    // Wraps the icon so the badge sits on it rather than on the whole button.
+                    const cartIcon = document.createElement('span');
+                    cartIcon.className = 'cart-icon';
+                    const cartBadge = document.createElement('span');
+                    cartBadge.className = 'cart-badge';
+                    cartBadge.setAttribute('aria-hidden', 'true');
+                    cartBadge.hidden = true;
+                    const cartSvg = cartBtn.querySelector('svg');
+                    cartSvg.before(cartIcon);
+                    cartIcon.append(cartSvg, cartBadge);
+
                     // added = true shows the Figma "Added to Cart" state (just the new line item);
                     // addedTitle replaces that heading (e.g. "Added to Requisition" on SmartSUPPLY)
                     function openCartModal(added, addedTitle) {
@@ -231,11 +243,17 @@
                     function updateCartCount() {
                         const lines = cartItems.querySelectorAll('.cart-line-item');
                         let total = 0;
+                        let units = 0;  // badge: total quantity across lines (99+ past two digits)
                         lines.forEach(function (li) {
+                            const qty = parseInt(li.dataset.qty, 10);
                             const price = parseFloat(li.querySelector('.cart-line-item-price').textContent.replace(/[^0-9.]/g, ''));
-                            if (!isNaN(price)) total += price * parseInt(li.dataset.qty, 10);
+                            if (!isNaN(price)) total += price * qty;
+                            units += qty;
                         });
                         cartCount.textContent = lines.length;
+                        cartBadge.textContent = units > 99 ? '99+' : units;
+                        cartBadge.hidden = units === 0;
+                        cartBtn.setAttribute('aria-label', units ? 'Cart, ' + units.toLocaleString('en-US') + (units === 1 ? ' item' : ' items') : 'Cart');
                         cartTotal.textContent = total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
                     }
 
@@ -492,6 +510,39 @@
             .then(response => response.text())
             .then(data => document.getElementById('homepage_ads').innerHTML = data);
 
+        // Quantity pill (PLP cards, PDP card): replaces Add To Cart once clicked.
+        // Trash at 1, minus above 1, typeable number, plus. Styles in _plp.scss (.plp-qty).
+        function buildQtyPill(name) {
+            const pill = document.createElement('div');
+            pill.className = 'plp-qty';
+            pill.setAttribute('role', 'group');
+            pill.setAttribute('aria-label', 'Quantity of ' + name + ' in cart');
+            pill.innerHTML =
+                '<button type="button" class="plp-qty-minus"><img alt="" width="24" height="24"></button>' +
+                '<input type="text" class="plp-qty-input" inputmode="numeric" aria-label="Quantity">' +
+                '<button type="button" class="plp-qty-plus" aria-label="Increase quantity">' +
+                '<img src="images/icons/plp/qty_plus_16.svg" alt="" width="16" height="16"></button>';
+            return pill;
+        }
+
+        function renderQtyPill(pill, qty) {
+            pill.dataset.qty = qty;
+            pill.querySelector('.plp-qty-input').value = qty;
+            const minus = pill.querySelector('.plp-qty-minus');
+            const img = minus.querySelector('img');
+            if (qty <= 1) {
+                img.src = 'images/icons/plp/qty_delete_24.svg';
+                img.width = 24;
+                img.height = 24;
+                minus.setAttribute('aria-label', 'Remove from cart');
+            } else {
+                img.src = 'images/icons/plp/qty_minus_16.svg';
+                img.width = 16;
+                img.height = 16;
+                minus.setAttribute('aria-label', 'Decrease quantity');
+            }
+        }
+
         // Load PDP card
         // The placeholder's id names the file to load (pdpcard_B2B -> pdpcard_B2B.html)
         const pdpcardEl = document.querySelector('#pdpcard_B2B, #pdpcard');
@@ -517,26 +568,37 @@
                     this.setAttribute('aria-label', on ? 'Remove from favorites' : 'Add to favorites');
                 });
 
-                const copyStatus = pdpcardEl.querySelector('.pdp-card-copy-status');
+                // Copy: confirmation pops up as a tooltip on that row, past the copy and Prop 65 icons, for 2 seconds.
+                // Each tooltip stays in the page (empty = hidden) so screen readers announce it.
                 pdpcardEl.querySelectorAll('.pdp-card-copy').forEach(function (btn) {
+                    const tip = document.createElement('span');
+                    tip.className = 'pdp-card-copy-tip';
+                    tip.setAttribute('role', 'status');
+                    btn.closest('dd').append(tip);
+                    let tipTimer;
+
+                    function showTip(text) {
+                        clearTimeout(tipTimer);
+                        tip.textContent = text;
+                        tipTimer = setTimeout(function () { tip.textContent = ''; }, 2000);
+                    }
                     btn.addEventListener('click', function () {
-                        const value = this.dataset.copy;
-                        navigator.clipboard.writeText(value)
-                            .then(() => copyStatus.textContent = 'Copied ' + value)
-                            .catch(() => copyStatus.textContent = 'Copy failed');
+                        navigator.clipboard.writeText(this.dataset.copy)
+                            .then(() => showTip('Copied'))
+                            .catch(() => showTip('Copy failed'));
                     });
                 });
 
-                // Share: copy the page URL and confirm in a message bar under the breadcrumbs.
+                // Share: copy the page URL and confirm in a message floated at the right end of the breadcrumbs row
+                // (the empty space above the buy box), so nothing below moves.
                 // The status element stays in the page (empty = hidden) so screen readers announce each message.
                 const breadcrumbsEl = document.getElementById('breadcrumbs');
                 const shareBtn = pdpcardEl.querySelector('.pdp-card-share');
                 if (breadcrumbsEl && shareBtn) {
-                    const shareMsgWrap = document.createElement('div');
-                    shareMsgWrap.id = 'pdp_share_message';
-                    shareMsgWrap.innerHTML = '<p class="pdp-share-message" role="status"></p>';
-                    breadcrumbsEl.after(shareMsgWrap);
-                    const shareMsg = shareMsgWrap.firstElementChild;
+                    const shareMsg = document.createElement('p');
+                    shareMsg.className = 'pdp-share-message';
+                    shareMsg.setAttribute('role', 'status');
+                    breadcrumbsEl.append(shareMsg);
                     let shareMsgTimer;
 
                     function showShareMessage(text, failed) {
@@ -549,6 +611,80 @@
                         navigator.clipboard.writeText(window.location.href)
                             .then(() => showShareMessage('URL Copied', false))
                             .catch(() => showShareMessage('Couldn\'t copy the URL', true));
+                    });
+                }
+
+                // B2B on MD and smaller: "In Stock" jumps down to the Availability summary under the stacked card
+                // (smooth unless the user prefers reduced motion) and focuses it. It's only a link while that
+                // layout shows; without an href it's plain text.
+                const stockLink = card.querySelector('a.pdp-card-stock');
+                const availabilityEl = document.getElementById('pdp_availability');
+                if (stockLink && availabilityEl) {
+                    const stackedLayout = window.matchMedia('(max-width: 991px)');  // MD, SM, XSM
+                    function syncStockLink() {
+                        if (stackedLayout.matches) stockLink.setAttribute('href', '#pdp_availability');
+                        else stockLink.removeAttribute('href');
+                    }
+                    syncStockLink();
+                    stackedLayout.addEventListener('change', syncStockLink);
+                    stockLink.addEventListener('click', function (e) {
+                        if (!stockLink.hasAttribute('href')) return;
+                        e.preventDefault();
+                        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                        availabilityEl.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+                        availabilityEl.querySelector('.pdp-availability-link').focus({ preventScroll: true });
+                    });
+                }
+
+                // Image zoom: the product image opens a larger view in a native <dialog> (Escape closes, focus stays
+                // inside and goes back to the image after). Clicking the large image zooms in 2x at that spot and the
+                // mouse pans; clicking again zooms out. Enter/Space zoom on the center.
+                const imageBtn = pdpcardEl.querySelector('.pdp-card-image-btn');
+                if (imageBtn) {
+                    const zoom = document.createElement('dialog');
+                    zoom.className = 'pdp-zoom';
+                    zoom.innerHTML =
+                        '<button type="button" class="pdp-zoom-close" aria-label="Close">' +
+                            '<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 6l12 12M18 6L6 18"/></svg>' +
+                        '</button>' +
+                        '<button type="button" class="pdp-zoom-toggle"><img class="pdp-zoom-image" alt=""></button>';
+                    document.body.append(zoom);
+                    const zoomToggle = zoom.querySelector('.pdp-zoom-toggle');
+                    const zoomImage = zoom.querySelector('.pdp-zoom-image');
+
+                    function setZoomed(on) {
+                        zoomToggle.classList.toggle('is-zoomed', on);
+                        zoomToggle.setAttribute('aria-pressed', String(on));
+                        zoomToggle.setAttribute('aria-label', on ? 'Zoom out' : 'Zoom in');
+                    }
+                    function zoomAt(e) {
+                        const r = zoomToggle.getBoundingClientRect();
+                        zoomImage.style.transformOrigin =
+                            ((e.clientX - r.left) / r.width * 100) + '% ' + ((e.clientY - r.top) / r.height * 100) + '%';
+                    }
+
+                    imageBtn.addEventListener('click', function () {
+                        const image = imageBtn.querySelector('img');
+                        zoomImage.src = image.currentSrc || image.src;
+                        zoom.setAttribute('aria-label', image.alt);
+                        zoomImage.style.transformOrigin = '';
+                        setZoomed(false);
+                        zoom.showModal();
+                    });
+                    zoomToggle.addEventListener('click', function (e) {
+                        if (e.detail) zoomAt(e);  // mouse click: zoom on that spot (detail is 0 for Enter/Space)
+                        else zoomImage.style.transformOrigin = '';
+                        setZoomed(!zoomToggle.classList.contains('is-zoomed'));
+                    });
+                    zoomToggle.addEventListener('mousemove', function (e) {
+                        if (zoomToggle.classList.contains('is-zoomed')) zoomAt(e);
+                    });
+                    zoom.querySelector('.pdp-zoom-close').addEventListener('click', function () { zoom.close(); });
+                    // A click on the dimmed backdrop lands on the dialog itself; only close if it's outside the white box
+                    zoom.addEventListener('click', function (e) {
+                        if (e.target !== zoom) return;
+                        const r = zoom.getBoundingClientRect();
+                        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) zoom.close();
                     });
                 }
 
@@ -579,17 +715,6 @@
                 mini.querySelector('.pdp-mini-amount').textContent = card.querySelector('.pdp-card-amount').textContent;
                 mini.querySelector('.pdp-mini-unit').textContent = card.querySelector('.pdp-card-unit').textContent;
 
-                // Stock line: "In Stock" (B2B) or "Available" (guest), with its icon
-                const stock = card.querySelector('.pdp-card-stock, .pdp-card-status');
-                if (stock) {
-                    const miniStock = document.createElement('p');
-                    miniStock.className = 'pdp-mini-status' + (stock.classList.contains('pdp-card-stock') ? ' pdp-mini-status--in' : '');
-                    miniStock.textContent = stock.textContent.trim();
-                    const stockIcon = stock.querySelector('img, svg');
-                    if (stockIcon) miniStock.append(stockIcon.cloneNode(true));
-                    mini.querySelector('.pdp-mini-top').append(miniStock);
-                }
-
                 // Title goes back to the full card
                 mini.querySelector('.pdp-mini-title').addEventListener('click', function (e) {
                     e.preventDefault();
@@ -597,8 +722,98 @@
                     window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
                 });
                 const cardAdd = card.querySelector('.pdp-card-add.btn--primary');
-                mini.querySelector('.pdp-mini-add').addEventListener('click', function () { cardAdd.click(); });
+                const miniAdd = mini.querySelector('.pdp-mini-add');
                 document.body.append(mini);
+
+                // Add To Cart -> quantity pill, on the card and the condensed card at once so they stay in step
+                // (guest and B2B; on B2B, Buy Now stays under the pill)
+                if (cardAdd) {
+                    const sku = card.querySelector('.pdp-card-id-value').textContent.trim();
+                    const name = card.querySelector('.pdp-card-title').textContent.trim();
+                    const image = card.querySelector('.pdp-card-image');
+                    let pills = [];  // [card pill, condensed pill] while the item is in the cart
+
+                    // qty 0 removes the item and brings back both Add To Cart buttons;
+                    // focus goes to the button in whichever card was used
+                    function setPdpQty(qty, inMini) {
+                        if (window.setMiniCartQty) window.setMiniCartQty(sku, qty);
+                        if (qty > 0) {
+                            pills.forEach(function (pill) { renderQtyPill(pill, qty); });
+                        } else {
+                            pills.forEach(function (pill) { pill.remove(); });
+                            pills = [];
+                            cardAdd.hidden = false;
+                            miniAdd.hidden = false;
+                            (inMini ? miniAdd : cardAdd).focus();
+                        }
+                    }
+
+                    // Pills at 1 and the "Added to Cart" modal; focus comes back to the full card's pill after.
+                    // Ignored if the item is already in (e.g. a second click while scrolling up).
+                    function addPdpToCart() {
+                        if (pills.length) return;
+                        pills = [cardAdd, miniAdd].map(function (btn) {
+                            const pill = buildQtyPill(name);
+                            btn.hidden = true;
+                            btn.after(pill);
+                            renderQtyPill(pill, 1);
+                            return pill;
+                        });
+                        window.addToMiniCart({
+                            sku: sku,
+                            brand: card.querySelector('.pdp-card-brand').textContent.trim(),
+                            name: name,
+                            price: card.querySelector('.pdp-card-amount').textContent.replace(/\$\s+(?=\d)/, '$').trim() + ' ' +
+                                card.querySelector('.pdp-card-unit').textContent.trim(),
+                            image: image.getAttribute('src'),
+                            imageAlt: image.alt
+                        }, pills[0].querySelector('.plp-qty-input'));
+                    }
+
+                    // Smooth unless the user prefers reduced motion (or the browser has no scrollend to wait on)
+                    function scrollToTopThen(callback) {
+                        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                        if (window.scrollY === 0 || reduce || !('onscrollend' in window)) {
+                            window.scrollTo(0, 0);
+                            callback();
+                            return;
+                        }
+                        window.addEventListener('scrollend', callback, { once: true });
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+
+                    [card, mini].forEach(function (scope) {
+                        const inMini = scope === mini;
+                        scope.addEventListener('click', function (e) {
+                            const addBtn = e.target.closest('.pdp-card-add.btn--primary, .pdp-mini-add');
+                            if (addBtn && window.addToMiniCart) {
+                                e.stopPropagation();
+                                // Condensed card: back up to the full card first, then add as if its button was clicked
+                                // (the cart modal opens under the header's cart icon, which is only on screen at the top)
+                                if (inMini) scrollToTopThen(addPdpToCart);
+                                else addPdpToCart();
+                                return;
+                            }
+                            const qtyBtn = e.target.closest('.plp-qty-minus, .plp-qty-plus');
+                            if (qtyBtn) {
+                                const step = qtyBtn.classList.contains('plp-qty-plus') ? 1 : -1;
+                                setPdpQty(parseInt(qtyBtn.closest('.plp-qty').dataset.qty, 10) + step, inMini);
+                            }
+                        });
+                        scope.addEventListener('keydown', function (e) {
+                            if (e.key === 'Enter' && e.target.classList.contains('plp-qty-input')) e.target.blur();
+                        });
+                        scope.addEventListener('change', function (e) {
+                            if (!e.target.classList.contains('plp-qty-input')) return;
+                            const typed = e.target.value.trim();
+                            if (!/^\d+$/.test(typed)) {
+                                e.target.value = e.target.closest('.plp-qty').dataset.qty;  // not a whole number: put the old value back
+                                return;
+                            }
+                            setPdpQty(parseInt(typed, 10), inMini);
+                        });
+                    });
+                }
 
                 // Visible only after the card has scrolled up past the top, not before it comes into view
                 new IntersectionObserver(function (entries) {
@@ -608,30 +823,35 @@
             });
         } // end if (pdpcardEl)
 
-        // PDP details (pdp.html, pdp_B2B.html): jump links, attribute filters, compare, pagination
+        // PDP details (pdp.html, pdp_B2B.html): attribute filters, compare, pagination
         const pdpDetailsEl = document.getElementById('pdp_details');
         if (pdpDetailsEl) {
-            // Jump links: smooth-scroll to the section (instant if the user prefers reduced motion),
-            // then move focus to its heading so keyboard and screen reader users land there too
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-            pdpDetailsEl.querySelectorAll('.pdp-jump-link').forEach(function (link) {
-                link.addEventListener('click', function (e) {
-                    const section = document.querySelector(this.getAttribute('href'));
+            // pdp_B2B.html: the Availability summary goes to Inventory Details (smooth unless the user prefers
+            // reduced motion), then focuses its heading so keyboard and screen reader users land there too
+            const availabilityLink = pdpDetailsEl.querySelector('.pdp-availability-link');
+            if (availabilityLink) {
+                availabilityLink.addEventListener('click', function (e) {
+                    const section = document.getElementById('pdp_inventory');
                     if (!section) return;
                     e.preventDefault();
-                    section.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
-                    history.pushState(null, '', this.getAttribute('href'));
+                    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    section.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+                    history.pushState(null, '', '#pdp_inventory');
                     const heading = section.querySelector('.pdp-section-title');
                     heading.setAttribute('tabindex', '-1');
                     heading.focus({ preventScroll: true });
                 });
-            });
+            }
 
             // Specifications + Alternatives are shared by pdp.html and pdp_B2B.html
             fetch('pdp-sections.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('pdp_sections').innerHTML = data;
+
+                    // pdp_B2B.html: Inventory Details goes between Specifications and Alternatives
+                    const inventoryEl = document.getElementById('pdp_inventory');
+                    if (inventoryEl) document.getElementById('pdp_alternatives').before(inventoryEl);
 
                     // A deep link (e.g. pdp.html#pdp_alternatives) lands before its section exists; go there once it does
                     const hashTarget = location.hash && document.getElementById(location.hash.slice(1));
@@ -1052,45 +1272,18 @@
         if (plpEl) {
             const plpCopyStatus = plpEl.querySelector('.plp-copy-status');
 
-            // Add To Cart -> quantity pill (trash at 1, minus above 1, typeable number, plus).
+            // Add To Cart -> quantity pill (buildQtyPill / renderQtyPill, shared with the PDP card).
             // Each card gets its own cart line (the sample cards share one part number).
             function showQtyPill(card, addBtn) {
                 if (!card.dataset.cartKey) {
                     card.dataset.cartKey = card.querySelector('.plp-card-ids dd').textContent.trim() + '#' +
                         card.getAttribute('aria-labelledby');
                 }
-                const name = card.querySelector('.plp-card-title').textContent.trim();
-                const pill = document.createElement('div');
-                pill.className = 'plp-qty';
-                pill.setAttribute('role', 'group');
-                pill.setAttribute('aria-label', 'Quantity of ' + name + ' in cart');
-                pill.innerHTML =
-                    '<button type="button" class="plp-qty-minus"><img alt="" width="24" height="24"></button>' +
-                    '<input type="text" class="plp-qty-input" inputmode="numeric" aria-label="Quantity">' +
-                    '<button type="button" class="plp-qty-plus" aria-label="Increase quantity">' +
-                    '<img src="images/icons/plp/qty_plus_16.svg" alt="" width="16" height="16"></button>';
+                const pill = buildQtyPill(card.querySelector('.plp-card-title').textContent.trim());
                 addBtn.hidden = true;
                 addBtn.after(pill);
                 renderQtyPill(pill, 1);
                 return pill;
-            }
-
-            function renderQtyPill(pill, qty) {
-                pill.dataset.qty = qty;
-                pill.querySelector('.plp-qty-input').value = qty;
-                const minus = pill.querySelector('.plp-qty-minus');
-                const img = minus.querySelector('img');
-                if (qty <= 1) {
-                    img.src = 'images/icons/plp/qty_delete_24.svg';
-                    img.width = 24;
-                    img.height = 24;
-                    minus.setAttribute('aria-label', 'Remove from cart');
-                } else {
-                    img.src = 'images/icons/plp/qty_minus_16.svg';
-                    img.width = 16;
-                    img.height = 16;
-                    minus.setAttribute('aria-label', 'Decrease quantity');
-                }
             }
 
             // qty 0 removes the item and brings back the Add To Cart button
@@ -1291,9 +1484,11 @@
         } // end if (compareEl)
 
         // Availability modal (availability-modal.html): the info icon next to "Available" on a
-        // card opens the lead-time note under the icon. Locate Sales Office shows the nearest
-        // offices. Closes on a click outside, Escape, or a second click on the icon.
-        if (plpEl) {
+        // PLP card, the PDP card (pdp.html) or a PDP Alternatives row opens the lead-time note under the icon.
+        // Locate Sales Office shows the nearest offices. Closes on a click outside, Escape, or a second click on the icon.
+        // On the PDP, #main holds both the card and the Alternatives table.
+        const availScopeEl = plpEl || (pdpcardEl && document.getElementById('main'));
+        if (availScopeEl) {
             let availModal = null;
             let availBtn = null;   // icon that opened the modal
 
@@ -1327,8 +1522,8 @@
                 if (returnFocus) availBtn.focus();
             }
 
-            plpEl.addEventListener('click', function (e) {
-                const btn = e.target.closest('.plp-stock-info-btn');
+            availScopeEl.addEventListener('click', function (e) {
+                const btn = e.target.closest('.plp-stock-info-btn, .pdp-card-info-btn, .pdp-alt-info-btn');
                 if (!btn || !availModal) return;
                 e.stopPropagation();
                 const reopen = availModal.hidden || btn !== availBtn;
@@ -1352,7 +1547,7 @@
             window.addEventListener('resize', function () {
                 if (availModal && !availModal.hidden) placeAvailModal();
             });
-        } // end if (plpEl)
+        } // end if (availScopeEl)
 
 
 // function focusSearchField (){

@@ -2,6 +2,13 @@
 @use '../globals/focus' as focus;
 @use '../globals/responsive' as *;
 
+// MD and smaller: the card stacks into one column
+@mixin -stacked {
+    @include md  { @content; }
+    @include sm  { @content; }
+    @include xsm { @content; }
+}
+
 // Width and side padding come from #main
 #pdpcard, #pdpcard_B2B {
     padding: 24px 0;
@@ -16,6 +23,7 @@
     grid-template-columns: 240px minmax(0, 1fr) 280px;
     grid-template-areas: "media info buy";
     gap: 32px;
+    position: relative;  // the share icon pins to its top right when stacked
     font-family: "Inter", sans-serif;
     color: colors.$text;
 
@@ -23,9 +31,10 @@
         grid-template-columns: 200px minmax(0, 1fr) 220px;
         gap: 24px;
     }
+    // MD and smaller: one column, image > details > buy box
     @include md {
-        grid-template-columns: 200px minmax(0, 1fr);
-        grid-template-areas: "media info" "buy buy";
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "media" "info" "buy";
         gap: 24px;
     }
     @include sm {
@@ -71,6 +80,9 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+
+    // Room for the share icon at the end of this row when stacked
+    @include -stacked { padding-right: 48px; }
 }
 .pdp-card-compare {
     display: inline-flex;
@@ -80,8 +92,8 @@
     cursor: pointer;
 
     input {
-        width: 18px;
-        height: 18px;
+        width: 24px;
+        height: 24px;
         margin: 0;
         accent-color: colors.$bdiblue;
         cursor: pointer;
@@ -89,9 +101,24 @@
         &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
     }
 }
+// Favorite uses the PLP toggle (.plp-fav-btn in _plp.scss: red halo on hover/press, filled heart when on, tooltip).
+// Negative margin keeps its 44px hit target from making the row taller or pulling the heart off the edge.
 .pdp-card .pdp-card-favorite {
-    color: colors.$red;
-    &[aria-pressed="true"] svg path { fill: currentColor; }
+    margin: -8px;
+}
+// The image is a button that opens the zoom view (script.js)
+.pdp-card-image-btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 240px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    cursor: zoom-in;
+    @include focus.focus-ring-base;
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 .pdp-card-image {
     width: 100%;
@@ -133,8 +160,24 @@
     flex-direction: column;
     gap: 4px;
 }
+// Brand on the left; availability ("Available" guest, "In Stock" B2B) at the right edge of the column
+.pdp-card-brand-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
 .pdp-card-brand {
     font-size: 16px;
+}
+.pdp-card-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+}
+.pdp-card .pdp-card-info-btn {
+    color: colors.$bdiblue;
 }
 .pdp-card .pdp-card-title {
     margin: 0 0 8px;
@@ -150,23 +193,33 @@
     line-height: 1.45;
     color: colors.$medgray;
 }
+// One grid for every row (rows and dd are subgrids): label | value | copy | Prop 65 | copy tooltip,
+// so the copy icons line up however long each value is. Labels stay on one line; their column
+// widens past 84px when one needs it, pushing everything to the right. The 1fr column takes up any extra width.
 .pdp-card-ids {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: minmax(84px, max-content) max-content max-content max-content 1fr;
+    gap: 6px 12px;
     margin: 12px 0 0;
 }
 .pdp-card-id-row {
     display: grid;
-    grid-template-columns: 96px auto;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
     align-items: center;
     font-size: 16px;
 
-    dt { color: colors.$medgray; }
+    dt {
+        color: colors.$medgray;
+        white-space: nowrap;
+    }
     dd {
-        display: flex;
+        display: grid;
+        grid-column: 2 / -1;
+        grid-template-columns: subgrid;
+        position: relative;  // containing block for the copy tooltip
         align-items: center;
-        gap: 12px;
+        justify-items: start;
         margin: 0;
     }
 }
@@ -174,10 +227,31 @@
     min-width: 64px;
     font-weight: 700;
 }
-.pdp-card .pdp-card-copy-status {
-    min-height: 1.2em;
-    font-size: 12px;
-    color: colors.$medgray;
+// Copy confirmation (script.js): tooltip in the last column, so it starts at the same spot on every row.
+// Absolutely positioned in that grid area, so it never changes the row's height.
+.pdp-card-copy-tip {
+    position: absolute;
+    grid-column: -2 / -1;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 10;
+    padding: 4px 8px;
+    background-color: colors.$white;
+    border: 1px solid colors.$lightgray01;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    font-size: 14px;
+    color: colors.$darkgray;
+    white-space: nowrap;
+    pointer-events: none;
+
+    // Empty between messages: takes no space but stays in the page for screen readers
+    &:empty {
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+    }
 }
 
 // ----------------------------Buy box
@@ -191,21 +265,22 @@
     @include sm  { gap: 16px; }
     @include xsm { gap: 16px; }
 }
+// Just the share icon: top right of the buy box; when stacked, top right of the card on the
+// Compare / favorite row (28px tall: the heart's 44px hit target less its -8px margins)
 .pdp-card-buy-top {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
+
+    @include -stacked {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 28px;
+    }
 }
-.pdp-card-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 16px;
-}
-.pdp-card .pdp-card-info-btn {
-    color: colors.$bdiblue;
-}
-// Shrinks to the button's width on the right; the price centers above the button
+// Shrinks to the button's width on the right; the price centers above the button.
+// Centered under the stacked card on MD; full width on SM and XSM.
 .pdp-card-purchase {
     display: flex;
     flex-direction: column;
@@ -213,6 +288,7 @@
     align-self: flex-end;
     gap: 8px;
 
+    @include md  { align-self: center; }
     @include sm  { align-self: stretch; }
     @include xsm { align-self: stretch; }
 }
@@ -233,9 +309,26 @@
     @include focus.focus-ring-base;
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 
+    @include xxl { width: 256px; }
     @include sm  { width: 100%; }
     @include xsm { width: 100%; }
 }
+// Quantity pill (script.js, styles in _plp.scss) takes Add To Cart's place at the button's width
+.pdp-card-add[hidden],
+.pdp-mini-add[hidden] { display: none; }
+.pdp-card-purchase .plp-qty,
+.pdp-mini-buy .plp-qty {
+    width: 194px;
+
+    @include sm  { width: 100%; }
+    @include xsm { width: 100%; }
+}
+.pdp-card-purchase .plp-qty,
+.pdp-mini-buy .plp-qty {
+    @include xxl { width: 256px; }
+}
+// B2B: fills the Add To Cart / Buy Now column, which sets the width
+.pdp-card-buttons .plp-qty { width: 100%; }
 
 // ----------------------------Prop 65 notice: quiet tooltip on hover/focus; links to P65Warnings.ca.gov
 .pdp-card-p65 {
@@ -281,65 +374,47 @@
 .pdp-card .pdp-card-image--motor {
     aspect-ratio: auto;
 }
-.pdp-card-brand-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-}
+// A link to the Availability summary on MD and smaller only (script.js adds the href); plain text otherwise
 .pdp-card .pdp-card-stock {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    border-radius: 2px;
     font-size: 16px;
     font-weight: 800;
     color: colors.$camarone;
+    text-decoration: none;
+    @include focus.focus-ring-base;
+
+    &[href]:hover { text-decoration: underline; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 // Customer part numbers stack under one label
 .pdp-card-id-row--cust {
     align-items: start;
 
     dd {
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
     }
 }
-// Divider above is a fixed-width card separator on LG+, full width below
-.pdp-card .pdp-card-availability {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
+// Line under the part numbers: fixed-width card separator on LG+, full width below
+.pdp-card-divider {
     width: 359px;
     max-width: 100%;
-    margin-top: 12px;
-    padding-top: 16px;
+    margin: 12px 0 0;
+    border: 0;
     border-top: 1px solid colors.$medgray70;
-    font-size: 16px;
-
-    > span {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-    }
 
     @include md  { width: 100%; }
     @include sm  { width: 100%; }
     @include xsm { width: 100%; }
 }
-.pdp-card .pdp-card-availability-label {
-    font-size: 14px;
-    font-weight: 800;
-}
-.pdp-card-availability-qty {
-    font-size: 18px;
-    font-weight: 800;
-}
 // Share stays top right; the price block centers in the space below it
 .pdp-card--b2b {
     .pdp-card-buy { gap: 16px; }
-    .pdp-card-buy-top { justify-content: flex-end; }
     .pdp-card-purchase {
         flex: 1;
         justify-content: center;
@@ -364,25 +439,21 @@
 
     .btn { width: 100%; }
 
+    // Keeps its 256px on MD and smaller (centered under the price), no stretching
     @include lg  { width: 192px; }
-    @include sm  { width: 100%; }
-    @include xsm { width: 100%; }
 }
 
-// ----------------------------Share message bar: under the breadcrumbs, lined up with them (script.js adds it)
-#pdp_share_message {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 32px;
-
-    @include lg  { padding: 0 24px; }
-    @include md  { padding: 0 24px; }
-    @include sm  { padding: 0 16px; }
-    @include xsm { padding: 0 8px; }
-}
+// ----------------------------Share message (script.js adds it to #breadcrumbs): floats at the right end of the
+// breadcrumbs row, lined up with the share icon, so it takes no space and nothing below moves
+#breadcrumbs:has(.pdp-share-message) { position: relative; }
 .pdp-share-message {
+    position: absolute;
+    top: 50%;
+    right: 32px;
+    transform: translateY(-50%);
     margin: 0;
-    padding: 12px 16px;
+    padding: 8px 16px;
+    white-space: nowrap;
     background-color: colors.$lightgreen;
     border: 1px solid colors.$camarone;
     border-radius: 4px;
@@ -390,6 +461,11 @@
     font-size: 16px;
     font-weight: 600;
     color: colors.$text;
+
+    @include lg  { right: 24px; }
+    @include md  { right: 24px; }
+    @include sm  { right: 16px; }
+    @include xsm { right: 16px; }
 
     // Empty between messages: takes no space but stays in the page for screen readers
     &:empty {
@@ -463,17 +539,6 @@
     gap: 16px;
     font-size: 16px;
 }
-.pdp-mini-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    svg { color: colors.$bdiblue; }
-    &--in {
-        font-weight: 800;
-        color: colors.$camarone;
-    }
-}
 .pdp-mini-title {
     @include focus.focus-ring-base;
     align-self: flex-start;
@@ -514,7 +579,66 @@
 }
 .pdp-mini-add {
     @include focus.focus-ring-base;
-    width: 194px;
+    width: 256px;
 
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
+// ----------------------------Image zoom (script.js): native <dialog> with the product image as large as the screen allows
+.pdp-zoom {
+    max-width: 90vw;
+    max-height: 90vh;
+    padding: 48px 24px 24px;  // room for the close button
+    border: none;
+    border-radius: 8px;
+    background-color: colors.$white;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+
+    &::backdrop { background-color: rgba(0, 0, 0, 0.6); }
+}
+// No page scrolling behind it
+html:has(.pdp-zoom[open]) { overflow: hidden; }
+
+.pdp-zoom-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    color: colors.$text;
+    cursor: pointer;
+    @include focus.focus-ring-base;
+    &:hover { background-color: colors.$lightgray03; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+// Clicking zooms 2x on the spot clicked; the image is clipped to this frame
+.pdp-zoom-toggle {
+    display: block;
+    padding: 0;
+    background: none;
+    border: none;
+    overflow: hidden;
+    cursor: zoom-in;
+    @include focus.focus-ring-base;
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+    &.is-zoomed { cursor: zoom-out; }
+}
+.pdp-zoom-image {
+    display: block;
+    width: min(80vw, 640px);
+    max-height: calc(90vh - 72px);
+    object-fit: contain;
+    transition: transform 0.2s ease;
+
+    .is-zoomed & { transform: scale(2); }
+
+    @media (prefers-reduced-motion: reduce) { transition: none; }
 }

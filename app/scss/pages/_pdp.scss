@@ -2,7 +2,7 @@
 @use '../globals/focus' as focus;
 @use '../globals/responsive' as *;
 
-// PDP sections below the PDP card (pdp.html): jump links, Specifications, Alternatives / Compare
+// PDP sections below the PDP card (pdp.html): Specifications, Alternatives / Compare
 $-pdp-divider: #ACABAB;  // section and card dividers
 
 // LG and larger (992px+): 4-column specs, alternatives as a table
@@ -41,40 +41,6 @@ $-pdp-divider: #ACABAB;  // section and card dividers
     border: 0;
 }
 
-// ----------------------------Jump links
-// Wraps when three links (pdp_B2B.html) don't fit on a phone
-.pdp-jump-links {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px 64px;
-    margin-bottom: 24px;
-
-    @include -mobile { gap: 8px 32px; margin-bottom: 16px; }
-}
-.pdp-jump-link {
-    @include focus.focus-ring-base;
-    padding: 8px;
-    border-radius: 2px;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 0.9px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: colors.$text;
-    text-decoration: none;
-
-    &:hover { background-color: colors.$lightgray03; }
-    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
-
-    // Navy fill stays on Specifications; Alternatives never gets it
-    &--primary {
-        background-color: colors.$bdiblue;
-        color: colors.$white;
-        font-weight: 600;
-    }
-}
-
 // ----------------------------Sections
 .pdp-section {
     scroll-margin-top: 16px;
@@ -96,13 +62,77 @@ $-pdp-divider: #ACABAB;  // section and card dividers
     color: colors.$bdiblue;
     text-transform: uppercase;
 
-    // Focused by the jump links; no ring after a mouse click
+    // Focused by the Availability link; no ring after a mouse click
     &:focus:not(:focus-visible) { outline: none; }
 }
 
-// ----------------------------Inventory Details (pdp_B2B.html)
-// No divider between Inventory Details and Specifications in the B2B wireframe, just space
-#pdp_inventory { margin-bottom: 16px; }
+// ----------------------------Availability summary (pdp_B2B.html), above Specifications
+// The whole group links to Inventory Details (script.js scrolls there); tooltip above it on hover/focus
+.pdp-availability {
+    position: relative;
+    padding-bottom: 12px;
+    scroll-margin-top: 16px;  // "In Stock" on the stacked card scrolls here
+}
+.pdp-availability-link {
+    @include focus.focus-ring-base;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 8px;  // 8px left lines the text up with the section titles' text
+    border-radius: 2px;
+    font-size: 16px;
+    color: colors.$text;
+    text-decoration: none;
+
+    // 32px tall on mobile; min-height so it can still grow if the stock counts wrap to a second line
+    @include -mobile { min-height: 32px; }
+
+    > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &:hover { background-color: colors.$lightgray03; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+
+    &:hover + .pdp-availability-tip,
+    &:focus-visible + .pdp-availability-tip {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+// Same look as the Prop 65 tooltip (_pdpcard.scss)
+.pdp-availability-tip {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 0;
+    z-index: 10;
+    padding: 4px 8px;
+    background-color: colors.$white;
+    border: 1px solid colors.$lightgray01;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    font-size: 14px;
+    color: colors.$darkgray;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+.pdp-availability-label {
+    font-size: 16px;
+    font-weight: 800;
+    color: colors.$camarone;
+}
+.pdp-availability-qty {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+// ----------------------------Inventory Details (pdp_B2B.html), between Specifications and Alternatives
 
 .pdp-inv-intro {
     display: flex;
@@ -386,13 +416,41 @@ $-pdp-divider: #ACABAB;  // section and card dividers
     tbody tr:nth-child(even) { background-color: colors.$tablerow; }
     .pdp-alt-current { background-color: colors.$paleyellow; }
 
+    // Part numbers and Quick View link to the item; underline only on hover
     a {
         color: colors.$text;
-        &:hover { text-decoration: none; }
+        text-decoration: none;
+        &:hover { text-decoration: underline; }
+    }
+    // Quick View text + open icon
+    .pdp-alt-quick a {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
     }
 
     // "Compare" label only shows on the stacked cards; the checkbox has its own aria-label
     .pdp-alt-compare-text { display: none; }
+}
+// "Available" + info icon, same as the PDP card; the icon opens the availability modal (script.js)
+.pdp-alt-avail {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.pdp-alt-info-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    color: colors.$bdiblue;
+    cursor: pointer;
+    @include focus.focus-ring-base;
+    &:hover { background-color: colors.$lightgray03; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 
 @include -mobile {

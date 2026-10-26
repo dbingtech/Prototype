@@ -25,14 +25,20 @@
       <div id="pdpcard_B2B"></div>
 
       <div id="pdp_details">
-        <!-- Jump links: in-page nav to the sections below -->
-        <nav class="pdp-jump-links" aria-label="Product sections">
-          <a class="pdp-jump-link pdp-jump-link--primary" href="#pdp_inventory">Inventory Details</a>
-          <a class="pdp-jump-link" href="#pdp_specs">Specifications</a>
-          <a class="pdp-jump-link" href="#pdp_alternatives">Alternatives</a>
-        </nav>
+        <!-- Availability summary, above Specifications: links to Inventory Details, with a tooltip -->
+        <p class="pdp-availability" id="pdp_availability">
+          <a class="pdp-availability-link" href="#pdp_inventory" aria-describedby="pdp_availability_tip">
+            <span class="pdp-availability-label">Availability</span>
+            <span><span class="pdp-availability-qty">18</span> BDI Stock</span>
+            <span><span class="pdp-availability-qty">135</span> Factory Stock</span>
+          </a>
+          <span class="pdp-availability-tip" id="pdp_availability_tip" role="tooltip">Inventory Details</span>
+        </p>
 
-        <!-- Inventory Details: BDI warehouses and factory side by side on LG+, stacked below -->
+        <!-- Specifications + Alternatives (pdp-sections.html); Inventory Details goes between them -->
+        <div id="pdp_sections"></div>
+        <!-- Inventory Details: script.js moves it between Specifications and Alternatives once they load.
+             BDI warehouses and factory side by side on LG+, stacked below -->
         <section class="pdp-section" id="pdp_inventory" aria-labelledby="pdp_inventory_title">
           <h2 class="pdp-section-title" id="pdp_inventory_title">Inventory Details</h2>
           <div class="pdp-inv-intro">
@@ -93,9 +99,6 @@
             </div>
           </div>
         </section>
-
-        <!-- Specifications + Alternatives (pdp-sections.html) -->
-        <div id="pdp_sections"></div>
       </div>
     </div>
     <div id="footer"></div>
