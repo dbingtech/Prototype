@@ -322,17 +322,15 @@
 // Quantity pill (script.js, styles in _plp.scss) takes Add To Cart's place at the button's width
 .pdp-card-add[hidden],
 .pdp-mini-add[hidden] { display: none; }
-.pdp-card-purchase .plp-qty,
-.pdp-mini-buy .plp-qty {
+.pdp-card-purchase .plp-qty {
     width: 194px;
 
+    @include xxl { width: 256px; }
     @include sm  { width: 100%; }
     @include xsm { width: 100%; }
 }
-.pdp-card-purchase .plp-qty,
-.pdp-mini-buy .plp-qty {
-    @include xxl { width: 256px; }
-}
+// Condensed card: Add To Cart is 256px at every width it shows
+.pdp-mini-buy .plp-qty { width: 256px; }
 // B2B: fills the Add To Cart / Buy Now column, which sets the width
 .pdp-card-buttons .plp-qty { width: 100%; }
 
@@ -524,11 +522,11 @@
     }
 }
 
-// ----------------------------Condensed card (script.js): pinned to the top once the full card scrolls away. XXL only for now.
+// ----------------------------Condensed card (script.js): pinned to the top once the full card scrolls away. LG and larger.
 .pdp-mini {
     display: none;
 
-    @include xxl {
+    @include -columns {
         position: fixed;
         top: 0;
         left: 0;
@@ -550,7 +548,7 @@
 
     @media (prefers-reduced-motion: reduce) { transition: none; }
 }
-// Lines up with the full card: #main's 32px side padding plus the card's 8px
+// Lines up with the full card: #main's width and side padding (32px, 24px at LG) plus the card's 8px
 .pdp-mini-inner {
     display: flex;
     align-items: center;
@@ -560,6 +558,9 @@
     padding: 12px 40px;
     font-family: "Inter", sans-serif;
     color: colors.$text;
+
+    @include xl { max-width: 1200px; }
+    @include lg { max-width: 992px; padding: 12px 32px; }
 
     p { margin: 0; }
 }

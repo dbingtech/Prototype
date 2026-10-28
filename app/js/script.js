@@ -724,7 +724,7 @@
                     });
                 }
 
-                // Condensed card: pins to the top once the full card scrolls out of view (XXL only, see _pdpcard.scss).
+                // Condensed card: pins to the top once the full card scrolls out of view (LG and larger, see _pdpcard.scss).
                 // Built from the loaded card so guest and B2B stay in sync; Add To Cart passes the click to the card's button.
                 const card = pdpcardEl.querySelector('.pdp-card');
                 const mini = document.createElement('div');
@@ -1407,7 +1407,8 @@
 
         // Load PLP cards: data-card picks the version (plp-card.html / plp-card-B2B.html),
         // data-count sets how many copies; {{n}} in the card keeps ids unique. data-alt-card
-        // swaps another card in at the data-alt-at positions (plp_SS.html: crib items at 1,3).
+        // swaps another card in at the data-alt-at positions (plp_SS.html: crib items at 1,3;
+        // plp_B2B.html: an "Available" item at 2).
         // The cards stay inside #plp_cards (.plp-card-grid), which lays them out 2-up at MD and SM.
         const plpCardsEl = document.getElementById('plp_cards');
         if (plpCardsEl) {
@@ -1645,17 +1646,19 @@
         // PLP card, the PDP card (pdp.html) or a PDP Alternatives row opens the lead-time note under the icon.
         // Locate Sales Office shows the nearest offices. Closes on a click outside, Escape, or a second click on the icon.
         // On the PDP, #main holds both the card and the Alternatives table.
+        // data-avail-modal swaps in another version (plp_B2B.html: Contact Your Sales Office, no zip code).
         const availScopeEl = plpEl || (pdpcardEl && document.getElementById('main'));
         if (availScopeEl) {
             let availModal = null;
             let availBtn = null;   // icon that opened the modal
 
-            fetch('availability-modal.html')
+            fetch(availScopeEl.dataset.availModal || 'availability-modal.html')
                 .then(response => response.text())
                 .then(data => {
                     document.body.insertAdjacentHTML('beforeend', data);
                     availModal = document.getElementById('availability_modal');
-                    document.getElementById('availability_modal_form').addEventListener('submit', function (e) {
+                    const availForm = document.getElementById('availability_modal_form');
+                    if (availForm) availForm.addEventListener('submit', function (e) {
                         e.preventDefault();
                         const offices = document.getElementById('availability_modal_offices');
                         offices.hidden = false;
@@ -1688,11 +1691,13 @@
                 closeAvailModal(false);
                 if (!reopen) return;
                 availBtn = btn;
-                document.getElementById('availability_modal_offices').hidden = true;
+                const offices = document.getElementById('availability_modal_offices');
+                if (offices) offices.hidden = true;
                 availModal.hidden = false;
                 btn.setAttribute('aria-expanded', 'true');
                 placeAvailModal();
-                document.getElementById('availability_modal_zip').focus();
+                // Zip code field, or the Contact Your Sales Office link in the B2B version
+                availModal.querySelector('input, a').focus();
             });
 
             document.addEventListener('click', function (e) {
