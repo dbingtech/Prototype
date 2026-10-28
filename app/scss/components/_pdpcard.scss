@@ -629,6 +629,96 @@
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 
+// ----------------------------"Added to Cart" popup (script.js): under the quantity pill on Add To Cart and each +.
+// Figma "mini cart - guest". script.js sets top/left; above the condensed card (950), below the header modals (2000).
+.pdp-added {
+    position: fixed;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 384px;
+    max-width: calc(100vw - 16px);
+    box-sizing: border-box;
+    padding: 8px;
+    background-color: colors.$white;
+    border: 1px solid colors.$darkbeige;
+    border-radius: 4px;
+    filter: drop-shadow(-4px 4px 2px rgba(0, 0, 0, 0.25));
+    font-family: "Inter", sans-serif;
+    color: colors.$text;
+    animation: pdp-added-in 0.2s ease;
+
+    &[hidden] { display: none; }
+
+    p { margin: 0; }
+
+    @media (prefers-reduced-motion: reduce) { animation: none; }
+}
+@keyframes pdp-added-in {
+    from { opacity: 0; }
+}
+.pdp-added-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px 8px 12px;  // 8/8/4 frame + 8px title row
+}
+.pdp-added-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+}
+.pdp-added-close {
+    @include focus.focus-ring-base;
+    display: flex;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.pdp-added-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    max-width: 328px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+.pdp-added-image {
+    flex: none;
+    object-fit: contain;
+}
+.pdp-added-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+.pdp-added-name {
+    @include focus.focus-ring-base;
+    font-weight: 500;
+    line-height: 20px;
+    color: colors.$text;
+    text-decoration: underline;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.pdp-added-sku,
+.pdp-added-amount { font-weight: 500; }
+.pdp-added-price {
+    line-height: 20px;
+
+    b { font-weight: 700; }
+}
+
 // ----------------------------Image zoom (script.js): native <dialog> with the product image as large as the screen allows
 .pdp-zoom {
     max-width: 90vw;

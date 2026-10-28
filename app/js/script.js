@@ -257,8 +257,9 @@
                         cartTotal.textContent = total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
                     }
 
-                    // Adds 1 (or bumps an existing line) and shows the "Added to Cart" view
-                    window.addToMiniCart = function (item, trigger) {
+                    // Adds 1 (or bumps an existing line) and shows the "Added to Cart" view;
+                    // quiet skips the view (the PDP shows its own popup under its button)
+                    window.addToMiniCart = function (item, trigger, quiet) {
                         const key = item.key || item.sku;
                         let line = findLine(key);
                         if (line) {
@@ -278,6 +279,7 @@
                             cartItems.prepend(line);
                         }
                         updateCartCount();
+                        if (quiet) return;
                         cartAdded.replaceChildren(line.cloneNode(true));
                         cartReturnFocus = trigger || cartBtn;
                         openCartModal(true, item.addedTitle);
@@ -768,6 +770,74 @@
                     const image = card.querySelector('.pdp-card-image');
                     let pills = [];  // [card pill, condensed pill] while the item is in the cart
 
+                    // "Added to Cart" popup (Figma "mini cart | guest"): opens just under the quantity pill on
+                    // Add To Cart and again on each +, over the page. Not blocking: a click outside closes it but
+                    // still goes through, so the next + reopens it in one click. Styles in _pdpcard.scss.
+                    const added = document.createElement('div');
+                    added.className = 'pdp-added';
+                    added.setAttribute('role', 'dialog');
+                    added.setAttribute('aria-labelledby', 'pdp_added_title');
+                    added.hidden = true;
+                    added.innerHTML =
+                        '<div class="pdp-added-header">' +
+                            '<h2 class="pdp-added-title" id="pdp_added_title"></h2>' +
+                            '<button type="button" class="pdp-added-close" aria-label="Close">' +
+                            '<img src="images/icons/plp/close_24.svg" alt="" width="24" height="24"></button>' +
+                        '</div>' +
+                        '<div class="pdp-added-item">' +
+                            '<img class="pdp-added-image" alt="" width="64" height="64">' +
+                            '<div class="pdp-added-info">' +
+                                '<a class="pdp-added-name" href="#"></a>' +
+                                '<p class="pdp-added-part">Part: <span class="pdp-added-sku"></span></p>' +
+                            '</div>' +
+                            '<p class="pdp-added-price"><span class="pdp-added-amount"></span><b>/</b><span class="pdp-added-unit"></span></p>' +
+                        '</div>';
+                    added.querySelector('.pdp-added-title').textContent = cardAdd.dataset.addedTitle || 'Added to Cart';
+                    added.querySelector('.pdp-added-image').src = image.getAttribute('src');
+                    added.querySelector('.pdp-added-name').textContent = name;
+                    added.querySelector('.pdp-added-sku').textContent = sku;
+                    added.querySelector('.pdp-added-amount').textContent = card.querySelector('.pdp-card-amount').textContent.replace(/\$\s+(?=\d)/, '$').trim();
+                    added.querySelector('.pdp-added-unit').textContent = card.querySelector('.pdp-card-unit').textContent.replace(/^\s*\/\s*/, '').trim();  // "/ each" -> "each"
+                    document.body.append(added);
+                    let addedAnchor = null;  // the pill it sits under
+
+                    // 6px under the pill, right edges lined up (Figma), kept 8px inside the window; follows it on scroll
+                    function placeAdded() {
+                        const rect = addedAnchor.getBoundingClientRect();
+                        const left = rect.right - added.offsetWidth;
+                        added.style.top = rect.bottom + 6 + 'px';
+                        added.style.left = Math.max(8, Math.min(left, window.innerWidth - added.offsetWidth - 8)) + 'px';
+                    }
+
+                    function showAdded(pill) {
+                        addedAnchor = pill;
+                        // Hide first so the fade-in replays when it's shown again
+                        added.hidden = true;
+                        void added.offsetWidth;
+                        added.hidden = false;
+                        placeAdded();
+                    }
+
+                    function closeAdded() {
+                        added.hidden = true;
+                        addedAnchor = null;
+                    }
+
+                    window.addEventListener('scroll', function () { if (addedAnchor) placeAdded(); }, { passive: true });
+                    window.addEventListener('resize', function () { if (addedAnchor) placeAdded(); });
+                    // Capture phase: closes before the clicked control runs, so + can reopen it
+                    document.addEventListener('click', function (e) {
+                        if (addedAnchor && !added.contains(e.target)) closeAdded();
+                    }, true);
+                    document.addEventListener('keydown', function (e) {
+                        if (e.key === 'Escape' && addedAnchor) closeAdded();
+                    });
+                    added.querySelector('.pdp-added-close').addEventListener('click', function () {
+                        const input = addedAnchor.querySelector('.plp-qty-input');
+                        closeAdded();
+                        input.focus();
+                    });
+
                     // qty 0 removes the item and brings back both Add To Cart buttons;
                     // focus goes to the button in whichever card was used
                     function setPdpQty(qty, inMini) {
@@ -783,9 +853,9 @@
                         }
                     }
 
-                    // Pills at 1 and the "Added to Cart" modal; focus comes back to the full card's pill after.
-                    // Ignored if the item is already in (e.g. a second click while scrolling up).
-                    function addPdpToCart() {
+                    // Pills at 1 and the "Added to Cart" popup under the pill in whichever card was used,
+                    // which takes focus from the hidden button. Ignored if the item is already in.
+                    function addPdpToCart(inMini) {
                         if (pills.length) return;
                         pills = [cardAdd, miniAdd].map(function (btn) {
                             const pill = buildQtyPill(name);
@@ -803,19 +873,10 @@
                             image: image.getAttribute('src'),
                             imageAlt: image.alt,
                             addedTitle: cardAdd.dataset.addedTitle
-                        }, pills[0].querySelector('.plp-qty-input'));
-                    }
-
-                    // Smooth unless the user prefers reduced motion (or the browser has no scrollend to wait on)
-                    function scrollToTopThen(callback) {
-                        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                        if (window.scrollY === 0 || reduce || !('onscrollend' in window)) {
-                            window.scrollTo(0, 0);
-                            callback();
-                            return;
-                        }
-                        window.addEventListener('scrollend', callback, { once: true });
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }, null, true);
+                        const pill = pills[inMini ? 1 : 0];
+                        pill.querySelector('.plp-qty-input').focus();
+                        showAdded(pill);
                     }
 
                     [card, mini].forEach(function (scope) {
@@ -824,16 +885,15 @@
                             const addBtn = e.target.closest('.pdp-card-add.btn--primary, .pdp-mini-add');
                             if (addBtn && window.addToMiniCart) {
                                 e.stopPropagation();
-                                // Condensed card: back up to the full card first, then add as if its button was clicked
-                                // (the cart modal opens under the header's cart icon, which is only on screen at the top)
-                                if (inMini) scrollToTopThen(addPdpToCart);
-                                else addPdpToCart();
+                                addPdpToCart(inMini);
                                 return;
                             }
                             const qtyBtn = e.target.closest('.plp-qty-minus, .plp-qty-plus');
                             if (qtyBtn) {
-                                const step = qtyBtn.classList.contains('plp-qty-plus') ? 1 : -1;
-                                setPdpQty(parseInt(qtyBtn.closest('.plp-qty').dataset.qty, 10) + step, inMini);
+                                const pill = qtyBtn.closest('.plp-qty');
+                                const plus = qtyBtn.classList.contains('plp-qty-plus');
+                                setPdpQty(parseInt(pill.dataset.qty, 10) + (plus ? 1 : -1), inMini);
+                                if (plus) showAdded(pill);
                             }
                         });
                         scope.addEventListener('keydown', function (e) {
