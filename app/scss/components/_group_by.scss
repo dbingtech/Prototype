@@ -153,4 +153,11 @@
 
 .group-by-add-to-cart {
     max-width: 100%;
+
+    &[hidden] { display: none; }
+}
+// Quantity pill (script.js, styles in _plp.scss) takes Add To Cart's place at the button's width
+.group-by-buy .plp-qty {
+    width: 145px;
+    max-width: 100%;
 }

@@ -507,12 +507,82 @@
         fetch('trusted_brands.html')
             .then(response => response.text())
             .then(data => document.getElementById('trusted_brands').innerHTML = data);
-        // Load Buy Again / Keep Shopping For (B2B and B2C homepages)
+        // Load Buy Again / Keep Shopping For (B2B and B2C homepages).
+        // data-pdp points the product links at that version's PDP (index_B2B.html: pdp_B2B.html); default pdp.html.
         const groupByEl = document.getElementById('group_by');
         if (groupByEl) {
         fetch('group_by.html')
             .then(response => response.text())
-            .then(data => groupByEl.innerHTML = data);
+            .then(data => {
+                groupByEl.innerHTML = data;
+                if (groupByEl.dataset.pdp) {
+                    groupByEl.querySelectorAll('.group-by-card-title').forEach(function (link) {
+                        link.setAttribute('href', groupByEl.dataset.pdp);
+                    });
+                }
+            });
+
+        // Add To Cart -> quantity pill, as on the PLP cards (buildQtyPill / renderQtyPill).
+        // Each card gets its own cart line (Buy Again and Keep Shopping For share an item);
+        // these cards have no BDI No., so the cart's Part shows the title.
+        function setGroupByQty(pill, qty) {
+            const card = pill.closest('.group-by-card');
+            if (window.setMiniCartQty) window.setMiniCartQty(card.dataset.cartKey, qty);
+            if (qty > 0) {
+                renderQtyPill(pill, qty);
+            } else {
+                const addBtn = card.querySelector('.group-by-add-to-cart');
+                addBtn.hidden = false;
+                pill.remove();
+                addBtn.focus();
+            }
+        }
+
+        groupByEl.addEventListener('click', function (e) {
+            const addBtn = e.target.closest('.group-by-add-to-cart');
+            if (addBtn && window.addToMiniCart) {
+                e.stopPropagation();
+                const card = addBtn.closest('.group-by-card');
+                const title = card.querySelector('.group-by-card-title').textContent.trim();
+                const image = card.querySelector('.group-by-image');
+                if (!card.dataset.cartKey) {
+                    card.dataset.cartKey = title + '#' + Array.from(groupByEl.querySelectorAll('.group-by-card')).indexOf(card);
+                }
+                const pill = buildQtyPill(title);
+                addBtn.hidden = true;
+                addBtn.after(pill);
+                renderQtyPill(pill, 1);
+                window.addToMiniCart({
+                    key: card.dataset.cartKey,
+                    sku: title,
+                    brand: card.querySelector('.group-by-brand').textContent.trim(),
+                    name: title,
+                    price: card.querySelector('.group-by-price').textContent.trim(),
+                    image: image.getAttribute('src'),
+                    imageAlt: image.alt
+                }, pill.querySelector('.plp-qty-input'));
+                return;
+            }
+            const qtyBtn = e.target.closest('.plp-qty-minus, .plp-qty-plus');
+            if (qtyBtn) {
+                const pill = qtyBtn.closest('.plp-qty');
+                const step = qtyBtn.classList.contains('plp-qty-plus') ? 1 : -1;
+                setGroupByQty(pill, parseInt(pill.dataset.qty, 10) + step);
+            }
+        });
+        groupByEl.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && e.target.classList.contains('plp-qty-input')) e.target.blur();
+        });
+        groupByEl.addEventListener('change', function (e) {
+            if (!e.target.classList.contains('plp-qty-input')) return;
+            const pill = e.target.closest('.plp-qty');
+            const typed = e.target.value.trim();
+            if (!/^\d+$/.test(typed)) {
+                e.target.value = pill.dataset.qty;  // not a whole number: put the old value back
+                return;
+            }
+            setGroupByQty(pill, parseInt(typed, 10));
+        });
         }
         // Load home categories
         fetch('new_home_categories.html')
@@ -522,7 +592,7 @@
             .then(response => response.text())
             .then(data => document.getElementById('homepage_ads').innerHTML = data);
 
-        // Quantity pill (PLP cards, PDP card): replaces Add To Cart once clicked.
+        // Quantity pill (PLP cards, PDP card, Buy Again / Keep Shopping For): replaces Add To Cart once clicked.
         // Trash at 1, minus above 1, typeable number, plus. Styles in _plp.scss (.plp-qty).
         function buildQtyPill(name) {
             const pill = document.createElement('div');

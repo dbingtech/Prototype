@@ -4222,6 +4222,14 @@ nav ul {
 .group-by-add-to-cart {
   max-width: 100%;
 }
+.group-by-add-to-cart[hidden] {
+  display: none;
+}
+
+.group-by-buy .plp-qty {
+  width: 145px;
+  max-width: 100%;
+}
 
 #cc-modal-overlay {
   position: fixed;
@@ -5105,34 +5113,32 @@ nav ul {
   display: none;
 }
 
-.pdp-card-purchase .plp-qty,
-.pdp-mini-buy .plp-qty {
+.pdp-card-purchase .plp-qty {
   width: 194px;
 }
+@media only screen and (min-width: 1400px) {
+  .pdp-card-purchase .plp-qty {
+    width: 256px;
+  }
+}
 @media only screen and (min-width: 576px) and (max-width: 767px) {
-  .pdp-card-purchase .plp-qty,
-  .pdp-mini-buy .plp-qty {
+  .pdp-card-purchase .plp-qty {
     width: 100%;
   }
 }
 @media only screen and (min-width: 375px) and (max-width: 575px) {
-  .pdp-card-purchase .plp-qty,
-  .pdp-mini-buy .plp-qty {
+  .pdp-card-purchase .plp-qty {
     width: 100%;
   }
 }
 @media only screen and (max-width: 374px) {
-  .pdp-card-purchase .plp-qty,
-  .pdp-mini-buy .plp-qty {
+  .pdp-card-purchase .plp-qty {
     width: 100%;
   }
 }
 
-@media only screen and (min-width: 1400px) {
-  .pdp-card-purchase .plp-qty,
-  .pdp-mini-buy .plp-qty {
-    width: 256px;
-  }
+.pdp-mini-buy .plp-qty {
+  width: 256px;
 }
 
 .pdp-card-buttons .plp-qty {
@@ -5492,6 +5498,46 @@ nav ul {
     visibility: visible;
   }
 }
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  .pdp-mini {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 950;
+    display: block;
+    background-color: #fff;
+    border-bottom: 1px solid #d3d4d4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition: transform 0.2s ease, visibility 0.2s ease;
+  }
+  .pdp-mini.is-visible {
+    transform: none;
+    visibility: visible;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .pdp-mini {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 950;
+    display: block;
+    background-color: #fff;
+    border-bottom: 1px solid #d3d4d4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition: transform 0.2s ease, visibility 0.2s ease;
+  }
+  .pdp-mini.is-visible {
+    transform: none;
+    visibility: visible;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .pdp-mini {
     transition: none;
@@ -5507,6 +5553,17 @@ nav ul {
   padding: 12px 40px;
   font-family: "Inter", sans-serif;
   color: black;
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  .pdp-mini-inner {
+    max-width: 1200px;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .pdp-mini-inner {
+    max-width: 992px;
+    padding: 12px 32px;
+  }
 }
 .pdp-mini-inner p {
   margin: 0;
