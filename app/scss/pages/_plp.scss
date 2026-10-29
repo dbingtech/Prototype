@@ -169,31 +169,41 @@ $-plp-divider: #ACABAB;  // result dividers
     margin: 1px;
 }
 
-// Info icon next to "Available": opens the availability modal. Same 44px round
-// hit target as the favorites heart, with a BDI Blue halo on hover (8%) / press
-// and while the modal is open (16%). Negative margins keep the 23px footprint.
+// "Available" + info icon: one button that opens the availability modal. Hover underlines
+// "Available"; the icon gets the favorites heart's 44px round BDI Blue halo on hover (8%) /
+// press and while the modal is open (16%).
 .plp-stock-info-btn {
     @include focus.focus-ring-base;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+
+    &:hover .plp-stock-label { text-decoration: underline; }
+    &:hover .plp-stock-icon { background-color: rgba(colors.$bdiblue, 0.08); }
+    &:active .plp-stock-icon,
+    &[aria-expanded="true"] .plp-stock-icon { background-color: rgba(colors.$bdiblue, 0.16); }
+    &:focus-visible {
+        outline: 2px solid colors.$bdiblue;
+        outline-offset: 2px;
+    }
+}
+// Negative margins keep the icon's 26px footprint inside the 44px halo
+.plp-stock-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 44px;
     height: 44px;
-    margin: -10.5px;
-    padding: 0;
-    background: none;
-    border: none;
+    margin: -9px;
     border-radius: 50%;
-    cursor: pointer;
     transition: background-color 0.15s ease;
-
-    &:hover { background-color: rgba(colors.$bdiblue, 0.08); }
-    &:active,
-    &[aria-expanded="true"] { background-color: rgba(colors.$bdiblue, 0.16); }
-    &:focus-visible {
-        outline: 2px solid colors.$bdiblue;
-        outline-offset: 0;
-    }
 }
 
 .plp-card-title {

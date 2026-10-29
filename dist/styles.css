@@ -4622,7 +4622,7 @@ nav ul {
 
 .pdp-card {
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr) 280px;
+  grid-template-columns: 300px minmax(0, 1fr) 280px;
   grid-template-areas: "media info buy";
   gap: 32px;
   position: relative;
@@ -4631,7 +4631,7 @@ nav ul {
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .pdp-card {
-    grid-template-columns: 200px minmax(0, 1fr) 220px;
+    grid-template-columns: 300px minmax(0, 1fr) 220px;
     gap: 24px;
   }
 }
@@ -4751,7 +4751,7 @@ nav ul {
   display: flex;
   justify-content: center;
   width: 100%;
-  max-width: 240px;
+  max-width: 300px;
   padding: 0;
   background: none;
   border: none;
@@ -4767,7 +4767,7 @@ nav ul {
 
 .pdp-card-image {
   width: 100%;
-  max-width: 240px;
+  max-width: 300px;
   height: auto;
   aspect-ratio: 1;
   -o-object-fit: contain;
@@ -4832,7 +4832,33 @@ nav ul {
 }
 
 .pdp-card .pdp-card-info-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.pdp-card .pdp-card-info-btn svg {
+  padding: 2px;
+  border-radius: 4px;
   color: #20485c;
+}
+.pdp-card .pdp-card-info-btn:hover .pdp-card-status-label {
+  text-decoration: underline;
+}
+.pdp-card .pdp-card-info-btn:hover svg {
+  background-color: #F2f2f2;
+}
+.pdp-card .pdp-card-info-btn:focus-visible {
+  outline: 3px solid #20485c;
+  outline-offset: 2px;
 }
 
 .pdp-card .pdp-card-title {
@@ -7285,26 +7311,38 @@ html:has(.pdp-zoom[open]) {
   outline-offset: 2px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  margin: -10.5px;
+  gap: 8px;
   padding: 0;
   background: none;
   border: none;
-  border-radius: 50%;
+  border-radius: 4px;
+  font: inherit;
+  color: inherit;
   cursor: pointer;
-  transition: background-color 0.15s ease;
 }
-.plp-stock-info-btn:hover {
+.plp-stock-info-btn:hover .plp-stock-label {
+  text-decoration: underline;
+}
+.plp-stock-info-btn:hover .plp-stock-icon {
   background-color: rgba(32, 72, 92, 0.08);
 }
-.plp-stock-info-btn:active, .plp-stock-info-btn[aria-expanded=true] {
+.plp-stock-info-btn:active .plp-stock-icon, .plp-stock-info-btn[aria-expanded=true] .plp-stock-icon {
   background-color: rgba(32, 72, 92, 0.16);
 }
 .plp-stock-info-btn:focus-visible {
   outline: 2px solid #20485c;
-  outline-offset: 0;
+  outline-offset: 2px;
+}
+
+.plp-stock-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: -9px;
+  border-radius: 50%;
+  transition: background-color 0.15s ease;
 }
 
 .plp-card-title {
@@ -8757,23 +8795,31 @@ html:has(.pdp-zoom[open]) {
 .pdp-alt-avail {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
 }
 
 .pdp-alt-info-btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 2px;
+  gap: 8px;
+  padding: 0;
   background: none;
   border: none;
   border-radius: 4px;
-  color: #20485c;
+  font: inherit;
+  color: inherit;
   cursor: pointer;
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
-.pdp-alt-info-btn:hover {
+.pdp-alt-info-btn svg {
+  padding: 2px;
+  border-radius: 4px;
+  color: #20485c;
+}
+.pdp-alt-info-btn:hover .pdp-alt-avail-label {
+  text-decoration: underline;
+}
+.pdp-alt-info-btn:hover svg {
   background-color: #F2f2f2;
 }
 .pdp-alt-info-btn:focus-visible {

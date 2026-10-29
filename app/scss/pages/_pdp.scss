@@ -434,24 +434,32 @@ $-pdp-divider: #ACABAB;  // section and card dividers
     // "Compare" label only shows on the stacked cards; the checkbox has its own aria-label
     .pdp-alt-compare-text { display: none; }
 }
-// "Available" + info icon, same as the PDP card; the icon opens the availability modal (script.js)
+// "Available" + info icon, same as the PDP card: one button that opens the availability modal (script.js).
+// Hover underlines "Available"; the icon gets the gray hover.
 .pdp-alt-avail {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
 }
 .pdp-alt-info-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    padding: 2px;
+    gap: 8px;
+    padding: 0;
     background: none;
     border: none;
     border-radius: 4px;
-    color: colors.$bdiblue;
+    font: inherit;
+    color: inherit;
     cursor: pointer;
     @include focus.focus-ring-base;
-    &:hover { background-color: colors.$lightgray03; }
+
+    svg {
+        padding: 2px;
+        border-radius: 4px;
+        color: colors.$bdiblue;
+    }
+    &:hover .pdp-alt-avail-label { text-decoration: underline; }
+    &:hover svg { background-color: colors.$lightgray03; }
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 

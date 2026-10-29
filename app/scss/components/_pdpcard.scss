@@ -26,7 +26,7 @@
 
 .pdp-card {
     display: grid;
-    grid-template-columns: 240px minmax(0, 1fr) 280px;
+    grid-template-columns: 300px minmax(0, 1fr) 280px;
     grid-template-areas: "media info buy";
     gap: 32px;
     position: relative;  // the share icon pins to its top right when stacked
@@ -34,7 +34,7 @@
     color: colors.$text;
 
     @include lg {
-        grid-template-columns: 200px minmax(0, 1fr) 220px;
+        grid-template-columns: 300px minmax(0, 1fr) 220px;
         gap: 24px;
     }
     // MD and smaller: one column, image > details > buy box
@@ -117,7 +117,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    max-width: 240px;
+    max-width: 300px;
     padding: 0;
     background: none;
     border: none;
@@ -128,7 +128,7 @@
 }
 .pdp-card-image {
     width: 100%;
-    max-width: 240px;
+    max-width: 300px;
     height: auto;
     aspect-ratio: 1;
     object-fit: contain;
@@ -182,8 +182,29 @@
     gap: 8px;
     font-size: 16px;
 }
+// "Available" + info icon: one button that opens the availability modal (script.js).
+// Hover underlines "Available"; the icon keeps the shared icon button's gray hover.
 .pdp-card .pdp-card-info-btn {
-    color: colors.$bdiblue;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    @include focus.focus-ring-base;
+
+    svg {
+        padding: 2px;
+        border-radius: 4px;
+        color: colors.$bdiblue;
+    }
+    &:hover .pdp-card-status-label { text-decoration: underline; }
+    &:hover svg { background-color: colors.$lightgray03; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 .pdp-card .pdp-card-title {
     margin: 0 0 8px;
