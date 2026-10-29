@@ -73,7 +73,10 @@
             <span class="pdp-card-id-value">978-0-429-68665-8</span>
           </button>
           <span class="pdp-card-cust-tip" id="pdp_cust_tip" role="tooltip">Show Add Button</span>
-          <button type="button" class="btn btn--tertiary btn--small pdp-card-cust-add" id="pdp_cust_add" hidden>Add Cust No</button>
+          <span class="pdp-card-cust-add-wrap" id="pdp_cust_add" hidden>
+            <button type="button" class="btn btn--tertiary btn--small pdp-card-cust-add" aria-describedby="pdp_cust_add_tip">Add Cust No</button>
+            <span class="pdp-card-cust-tip pdp-card-cust-tip--add" id="pdp_cust_add_tip" role="tooltip">Button will always be visible. This reveal is here in case not included in the next release.</span>
+          </span>
         </dd>
       </div>
     </dl>

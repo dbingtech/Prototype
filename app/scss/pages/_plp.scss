@@ -340,10 +340,11 @@ $-plp-divider: #ACABAB;  // result dividers
     color: colors.$camarone;
 }
 
-// Label | value | copy, with the value column sized to the widest value
+// Label | value | copy, with the value column sized to the widest value.
+// The last (flexible) column is the rest of the row, for Cust No. (.plp-card-cust-nos)
 .plp-card-ids--grid {
     display: grid;
-    grid-template-columns: 96px max-content 24px;
+    grid-template-columns: 96px max-content 24px minmax(0, 1fr);
     column-gap: 8px;
     row-gap: 4px;
 
@@ -353,10 +354,16 @@ $-plp-divider: #ACABAB;  // result dividers
     dd:nth-of-type(1) { width: auto; }
 }
 
+// Customer part numbers in one line from the value column to the end of the row; they wrap when the
+// card gets narrow, but each number stays whole. Spanning the flexible column keeps them from
+// widening the value column
 .plp-card-cust-nos {
+    grid-column: 2 / -1;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 8px;
+
+    span { white-space: nowrap; }
 }
 
 .plp-card-buy--b2b {
@@ -643,7 +650,7 @@ $-pill-border: #557C92;
     .plp-add-to-cart { width: 100%; }
     .plp-card-image { width: 128px; height: auto; }
     // Narrower label column so the ID rows fit the 256px details area at SM
-    .plp-card-ids--grid { grid-template-columns: 88px max-content 24px; }
+    .plp-card-ids--grid { grid-template-columns: 88px max-content 24px minmax(0, 1fr); }
     // The MD/SM wireframes show BDI No. and Mfr Part No. only
     .plp-card-ids .plp-card-id-row--cust { display: none; }
 }

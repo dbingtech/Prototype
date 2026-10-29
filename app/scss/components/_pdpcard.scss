@@ -33,8 +33,10 @@
     font-family: "Inter", sans-serif;
     color: colors.$text;
 
+    // LG: the buy column is just the buttons' 192px; the info column reaches 8px into the gap
+    // (.pdp-card-info) so 16px separates it from the buttons, while the image keeps its 24px
     @include lg {
-        grid-template-columns: 300px minmax(0, 1fr) 220px;
+        grid-template-columns: 300px minmax(0, 1fr) 192px;
         gap: 24px;
     }
     // MD and smaller: one column, image > details > buy box
@@ -165,6 +167,8 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    @include lg { margin-right: -8px; }
 }
 // Brand on the left; availability ("Available" guest, "In Stock" B2B) at the right edge of the column
 .pdp-card-brand-row {
@@ -497,8 +501,19 @@
     visibility: hidden;
     transition: opacity 0.15s ease, visibility 0.15s ease;
 }
-// .btn's inline-flex would otherwise override [hidden]
-.pdp-card-cust-add[hidden] { display: none; }
+// "Add Cust No" + its tooltip, which opens below it (wraps) so it doesn't cover the numbers
+.pdp-card-cust-add-wrap { position: relative; }
+.pdp-card-cust-tip--add {
+    top: calc(100% + 4px);
+    bottom: auto;
+    width: 280px;
+    white-space: normal;
+}
+.pdp-card-cust-add:hover + .pdp-card-cust-tip,
+.pdp-card-cust-add:focus-visible + .pdp-card-cust-tip {
+    opacity: 1;
+    visibility: visible;
+}
 // Line under the part numbers: fixed-width card separator on LG+, full width below
 .pdp-card-divider {
     width: 359px;

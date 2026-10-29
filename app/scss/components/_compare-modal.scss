@@ -19,8 +19,7 @@
 
     &[hidden] { display: none; }
 
-    // Open: toggle sits under the panel (chevron down). Closed: above it (chevron up).
-    &.is-open .compare-toggle { order: 1; }
+    // Toggle sits on top of the panel, right aligned. Open: chevron down (collapse). Closed: chevron up.
     &.is-open .compare-toggle img { transform: rotate(-90deg); }
     .compare-toggle img { transform: rotate(90deg); }
 

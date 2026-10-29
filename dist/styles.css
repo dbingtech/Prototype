@@ -4631,7 +4631,7 @@ nav ul {
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .pdp-card {
-    grid-template-columns: 300px minmax(0, 1fr) 220px;
+    grid-template-columns: 300px minmax(0, 1fr) 192px;
     gap: 24px;
   }
 }
@@ -4811,6 +4811,11 @@ nav ul {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .pdp-card-info {
+    margin-right: -8px;
+  }
 }
 
 .pdp-card-brand-row {
@@ -5333,8 +5338,21 @@ nav ul {
   transition: opacity 0.15s ease, visibility 0.15s ease;
 }
 
-.pdp-card-cust-add[hidden] {
-  display: none;
+.pdp-card-cust-add-wrap {
+  position: relative;
+}
+
+.pdp-card-cust-tip--add {
+  top: calc(100% + 4px);
+  bottom: auto;
+  width: 280px;
+  white-space: normal;
+}
+
+.pdp-card-cust-add:hover + .pdp-card-cust-tip,
+.pdp-card-cust-add:focus-visible + .pdp-card-cust-tip {
+  opacity: 1;
+  visibility: visible;
 }
 
 .pdp-card-divider {
@@ -6684,9 +6702,6 @@ html:has(.pdp-zoom[open]) {
 .compare-modal[hidden] {
   display: none;
 }
-.compare-modal.is-open .compare-toggle {
-  order: 1;
-}
 .compare-modal.is-open .compare-toggle img {
   transform: rotate(-90deg);
 }
@@ -7669,7 +7684,7 @@ html:has(.pdp-zoom[open]) {
 
 .plp-card-ids--grid {
   display: grid;
-  grid-template-columns: 96px max-content 24px;
+  grid-template-columns: 96px max-content 24px minmax(0, 1fr);
   -moz-column-gap: 8px;
        column-gap: 8px;
   row-gap: 4px;
@@ -7685,9 +7700,13 @@ html:has(.pdp-zoom[open]) {
 }
 
 .plp-card-cust-nos {
+  grid-column: 2/-1;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 8px;
+}
+.plp-card-cust-nos span {
+  white-space: nowrap;
 }
 
 .plp-card-buy--b2b {
@@ -8055,7 +8074,7 @@ html:has(.pdp-zoom[open]) {
     height: auto;
   }
   .plp-card-ids--grid {
-    grid-template-columns: 88px max-content 24px;
+    grid-template-columns: 88px max-content 24px minmax(0, 1fr);
   }
   .plp-card-ids .plp-card-id-row--cust {
     display: none;
@@ -8090,7 +8109,7 @@ html:has(.pdp-zoom[open]) {
     height: auto;
   }
   .plp-card-ids--grid {
-    grid-template-columns: 88px max-content 24px;
+    grid-template-columns: 88px max-content 24px minmax(0, 1fr);
   }
   .plp-card-ids .plp-card-id-row--cust {
     display: none;
