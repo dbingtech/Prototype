@@ -222,6 +222,7 @@ $-plp-divider: #ACABAB;  // result dividers
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: colors.$medgray;  // same as the PDP card's description
 }
 
 .plp-card-ids {

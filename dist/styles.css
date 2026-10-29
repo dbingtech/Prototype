@@ -7488,6 +7488,7 @@ html:has(.pdp-zoom[open]) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: #6a6a6a;
 }
 
 .plp-card-ids {
