@@ -5277,6 +5277,65 @@ nav ul {
   align-items: flex-start;
   gap: 8px;
 }
+.pdp-card-id-row--cust .pdp-card-id-value {
+  white-space: nowrap;
+}
+
+.pdp-card-cust-values {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.pdp-card-id-row--cust dd {
+  position: relative;
+}
+
+.pdp-card-cust-toggle {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 2px;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.pdp-card-cust-toggle:focus-visible {
+  outline: 3px solid #20485c;
+  outline-offset: 2px;
+}
+.pdp-card-cust-toggle:hover + .pdp-card-cust-tip, .pdp-card-cust-toggle:focus-visible + .pdp-card-cust-tip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pdp-card-cust-tip {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  z-index: 10;
+  padding: 4px 8px;
+  background-color: #fff;
+  border: 1px solid #d3d4d4;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  font-size: 14px;
+  font-weight: 400;
+  color: #414143;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+.pdp-card-cust-add[hidden] {
+  display: none;
+}
 
 .pdp-card-divider {
   width: 359px;
@@ -5304,6 +5363,59 @@ nav ul {
   .pdp-card-divider {
     width: 100%;
   }
+}
+
+.pdp-card-jump-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 56px;
+  margin-top: 12px;
+}
+@media only screen and (min-width: 1400px) {
+  .pdp-card-jump-row {
+    column-gap: 16px;
+  }
+  .pdp-card-jump-row .pdp-availability {
+    flex: 0 0 359px;
+  }
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  .pdp-card-jump-row {
+    column-gap: 16px;
+  }
+  .pdp-card-jump-row .pdp-availability {
+    flex: 0 0 359px;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .pdp-card-jump-row {
+    column-gap: 16px;
+  }
+  .pdp-card-jump-row .pdp-availability {
+    flex: 0 0 359px;
+  }
+}
+
+.pdp-card .pdp-availability {
+  padding-bottom: 0;
+}
+
+.pdp-card-alt-link {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  border-radius: 2px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0000ee;
+  text-decoration: none;
+}
+.pdp-card-alt-link:hover {
+  text-decoration: underline;
+}
+.pdp-card-alt-link:focus-visible {
+  outline: 3px solid #20485c;
+  outline-offset: 2px;
 }
 
 .pdp-card--b2b .pdp-card-buy {
@@ -6934,7 +7046,7 @@ html:has(.pdp-zoom[open]) {
   outline: 2px solid transparent;
   outline-offset: 2px;
   position: fixed;
-  right: 40px;
+  left: 40px;
   bottom: 256px;
   z-index: 1000;
   display: flex;
@@ -6953,8 +7065,11 @@ html:has(.pdp-zoom[open]) {
   transition: opacity 0.2s ease, visibility 0.2s ease, box-shadow 0.15s ease;
 }
 .back-to-top.is-visible {
-  opacity: 1;
+  opacity: 0.4;
   visibility: visible;
+}
+.back-to-top.is-visible:hover, .back-to-top.is-visible:focus-visible {
+  opacity: 1;
 }
 .back-to-top:hover {
   box-shadow: none;
@@ -6968,7 +7083,6 @@ html:has(.pdp-zoom[open]) {
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   .back-to-top {
-    right: auto;
     bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
@@ -6976,7 +7090,6 @@ html:has(.pdp-zoom[open]) {
 }
 @media only screen and (min-width: 375px) and (max-width: 575px) {
   .back-to-top {
-    right: auto;
     bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
@@ -6984,7 +7097,6 @@ html:has(.pdp-zoom[open]) {
 }
 @media only screen and (max-width: 374px) {
   .back-to-top {
-    right: auto;
     bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
@@ -8047,7 +8159,8 @@ html:has(.pdp-zoom[open]) {
   flex-wrap: wrap;
   align-items: center;
   gap: 12px;
-  padding: 4px 8px;
+  padding: 8px;
+  background-color: #F2f2f2;
   border-radius: 2px;
   font-size: 16px;
   color: black;
@@ -8079,7 +8192,7 @@ html:has(.pdp-zoom[open]) {
   gap: 8px;
 }
 .pdp-availability-link:hover {
-  background-color: #F2f2f2;
+  background-color: #e5e5e5;
 }
 .pdp-availability-link:focus-visible {
   outline: 3px solid #20485c;

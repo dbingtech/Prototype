@@ -437,7 +437,8 @@
     &[href]:hover { text-decoration: underline; }
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
-// Customer part numbers stack under one label
+// Customer part numbers in one line after the label; they wrap when the column gets narrow,
+// but each number stays whole. B2B: "Add Cust No" below, lined up with the first number
 .pdp-card-id-row--cust {
     align-items: start;
 
@@ -447,7 +448,57 @@
         align-items: flex-start;
         gap: 8px;
     }
+    .pdp-card-id-value { white-space: nowrap; }
 }
+.pdp-card-cust-values {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+// B2B: the numbers are a button that shows/hides "Add Cust No" (script.js); tooltip above on hover/focus
+.pdp-card-id-row--cust dd { position: relative; }
+.pdp-card-cust-toggle {
+    @include focus.focus-ring-base;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+
+    &:hover + .pdp-card-cust-tip,
+    &:focus-visible + .pdp-card-cust-tip {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+// Same look as the Prop 65 tooltip
+.pdp-card-cust-tip {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 0;
+    z-index: 10;
+    padding: 4px 8px;
+    background-color: colors.$white;
+    border: 1px solid colors.$lightgray01;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    font-size: 14px;
+    font-weight: 400;
+    color: colors.$darkgray;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+// .btn's inline-flex would otherwise override [hidden]
+.pdp-card-cust-add[hidden] { display: none; }
 // Line under the part numbers: fixed-width card separator on LG+, full width below
 .pdp-card-divider {
     width: 359px;
@@ -459,6 +510,37 @@
     @include md  { width: 100%; }
     @include sm  { width: 100%; }
     @include xsm { width: 100%; }
+}
+// B2B: Availability summary (_pdp.scss) + Alternatives link under the line. Its gray box starts at the
+// line's left end, 12px + the column's 4px gap = 16px below it.
+// LG+: "Alternatives" starts 16px past the right end of the 359px line (.pdp-card-divider).
+// Stacked, where the line is full width: 56px + that link's 8px right padding = 64px from "BDI Stock". Wraps when narrow
+.pdp-card-jump-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 56px;
+    margin-top: 12px;
+
+    @include -columns {
+        column-gap: 16px;
+        .pdp-availability { flex: 0 0 359px; }
+    }
+}
+.pdp-card .pdp-availability {
+    padding-bottom: 0;
+}
+// Hyperlink Blue; underlined on hover
+.pdp-card-alt-link {
+    @include focus.focus-ring-base;
+    border-radius: 2px;
+    font-size: 16px;
+    font-weight: 600;
+    color: colors.$hyperlinkblue;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 // B2B and SmartSUPPLY (pdpcard_B2B.html, pdpcard_SS.html). Stacked (MD and smaller): share stays top right
 // and the price block centers in the space below it.

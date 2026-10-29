@@ -3,7 +3,6 @@
 @use '../globals/responsive' as *;
 
 @mixin -centered {
-    right: auto;
     bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
@@ -13,7 +12,7 @@
 .back-to-top {
     @include focus.focus-ring-base;
     position: fixed;
-    right: 40px;
+    left: 40px;
     bottom: 256px;
     z-index: 1000;
     display: flex;
@@ -31,10 +30,13 @@
     visibility: hidden;
     transition: opacity 0.2s ease, visibility 0.2s ease, box-shadow 0.15s ease;
 
+    // 60% transparent so content behind it stays readable; solid while in use
     &.is-visible {
-        opacity: 1;
+        opacity: 0.4;
         visibility: visible;
     }
+    &.is-visible:hover,
+    &.is-visible:focus-visible { opacity: 1; }
     &:hover { box-shadow: none; }
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 

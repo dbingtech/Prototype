@@ -66,13 +66,29 @@
       <div class="pdp-card-id-row pdp-card-id-row--cust">
         <dt>Cust No.</dt>
         <dd>
-          <span class="pdp-card-id-value">978-0-429-68665-8;</span>
-          <span class="pdp-card-id-value">978-0-429-68665-8;</span>
-          <span class="pdp-card-id-value">978-0-429-68665-8</span>
+          <!-- The numbers show/hide "Add Cust No" (script.js), with a tooltip -->
+          <button type="button" class="pdp-card-cust-values pdp-card-cust-toggle" aria-expanded="false" aria-controls="pdp_cust_add" aria-describedby="pdp_cust_tip">
+            <span class="pdp-card-id-value">978-0-429-68665-8;</span>
+            <span class="pdp-card-id-value">978-0-429-68665-8;</span>
+            <span class="pdp-card-id-value">978-0-429-68665-8</span>
+          </button>
+          <span class="pdp-card-cust-tip" id="pdp_cust_tip" role="tooltip">Show Add Button</span>
+          <button type="button" class="btn btn--tertiary btn--small pdp-card-cust-add" id="pdp_cust_add" hidden>Add Cust No</button>
         </dd>
       </div>
     </dl>
     <hr class="pdp-card-divider">
+    <div class="pdp-card-jump-row">
+      <!-- Availability summary: links to Inventory Details, with a tooltip -->
+      <p class="pdp-availability" id="pdp_availability">
+        <a class="pdp-availability-link" href="#pdp_inventory" aria-describedby="pdp_availability_tip">
+          <span class="pdp-availability-label">Availability</span>
+          <span><span class="pdp-availability-qty">2</span> BDI Stock</span>
+        </a>
+        <span class="pdp-availability-tip" id="pdp_availability_tip" role="tooltip">Inventory Details</span>
+      </p>
+      <a class="pdp-card-alt-link" href="#pdp_alternatives">Alternatives</a>
+    </div>
   </div>
 
   <!-- Price, Add To Cart, Buy Now -->

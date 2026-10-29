@@ -671,6 +671,19 @@
                     });
                 });
 
+                // B2B Cust No.: clicking the numbers shows/hides "Add Cust No"; the tooltip names what the next click does
+                const custToggle = pdpcardEl.querySelector('.pdp-card-cust-toggle');
+                if (custToggle) {
+                    const custAdd = document.getElementById(custToggle.getAttribute('aria-controls'));
+                    const custTip = document.getElementById(custToggle.getAttribute('aria-describedby'));
+                    custToggle.addEventListener('click', function () {
+                        const show = custAdd.hidden;
+                        custAdd.hidden = !show;
+                        custToggle.setAttribute('aria-expanded', String(show));
+                        custTip.textContent = show ? 'Hide Add Button' : 'Show Add Button';
+                    });
+                }
+
                 // Prop 65 on MD and smaller (no hover there): the first tap on the icon opens the warning instead of
                 // the site; with it open, tapping the warning (or the icon, or Enter) follows the link.
                 // Tapping anywhere else or Escape closes it.
@@ -720,7 +733,7 @@
                     });
                 }
 
-                // B2B on MD and smaller: "In Stock" jumps down to the Availability summary under the stacked card
+                // B2B on MD and smaller: "In Stock" jumps down to the Availability summary under the card's part numbers
                 // (smooth unless the user prefers reduced motion) and focuses it. It's only a link while that
                 // layout shows; without an href it's plain text.
                 const stockLink = pdpcardEl.querySelector('a.pdp-card-stock');
@@ -992,22 +1005,24 @@
         // PDP details (pdp.html, pdp_B2B.html, pdp_SS.html): attribute filters, compare, pagination
         const pdpDetailsEl = document.getElementById('pdp_details');
         if (pdpDetailsEl) {
-            // pdp_B2B.html: the Availability summary goes to Inventory Details (smooth unless the user prefers
-            // reduced motion), then focuses its heading so keyboard and screen reader users land there too
-            const availabilityLink = pdpDetailsEl.querySelector('.pdp-availability-link');
-            if (availabilityLink) {
-                availabilityLink.addEventListener('click', function (e) {
-                    const section = document.getElementById('pdp_inventory');
-                    if (!section) return;
-                    e.preventDefault();
-                    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                    section.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-                    history.pushState(null, '', '#pdp_inventory');
-                    const heading = section.querySelector('.pdp-section-title');
-                    heading.setAttribute('tabindex', '-1');
-                    heading.focus({ preventScroll: true });
-                });
-            }
+            // The Availability summary goes to Inventory Details and the card's Alternatives link to Alternatives
+            // (smooth unless the user prefers reduced motion), then focuses the heading so keyboard and screen
+            // reader users land there too.
+            // Delegated: on pdp_B2B.html these are in the card, which loads after this runs
+            document.addEventListener('click', function (e) {
+                const jumpLink = e.target.closest('.pdp-availability-link, .pdp-card-alt-link');
+                if (!jumpLink) return;
+                const hash = jumpLink.getAttribute('href');
+                const section = document.querySelector(hash);
+                if (!section) return;
+                e.preventDefault();
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                section.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+                history.pushState(null, '', hash);
+                const heading = section.querySelector('.pdp-section-title');
+                heading.setAttribute('tabindex', '-1');
+                heading.focus({ preventScroll: true });
+            });
 
             // Specifications + Alternatives are shared by pdp.html and pdp_B2B.html;
             // data-sections picks another file (pdp_B2B.html: pdp-sections-B2B.html, pdp_SS.html: pdp-sections-SS.html)
