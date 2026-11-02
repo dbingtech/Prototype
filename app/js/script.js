@@ -625,6 +625,14 @@
             }
         }
 
+        // Copy icons (PDP card, PLP cards): after copying, the icon turns into a BDI Blue checkmark for 2 seconds
+        const copiedTimers = new WeakMap();
+        function showCopied(btn) {
+            clearTimeout(copiedTimers.get(btn));
+            btn.classList.add('is-copied');
+            copiedTimers.set(btn, setTimeout(function () { btn.classList.remove('is-copied'); }, 2000));
+        }
+
         // Load PDP card
         // The placeholder's id names the file to load (pdpcard_B2B -> pdpcard_B2B.html)
         const pdpcardEl = document.querySelector('#pdpcard_SS, #pdpcard_B2B, #pdpcard');
@@ -666,7 +674,7 @@
                     }
                     btn.addEventListener('click', function () {
                         navigator.clipboard.writeText(this.dataset.copy)
-                            .then(() => showTip('Copied'))
+                            .then(() => { showTip('Copied'); showCopied(btn); })
                             .catch(() => showTip('Copy failed'));
                     });
                 });
@@ -1598,7 +1606,7 @@
                 if (copyBtn) {
                     const value = copyBtn.dataset.copy;
                     navigator.clipboard.writeText(value)
-                        .then(() => plpCopyStatus.textContent = 'Copied ' + value)
+                        .then(() => { plpCopyStatus.textContent = 'Copied ' + value; showCopied(copyBtn); })
                         .catch(() => plpCopyStatus.textContent = 'Copy failed');
                 }
             });
@@ -1726,6 +1734,45 @@
                     renderCompare();
                 });
         } // end if (compareEl)
+
+        // Buy Now modal (buy-now-modal.html): any Buy Now button (B2B and SmartSUPPLY PDP and PLP cards) opens it,
+        // centered over a BDI Blue lightbox. Loaded the first time it's needed. The X, Escape or a click on the
+        // lightbox closes it. Prototype: Edit, Review and the links don't go anywhere yet; Place Order needs a PO
+        // (the browser asks for it) and then just closes the modal.
+        let buyNowReady;
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.pdp-card-add.btn--secondary, .plp-add-to-cart.btn--secondary')) return;
+            buyNowReady = buyNowReady || fetch('buy-now-modal.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                    const modal = document.getElementById('buy_now_modal');
+                    modal.querySelector('.buy-now-close').addEventListener('click', function () { modal.close(); });
+                    // A click on the lightbox lands on the dialog itself; only close if it's outside the white box
+                    modal.addEventListener('click', function (e) {
+                        if (e.target !== modal) return;
+                        const r = modal.getBoundingClientRect();
+                        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) modal.close();
+                    });
+
+                    // Quantity: the PLP stepper; it doesn't go below 1 here
+                    const qtySlot = modal.querySelector('.buy-now-qty');
+                    const pill = buildQtyPill(qtySlot.dataset.item);
+                    qtySlot.append(pill);
+                    renderQtyPill(pill, parseInt(qtySlot.dataset.qty, 10));
+                    pill.addEventListener('click', function (e) {
+                        const qtyBtn = e.target.closest('.plp-qty-minus, .plp-qty-plus');
+                        if (!qtyBtn) return;
+                        const step = qtyBtn.classList.contains('plp-qty-plus') ? 1 : -1;
+                        renderQtyPill(pill, Math.max(1, parseInt(pill.dataset.qty, 10) + step));
+                    });
+                    pill.querySelector('.plp-qty-input').addEventListener('change', function () {
+                        renderQtyPill(pill, Math.max(1, parseInt(this.value, 10) || 1));
+                    });
+                    return modal;
+                });
+            buyNowReady.then(modal => modal.showModal());
+        });
 
         // Availability modal (availability-modal.html): the info icon next to "Available" on a
         // PLP card, the PDP card (pdp.html) or a PDP Alternatives row opens the lead-time note under the icon.

@@ -43,6 +43,18 @@ $-plp-divider: #ACABAB;  // result dividers
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 
+// Copied (script.js): the copy icon swaps for a 24px BDI Blue checkmark for 2 seconds (PLP and PDP cards)
+.plp-copy.is-copied,
+.pdp-card-copy.is-copied {
+    > * { display: none; }
+    &::after {
+        content: "";
+        width: 24px;
+        height: 24px;
+        background: url("../images/icons/plp/checkmark_blue_24.svg") center / contain no-repeat;
+    }
+}
+
 // ----------------------------Results column
 .plp-results {
     display: flex;
@@ -213,6 +225,18 @@ $-plp-divider: #ACABAB;  // result dividers
     text-decoration: underline;
 }
 
+// BDI No. / Mfr Part No. values link to the PDP, like the title; they keep the value's look until hovered
+.plp-card-id-link {
+    @include focus.focus-ring-base;
+    border-radius: 2px;
+    font: inherit;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
 .plp-card-name {
     text-transform: uppercase;
 }
@@ -352,6 +376,8 @@ $-plp-divider: #ACABAB;  // result dividers
     .plp-card-id-row { display: contents; }
 
     dt, dd { padding: 2px 0; }
+    // Each label starts a new row; otherwise the next label fills the empty flexible column
+    dt { grid-column: 1; }
     dd:nth-of-type(1) { width: auto; }
 }
 

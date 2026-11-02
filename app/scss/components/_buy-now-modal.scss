@@ -1,0 +1,391 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+@use '../globals/responsive' as *;
+
+// MD and smaller: one column (Figma "Variant2", 359px)
+@mixin -stacked {
+    @include md  { @content; }
+    @include sm  { @content; }
+    @include xsm { @content; }
+}
+
+// Buy Now modal (buy-now-modal.html): native <dialog>, centered on the viewport over a BDI Blue 60% lightbox.
+// Scrolls inside itself when taller than the screen.
+.buy-now-modal {
+    width: 798px;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 32px);
+    padding: 16px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background-color: colors.$white;
+    border: 1px solid colors.$medgray;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    color: colors.$text;
+
+    &::backdrop { background-color: rgba(colors.$bdiblue, 0.6); }
+
+    @include -stacked {
+        width: 359px;
+        padding: 8px 16px;
+    }
+
+    p, h2, h3, dl, dd { margin: 0; }
+    h2, h3 { font: inherit; }
+}
+// No page scrolling behind it
+html:has(.buy-now-modal[open]) { overflow: hidden; }
+
+.buy-now-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+// ----------------------------Title + close
+.buy-now-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+}
+.buy-now-modal .buy-now-title {
+    font-size: 24px;
+
+    @include -stacked { font-size: 20px; }
+}
+.buy-now-close {
+    @include focus.focus-ring-base;
+    display: flex;
+    flex-shrink: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
+// ----------------------------Body: details | order, with a line between them; stacked below LG
+.buy-now-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    @include -stacked { flex-direction: column; }
+}
+.buy-now-details,
+.buy-now-order {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    min-width: 0;
+
+    @include -stacked { flex: none; width: 100%; }
+}
+.buy-now-details { gap: 16px; }
+.buy-now-order {
+    align-self: stretch;
+    padding-left: 12px;
+    border-left: 1px solid colors.$medgray70;
+
+    @include -stacked {
+        padding-left: 0;
+        border-left: none;
+    }
+}
+// Card separator
+.buy-now-divider {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid colors.$medgray70;
+}
+
+// ----------------------------Ship to, Billing, Order Reference
+.buy-now-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.buy-now-section--ship {
+    gap: 8px;
+
+    @include -stacked { gap: 16px; }
+}
+.buy-now-section--ref {
+    padding: 8px 0;
+
+    @include -stacked { gap: 20px; padding: 0; }
+}
+.buy-now-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+.buy-now-modal .buy-now-section-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+.buy-now-edit { width: 144px; }
+.buy-now-address {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px;
+    font-style: normal;
+}
+.buy-now-shipping {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 4px;
+}
+.buy-now-dot {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 20px;
+}
+.buy-now-muted { color: colors.$medgray; }
+.buy-now-pay { padding-left: 4px; }
+
+// Outlined field with its label sitting on the top border
+.buy-now-field {
+    position: relative;
+    padding-left: 8px;
+
+    @include -stacked { padding-left: 0; }
+}
+.buy-now-input {
+    @include focus.focus-ring-base;
+    width: 256px;
+    max-width: 100%;
+    height: 42px;
+    padding: 4px 4px 4px 12px;
+    box-sizing: border-box;
+    background-color: colors.$white;
+    border: 1px solid colors.$medgray;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 16px;
+    color: colors.$text;
+
+    &::placeholder { color: colors.$darkgray; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.buy-now-label {
+    position: absolute;
+    top: -12px;
+    left: 20px;  // 12px into the field
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 20px;
+    padding: 2px;
+    box-sizing: border-box;
+    background-color: colors.$white;
+    font-size: 14px;
+    color: colors.$medgray;
+
+    @include -stacked { left: 12px; }
+}
+.buy-now-required {
+    font-size: 16px;
+    color: colors.$red;
+}
+
+// ----------------------------Cart summary
+.buy-now-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 464px;
+    padding: 8px;
+    box-sizing: border-box;
+
+    @include -stacked { padding-top: 0; }
+}
+.buy-now-summary-block {
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+    width: 100%;
+    padding: 4px 0;
+}
+.buy-now-summary-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 0;
+}
+.buy-now-modal .buy-now-summary-title {
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.buy-now-totals {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 8px;
+}
+.buy-now-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 24px;
+    white-space: nowrap;
+
+    dt { font-weight: 600; }
+}
+.buy-now-total-row--total dd {
+    font-size: 18px;
+    font-weight: 600;
+}
+.buy-now-legal {
+    width: 100%;
+    font-size: 14px;
+
+    a {
+        font-size: 14px;
+        color: colors.$hyperlinkblue;
+        text-decoration: underline;
+    }
+}
+// Review + Place Order side by side on LG+; stacked and wider on MD and smaller
+.buy-now-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 4px;
+
+    @include -stacked { gap: 12px 8px; }
+}
+.buy-now-review {
+    width: 144px;
+
+    @include -stacked { width: 192px; }
+}
+.buy-now-place {
+    width: 192px;
+
+    @include -stacked { width: 256px; }
+}
+.buy-now-note {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 300;
+    font-style: italic;
+    color: colors.$medgray;
+}
+
+// ----------------------------Items in this order (the stacked design leaves out the header)
+.buy-now-items-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    white-space: nowrap;
+
+    @include -stacked { display: none; }
+}
+.buy-now-items-title { font-weight: 600; }
+.buy-now-view-cart {
+    color: colors.$bdiblue;
+    text-decoration: underline;
+}
+.buy-now-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    max-width: 464px;
+    padding: 8px;
+    box-sizing: border-box;
+    background-color: colors.$white;
+    border: 1px solid colors.$medgray;
+    border-radius: 4px;
+}
+.buy-now-item-image {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+.buy-now-item-info {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+.buy-now-item-ids {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+.buy-now-item-name {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.buy-now-item-title {
+    overflow: hidden;
+    font-size: 18px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.buy-now-item-id {
+    padding: 2px 0;
+    white-space: nowrap;
+}
+.buy-now-item-label { color: colors.$medgray; }
+.buy-now-item-value {
+    font-weight: 600;
+    line-height: 20px;
+}
+.buy-now-item-buy {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    justify-content: space-between;
+    gap: 4px;
+    width: 106px;
+    flex-shrink: 0;
+}
+// PLP quantity stepper (_plp.scss) at the design's 106px "xxsm" size: no shadow, rounder ends
+.buy-now-item .plp-qty {
+    width: 100%;
+    border-radius: 20px;
+    filter: none;
+
+    .plp-qty-minus { border-radius: 20px 0 0 20px; }
+    .plp-qty-plus  { border-radius: 0 20px 20px 0; }
+}
+.buy-now-item-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 4px 2px;
+}
+.buy-now-item-amount {
+    font-size: 18px;
+    font-weight: 700;
+}
+.buy-now-item-unit {
+    font-size: 14px;
+    font-style: italic;
+}

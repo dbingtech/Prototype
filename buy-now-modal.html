@@ -1,0 +1,100 @@
+<!-- Buy Now modal: opened from any Buy Now button (script.js), centered over a BDI Blue lightbox.
+     Two columns on LG+, stacked on MD and smaller -->
+<dialog class="buy-now-modal" id="buy_now_modal" aria-labelledby="buy_now_title">
+  <form class="buy-now-form" id="buy_now_form" method="dialog">
+    <div class="buy-now-header">
+      <h2 class="buy-now-title" id="buy_now_title">Review and place order</h2>
+      <button type="button" class="buy-now-close" aria-label="Close"><img src="images/icons/modal/close_24.svg" alt="" width="24" height="24"></button>
+    </div>
+
+    <div class="buy-now-body">
+      <!-- Shipping, billing, order reference -->
+      <div class="buy-now-details">
+        <section class="buy-now-section buy-now-section--ship" aria-labelledby="buy_now_ship_title">
+          <div class="buy-now-section-head">
+            <h3 class="buy-now-section-title" id="buy_now_ship_title">Ship to</h3>
+            <button type="button" class="btn btn--tertiary buy-now-edit" aria-label="Edit ship to address">Edit</button>
+          </div>
+          <address class="buy-now-address">
+            <p>Stark Enterprises - New York Div</p>
+            <p>1200 Industrial Parkway</p>
+            <p>New York, NY 10166,</p>
+            <p>United States</p>
+          </address>
+          <div class="buy-now-shipping">
+            <p>UPS Ground <span class="buy-now-dot" aria-hidden="true">·</span> 1-5 business days</p>
+            <p class="buy-now-muted">Freight charges, if any, will be added at time of shipment</p>
+          </div>
+        </section>
+        <hr class="buy-now-divider">
+        <section class="buy-now-section" aria-labelledby="buy_now_bill_title">
+          <div class="buy-now-section-head">
+            <h3 class="buy-now-section-title" id="buy_now_bill_title">Billing</h3>
+            <button type="button" class="btn btn--tertiary buy-now-edit" aria-label="Edit billing">Edit</button>
+          </div>
+          <p class="buy-now-pay">Pay From Account</p>
+        </section>
+        <hr class="buy-now-divider">
+        <section class="buy-now-section buy-now-section--ref" aria-labelledby="buy_now_ref_title">
+          <h3 class="buy-now-section-title" id="buy_now_ref_title">Order Reference</h3>
+          <div class="buy-now-field">
+            <input type="text" class="buy-now-input" id="buy_now_po" name="po" placeholder="e.g. 2026-10  TSTARK" required>
+            <label class="buy-now-label" for="buy_now_po"><span class="buy-now-required" aria-hidden="true">*</span>Purchase Order</label>
+          </div>
+          <div class="buy-now-field">
+            <input type="text" class="buy-now-input" id="buy_now_release" name="release" placeholder="(optional)">
+            <label class="buy-now-label" for="buy_now_release">Release</label>
+          </div>
+        </section>
+      </div>
+
+      <!-- Cart summary + the items being ordered -->
+      <div class="buy-now-order">
+        <div class="buy-now-summary">
+          <div class="buy-now-summary-block">
+            <div class="buy-now-summary-head">
+              <h3 class="buy-now-summary-title">Cart Summary</h3>
+              <hr class="buy-now-divider">
+            </div>
+            <dl class="buy-now-totals">
+              <div class="buy-now-total-row"><dt>Items:</dt><dd>82</dd></div>
+              <div class="buy-now-total-row"><dt>Subtotal:</dt><dd>$3781.13</dd></div>
+              <div class="buy-now-total-row"><dt>Shipping:</dt><dd>$83.76</dd></div>
+              <div class="buy-now-total-row"><dt>Tax:</dt><dd>$14.95</dd></div>
+              <div class="buy-now-total-row buy-now-total-row--total"><dt>Total:</dt><dd>$17,418.84</dd></div>
+            </dl>
+          </div>
+          <p class="buy-now-legal">By submitting your order, you agree to BDI’s <a href="#">Sales Policy</a>, and <a href="#">Privacy Policy</a></p>
+          <div class="buy-now-actions">
+            <button type="button" class="btn btn--tertiary buy-now-review">Review</button>
+            <button type="submit" class="btn btn--primary buy-now-place">Place Order</button>
+          </div>
+          <p class="buy-now-note">Enter a purchase order number to place your order.</p>
+        </div>
+
+        <div class="buy-now-items-head">
+          <p class="buy-now-items-title">Items in this order (2)</p>
+          <a class="buy-now-view-cart" href="#">View cart</a>
+        </div>
+        <article class="buy-now-item" aria-label="SKF 6202">
+          <img class="buy-now-item-image" src="images/products/plp_bearing_104.png" alt="SKF 6202 ball bearing" width="64" height="64">
+          <div class="buy-now-item-info">
+            <div class="buy-now-item-ids">
+              <div class="buy-now-item-name">
+                <p class="buy-now-item-brand">SKF</p>
+                <p class="buy-now-item-title">6202</p>
+              </div>
+              <p class="buy-now-item-id"><span class="buy-now-item-label">Mfr Part No</span> <span class="buy-now-item-value">6202</span></p>
+              <p class="buy-now-item-id"><span class="buy-now-item-label">BDI No:</span> <span class="buy-now-item-value">219047</span></p>
+            </div>
+            <div class="buy-now-item-buy">
+              <!-- script.js puts the PLP quantity stepper here -->
+              <div class="buy-now-qty" data-item="6202" data-qty="2"></div>
+              <p class="buy-now-item-price"><span class="buy-now-item-amount">$ 26.60</span><span class="buy-now-item-unit">/ each</span></p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </form>
+</dialog>

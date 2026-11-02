@@ -1,4 +1,5 @@
 @use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
 @use '../globals/responsive' as *;
 
 // Same max-width as #main at each breakpoint (_boilerplate.scss) so the trail lines up with the page content
@@ -12,6 +13,27 @@
     @include md  { max-width: 768px; padding: 10px 24px; }
     @include sm  { max-width: 576px; padding: 8px 16px; }
     @include xsm { padding: 8px 16px; }
+}
+
+// Prototype link at the right end of the row (plp_B2B.html: "More PLP scenarios" opens the Figma file)
+#breadcrumbs:has(.breadcrumb-figma-link) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+}
+.breadcrumb-figma-link {
+    @include focus.focus-ring-base;
+    border-radius: 2px;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    color: colors.$hyperlinkblue;
+    text-decoration: underline;
+    white-space: nowrap;
+
+    &:hover { text-decoration: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 
 .breadcrumb {
