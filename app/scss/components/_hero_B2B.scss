@@ -34,7 +34,7 @@
     @include lg  { width: 100%; padding: 0 24px; height: auto; margin: 16px auto; }
     @include md  { width: 100%; padding: 0 24px; height: auto; margin: 16px auto; }
     @include sm  { width: 100%; padding: 0 16px; height: auto; margin: 16px auto; }
-    @include xsm { width: 100%; padding: 0 8px;  height: auto; margin: 16px auto; }
+    @include xsm { width: 100%; padding: 0 16px; height: auto; margin: 16px auto; }  // same as #main
 }
 .visible-h1 {
   display: block;

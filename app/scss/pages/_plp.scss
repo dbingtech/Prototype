@@ -332,7 +332,7 @@ $-plp-divider: #ACABAB;  // result dividers
 
     @include xl  { width: 192px; }  // Button | SM
     @include sm  { width: 100%; }
-    @include xsm { width: 100%; }
+    @include xsm { width: 256px; max-width: 100%; }  // centered in the full-width buy box
 }
 
 .plp-copy-status {
@@ -419,7 +419,7 @@ $-plp-divider: #ACABAB;  // result dividers
     gap: 8px;
 
     @include sm  { width: 100%; }
-    @include xsm { width: 100%; }
+    @include xsm { width: 256px; max-width: 100%; }
 }
 
 // ----------------------------Favorite toggle (both cards)
@@ -571,6 +571,26 @@ $-pill-border: #557C92;
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 
+// LG and smaller: Reset Filters moves up to the right end of the Filter button's row (the button sits right
+// above the pill bar, 16px away), so the pills get the whole row. 42px = the Filter button's height
+// (_plp-filter.scss), so the two line up.
+@mixin -reset-beside-filter {
+    .plp-pill-bar { position: relative; }
+    .plp-reset-filters {
+        position: absolute;
+        right: 0;
+        bottom: calc(100% + 16px);
+        display: inline-flex;
+        align-items: center;
+        height: 42px;
+        box-sizing: border-box;
+    }
+}
+@include lg  { @include -reset-beside-filter; }
+@include md  { @include -reset-beside-filter; }
+@include sm  { @include -reset-beside-filter; }
+@include xsm { @include -reset-beside-filter; }
+
 // ----------------------------Quantity pill (replaces Add To Cart once clicked)
 .plp-add-to-cart[hidden] { display: none; }
 
@@ -587,7 +607,7 @@ $-pill-border: #557C92;
 
     @include xl  { width: 192px; }
     @include sm  { width: 100%; }
-    @include xsm { width: 100%; }
+    @include xsm { width: 256px; max-width: 100%; }
 
     > * { flex: 1 1 0; min-width: 0; height: 100%; }
 }

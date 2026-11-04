@@ -185,6 +185,7 @@
                     const cartItems = cartModal.querySelector('.cart-modal-items:not(#cart_modal_added)');
                     const cartTotal = document.getElementById('cart_modal_total');
                     const cartEmpty = cartModal.querySelector('.cart-modal-empty');
+                    const cartFooter = cartModal.querySelector('.cart-modal-footer');
                     const lineTemplate = document.getElementById('cart_line_template').content;
                     const lineItemTemplate = lineTemplate.querySelector('.cart-line-item');
                     const dividerTemplate = lineTemplate.querySelector('.cart-divider');
@@ -213,6 +214,7 @@
                         cartSummary.hidden = added || empty;
                         cartItems.hidden = added || empty;
                         cartEmpty.hidden = added || !empty;
+                        cartFooter.hidden = !added && empty;  // the empty cart has no View Cart / Checkout
                         cartAdded.hidden = !added;
                         cartOverlay.classList.add('active');
                         cartBtn.setAttribute('aria-expanded', 'true');
@@ -240,15 +242,15 @@
                     });
 
                     // Mini cart API for Add To Cart buttons (e.g. PLP cards).
-                    // item = { key, sku, brand, name, price, image, imageAlt, addedTitle }; key defaults to sku.
+                    // item = { key, sku, brand, name, price, image, imageAlt, addedTitle }; key defaults to sku. brand isn't shown.
                     function findLine(key) {
                         return Array.from(cartItems.querySelectorAll('.cart-line-item'))
                             .find(function (li) { return li.dataset.key === key; });
                     }
 
+                    // The quantity isn't shown on the line (Figma "mini cart"); it drives the total and the badge
                     function setLineQty(line, qty) {
                         line.dataset.qty = qty;
-                        line.querySelector('.cart-line-item-qty').lastChild.textContent = ' ' + qty.toLocaleString('en-US');
                     }
 
                     // Count = number of lines; Total = sum of qty x unit price (lines without a numeric price are skipped)
@@ -282,10 +284,12 @@
                             const img = line.querySelector('.cart-line-item-img');
                             img.src = item.image;
                             img.alt = item.imageAlt || '';
-                            line.querySelector('.cart-line-item-brand').textContent = item.brand;
-                            line.querySelector('.cart-line-item-name').textContent = item.name;
-                            line.querySelector('.cart-line-item-part').lastChild.textContent = ' ' + item.sku;
-                            line.querySelector('.cart-line-item-price').textContent = item.price;
+                            const name = line.querySelector('.cart-line-item-name');
+                            name.textContent = item.name;
+                            name.title = item.name;  // the full name when it's cut off with an ellipsis
+                            line.querySelector('.cart-line-item-sku').textContent = item.sku;
+                            // "$26.60 / each" shows as "$26.60/ea"
+                            line.querySelector('.cart-line-item-price').textContent = item.price.replace(/\s*\/\s*each$/, '/ea');
                             setLineQty(line, 1);
                             if (cartItems.firstElementChild) cartItems.prepend(dividerTemplate.cloneNode(true));
                             cartItems.prepend(line);

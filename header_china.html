@@ -173,20 +173,21 @@
         <!-- Line item + divider cloned by addToMiniCart() in script.js -->
         <template id="cart_line_template">
           <li class="cart-line-item">
-            <img src="" alt="" width="88" height="88" class="cart-line-item-img">
+            <img src="" alt="" width="64" height="64" class="cart-line-item-img">
             <div class="cart-line-item-info">
-              <span class="cart-line-item-brand"></span>
               <a href="#" class="cart-line-item-name"></a>
-              <span class="cart-line-item-part"><span class="cart-line-item-label">Part No</span> </span>
-            </div>
-            <div class="cart-line-item-meta">
-              <span class="cart-line-item-qty"><span class="cart-line-item-label">Qty:</span> </span>
-              <span class="cart-line-item-price"></span>
+              <div class="cart-line-item-row">
+                <span class="cart-line-item-part"><span class="cart-line-item-label">Part:</span> <span class="cart-line-item-sku"></span></span>
+                <span class="cart-line-item-price"></span>
+              </div>
             </div>
           </li>
-          <li class="cart-divider" aria-hidden="true"><img src="images/icons/mini_cart/divider.svg" alt="" width="232" height="1"></li>
+          <li class="cart-divider" aria-hidden="true"></li>
         </template>
-        <p class="cart-modal-empty" hidden>Your cart is empty</p>
+        <div class="cart-modal-empty" hidden>
+          <p>Your cart is currently empty</p>
+          <a href="register.html" class="cart-modal-register">Register for an account</a>
+        </div>
         <div class="cart-modal-footer">
           <a href="#" class="cart-modal-view-link">View Cart</a>
           <button type="button" class="btn btn--primary btn--small">Checkout</button>
