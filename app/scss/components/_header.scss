@@ -105,10 +105,12 @@ header a:hover {
     padding-top:8px;
 
 }
-// Guest header (#header) LG+: 112px tall, the 80px logo / search row centered with 16px of blue above
+// Guest header (#header, and #header_china / #header_mex on the China and Mexico home pages) LG+: 112px tall, the 80px logo / search row centered with 16px of blue above
 // and below. Scoped to #header because the plain #post-header rules also reach the B2B-style headers.
 @mixin -post-header-desktop {
-  #header #post-header {
+  #header #post-header,
+  #header_china #post-header,
+  #header_mex #post-header {
     box-sizing: border-box;
     min-height: 112px;
     padding: 16px 0;

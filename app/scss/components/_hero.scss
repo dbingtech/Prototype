@@ -1,7 +1,7 @@
 @use '../globals/colors' as colors;
 @use '../globals/responsive' as *;
 
-#hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP {
+#hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP, #hero_china {
     width: 1336px;
     height: 264px;
     margin: 0 auto 32px;
@@ -154,6 +154,19 @@
 
         &.active {
             background-color: colors.$bdiblue;
+        }
+    }
+}
+
+// China (hero_china.html): banners only, centered. With no hero text beside them they stay at every size
+// (the guest carousel hides below LG), shrinking to the screen's width.
+#hero_china {
+    .index-heroBar--images { justify-content: center; }
+
+    #ad-carousel {
+        @media only screen and (max-width: 991px) {
+            display: block;
+            max-width: 100%;
         }
     }
 }

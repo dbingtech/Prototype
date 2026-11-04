@@ -166,6 +166,67 @@ $-compare-divider: colors.$medgray70;
     gap: 8px;
 }
 
+// ----------------------------Sticky product cards (script.js): a condensed copy of the cards pinned to the top of the
+// screen once they scroll off, until the end of the table. The view lines up with the table's scroll area (script.js
+// sets its left and width) and the track follows its sideways scroll; 8px matches .compare-table-scroll's padding.
+.compare-mini {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 950;  // below the compare bar (1500) and the header modals (2000)
+    background-color: colors.$white;
+    border-bottom: 1px solid colors.$lightgray01;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    font-family: "Inter", sans-serif;
+    color: colors.$text;
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition: transform 0.2s ease, visibility 0.2s ease;
+
+    &.is-visible {
+        transform: none;
+        visibility: visible;
+    }
+    @media (prefers-reduced-motion: reduce) { transition: none; }
+
+    p { margin: 0; }
+}
+.compare-mini-view {
+    position: relative;
+    overflow: hidden;
+}
+.compare-mini-track {
+    display: flex;
+    width: max-content;
+    padding: 0 8px;
+}
+// Same 242px columns as the cards; 4px side padding lines the text up with theirs
+.compare-mini-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: $-compare-col;
+    padding: 8px 4px;
+    box-sizing: border-box;
+}
+.compare-mini-name {
+    @include focus.focus-ring-base;
+    align-self: flex-start;
+    border-radius: 2px;
+    font-size: 18px;
+    font-weight: 700;
+    color: colors.$text;
+
+    &:hover { text-decoration: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.compare-mini-mfr {
+    display: flex;
+    gap: 10px;
+}
+.compare-mini-price { min-height: 24px; }
+
 #compare .compare-status {
     min-height: 1.2em;
     padding: 0 8px;

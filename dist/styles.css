@@ -519,21 +519,21 @@ header a:hover {
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-  #header #post-header {
+  #header #post-header, #header_china #post-header, #header_mex #post-header {
     box-sizing: border-box;
     min-height: 112px;
     padding: 16px 0;
   }
 }
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
-  #header #post-header {
+  #header #post-header, #header_china #post-header, #header_mex #post-header {
     box-sizing: border-box;
     min-height: 112px;
     padding: 16px 0;
   }
 }
 @media only screen and (min-width: 1400px) {
-  #header #post-header {
+  #header #post-header, #header_china #post-header, #header_mex #post-header {
     box-sizing: border-box;
     min-height: 112px;
     padding: 16px 0;
@@ -3252,13 +3252,13 @@ nav ul {
     font-size: 32px;
   }
 }
-#hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP {
+#hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP, #hero_china {
   width: 1336px;
   height: 264px;
   margin: 0 auto 32px;
   padding: 0 32px;
 }
-#hero .hidden-h1, #hero_B2B .hidden-h1, #hero_SS .hidden-h1, #hero_punchout .hidden-h1, #hero_EMP .hidden-h1 {
+#hero .hidden-h1, #hero_B2B .hidden-h1, #hero_SS .hidden-h1, #hero_punchout .hidden-h1, #hero_EMP .hidden-h1, #hero_china .hidden-h1 {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -3269,19 +3269,19 @@ nav ul {
   white-space: nowrap;
   border: 0;
 }
-#hero h1, #hero_B2B h1, #hero_SS h1, #hero_punchout h1, #hero_EMP h1 {
+#hero h1, #hero_B2B h1, #hero_SS h1, #hero_punchout h1, #hero_EMP h1, #hero_china h1 {
   font-family: "Inter", sans-serif;
   font-size: 40px;
   color: #20485c;
 }
-#hero .hero-buttons, #hero_B2B .hero-buttons, #hero_SS .hero-buttons, #hero_punchout .hero-buttons, #hero_EMP .hero-buttons {
+#hero .hero-buttons, #hero_B2B .hero-buttons, #hero_SS .hero-buttons, #hero_punchout .hero-buttons, #hero_EMP .hero-buttons, #hero_china .hero-buttons {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-top: 16px;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
-  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP {
+  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP, #hero_china {
     width: 100%;
     padding: 0 32px;
     height: auto;
@@ -3289,7 +3289,7 @@ nav ul {
   }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP {
+  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP, #hero_china {
     width: 100%;
     padding: 0 24px;
     height: auto;
@@ -3297,7 +3297,7 @@ nav ul {
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP {
+  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP, #hero_china {
     width: 100%;
     padding: 0 24px;
     height: auto;
@@ -3305,7 +3305,7 @@ nav ul {
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
-  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP {
+  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP, #hero_china {
     width: 100%;
     padding: 0 16px;
     height: auto;
@@ -3313,7 +3313,7 @@ nav ul {
   }
 }
 @media only screen and (min-width: 375px) and (max-width: 575px) {
-  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP {
+  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP, #hero_china {
     width: 100%;
     padding: 0 8px;
     height: auto;
@@ -3321,7 +3321,7 @@ nav ul {
   }
 }
 @media only screen and (max-width: 374px) {
-  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP {
+  #hero, #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP, #hero_china {
     width: 100%;
     padding: 0 8px;
     height: auto;
@@ -3457,6 +3457,16 @@ nav ul {
 }
 #ad-carousel .carousel-dot.active {
   background-color: #20485c;
+}
+
+#hero_china .index-heroBar--images {
+  justify-content: center;
+}
+@media only screen and (max-width: 991px) {
+  #hero_china #ad-carousel {
+    display: block;
+    max-width: 100%;
+  }
 }
 
 #hero_B2B, #hero_SS, #hero_punchout, #hero_EMP {
@@ -5458,6 +5468,45 @@ nav ul {
   text-decoration: underline;
 }
 .pdp-card-alt-link:focus-visible {
+  outline: 3px solid #20485c;
+  outline-offset: 2px;
+}
+
+.pdp-card-avail-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-top: 12px;
+  padding: 8px 16px;
+  background-color: #F2f2f2;
+  border-radius: 2px;
+}
+
+.pdp-card-avail-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pdp-card-avail-order {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 2px;
+  font: inherit;
+  font-size: 16px;
+  color: #0000ee;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.pdp-card-avail-order:hover {
+  text-decoration: none;
+}
+.pdp-card-avail-order:focus-visible {
   outline: 3px solid #20485c;
   outline-offset: 2px;
 }
@@ -7603,6 +7652,31 @@ html:has(.buy-now-modal[open]) {
   .buy-now-items-head {
     display: none;
   }
+}
+
+.whatsapp-btn {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  position: fixed;
+  left: 20px;
+  bottom: 24px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: #25d366;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 0.15s ease;
+}
+.whatsapp-btn:hover {
+  box-shadow: none;
+}
+.whatsapp-btn:focus-visible {
+  outline: 3px solid #20485c;
+  outline-offset: 2px;
 }
 
 .index-heroBar {
@@ -10098,6 +10172,80 @@ html:has(.buy-now-modal[open]) {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+}
+
+.compare-mini {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 950;
+  background-color: #fff;
+  border-bottom: 1px solid #d3d4d4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  font-family: "Inter", sans-serif;
+  color: black;
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform 0.2s ease, visibility 0.2s ease;
+}
+.compare-mini.is-visible {
+  transform: none;
+  visibility: visible;
+}
+@media (prefers-reduced-motion: reduce) {
+  .compare-mini {
+    transition: none;
+  }
+}
+.compare-mini p {
+  margin: 0;
+}
+
+.compare-mini-view {
+  position: relative;
+  overflow: hidden;
+}
+
+.compare-mini-track {
+  display: flex;
+  width: max-content;
+  padding: 0 8px;
+}
+
+.compare-mini-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 242px;
+  padding: 8px 4px;
+  box-sizing: border-box;
+}
+
+.compare-mini-name {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  align-self: flex-start;
+  border-radius: 2px;
+  font-size: 18px;
+  font-weight: 700;
+  color: black;
+}
+.compare-mini-name:hover {
+  text-decoration: none;
+}
+.compare-mini-name:focus-visible {
+  outline: 3px solid #20485c;
+  outline-offset: 2px;
+}
+
+.compare-mini-mfr {
+  display: flex;
+  gap: 10px;
+}
+
+.compare-mini-price {
+  min-height: 24px;
 }
 
 #compare .compare-status {

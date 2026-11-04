@@ -1,7 +1,7 @@
 ﻿// Load components
 // Load header
         // The placeholder's id names the file to load (header_SS -> header_SS.html)
-        const headerEl = document.querySelector('#header_SS, #header_punchout, #header_EMP, #header_B2B, #header_B2C, #header');
+        const headerEl = document.querySelector('#header_SS, #header_punchout, #header_EMP, #header_B2B, #header_B2C, #header_china, #header_mex, #header');
         if (headerEl) {
         const headerFile = headerEl.id + '.html';
         fetch(headerFile)
@@ -64,7 +64,7 @@
 
                 const user = JSON.parse(localStorage.getItem('user'));
                 const signInEl = document.getElementById('sign_in');
-                if (user && user.signedIn && signInEl && headerEl.id === 'header') {
+                if (user && user.signedIn && signInEl && (headerEl.id === 'header' || headerEl.id === 'header_china' || headerEl.id === 'header_mex')) {
                     signInEl.innerHTML = '<img src="images/icons/user/Size=28, Color=White.svg" alt="" width="28" height="28">Sign In';
                     signInEl.href = '#';
                     signInEl.addEventListener('click', function (e) {
@@ -76,7 +76,7 @@
 
                 // Search: spyglass (and Enter) go to the PLP for this header's version
                 // B2C uses the guest PLP; punchout and EMP use the B2B PLP until they get their own
-                const plpPage = headerEl.id === 'header' || headerEl.id === 'header_B2C' ? 'plp.html'
+                const plpPage = headerEl.id === 'header' || headerEl.id === 'header_china' || headerEl.id === 'header_mex' || headerEl.id === 'header_B2C' ? 'plp.html'
                     : headerEl.id === 'header_SS' ? 'plp_SS.html' : 'plp_B2B.html';
                 ['search_icon', 'sm-search-btn'].forEach(function (id) {
                     const btn = document.getElementById(id);
@@ -152,8 +152,20 @@
                             ccOverlay.classList.remove('active');
                         }
                     });
+                    // Country: Save goes to that country's home page when it has one and it isn't the current one
+                    // (every other page counts as United States). The drop-down starts on the current page's country.
+                    // The other countries just close for now.
+                    const countryPages = { us: 'index.html', cn: 'index_china.html', mx: 'index_mex.html' };
+                    const ccCountry = document.getElementById('cc-country');
+                    const currentPage = window.location.pathname.split('/').pop();
+                    const currentCountry = Object.keys(countryPages).find(function (code) {
+                        return code !== 'us' && countryPages[code] === currentPage;
+                    }) || 'us';
+                    ccCountry.value = currentCountry;
                     document.getElementById('cc-save').addEventListener('click', function () {
                         ccOverlay.classList.remove('active');
+                        const page = countryPages[ccCountry.value];
+                        if (page && ccCountry.value !== currentCountry) window.location.href = page;
                     });
                     document.addEventListener('keydown', function (e) {
                         if (e.key === 'Escape') ccOverlay.classList.remove('active');
@@ -400,7 +412,7 @@
                 });
             });
         // Load hero
-        const heroEl = document.querySelector('#hero_SS, #hero_punchout, #hero_EMP, #hero_B2B, #hero');
+        const heroEl = document.querySelector('#hero_SS, #hero_punchout, #hero_EMP, #hero_B2B, #hero_china, #hero');
         if (heroEl) {
         const heroFile = heroEl.id + '.html';
         fetch(heroFile)
@@ -1139,6 +1151,49 @@
             }
             markCompareDiffs();
 
+            // Sticky product cards: once the cards scroll off the top, a condensed copy (Global SAP Number, MFR, price)
+            // pins to the top of the screen until the end of the table. Its columns follow the table's sideways scroll.
+            const compareScrollEl = document.querySelector('.compare-table-scroll');
+            const compareMini = document.createElement('div');
+            compareMini.className = 'compare-mini';
+            compareMini.setAttribute('role', 'region');
+            compareMini.setAttribute('aria-label', 'Compared products');
+            compareMini.innerHTML = '<div class="compare-mini-view"><div class="compare-mini-track"></div></div>';
+            document.body.append(compareMini);
+            const compareMiniView = compareMini.querySelector('.compare-mini-view');
+            const compareMiniTrack = compareMini.querySelector('.compare-mini-track');
+
+            function buildCompareMini() {
+                compareMiniTrack.innerHTML = '';
+                compareTable.tHead.querySelectorAll('.compare-product').forEach(function (col) {
+                    const cell = document.createElement('div');
+                    cell.className = 'compare-mini-cell';
+                    [['.compare-product-name', 'compare-mini-name'],
+                     ['.compare-product-mfr', 'compare-mini-mfr'],
+                     ['.compare-product-price', 'compare-mini-price']].forEach(function (pair) {
+                        const part = col.querySelector(pair[0]).cloneNode(true);
+                        part.className = pair[1];
+                        cell.append(part);
+                    });
+                    compareMiniTrack.append(cell);
+                });
+            }
+            function placeCompareMini() {
+                const head = compareTable.tHead.getBoundingClientRect();
+                const table = compareTable.getBoundingClientRect();
+                compareMini.classList.toggle('is-visible',
+                    !compareScrollEl.hidden && head.bottom < 0 && table.bottom > compareMini.offsetHeight);
+                const r = compareScrollEl.getBoundingClientRect();
+                compareMiniView.style.left = r.left + 'px';
+                compareMiniView.style.width = compareScrollEl.clientWidth + 'px';
+                compareMiniTrack.style.transform = 'translateX(' + -compareScrollEl.scrollLeft + 'px)';
+            }
+            buildCompareMini();
+            placeCompareMini();
+            window.addEventListener('scroll', placeCompareMini, { passive: true });
+            window.addEventListener('resize', placeCompareMini);
+            compareScrollEl.addEventListener('scroll', placeCompareMini, { passive: true });
+
             compareTable.addEventListener('click', function (e) {
                 const removeBtn = e.target.closest('.compare-remove');
                 if (!removeBtn) return;
@@ -1151,6 +1206,8 @@
                     group.rows[0].cells[0].colSpan -= 1;
                 });
                 markCompareDiffs();
+                buildCompareMini();
+                placeCompareMini();
                 compareStatusEl.textContent = 'Removed ' + name + ' from compare.';
 
                 // Keep keyboard focus nearby: the next column's ×, else the previous one, else the empty message
@@ -1159,6 +1216,7 @@
                     removeBtns[Math.min(i, removeBtns.length - 1)].focus();
                 } else {
                     document.querySelector('.compare-table-scroll').hidden = true;
+                    placeCompareMini();
                     const empty = document.querySelector('.compare-empty');
                     empty.hidden = false;
                     empty.querySelector('a').focus();
@@ -1175,7 +1233,7 @@
                 plpFilterEl.innerHTML = data;
 
                 // Has Customer Part No. / Contracted: signed-in (B2B-style header) pages only
-                if (!headerEl || headerEl.id === 'header') {
+                if (!headerEl || headerEl.id === 'header' || headerEl.id === 'header_china' || headerEl.id === 'header_mex') {
                     plpFilterEl.querySelectorAll('[data-b2b-only]').forEach(function (el) { el.remove(); });
                 }
 
@@ -1816,7 +1874,7 @@
             }
 
             availScopeEl.addEventListener('click', function (e) {
-                const btn = e.target.closest('.plp-stock-info-btn, .pdp-card-info-btn, .pdp-alt-info-btn');
+                const btn = e.target.closest('.plp-stock-info-btn, .pdp-card-info-btn, .pdp-card-avail-order, .pdp-alt-info-btn');
                 if (!btn || !availModal) return;
                 e.stopPropagation();
                 const reopen = availModal.hidden || btn !== availBtn;

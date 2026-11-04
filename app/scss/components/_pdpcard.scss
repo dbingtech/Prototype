@@ -557,6 +557,40 @@
     &:hover { text-decoration: underline; }
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
+// Guest (pdpcard.html): gray Availability bar under the line, the info column's full width.
+// 12px + the column's 4px gap = 16px below the line; Alternatives Available sits at the right end, wraps when narrow
+.pdp-card-avail-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin-top: 12px;
+    padding: 8px 16px;
+    background-color: colors.$lightgray03;
+    border-radius: 2px;
+}
+.pdp-card-avail-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+// Opens the availability modal (script.js), like the "Available" info icon
+.pdp-card-avail-order {
+    @include focus.focus-ring-base;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    font: inherit;
+    font-size: 16px;
+    color: colors.$hyperlinkblue;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover { text-decoration: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
 // B2B and SmartSUPPLY (pdpcard_B2B.html, pdpcard_SS.html). Stacked (MD and smaller): share stays top right
 // and the price block centers in the space below it.
 // LG+: the price lines up with the item number. Share pins to the top right of the buy box;
