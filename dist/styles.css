@@ -208,12 +208,12 @@ a {
 }
 @media only screen and (min-width: 375px) and (max-width: 575px) {
   .page-title {
-    font-size: 24px;
+    font-size: 28px;
   }
 }
 @media only screen and (max-width: 374px) {
   .page-title {
-    font-size: 24px;
+    font-size: 28px;
   }
 }
 
@@ -4536,6 +4536,16 @@ nav ul {
   outline: 3px solid #20485c;
   outline-offset: 2px;
 }
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  .breadcrumb-figma-link {
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width: 374px) {
+  .breadcrumb-figma-link {
+    font-size: 14px;
+  }
+}
 
 .breadcrumb {
   display: flex;
@@ -4629,6 +4639,10 @@ nav ul {
   .breadcrumb-home-icon-img {
     display: block;
   }
+  .breadcrumb-home-icon-img {
+    width: 16px;
+    height: 16px;
+  }
 }
 @media only screen and (max-width: 374px) {
   .breadcrumb-item {
@@ -4642,6 +4656,10 @@ nav ul {
   }
   .breadcrumb-home-icon-img {
     display: block;
+  }
+  .breadcrumb-home-icon-img {
+    width: 16px;
+    height: 16px;
   }
 }
 #pdpcard, #pdpcard_B2B, #pdpcard_SS {
@@ -4875,6 +4893,18 @@ nav ul {
 
 .pdp-card-brand {
   font-size: 16px;
+}
+.pdp-card-brand a {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  color: black;
+}
+.pdp-card-brand a:hover {
+  text-decoration: none;
+}
+.pdp-card-brand a:focus-visible {
+  outline: 3px solid #20485c;
+  outline-offset: 2px;
 }
 
 .pdp-card-status {
@@ -5116,12 +5146,14 @@ nav ul {
 }
 @media only screen and (min-width: 375px) and (max-width: 575px) {
   .pdp-card-add {
-    width: 100%;
+    width: 256px;
+    max-width: 100%;
   }
 }
 @media only screen and (max-width: 374px) {
   .pdp-card-add {
-    width: 100%;
+    width: 256px;
+    max-width: 100%;
   }
 }
 
@@ -5145,12 +5177,14 @@ nav ul {
 }
 @media only screen and (min-width: 375px) and (max-width: 575px) {
   .pdp-card-purchase .plp-qty {
-    width: 100%;
+    width: 256px;
+    max-width: 100%;
   }
 }
 @media only screen and (max-width: 374px) {
   .pdp-card-purchase .plp-qty {
-    width: 100%;
+    width: 256px;
+    max-width: 100%;
   }
 }
 
@@ -7691,6 +7725,19 @@ html:has(.buy-now-modal[open]) {
   outline-offset: 2px;
 }
 
+@media only screen and (max-width: 575px) {
+  #hero h1, #hero_B2B h1, #hero_SS h1, #hero_punchout h1, #hero_EMP h1, #hero_china h1,
+  .hero-b2b-welcome {
+    font-size: 28px;
+    font-weight: 600;
+  }
+  .visible-h1 {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 34px;
+  }
+}
+
 .index-heroBar {
   display: flex;
   flex-direction: row;
@@ -7851,12 +7898,12 @@ html:has(.buy-now-modal[open]) {
 }
 @media only screen and (min-width: 375px) and (max-width: 575px) {
   .plp-title {
-    font-size: 24px;
+    font-size: 28px;
   }
 }
 @media only screen and (max-width: 374px) {
   .plp-title {
-    font-size: 24px;
+    font-size: 28px;
   }
 }
 

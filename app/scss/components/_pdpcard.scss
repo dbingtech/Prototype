@@ -179,6 +179,14 @@
 }
 .pdp-card-brand {
     font-size: 16px;
+
+    // pdp.html: brand links to its PLP, styled like the Specifications links (_pdp.scss)
+    a {
+        @include focus.focus-ring-base;
+        color: colors.$text;
+        &:hover { text-decoration: none; }
+        &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+    }
 }
 .pdp-card-status {
     display: inline-flex;
@@ -311,7 +319,7 @@
     }
 }
 // Shrinks to the button's width on the right; the price centers above the button.
-// Centered under the stacked card on MD; full width on SM and XSM.
+// Centered under the stacked card on MD; full width on SM; 256px, centered, on XSM.
 .pdp-card-purchase {
     display: flex;
     flex-direction: column;
@@ -342,7 +350,7 @@
 
     @include xxl { width: 256px; }
     @include sm  { width: 100%; }
-    @include xsm { width: 100%; }
+    @include xsm { width: 256px; max-width: 100%; }
 }
 // Quantity pill (script.js, styles in _plp.scss) takes Add To Cart's place at the button's width
 .pdp-card-add[hidden],
@@ -352,7 +360,7 @@
 
     @include xxl { width: 256px; }
     @include sm  { width: 100%; }
-    @include xsm { width: 100%; }
+    @include xsm { width: 256px; max-width: 100%; }
 }
 // Condensed card: Add To Cart is 256px at every width it shows
 .pdp-mini-buy .plp-qty { width: 256px; }

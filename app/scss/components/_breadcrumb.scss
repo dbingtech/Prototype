@@ -34,6 +34,8 @@
 
     &:hover { text-decoration: none; }
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+
+    @include xsm { font-size: 14px; }  // same as the trail
 }
 
 .breadcrumb {
@@ -102,4 +104,7 @@
 
 @include md  { @include breadcrumb-compact; }
 @include sm  { @include breadcrumb-compact; }
-@include xsm { @include breadcrumb-compact; }
+@include xsm {
+    @include breadcrumb-compact;
+    .breadcrumb-home-icon-img { width: 16px; height: 16px; }
+}

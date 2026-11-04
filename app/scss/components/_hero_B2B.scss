@@ -21,6 +21,8 @@
       font-family: "Inter", sans-serif;
       font-size: 40px;
       color: colors.$bdiblue;
+
+      @include xsm { font-size: 28px; font-weight: 600; }
     }
 
     .hero-buttons {
@@ -44,6 +46,8 @@
   color: colors.$bdiblue;
   margin: 0;
   line-height: 48px;
+
+  @include xsm { font-size: 28px; font-weight: 600; line-height: 34px; }  // same 1.2 line height
 }
 
 .hero-b2b-content {
@@ -61,6 +65,8 @@
   color: colors.$bdiblue;
   margin: 0;
   line-height: 1;
+
+  @include xsm { font-size: 28px; font-weight: 600; }
 }
 
 .hero-b2b-row {

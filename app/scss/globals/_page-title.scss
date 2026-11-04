@@ -9,7 +9,8 @@
 
 $size-xl: 32px;   // XXL, XL (1200px+)
 $size-lg: 28px;   // LG, MD  (768-1199px)
-$size-sm: 24px;   // SM, XSM (< 768px)
+$size-sm: 24px;   // SM      (576-767px)
+$size-xsm: 28px;  // XSM     (< 576px)
 $weight: 600;     // all breakpoints
 $color: colors.$bdiblue;
 
@@ -24,5 +25,5 @@ $color: colors.$bdiblue;
     @include lg  { font-size: $size-lg; }
     @include md  { font-size: $size-lg; }
     @include sm  { font-size: $size-sm; }
-    @include xsm { font-size: $size-sm; }
+    @include xsm { font-size: $size-xsm; }
 }
