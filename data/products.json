@@ -1,0 +1,28 @@
+{
+  "_readme": "Sample product data for the prototype (not live SAP data). Open a PDP with ?sku=<bdiNo>, e.g. pdp.html?sku=27840313. scenarios.guest is the default; each other scenario (b2c, b2b, ss, emp, punchout) only lists what differs. Prices are USD. Specifications list everything after Category, which comes from category.",
+  "products": [
+    {
+      "bdiNo": "27840313",
+      "mfrPart": "CP96SB100-5C",
+      "title": "CP96SB100-5C",
+      "brand": "SMC",
+      "name": "CP96SB100-5C CYLINDER, TIE ROD (SMARTCATALOG)",
+      "description": "",
+      "category": "Fluid Power",
+      "image": null,
+      "prop65": true,
+      "specs": [
+        { "label": "Manufacturer Name", "value": "SMC" },
+        { "label": "Brand", "value": "SMC" },
+        { "label": "Weight / Kilogram", "value": "3.82" },
+        { "label": "Minimum Buy Quantity", "value": "1" }
+      ],
+      "scenarios": {
+        "guest": { "price": 378.23, "unit": "each", "status": "available", "stock": 0 },
+        "b2c":   { "price": 367.02 },
+        "b2b":   { "price": 233.56, "custNos": [] },
+        "ss":    { "price": 239.79, "custNos": [] }
+      }
+    }
+  ]
+}

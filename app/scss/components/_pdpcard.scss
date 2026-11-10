@@ -355,6 +355,9 @@
 // Quantity pill (script.js, styles in _plp.scss) takes Add To Cart's place at the button's width
 .pdp-card-add[hidden],
 .pdp-mini-add[hidden] { display: none; }
+// Product data (script.js) hides what a product doesn't have (description, Prop 65, Cust No., was price);
+// the card's display rules would otherwise override [hidden]
+.pdp-card [hidden] { display: none; }
 .pdp-card-purchase .plp-qty {
     width: 194px;
 
@@ -577,6 +580,20 @@
     padding: 8px 16px;
     background-color: colors.$lightgray03;
     border-radius: 2px;
+}
+// B2C (pdpcard_B2C.html): just the stock count, 36px tall, 4px in from the left
+.pdp-card-avail-bar--stock {
+    justify-content: flex-start;
+    gap: 8px;
+    min-height: 36px;
+    margin-bottom: 0;
+    padding: 0 4px;
+    font-size: 16px;
+}
+.pdp-card-avail-qty {
+    font-size: 18px;
+    font-weight: 700;
+    color: colors.$camarone;
 }
 .pdp-card-avail-status {
     display: flex;

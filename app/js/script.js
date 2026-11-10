@@ -75,8 +75,9 @@
                 }
 
                 // Search: spyglass (and Enter) go to the PLP for this header's version
-                // B2C uses the guest PLP; punchout and EMP use the B2B PLP until they get their own
-                const plpPage = headerEl.id === 'header' || headerEl.id === 'header_china' || headerEl.id === 'header_mex' || headerEl.id === 'header_B2C' ? 'plp.html'
+                // Punchout and EMP use the B2B PLP until they get their own
+                const plpPage = headerEl.id === 'header' || headerEl.id === 'header_china' || headerEl.id === 'header_mex' ? 'plp.html'
+                    : headerEl.id === 'header_B2C' ? 'plp_B2C.html'
                     : headerEl.id === 'header_SS' ? 'plp_SS.html' : 'plp_B2B.html';
                 ['search_icon', 'sm-search-btn'].forEach(function (id) {
                     const btn = document.getElementById(id);
@@ -649,14 +650,156 @@
             copiedTimers.set(btn, setTimeout(function () { btn.classList.remove('is-copied'); }, 2000));
         }
 
+        // Product data (data/products.json): a PDP opened with ?sku=<BDI No.> (pdp_B2C.html?sku=27840313) shows that
+        // product in the page's account scenario, picked by its header. A scenario only lists what differs from guest.
+        // Without ?sku (or for an unknown one) the page keeps the sample product written into its partials.
+        const scenarioByHeader = {
+            header: 'guest', header_china: 'guest', header_mex: 'guest', header_B2C: 'b2c',
+            header_B2B: 'b2b', header_SS: 'ss', header_EMP: 'emp', header_punchout: 'punchout'
+        };
+        const pageScenario = (headerEl && scenarioByHeader[headerEl.id]) || 'guest';
+        const pageSku = new URLSearchParams(location.search).get('sku');
+        const productReady = !pageSku ? Promise.resolve(null) : fetch('data/products.json')
+            .then(response => response.json())
+            .then(data => {
+                const product = data.products.find(function (p) { return p.bdiNo === pageSku; });
+                if (!product) return null;
+                return Object.assign({}, product, {
+                    offer: Object.assign({}, product.scenarios.guest, product.scenarios[pageScenario])
+                });
+            })
+            .catch(function () { return null; });
+
+        // Status next to the brand: "Available" + info icon (opens the availability modal) or B2B's green "In Stock"
+        const statusMarkup = {
+            available: '<span class="pdp-card-status"><button type="button" class="pdp-card-info-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="availability_modal" aria-label="Available: lead time and sales offices"><span class="pdp-card-status-label">Available</span><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="currentColor"/><circle cx="12.1" cy="7.1" r="1.6" fill="#fff"/><path fill="#fff" d="M9.1 9.6H13.4V15.1H15.1V17H8.9V15.1H10.9V11.3H9.1Z"/></svg></button></span>',
+            inStock: '<a class="pdp-card-stock">In Stock <img src="images/icons/plp/checkmark_20.svg" alt="" width="20" height="20"></a>'
+        };
+        function formatPrice(amount, spaced) {
+            return (spaced ? '$ ' : '$') + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function lastCrumbLink() {
+            const links = document.querySelectorAll('#breadcrumbs .breadcrumb-item:not(.breadcrumb-home) a');
+            return links[links.length - 1] || null;
+        }
+
+        // Fills the loaded card (any version) and the page around it with the product; the card's wiring runs after
+        function fillPdpCard(product) {
+            const offer = product.offer;
+            const image = pdpcardEl.querySelector('.pdp-card-image');
+            image.className = 'pdp-card-image';
+            image.src = product.image ? product.image.src : 'images/products/no_image.svg';
+            image.alt = product.image ? product.image.alt : 'No image available';
+            image.width = product.image ? product.image.width : 300;
+            image.height = product.image ? product.image.height : 300;
+
+            // Brand links to its brand page when there is one (brandUrl)
+            const brand = pdpcardEl.querySelector('.pdp-card-brand');
+            brand.textContent = product.brand;
+            if (product.brandUrl) {
+                const link = document.createElement('a');
+                link.href = product.brandUrl;
+                link.textContent = product.brand;
+                brand.replaceChildren(link);
+            }
+            const status = pdpcardEl.querySelector('.pdp-card-status, .pdp-card-stock');
+            if (status && statusMarkup[offer.status]) status.outerHTML = statusMarkup[offer.status];
+
+            pdpcardEl.querySelector('.pdp-card-title').textContent = product.title;
+            pdpcardEl.querySelector('.pdp-card-name').textContent = product.name;
+            const desc = pdpcardEl.querySelector('.pdp-card-desc');
+            if (desc) {  // the B2C card has none
+                desc.textContent = product.description || '';
+                desc.hidden = !product.description;
+            }
+
+            // BDI No. and Mfr Part No.; the copy buttons copy what shows
+            const idRows = pdpcardEl.querySelectorAll('.pdp-card-id-row');
+            [product.bdiNo, product.mfrPart].forEach(function (value, i) {
+                idRows[i].querySelector('.pdp-card-id-value').textContent = value;
+                idRows[i].querySelector('.pdp-card-copy').dataset.copy = value;
+            });
+            const p65 = pdpcardEl.querySelector('.pdp-card-p65');
+            if (p65) p65.hidden = !product.prop65;
+
+            // Cust No. (B2B, SmartSUPPLY): the account's numbers for the item; no numbers, no row
+            const custValues = pdpcardEl.querySelector('.pdp-card-cust-values');
+            if (custValues) {
+                const custNos = offer.custNos || [];
+                custValues.replaceChildren(...custNos.map(function (no, i) {
+                    const value = document.createElement('span');
+                    value.className = 'pdp-card-id-value';
+                    value.textContent = no + (i < custNos.length - 1 ? ';' : '');
+                    return value;
+                }));
+                custValues.closest('.pdp-card-id-row').hidden = !custNos.length;
+            }
+
+            // Availability summary (B2B card, SmartSUPPLY page): BDI stock
+            document.querySelectorAll('.pdp-availability-qty').forEach(function (qty) { qty.textContent = offer.stock; });
+
+            const amount = pdpcardEl.querySelector('.pdp-card-amount');
+            amount.textContent = formatPrice(offer.price, amount.textContent.startsWith('$ '));
+            pdpcardEl.querySelector('.pdp-card-unit').textContent = '/ ' + (offer.unit || 'each');
+            const was = pdpcardEl.querySelector('.pdp-card-price-was');
+            if (was) {
+                was.hidden = !offer.was;
+                if (offer.was) was.querySelector('s').textContent = formatPrice(offer.was, true) + ' / ' + (offer.unit || 'each');
+            }
+
+            // Breadcrumb: the last link (category) keeps the page's own PLP link; a current-page item gets the title
+            const crumb = lastCrumbLink();
+            if (crumb) {
+                crumb.textContent = product.category;
+                // The page's own parent levels (pdp.html: Bearings, Ball Bearings) don't fit another product
+                document.querySelectorAll('#breadcrumbs .breadcrumb-item:not(.breadcrumb-home):not(.active)').forEach(function (item) {
+                    if (!item.contains(crumb)) item.remove();
+                });
+            }
+            const current = document.querySelector('#breadcrumbs .breadcrumb-item.active');
+            if (current) current.textContent = product.title;
+        }
+
+        // Specifications: Category (linked like the breadcrumb) first, then the product's specs
+        function fillPdpSpecs(product) {
+            const specs = document.querySelector('.pdp-specs');
+            if (!specs) return;
+            const crumb = lastCrumbLink();
+            const rows = [{ label: 'Category', value: product.category, url: crumb ? crumb.getAttribute('href') : 'plp.html' }]
+                .concat(product.specs);
+            specs.replaceChildren(...rows.map(function (spec) {
+                const row = document.createElement('div');
+                row.className = 'pdp-spec' + (spec.wide ? ' pdp-spec--wide' : '');
+                const dt = document.createElement('dt');
+                const dd = document.createElement('dd');
+                dt.textContent = spec.label;
+                if (spec.url) {
+                    const link = document.createElement('a');
+                    link.href = spec.url;
+                    link.textContent = spec.value;
+                    if (/^https?:/.test(spec.url)) {
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        link.insertAdjacentHTML('beforeend', '<span class="pdp-visually-hidden"> (opens in a new tab)</span>');
+                    }
+                    dd.append(link);
+                } else {
+                    dd.textContent = spec.value;
+                }
+                row.append(dt, dd);
+                return row;
+            }));
+        }
+
         // Load PDP card
         // The placeholder's id names the file to load (pdpcard_B2B -> pdpcard_B2B.html)
-        const pdpcardEl = document.querySelector('#pdpcard_SS, #pdpcard_B2B, #pdpcard');
+        const pdpcardEl = document.querySelector('#pdpcard_SS, #pdpcard_B2B, #pdpcard_B2C, #pdpcard');
         if (pdpcardEl) {
-        fetch(pdpcardEl.id + '.html')
-            .then(response => response.text())
-            .then(data => {
+        Promise.all([fetch(pdpcardEl.id + '.html').then(response => response.text()), productReady])
+            .then(([data, product]) => {
                 pdpcardEl.innerHTML = data;
+                if (product) fillPdpCard(product);
 
                 // Compare: checking it takes the user down to Alternatives to pick items to compare with.
                 // Focus stays on the checkbox; unchecking doesn't scroll.
@@ -732,24 +875,29 @@
                     p65Stacked.addEventListener('change', function () { p65.classList.remove('is-open'); });
                 }
 
-                // Share: copy the page URL and confirm in a message floated at the right end of the breadcrumbs row
-                // (the empty space above the buy box), so nothing below moves.
+                // Page message ("URL Copied", "Quantity has been updated"): floated at the right end of the breadcrumbs
+                // row (the empty space above the buy box), so nothing below moves. A new message replaces the last.
                 // The status element stays in the page (empty = hidden) so screen readers announce each message.
                 const breadcrumbsEl = document.getElementById('breadcrumbs');
-                const shareBtn = pdpcardEl.querySelector('.pdp-card-share');
-                if (breadcrumbsEl && shareBtn) {
+                let showShareMessage = function () {};
+                if (breadcrumbsEl) {
                     const shareMsg = document.createElement('p');
                     shareMsg.className = 'pdp-share-message';
                     shareMsg.setAttribute('role', 'status');
                     breadcrumbsEl.append(shareMsg);
                     let shareMsgTimer;
 
-                    function showShareMessage(text, failed) {
+                    showShareMessage = function (text, failed) {
                         clearTimeout(shareMsgTimer);
                         shareMsg.textContent = text;
                         shareMsg.classList.toggle('pdp-share-message--error', failed);
                         shareMsgTimer = setTimeout(function () { shareMsg.textContent = ''; }, 4000);
-                    }
+                    };
+                }
+
+                // Share: copy the page URL and confirm in the page message
+                const shareBtn = pdpcardEl.querySelector('.pdp-card-share');
+                if (shareBtn) {
                     shareBtn.addEventListener('click', function () {
                         navigator.clipboard.writeText(window.location.href)
                             .then(() => showShareMessage('URL Copied', false))
@@ -878,7 +1026,7 @@
                     let pills = [];  // [card pill, condensed pill] while the item is in the cart
 
                     // "Added to Cart" popup (Figma "mini cart | guest"): opens just under the quantity pill on
-                    // Add To Cart and again on each +, over the page. Not blocking: a click outside closes it but
+                    // Add To Cart, over the page (each + shows "Quantity has been updated" instead). Not blocking: a click outside closes it but
                     // still goes through, so the next + reopens it in one click. Styles in _pdpcard.scss.
                     const added = document.createElement('div');
                     added.className = 'pdp-added';
@@ -929,6 +1077,7 @@
                         added.hidden = true;
                         addedAnchor = null;
                     }
+
 
                     window.addEventListener('scroll', function () { if (addedAnchor) placeAdded(); }, { passive: true });
                     window.addEventListener('resize', function () { if (addedAnchor) placeAdded(); });
@@ -1000,7 +1149,7 @@
                                 const pill = qtyBtn.closest('.plp-qty');
                                 const plus = qtyBtn.classList.contains('plp-qty-plus');
                                 setPdpQty(parseInt(pill.dataset.qty, 10) + (plus ? 1 : -1), inMini);
-                                if (plus) showAdded(pill);
+                                if (plus) showShareMessage('Quantity has been updated', false);
                             }
                         });
                         scope.addEventListener('keydown', function (e) {
@@ -1051,10 +1200,10 @@
             // Specifications + Alternatives are shared by pdp.html and pdp_B2B.html;
             // data-sections picks another file (pdp_B2B.html: pdp-sections-B2B.html, pdp_SS.html: pdp-sections-SS.html)
             const pdpSectionsEl = document.getElementById('pdp_sections');
-            fetch(pdpSectionsEl.dataset.sections || 'pdp-sections.html')
-                .then(response => response.text())
-                .then(data => {
+            Promise.all([fetch(pdpSectionsEl.dataset.sections || 'pdp-sections.html').then(response => response.text()), productReady])
+                .then(([data, product]) => {
                     pdpSectionsEl.innerHTML = data;
+                    if (product) fillPdpSpecs(product);
 
                     // pdp_B2B.html: Inventory Details goes between Specifications and Alternatives
                     const inventoryEl = document.getElementById('pdp_inventory');
@@ -1063,6 +1212,9 @@
                     // A deep link (e.g. pdp.html#pdp_alternatives) lands before its section exists; go there once it does
                     const hashTarget = location.hash && document.getElementById(location.hash.slice(1));
                     if (hashTarget) hashTarget.scrollIntoView();
+
+                    // pdp_B2C.html: Specifications only, no Alternatives to wire up
+                    if (!document.getElementById('pdp_alternatives')) return;
 
                     // Select / De-select All mirrors the attribute boxes (some checked = indeterminate)
                     const altAll = document.getElementById('pdp_alt_all');
@@ -1124,11 +1276,15 @@
                 });
         } // end if (pdpDetailsEl)
 
-        // Back to top: appears after one screen of scrolling; smooth unless the user prefers reduced motion
+        // Back to top: appears after one screen of scrolling; smooth unless the user prefers reduced motion.
+        // Compare page: appears with the sticky product cards (once the table's cards scroll off the top) and stays.
         const backToTop = document.getElementById('back_to_top');
         if (backToTop) {
+            const backToTopAfter = document.querySelector('.compare-table thead');
             function updateBackToTop() {
-                backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight);
+                backToTop.classList.toggle('is-visible', backToTopAfter
+                    ? backToTopAfter.getBoundingClientRect().bottom < 0
+                    : window.scrollY > window.innerHeight);
             }
             window.addEventListener('scroll', updateBackToTop, { passive: true });
             updateBackToTop();

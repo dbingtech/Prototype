@@ -314,6 +314,9 @@ $-pdp-divider: #ACABAB;  // section and card dividers
 // ----------------------------Alternatives: attribute filters
 .pdp-alt-bar {
     padding: 12px 4px;
+}
+// Blue bar (pdp_B2B, pdp_SS); pdp.html's stays plain (.pdp-alt-bar--plain) with the standard checkbox
+.pdp-alt-bar:not(.pdp-alt-bar--plain) {
     background-color: colors.$bdiblue;
     color: colors.$white;
 

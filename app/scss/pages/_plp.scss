@@ -206,14 +206,14 @@ $-plp-divider: #ACABAB;  // result dividers
         outline-offset: 2px;
     }
 }
-// Negative margins keep the icon's 26px footprint inside the 44px halo
+// Negative margins keep the icon's 22px footprint (20px + 1px margin) inside the 44px halo
 .plp-stock-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 44px;
     height: 44px;
-    margin: -9px;
+    margin: -11px;
     border-radius: 50%;
     transition: background-color 0.15s ease;
 }
