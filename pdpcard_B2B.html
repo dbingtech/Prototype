@@ -33,7 +33,7 @@
   <!-- Product details -->
   <div class="pdp-card-info">
     <div class="pdp-card-brand-row">
-      <p class="pdp-card-brand">Worldwide Electric</p>
+      <p class="pdp-card-brand"><a href="brands_worldwideelec.html">Worldwide Electric</a></p>
       <!-- Links to the Availability summary on MD and smaller (script.js adds the href there; no href = plain text) -->
       <a class="pdp-card-stock">In Stock <img src="images/icons/plp/checkmark_20.svg" alt="" width="20" height="20"></a>
     </div>
@@ -80,17 +80,16 @@
         </dd>
       </div>
     </dl>
-    <hr class="pdp-card-divider">
-    <div class="pdp-card-jump-row">
-      <!-- Availability summary: links to Inventory Details, with a tooltip -->
+    <!-- Gray availability bar, 40px tall: the stock counts link to Inventory Details (tooltip); See Alternatives at the right end -->
+    <div class="pdp-card-avail-bar pdp-card-avail-bar--b2b">
       <p class="pdp-availability" id="pdp_availability">
         <a class="pdp-availability-link" href="#pdp_inventory" aria-describedby="pdp_availability_tip">
-          <span class="pdp-availability-label">Availability</span>
-          <span><span class="pdp-availability-qty">2</span> BDI Stock</span>
+          <span><span class="pdp-card-avail-qty pdp-availability-qty">2</span> BDI Stock</span>
+          <span><span class="pdp-card-avail-qty pdp-card-avail-qty--factory">135</span> Factory Stock</span>
         </a>
         <span class="pdp-availability-tip" id="pdp_availability_tip" role="tooltip">Inventory Details</span>
       </p>
-      <a class="pdp-card-alt-link" href="#pdp_alternatives">Alternatives</a>
+      <a class="pdp-card-alt-link" href="#pdp_alternatives">See Alternatives</a>
     </div>
   </div>
 

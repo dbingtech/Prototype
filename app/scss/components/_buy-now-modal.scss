@@ -289,21 +289,7 @@ html:has(.buy-now-modal[open]) { overflow: hidden; }
     color: colors.$medgray;
 }
 
-// ----------------------------Items in this order (the stacked design leaves out the header)
-.buy-now-items-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 0;
-    white-space: nowrap;
-
-    @include -stacked { display: none; }
-}
-.buy-now-items-title { font-weight: 600; }
-.buy-now-view-cart {
-    color: colors.$bdiblue;
-    text-decoration: underline;
-}
+// ----------------------------The item being ordered
 .buy-now-item {
     display: flex;
     align-items: flex-start;

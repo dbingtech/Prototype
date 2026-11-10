@@ -609,6 +609,32 @@
             .then(response => response.text())
             .then(data => document.getElementById('homepage_ads').innerHTML = data);
 
+        // Page message ("URL Copied", "Quantity has been updated"; PDP and PLP pages): floated at the right end of the
+        // breadcrumbs row, so nothing below moves. A new message replaces the last. fade: fades out over 3 seconds
+        // (the quantity message) instead of showing for 4 and disappearing. The status element goes into the page
+        // ahead of the first message (empty = hidden) so screen readers announce each one. Styles in _pdpcard.scss.
+        let pageMsg = null;
+        let pageMsgTimer;
+        function preparePageMessage() {
+            const breadcrumbsEl = document.getElementById('breadcrumbs');
+            if (pageMsg || !breadcrumbsEl) return pageMsg;
+            pageMsg = document.createElement('p');
+            pageMsg.className = 'pdp-share-message';
+            pageMsg.setAttribute('role', 'status');
+            breadcrumbsEl.append(pageMsg);
+            return pageMsg;
+        }
+        function showPageMessage(text, failed, fade) {
+            if (!pageMsg && !preparePageMessage()) return;
+            clearTimeout(pageMsgTimer);
+            pageMsg.classList.remove('pdp-share-message--fade');
+            void pageMsg.offsetWidth;  // restarts the fade when a new message replaces one mid-fade
+            pageMsg.textContent = text;
+            pageMsg.classList.toggle('pdp-share-message--error', !!failed);
+            pageMsg.classList.toggle('pdp-share-message--fade', !!fade);
+            pageMsgTimer = setTimeout(function () { pageMsg.textContent = ''; }, fade ? 3000 : 4000);
+        }
+
         // Quantity pill (PLP cards, PDP card, Buy Again / Keep Shopping For): replaces Add To Cart once clicked.
         // Trash at 1, minus above 1, typeable number, plus. Styles in _plp.scss (.plp-qty).
         function buildQtyPill(name) {
@@ -875,27 +901,9 @@
                     p65Stacked.addEventListener('change', function () { p65.classList.remove('is-open'); });
                 }
 
-                // Page message ("URL Copied", "Quantity has been updated"): floated at the right end of the breadcrumbs
-                // row (the empty space above the buy box), so nothing below moves. A new message replaces the last.
-                // The status element stays in the page (empty = hidden) so screen readers announce each message.
-                const breadcrumbsEl = document.getElementById('breadcrumbs');
-                let showShareMessage = function () {};
-                if (breadcrumbsEl) {
-                    const shareMsg = document.createElement('p');
-                    shareMsg.className = 'pdp-share-message';
-                    shareMsg.setAttribute('role', 'status');
-                    breadcrumbsEl.append(shareMsg);
-                    let shareMsgTimer;
-
-                    showShareMessage = function (text, failed) {
-                        clearTimeout(shareMsgTimer);
-                        shareMsg.textContent = text;
-                        shareMsg.classList.toggle('pdp-share-message--error', failed);
-                        shareMsgTimer = setTimeout(function () { shareMsg.textContent = ''; }, 4000);
-                    };
-                }
-
-                // Share: copy the page URL and confirm in the page message
+                // Share: copy the page URL and confirm in the page message (showPageMessage)
+                preparePageMessage();
+                const showShareMessage = showPageMessage;
                 const shareBtn = pdpcardEl.querySelector('.pdp-card-share');
                 if (shareBtn) {
                     shareBtn.addEventListener('click', function () {
@@ -1149,7 +1157,7 @@
                                 const pill = qtyBtn.closest('.plp-qty');
                                 const plus = qtyBtn.classList.contains('plp-qty-plus');
                                 setPdpQty(parseInt(pill.dataset.qty, 10) + (plus ? 1 : -1), inMini);
-                                if (plus) showShareMessage('Quantity has been updated', false);
+                                if (plus) showPageMessage('Quantity has been updated', false, true);
                             }
                         });
                         scope.addEventListener('keydown', function (e) {
@@ -1913,6 +1921,7 @@
                 }
             }
 
+            preparePageMessage();  // "Quantity has been updated" on each + of a card's quantity
             plpEl.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter' && e.target.classList.contains('plp-qty-input')) e.target.blur();
             });
@@ -1961,6 +1970,7 @@
                     const pill = qtyBtn.closest('.plp-qty');
                     const step = qtyBtn.classList.contains('plp-qty-plus') ? 1 : -1;
                     setCardQty(pill, parseInt(pill.dataset.qty, 10) + step);
+                    if (step > 0) showPageMessage('Quantity has been updated', false, true);
                     return;
                 }
                 const copyBtn = e.target.closest('.plp-copy');

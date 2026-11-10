@@ -1,0 +1,155 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+@use '../globals/responsive' as *;
+
+// My Account landing (my_account.html)
+$-account-divider: #E5E5E5;  // line under the cards (Gray/Light 02)
+
+// SM and XSM: title, menu, then the cards, one column
+@mixin -stacked {
+    @include sm  { @content; }
+    @include xsm { @content; }
+}
+
+// Width and side padding come from #main.
+// XXL to MD: menu column on the left (its Figma width), title and cards beside it
+.account {
+    display: grid;
+    grid-template-columns: 277px minmax(0, 1fr);
+    grid-template-areas:
+        "menu title"
+        "menu section";
+    grid-template-rows: auto 1fr;
+    gap: 16px 24px;
+    align-items: start;
+    padding: 24px 0 32px;
+    font-family: "Inter", sans-serif;
+    color: colors.$text;
+
+    p { margin: 0; }
+
+    @include xl { grid-template-columns: 316px minmax(0, 1fr); }
+    @include lg { grid-template-columns: 210px minmax(0, 1fr); gap: 16px; }
+    @include md { grid-template-columns: 206px minmax(0, 1fr); gap: 16px; padding-top: 16px; }
+    @include -stacked {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "title"
+            "menu"
+            "section";
+        grid-template-rows: auto;
+        padding-top: 16px;
+    }
+}
+.account-title { grid-area: title; }
+
+// ----------------------------Menu
+.account-menu {
+    grid-area: menu;
+    padding: 4px;
+}
+.account-menu-group {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+}
+.account-menu-heading,
+.account-menu-role,
+.account-menu-list a {
+    display: flex;
+    align-items: center;
+    min-height: 41px;
+    box-sizing: border-box;
+    padding: 8px;
+    font-size: 18px;
+    line-height: normal;
+}
+.account-menu-heading { font-weight: 700; }
+.account-menu-role { color: colors.$medgray; }
+.account-menu-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    a {
+        @include focus.focus-ring-base;
+        border-radius: 2px;
+        color: colors.$text;
+        text-decoration: none;
+
+        &:hover { text-decoration: underline; }
+        &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+    }
+}
+
+// ----------------------------Cards: 2 across, 1 on XSM. A light line under them (not on SM and XSM)
+.account-section {
+    grid-area: section;
+    padding-bottom: 16px;
+    border-bottom: 1px solid $-account-divider;
+
+    @include -stacked {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+}
+.account-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+
+    @include xsm { grid-template-columns: minmax(0, 1fr); }
+}
+.account-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 240px;
+    box-sizing: border-box;
+    padding: 12px;
+    background-color: colors.$white;
+    border: 1px solid colors.$darkgray;
+    border-radius: 16px;
+}
+.account-card-title {
+    min-height: 36px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: normal;
+}
+.account-card-note {
+    font-size: 16px;
+    color: colors.$medgray50;
+}
+// Fills the space above the link; Personal information and Purchasing Account center theirs in it (Figma)
+.account-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 16px;
+    color: colors.$medgray30;
+    overflow-wrap: anywhere;
+
+    &--center { justify-content: center; }
+    &--note { color: colors.$medgray50; }
+}
+// Invoices: a line's space above it (Figma)
+.account-card-alert {
+    margin-top: 20px !important;
+    font-weight: 600;
+    line-height: 20px;
+    color: colors.$red;
+}
+.account-card-link {
+    @include focus.focus-ring-base;
+    align-self: flex-start;
+    border-radius: 2px;
+    font-size: 16px;
+    color: colors.$hyperlinkblue;
+    text-decoration: underline;
+
+    &:hover { text-decoration: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}

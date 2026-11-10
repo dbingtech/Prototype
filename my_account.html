@@ -12,9 +12,126 @@
   <body>
     <div id="header_B2B"></div>
     <div id="navbar_B2B"></div>
+    <div id="breadcrumbs">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item breadcrumb-home"><a href="index_B2B.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
+          <li class="breadcrumb-item active" aria-current="page">My Account</li>
+        </ol>
+      </nav>
+    </div>
 
     <div id="main">
-      <h1>My Account</h1>
+      <!-- My Account landing (B2B admin). Sample data. LG and MD: menu on the left, title and cards on the right;
+           SM and XSM: title, menu, then the cards (2 across on SM, 1 on XSM). Styles in _account.scss -->
+      <div class="account" id="account">
+        <h1 class="page-title account-title">Welcome Tony</h1>
+
+        <nav class="account-menu" aria-label="My account">
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Tony Stark</p>
+            <p class="account-menu-role">Admin Account</p>
+            <ul class="account-menu-list">
+              <li><a href="#">Manage Purchasing Accounts</a></li>
+            </ul>
+          </div>
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Profile</p>
+            <ul class="account-menu-list">
+              <li><a href="#">Update Personal Info</a></li>
+              <li><a href="#">Update Password</a></li>
+              <li><a href="#">Favorites</a></li>
+              <li><a href="#">Notifications</a></li>
+              <li><a href="#">Saved Carts</a></li>
+            </ul>
+          </div>
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Account Preferences</p>
+            <ul class="account-menu-list">
+              <li><a href="#">Payment Methods</a></li>
+              <li><a href="#">Shipping Addresses</a></li>
+              <li><a href="#">Shipping Methods</a></li>
+            </ul>
+          </div>
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Orders</p>
+            <ul class="account-menu-list">
+              <li><a href="orders_B2B.html">All Orders</a></li>
+            </ul>
+          </div>
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Quotes</p>
+            <ul class="account-menu-list">
+              <li><a href="#">All Quotes</a></li>
+              <li><a href="#">Request A Quote</a></li>
+            </ul>
+          </div>
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Invoices</p>
+            <ul class="account-menu-list">
+              <li><a href="#">Invoices</a></li>
+              <li><a href="#">Active Invoices</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="account-section">
+          <div class="account-cards">
+            <section class="account-card" aria-labelledby="account_card_personal">
+              <h2 class="account-card-title" id="account_card_personal">Personal information</h2>
+              <div class="account-card-body account-card-body--center">
+                <p>Tony Stark</p>
+                <p>CEO</p>
+                <p>tony.stark@stark.com</p>
+                <p>(555) 555-5555</p>
+              </div>
+              <a class="account-card-link" href="#">Edit Personal information</a>
+            </section>
+            <section class="account-card" aria-labelledby="account_card_purchasing">
+              <h2 class="account-card-title" id="account_card_purchasing">Purchasing Account</h2>
+              <p class="account-card-note">Account No. 12345678</p>
+              <div class="account-card-body account-card-body--center">
+                <p>Company Name or Location Name</p>
+                <p>28420 Oma Harbor Suite 871</p>
+                <p>Pittsburg, Rhode Island, 11392</p>
+              </div>
+              <a class="account-card-link" href="#">Select Accounts</a>
+            </section>
+            <section class="account-card" aria-labelledby="account_card_addresses">
+              <h2 class="account-card-title" id="account_card_addresses">Shipping Addresses</h2>
+              <div class="account-card-body">
+                <p>Company Name or Location Name</p>
+                <p>28420 Oma Harbor Suite 871</p>
+                <p>Pittsburg, Rhode Island, 11392</p>
+                <p>United States</p>
+              </div>
+              <a class="account-card-link" href="#">Select Default Address</a>
+            </section>
+            <section class="account-card" aria-labelledby="account_card_payment">
+              <h2 class="account-card-title" id="account_card_payment">Payment Methods</h2>
+              <div class="account-card-body">
+                <p>Company Account: 12345678</p>
+              </div>
+              <a class="account-card-link" href="#">Edit Payment Method</a>
+            </section>
+            <section class="account-card" aria-labelledby="account_card_shipping">
+              <h2 class="account-card-title" id="account_card_shipping">Shipping Methods</h2>
+              <div class="account-card-body account-card-body--note">
+                <p>USPS Ground (5-7 Days)</p>
+              </div>
+              <a class="account-card-link" href="#">Select Default Shipping Method</a>
+            </section>
+            <!-- Past due takes precedence; otherwise the latest invoice number -->
+            <section class="account-card" aria-labelledby="account_card_invoices">
+              <h2 class="account-card-title" id="account_card_invoices">Invoices</h2>
+              <div class="account-card-body">
+                <p class="account-card-alert">You Have Past Due Invoices</p>
+              </div>
+              <a class="account-card-link" href="#">View All Invoices</a>
+            </section>
+          </div>
+        </div>
+      </div>
     </div>
     <div id="footer"></div>
   </body>
