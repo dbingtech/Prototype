@@ -1384,6 +1384,149 @@
             });
         } // end if (compareTable)
 
+        // Orders (orders_B2B.html): the table (LG+) is the source; the accordion list (MD and smaller) is built from it.
+        // Search and "Show open orders only" filter both; Order # sorts both. Styles in _orders.scss.
+        const ordersTable = document.getElementById('orders_table');
+        if (ordersTable) {
+            const ordersBody = ordersTable.tBodies[0];
+            const ordersListEl = document.querySelector('#orders_list .orders-list-items');
+            const detailLabels = ['Order', 'Customer PO', 'Account', 'Order Date', 'Ordered By', 'Order Total', 'Status'];
+            const orderRows = Array.from(ordersBody.rows);
+            const itemFor = new Map();  // table row -> list item
+
+            orderRows.forEach(function (tr, i) {
+                const cells = tr.cells;
+                const online = tr.hasAttribute('data-online');
+                const orderNo = cells[1].textContent.trim();
+                const total = cells[6].textContent.trim();
+                const bodyId = 'orders_item_' + (i + 1);
+
+                const li = document.createElement('li');
+                li.className = 'orders-item';
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className = 'orders-item-toggle';
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-controls', bodyId);
+                toggle.setAttribute('aria-label', 'Order ' + orderNo + ', ' + total + (online ? ', online order' : ''));
+                toggle.innerHTML =
+                    (online ? '<img class="orders-item-icon" src="images/icons/orders/computer_24.svg" alt="" width="24" height="24">'
+                            : '<span class="orders-item-icon"></span>') +
+                    '<span class="orders-item-summary"><span class="orders-item-no"></span><span class="orders-item-total"></span></span>' +
+                    '<span class="orders-item-online">' + (online ? 'Online Order' : '') + '</span>' +
+                    '<img class="orders-item-chevron" src="images/icons/orders/chevron_24.svg" alt="" width="24" height="24">';
+                toggle.querySelector('.orders-item-no').textContent = orderNo;
+                toggle.querySelector('.orders-item-total').textContent = total;
+
+                // Details: label / value rows, then Inquire (the table's button, with the 32px envelope)
+                const body = document.createElement('div');
+                body.className = 'orders-item-body';
+                body.id = bodyId;
+                body.hidden = true;
+                const dl = document.createElement('dl');
+                dl.className = 'orders-item-details';
+                detailLabels.forEach(function (label, n) {
+                    const row = document.createElement('div');
+                    row.className = 'orders-detail';
+                    const dt = document.createElement('dt');
+                    dt.textContent = label;
+                    const dd = document.createElement('dd');
+                    Array.from(cells[n + 1].childNodes).forEach(function (node) { dd.append(node.cloneNode(true)); });
+                    row.append(dt, dd);
+                    dl.append(row);
+                });
+                const inquireWrap = document.createElement('div');
+                inquireWrap.className = 'orders-item-inquire';
+                const inquire = cells[8].querySelector('.orders-inquire').cloneNode(true);
+                const envelope = inquire.querySelector('img');
+                envelope.src = 'images/icons/orders/envelope_32.svg';
+                envelope.width = 32;
+                envelope.height = 32;
+                inquireWrap.append(inquire);
+                body.append(dl, inquireWrap);
+
+                toggle.addEventListener('click', function () {
+                    const open = toggle.getAttribute('aria-expanded') !== 'true';
+                    toggle.setAttribute('aria-expanded', String(open));
+                    body.hidden = !open;
+                });
+                li.append(toggle, body);
+                ordersListEl.append(li);
+                itemFor.set(tr, li);
+            });
+
+            // Filters: the search matches anything in the row (order, PO, account, date, ordered by, status, tracking)
+            const searchInput = document.getElementById('orders_search');
+            const openOnly = document.getElementById('orders_open_only');
+            const emptyMsg = document.getElementById('orders_empty');
+            const ordersStatus = document.getElementById('orders_status');
+            function restripe() {
+                let n = 0;
+                Array.from(ordersBody.rows).forEach(function (tr) {
+                    if (!tr.hidden) tr.classList.toggle('is-alt', n++ % 2 === 0);
+                });
+            }
+            function applyOrderFilters() {
+                const q = searchInput.value.trim().toLowerCase();
+                let shown = 0;
+                orderRows.forEach(function (tr) {
+                    const match = (!q || tr.textContent.toLowerCase().includes(q)) &&
+                        (!openOnly.checked || tr.hasAttribute('data-open'));
+                    tr.hidden = !match;
+                    itemFor.get(tr).hidden = !match;
+                    if (match) shown++;
+                });
+                restripe();
+                emptyMsg.hidden = shown > 0;
+                ordersStatus.textContent = shown + (shown === 1 ? ' order' : ' orders') + ' shown';
+            }
+            searchInput.addEventListener('input', applyOrderFilters);
+            openOnly.addEventListener('change', applyOrderFilters);
+            restripe();
+
+            // Order #: ascending, then descending; the list follows the table's order
+            const sortTh = ordersTable.querySelector('th[aria-sort]');
+            document.getElementById('orders_sort').addEventListener('click', function () {
+                const dir = sortTh.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+                sortTh.setAttribute('aria-sort', dir);
+                const sorted = Array.from(ordersBody.rows).sort(function (a, b) {
+                    const diff = Number(a.cells[1].textContent) - Number(b.cells[1].textContent);
+                    return dir === 'ascending' ? diff : -diff;
+                });
+                sorted.forEach(function (tr) {
+                    ordersBody.append(tr);
+                    ordersListEl.append(itemFor.get(tr));
+                });
+                restripe();
+            });
+
+            // Pagination (visual only): current page and items per page
+            const orderPages = document.querySelectorAll('.orders-pagination .pdp-page');
+            const orderPrev = document.querySelector('.orders-pagination .pdp-page-arrow[data-step="-1"]');
+            const orderNext = document.querySelector('.orders-pagination .pdp-page-arrow[data-step="1"]');
+            let orderPage = 0;
+            function goToOrderPage(i) {
+                orderPages[orderPage].removeAttribute('aria-current');
+                orderPage = i;
+                orderPages[orderPage].setAttribute('aria-current', 'page');
+                orderPrev.disabled = i === 0;
+                orderNext.disabled = i === orderPages.length - 1;
+            }
+            orderPages.forEach(function (btn, i) {
+                btn.addEventListener('click', function () { goToOrderPage(i); });
+            });
+            [orderPrev, orderNext].forEach(function (btn) {
+                btn.addEventListener('click', function () { goToOrderPage(orderPage + Number(this.dataset.step)); });
+            });
+            const orderPerPage = document.querySelectorAll('.orders-pagination .pdp-per-page-opt');
+            orderPerPage.forEach(function (opt) {
+                opt.addEventListener('click', function () {
+                    orderPerPage.forEach(function (o) { o.removeAttribute('aria-current'); });
+                    this.setAttribute('aria-current', 'true');
+                });
+            });
+        } // end if (ordersTable)
+
         // Load PLP filter (plp-filter.html): facet accordions, Show More, unit toggle
         const plpFilterEl = document.getElementById('plp_filter');
         if (plpFilterEl) {

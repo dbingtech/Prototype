@@ -13,6 +13,16 @@
     @include md  { max-width: 768px; padding: 10px 24px; }
     @include sm  { max-width: 576px; padding: 8px 16px; }
     @include xsm { padding: 8px 16px; }
+
+    // XXL, XL, LG: 48px tall with the trail centered in it (grows if the row wraps)
+    @media only screen and (min-width: 992px) {
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        min-height: 48px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 }
 
 // Prototype link at the right end of the row (plp_B2B.html: "More PLP scenarios" opens the Figma file)

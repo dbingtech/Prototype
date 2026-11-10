@@ -581,6 +581,8 @@
     background-color: colors.$lightgray03;
     border-radius: 2px;
 }
+// B2C (pdpcard_B2C.html): 8px more room above the card
+.pdp-card--b2c { padding-top: 8px; }
 // B2C (pdpcard_B2C.html): just the stock count, 36px tall, 4px in from the left
 .pdp-card-avail-bar--stock {
     justify-content: flex-start;

@@ -1,0 +1,422 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+@use '../globals/responsive' as *;
+
+// Orders (orders_B2B.html). LG and larger: a table. MD and smaller: an accordion list script.js builds from it.
+$-orders-tip-bg: #EAE2CD;  // tooltip (Figma "Tooltip")
+
+// LG and larger (992px+)
+@mixin -desktop {
+    @include xxl { @content; }
+    @include xl  { @content; }
+    @include lg  { @content; }
+}
+// MD and smaller (< 992px)
+@mixin -mobile {
+    @include md  { @content; }
+    @include sm  { @content; }
+    @include xsm { @content; }
+}
+
+// Width and side padding come from #main
+.orders {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 0 32px;
+    font-family: "Inter", sans-serif;
+    color: colors.$text;
+
+    p { margin: 0; }
+    button { font-family: inherit; }
+
+    @include -mobile { gap: 16px; padding-top: 16px; }
+}
+
+// ----------------------------Search
+.orders-search {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px;
+
+    @include -mobile { padding: 0; }
+}
+.orders-note {
+    font-size: 14px;
+    font-weight: 300;
+    font-style: italic;
+
+    @include md { text-align: center; }
+}
+.orders-search-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    @include -mobile {
+        flex-direction: column;
+        gap: 16px;
+    }
+}
+// Outlined field with its label on the top border
+.orders-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 664px;
+    max-width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    padding: 4px 4px 4px 12px;
+    background-color: colors.$white;
+    border: 1px solid colors.$medgray;
+    border-radius: 4px;
+
+    &:focus-within { border-color: colors.$bdiblue; }
+
+    @include sm  { width: 100%; }
+    @include xsm { width: 100%; }
+}
+.orders-field-label {
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    padding: 0 2px;
+    background-color: colors.$white;
+    font-size: 14px;
+    line-height: 1;
+    color: colors.$medgray;
+}
+.orders-field-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: none;
+    font-family: inherit;
+    font-size: 16px;
+    color: colors.$text;
+
+    &::placeholder {
+        color: colors.$darkgray;
+        opacity: 1;
+    }
+}
+.orders-field-caret { flex-shrink: 0; }
+.orders-open-only {
+    gap: 8px;
+}
+
+// ----------------------------Table (LG and larger)
+.orders-table-wrap {
+    @include -mobile { display: none; }
+}
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+
+    th,
+    td {
+        height: 42px;
+        padding: 8px;
+        box-sizing: border-box;
+        text-align: left;
+        vertical-align: middle;
+    }
+    th {
+        background-color: colors.$bdiblue;
+        font-weight: 600;
+        line-height: 20px;
+        color: colors.$white;
+        white-space: nowrap;
+    }
+    // Zebra stripe on the visible rows (script.js sets .is-alt after each filter or sort)
+    tbody tr.is-alt td { background-color: colors.$tablerow; }
+    tbody tr[hidden] { display: none; }
+
+    // Numbers, dates and tracking stay whole; on LG Customer PO, Ordered By and the status text wrap
+    td { white-space: nowrap; }
+    td:nth-child(3),
+    td:nth-child(6),
+    .orders-status { white-space: normal; }
+    td:nth-child(6) { overflow-wrap: anywhere; }  // email addresses
+}
+.orders-icon-col { width: 40px; }
+.orders-col-po { width: 15.7%; }
+.orders-col-by { width: 19.3%; }
+.orders-col-status { width: 26%; }
+.orders-col-center { text-align: center !important; }
+.orders-num { text-align: right !important; white-space: nowrap; }
+.orders-icon-cell {
+    width: 40px;
+    line-height: 0;
+}
+
+// Order # sorts the rows (script.js); the lit caret shows the direction
+.orders-sort {
+    @include focus.focus-ring-base;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    color: colors.$white;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$white); }
+}
+.orders-sort-icon {
+    position: relative;
+    width: 16px;
+    height: 22px;
+
+    img {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .orders-sort-up   { top: -2px; }
+    .orders-sort-down { top: 4px; }
+}
+th[aria-sort="ascending"] .orders-sort-up,
+th[aria-sort="descending"] .orders-sort-down { filter: brightness(0) invert(1); }
+
+.orders-link {
+    @include focus.focus-ring-base;
+    border-radius: 2px;
+    color: colors.$text;
+    text-decoration: underline;
+
+    &:hover { text-decoration: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
+// Status: tracking numbers under it on LG and in the list; XL and XXL show the status alone (Figma)
+.orders-status-cell { text-align: left; }
+.orders-tracking {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+
+    @include xxl { display: none; }
+    @include xl  { display: none; }
+}
+.orders-status { display: block; }
+@include lg {
+    .orders-status-cell { text-align: center; }
+}
+
+// ----------------------------Online-order icon and Inquire, each with a tooltip on hover or focus
+.orders-online,
+.orders-inquire {
+    @include focus.focus-ring-base;
+    position: relative;
+    display: inline-flex;
+    border-radius: 2px;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+    &:hover .orders-tip,
+    &:focus-visible .orders-tip {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+.orders-inquire {
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.orders-tip {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 8px);
+    transform: translateY(-50%);
+    z-index: 10;
+    padding: 4px;
+    background-color: $-orders-tip-bg;
+    border: 1px solid colors.$medgray;
+    font-size: 12px;
+    line-height: normal;
+    color: colors.$text;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+
+    @media (prefers-reduced-motion: reduce) { transition: none; }
+
+    // Inquire sits at the right edge of the table, so its tooltip opens to the left
+    &--left {
+        left: auto;
+        right: calc(100% + 8px);
+    }
+}
+// In the list the envelope is centered: tooltip above it
+.orders-item .orders-tip--left {
+    top: auto;
+    bottom: calc(100% + 4px);
+    right: 50%;
+    transform: translateX(50%);
+}
+
+// ----------------------------List (MD and smaller)
+.orders-list {
+    display: none;
+
+    @include -mobile {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+.orders-list-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 40px;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    background-color: colors.$bdiblue;
+    border-bottom: 2px solid colors.$medgray;
+    font-size: 16px;
+    font-weight: 600;
+    color: colors.$white;
+    text-decoration: underline;
+}
+.orders-list-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.orders-list-items li[hidden] { display: none; }
+.orders-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 2px solid colors.$medgray;
+}
+// The row that opens and closes the details
+.orders-item-toggle {
+    @include focus.focus-ring-base;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 4px;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    font-size: 16px;
+    color: colors.$text;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.orders-item-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+}
+.orders-item-summary {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 0;
+}
+.orders-item-no { text-decoration: underline; }
+.orders-item-online {
+    flex: 1;
+    font-size: 14px;
+}
+// chevron_24 points left: right when closed, down when open
+.orders-item-chevron {
+    flex-shrink: 0;
+    transform: rotate(180deg);
+}
+.orders-item-toggle[aria-expanded="true"] .orders-item-chevron { transform: rotate(-90deg); }
+// Closed: Order # and total. Open: "Online Order" (or nothing), the details below
+.orders-item-toggle[aria-expanded="true"] .orders-item-summary,
+.orders-item-toggle[aria-expanded="false"] .orders-item-online { display: none; }
+
+.orders-item-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    &[hidden] { display: none; }
+}
+.orders-item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+}
+.orders-detail {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 32px;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    font-size: 16px;
+
+    &:nth-child(odd) { background-color: colors.$tablerow; }
+
+    dt {
+        flex-shrink: 0;
+        width: 128px;
+        font-weight: 600;
+        line-height: 20px;
+    }
+    dd {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+        margin: 0;
+        line-height: 20px;
+        text-align: right;
+        overflow-wrap: anywhere;
+    }
+    .orders-tracking {
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+    }
+}
+.orders-item-inquire {
+    display: flex;
+    justify-content: center;
+    min-height: 42px;
+    padding: 4px 8px;
+    box-sizing: border-box;
+}
+
+.orders-empty {
+    padding: 16px 8px;
+    font-size: 16px;
+}
+
+// ----------------------------Pagination (.pdp-pagination, _pdp.scss): right aligned; centered under the list
+.orders-pagination {
+    @include -mobile { align-self: center; }
+}
