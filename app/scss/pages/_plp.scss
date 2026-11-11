@@ -148,6 +148,11 @@ $-plp-divider: #ACABAB;  // result dividers
 .plp-card-image {
     object-fit: contain;
 }
+// The image links to the PDP, like the title (plp-card*.html)
+.plp-card-image-link {
+    display: flex;
+    justify-content: center;
+}
 
 .plp-card-details {
     grid-column: 2;
@@ -476,6 +481,58 @@ $-plp-divider: #ACABAB;  // result dividers
     &:focus-visible::after {
         opacity: 1;
         visibility: visible;
+    }
+}
+
+// Guest card (plp-card.html): the tooltip is a link to register.html instead of the aria-label text.
+// It shows on hover or keyboard focus anywhere in the wrapper, or when the heart is tapped (.is-open,
+// script.js), and stays open while the pointer crosses the 4px gap into it.
+.plp-fav-guest {
+    position: relative;
+    display: inline-flex;
+
+    .plp-fav-btn--guest::after { content: none; }
+}
+.plp-fav-tip {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    padding: 4px 8px;
+    border: 1px solid colors.$bdiblue;
+    border-radius: 4px;
+    background-color: colors.$lightgray03;
+    color: colors.$text;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-decoration: underline;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
+    z-index: 10;
+    @include focus.focus-ring-base;
+
+    &::before {  // hover bridge over the gap
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 100%;
+        height: 4px;
+    }
+    &:hover { color: colors.$text; text-decoration-thickness: 2px; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+
+    .plp-fav-guest:hover &,
+    .plp-fav-guest:focus-within &,
+    .plp-fav-guest.is-open & {
+        opacity: 1;
+        visibility: visible;
+    }
+    .plp-fav-guest.is-dismissed & {  // 4s after a click, or Escape: gone at once, no fade
+        opacity: 0;
+        visibility: hidden;
+        transition: none;
     }
 }
 

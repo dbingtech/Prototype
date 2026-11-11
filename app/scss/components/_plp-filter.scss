@@ -112,7 +112,9 @@ $-plp-divider: #ACABAB;  // categories divider
     padding: 0 8px;
 }
 
+// Slide-in panel only (plp-filter-drawer below), and only while there are pills (hidden, script.js)
 .plp-filter-reset {
+    display: none;
     @include focus.focus-ring-base;
     padding: 0;
     background: none;
@@ -351,6 +353,7 @@ $-plp-divider: #ACABAB;  // categories divider
         margin-left: -6px;
     }
     .plp-show-more { margin-left: -4px; }                 // its 4px padding
+    .plp-filter-reset:not([hidden]) { display: inline-block; }
     // Search Diameter + in/mm switch: the box gives up width rather than overflow the panel
     .plp-input-toggle { gap: 8px; }
     .plp-input-toggle .plp-input {

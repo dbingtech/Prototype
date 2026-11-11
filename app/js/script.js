@@ -2116,8 +2116,11 @@
                 }
 
                 // The bar keeps its space with no pills; only Reset Filters goes away
+                // The panel's Reset Filters (slide-in panel only, CSS) shows only while there are pills
                 function updatePillBar() {
                     if (pillBar) pillBar.classList.toggle('is-empty', pillList.children.length === 0);
+                    const panelReset = plpFilterEl.querySelector('.plp-filter-reset');
+                    if (panelReset && pillList) panelReset.hidden = pillList.children.length === 0;
                     updatePillScroll();
                 }
 
@@ -2216,7 +2219,12 @@
                 }
                 const resetBtn = document.getElementById('plp_reset_filters');
                 if (resetBtn) resetBtn.addEventListener('click', resetFilters);
-                plpFilterEl.querySelector('.plp-filter-reset').addEventListener('click', resetFilters);
+                // The panel's Reset Filters hides itself once the pills are gone: focus goes to In Stock
+                plpFilterEl.querySelector('.plp-filter-reset').addEventListener('click', function () {
+                    resetFilters();
+                    const first = plpFilterEl.querySelector('.plp-filter-top input');
+                    if (first) first.focus();
+                });
             });
         } // end if (plpFilterEl)
 
@@ -2324,6 +2332,47 @@
                     return;
                 }
                 setCardQty(pill, parseInt(typed, 10));
+            });
+            // Guest heart (plp-card.html): the "Register for an account" link shows on hover or focus, and on a
+            // click/tap (touch has no hover). After a click it disappears 4 seconds later with no fade, even if the
+            // pointer or focus is still there (.is-dismissed, cleared when they leave). Escape or a click
+            // elsewhere closes it right away.
+            function closeGuestFavTips(except) {
+                plpEl.querySelectorAll('.plp-fav-guest.is-open').forEach(function (wrap) {
+                    if (wrap === except) return;
+                    clearTimeout(wrap.tipTimer);
+                    wrap.classList.remove('is-open');
+                    wrap.querySelector('.plp-fav-btn--guest').setAttribute('aria-expanded', 'false');
+                });
+            }
+            document.addEventListener('click', function (e) {
+                const guestBtn = e.target.closest('.plp-fav-btn--guest');
+                const wrap = guestBtn && guestBtn.closest('.plp-fav-guest');
+                closeGuestFavTips(wrap);
+                if (!wrap) return;
+                clearTimeout(wrap.tipTimer);
+                wrap.classList.remove('is-dismissed');
+                wrap.classList.add('is-open');
+                guestBtn.setAttribute('aria-expanded', 'true');
+                wrap.tipTimer = setTimeout(function () {
+                    wrap.classList.remove('is-open');
+                    wrap.classList.add('is-dismissed');
+                    guestBtn.setAttribute('aria-expanded', 'false');
+                }, 4000);
+            });
+            plpEl.addEventListener('keydown', function (e) {
+                if (e.key !== 'Escape') return;
+                const wrap = e.target.closest('.plp-fav-guest');
+                if (!wrap) return;
+                closeGuestFavTips();
+                wrap.classList.add('is-dismissed');  // hidden until focus or the pointer leaves
+                wrap.querySelector('.plp-fav-btn--guest').focus();
+            });
+            ['focusout', 'mouseout'].forEach(function (type) {
+                plpEl.addEventListener(type, function (e) {
+                    const wrap = e.target.closest('.plp-fav-guest');
+                    if (wrap && !wrap.contains(e.relatedTarget)) wrap.classList.remove('is-dismissed');
+                });
             });
             plpEl.addEventListener('click', function (e) {
                 const favoriteBtn = e.target.closest('.plp-card-favorite');
