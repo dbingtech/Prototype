@@ -535,6 +535,11 @@ $-plp-divider: #ACABAB;  // result dividers
         transition: none;
     }
 }
+// PLP guest card: plain text, not a link (the PDP's guest tooltip is still a link to register.html)
+.plp-fav-tip--text {
+    text-decoration: none;
+    cursor: default;
+}
 
 // ----------------------------Applied-filter pills + Reset Filters
 $-pill-border: #557C92;

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logos/Favicon.png" />
+    <link rel="stylesheet" type="text/css" href="dist/styles.css" />
+    <title>Prototype Changelog</title>
+    <!-- Internal page for the prototype team, not part of BDIexpress.com: no header, navbar or script.js.
+         Styles stay on this page so they don't touch the site CSS. -->
+    <style>
+      .changelog {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 32px 24px 64px;
+        font-family: "Inter", sans-serif;
+        color: #000;
+        line-height: 1.5;
+      }
+      .changelog h1 { margin: 0 0 4px; color: #20485c; font-size: 32px; }
+      .changelog-intro { margin: 0 0 32px; color: #6a6a6a; }
+      .changelog-entry {
+        padding: 20px 0;
+        border-top: 1px solid #e5e5e5;
+      }
+      .changelog-entry h2 {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 4px 12px;
+        margin: 0 0 8px;
+        font-size: 20px;
+        font-weight: 600;
+        font-variation-settings: "wght" 600;
+        color: #20485c;
+      }
+      .changelog-entry ul { margin: 0; padding-left: 20px; }
+      .changelog-entry li + li { margin-top: 4px; }
+      .changelog-entry strong { font-weight: 600; font-variation-settings: "wght" 600; }
+      .changelog-older { margin-top: 32px; color: #6a6a6a; }
+      @media only screen and (max-width: 575px) {
+        .changelog { padding: 24px 16px 48px; }
+        .changelog h1 { font-size: 26px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="changelog">
+      <h1>Prototype Changelog</h1>
+      <p class="changelog-intro">One entry per commit, newest first. Each heading is the commit title (the commit time).</p>
+
+      <!-- New entries go at the top, just below this line, before each commit. -->
+      <article class="changelog-entry" aria-labelledby="c_2026_11_11_15_45">
+        <h2 id="c_2026_11_11_15_45"><time datetime="2026-11-11T15:45">2026-11-11_15:45</time></h2>
+        <ul>
+          <li><strong>Changelog:</strong> new changelog.html, a running list of changes for each commit. Linked from the footer at the bottom right, beside the copyright (under it on SM and XSM). Removed the footer's divider line.</li>
+          <li><strong>PLP (guest):</strong> the heart's tooltip now reads "Register to Save Favorites", as plain text (no link).</li>
+          <li><strong>PDP (guest):</strong> the heart has the light gray "Register for an account" tooltip, linked to register.html. It shows on hover or focus and disappears 4 seconds after a click.</li>
+          <li><strong>PDP (guest):</strong> new gray bar under Mfr Part No. with "Available to Order", which opens the lead-time modal.</li>
+          <li><strong>PDP (guest):</strong> the Prop 65 icon sits halfway between the copy icon and Add To Cart on desktop, like B2C.</li>
+          <li><strong>All PDPs:</strong> removed the Compare checkbox; the heart stays at the right.</li>
+          <li><strong>Register:</strong> added "Save Favorite Items" to the Register and Sign In list.</li>
+          <li><strong>Mini cart:</strong> 8px more space between the part number and Qty / price. Lines are 72px tall, so a single item no longer shows a scroll bar.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry" aria-labelledby="c_2026_11_11_15_17">
+        <h2 id="c_2026_11_11_15_17"><time datetime="2026-11-11T15:17">2026-11-11_15:17</time></h2>
+        <ul>
+          <li><strong>PLP (guest):</strong> the heart's tooltip is now "Register for an account", a link to register.html. It shows on hover or focus; after a click it disappears after 4 seconds with no fade. Light gray background, BDI Blue border, black text. Guests can no longer favorite items.</li>
+          <li><strong>PLP filter:</strong> Reset Filters under the Filter title shows only in the pop-out filter menu (below 1200px), and only while a filter pill is active.</li>
+          <li><strong>Guest header:</strong> removed the Request a Quote link from header.html only.</li>
+          <li><strong>All PLPs:</strong> product images link to the matching PDP, like the title.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry" aria-labelledby="c_2026_11_11_10_54">
+        <h2 id="c_2026_11_11_10_54"><time datetime="2026-11-11T10:54">2026-11-11_10:54</time></h2>
+        <ul>
+          <li><strong>Quote Details:</strong> new quotedetail_B2B.html and quotedetail_B2C.html from the Figma wireframe: details, Quote Summary, item cards with quantity pills, Add To Cart, Add All Items To Cart, Buy All Items Now, and an expired state with Requote.</li>
+          <li><strong>Quote Details:</strong> the quote number from the Quotes page shows at the end of the title and in the breadcrumb. "Items in your Quote" is 20px semibold; a smaller Add Item button at XSM.</li>
+          <li><strong>Quotes:</strong> open quotes have future expiration dates; the Requote rows keep their past dates.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry" aria-labelledby="c_2026_11_11_8_41">
+        <h2 id="c_2026_11_11_8_41"><time datetime="2026-11-11T08:41">2026-11-11_8:41</time></h2>
+        <ul>
+          <li><strong>Quotes:</strong> new quotes_B2B.html and quotes_B2C.html from Figma: search, sortable table that scrolls sideways at LG, stacked list on mobile, Add To Cart for checked quotes, Requote on expired quotes, pagination.</li>
+          <li><strong>Cart:</strong> new cart.html, cart_B2B.html and cart_B2C.html (empty shells for now). The mini cart keeps its items across pages.</li>
+          <li><strong>Mini cart:</strong> View Cart goes to the cart page for the current version (B2B, B2C or guest).</li>
+          <li><strong>Navbars and My Account:</strong> Quotes links go to the new Quotes pages.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry" aria-labelledby="c_2026_11_11_8_15">
+        <h2 id="c_2026_11_11_8_15"><time datetime="2026-11-11T08:15">2026-11-11_8:15</time></h2>
+        <ul>
+          <li><strong>PLP filter:</strong> consistent left inset in the pop-out menu (24px at LG and MD, 16px at SM and XSM), and a Reset Filters link under the Filter title.</li>
+          <li><strong>All menu:</strong> removed the edge-to-edge line under Overstock.</li>
+          <li><strong>index_B2B:</strong> same homepage product cards as index_B2C.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry" aria-labelledby="c_2026_11_11_8_04">
+        <h2 id="c_2026_11_11_8_04"><time datetime="2026-11-11T08:04">2026-11-11_8:04</time></h2>
+        <ul>
+          <li><strong>index_B2C product cards:</strong> real products and images: Boston Gear and Worldwide Electric show Request a Price, Leeson $1,479.55, Lubriplate SFGO ULTRA-220 55 gal drum $9,820.35, DeWalt $9.19, 1552 $22.11/each.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry" aria-labelledby="c_2026_11_10_19_50">
+        <h2 id="c_2026_11_10_19_50"><time datetime="2026-11-10T19:50">2026-11-10_19:50</time></h2>
+        <ul>
+          <li><strong>Orders:</strong> search field from Figma: the placeholder clears on focus, an X clears the field, and a spyglass replaces the caret.</li>
+          <li><strong>Mini cart:</strong> 360px wide; each line shows quantity and price; part numbers truncate; price text 2px larger.</li>
+          <li><strong>Versions:</strong> the logo and Home links keep you in the current version (B2B, B2C, SS, China, Mexico).</li>
+          <li><strong>B2C:</strong> new hero welcome ("Welcome, Bruce!"); user name Bruce Banner in menus; new orders_B2C.html, linked from the B2C navbar.</li>
+        </ul>
+      </article>
+
+      <p class="changelog-older">Earlier commits aren't described here; see the repository's commit history.</p>
+    </main>
+  </body>
+</html>

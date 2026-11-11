@@ -83,8 +83,10 @@
 }
 
 // Three line items show, then the list scrolls (visible scrollbar, per the wireframe):
-// 3 x 64px items + 2 x (8px gap + 1px divider + 8px gap) = 226px
+// 3 x 72px items + 2 x (8px gap + 1px divider + 8px gap) = 250px. The image is 64px; the line is 72px so the
+// three text rows fit with 8px extra above Qty / price
 $-cart-line: 64px;
+$-cart-line-h: 72px;
 $-cart-gap: 8px;
 .cart-modal-items {
     display: flex;
@@ -92,7 +94,7 @@ $-cart-gap: 8px;
     align-items: center;
     gap: $-cart-gap;
     width: 100%;
-    max-height: calc(3 * #{$-cart-line} + 2 * (2 * #{$-cart-gap} + 1px));
+    max-height: calc(3 * #{$-cart-line-h} + 2 * (2 * #{$-cart-gap} + 1px));
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -120,7 +122,7 @@ $-cart-gap: 8px;
     align-items: center;
     gap: 12px;
     width: 100%;
-    height: $-cart-line;
+    height: $-cart-line-h;
     flex-shrink: 0;
 }
 
@@ -135,7 +137,7 @@ $-cart-gap: 8px;
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: 4px;  // three rows (name, part, qty + price) fit the 64px line
+    gap: 4px;  // three rows (name, part, qty + price) fit the 72px line
     min-width: 0;
     font-size: 14px;
 }
@@ -150,7 +152,9 @@ $-cart-gap: 8px;
     white-space: nowrap;
 }
 
+// 8px more space above Qty / price (12px from the part number)
 .cart-line-item-row {
+    margin-top: 8px;
     display: flex;
     align-items: baseline;
     justify-content: space-between;

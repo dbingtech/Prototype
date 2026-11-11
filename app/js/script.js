@@ -900,17 +900,9 @@
                 pdpcardEl.innerHTML = data;
                 if (product) fillPdpCard(product);
 
-                // Compare: checking it takes the user down to Alternatives to pick items to compare with.
-                // Focus stays on the checkbox; unchecking doesn't scroll.
-                document.getElementById('pdp_compare').addEventListener('change', function () {
-                    const alternatives = document.getElementById('pdp_alternatives');
-                    if (!this.checked || !alternatives) return;
-                    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                    alternatives.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-                });
-
+                // Signed-in cards only; the guest card's heart shows "Register for an account" instead
                 const favoriteBtn = document.getElementById('pdp_favorite');
-                favoriteBtn.addEventListener('click', function () {
+                if (favoriteBtn) favoriteBtn.addEventListener('click', function () {
                     const on = this.getAttribute('aria-pressed') !== 'true';
                     this.setAttribute('aria-pressed', String(on));
                     this.setAttribute('aria-label', on ? 'Remove from favorites' : 'Add to favorites');
@@ -2286,6 +2278,48 @@
             });
         } // end if (plpCardsEl)
 
+        // Guest heart (plp-card.html, pdpcard.html): the "Register for an account" link shows on hover or focus, and on a
+        // click/tap (touch has no hover). After a click it disappears 4 seconds later with no fade, even if the
+        // pointer or focus is still there (.is-dismissed, cleared when they leave). Escape or a click
+        // elsewhere closes it right away.
+        function closeGuestFavTips(except) {
+            document.querySelectorAll('.plp-fav-guest.is-open').forEach(function (wrap) {
+                if (wrap === except) return;
+                clearTimeout(wrap.tipTimer);
+                wrap.classList.remove('is-open');
+                wrap.querySelector('.plp-fav-btn--guest').setAttribute('aria-expanded', 'false');
+            });
+        }
+        document.addEventListener('click', function (e) {
+            const guestBtn = e.target instanceof Element && e.target.closest('.plp-fav-btn--guest');
+            const wrap = guestBtn && guestBtn.closest('.plp-fav-guest');
+            closeGuestFavTips(wrap);
+            if (!wrap) return;
+            clearTimeout(wrap.tipTimer);
+            wrap.classList.remove('is-dismissed');
+            wrap.classList.add('is-open');
+            guestBtn.setAttribute('aria-expanded', 'true');
+            wrap.tipTimer = setTimeout(function () {
+                wrap.classList.remove('is-open');
+                wrap.classList.add('is-dismissed');
+                guestBtn.setAttribute('aria-expanded', 'false');
+            }, 4000);
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape' || !(e.target instanceof Element)) return;
+            const wrap = e.target.closest('.plp-fav-guest');
+            if (!wrap) return;
+            closeGuestFavTips();
+            wrap.classList.add('is-dismissed');  // hidden until focus or the pointer leaves
+            wrap.querySelector('.plp-fav-btn--guest').focus();
+        });
+        ['focusout', 'mouseout'].forEach(function (type) {
+            document.addEventListener(type, function (e) {
+                const wrap = e.target instanceof Element && e.target.closest('.plp-fav-guest');
+                if (wrap && !wrap.contains(e.relatedTarget)) wrap.classList.remove('is-dismissed');
+            });
+        });
+
         // PLP cards: favorites, copy (delegated, since cards load after this runs)
         const plpEl = document.getElementById('plp');
         if (plpEl) {
@@ -2332,47 +2366,6 @@
                     return;
                 }
                 setCardQty(pill, parseInt(typed, 10));
-            });
-            // Guest heart (plp-card.html): the "Register for an account" link shows on hover or focus, and on a
-            // click/tap (touch has no hover). After a click it disappears 4 seconds later with no fade, even if the
-            // pointer or focus is still there (.is-dismissed, cleared when they leave). Escape or a click
-            // elsewhere closes it right away.
-            function closeGuestFavTips(except) {
-                plpEl.querySelectorAll('.plp-fav-guest.is-open').forEach(function (wrap) {
-                    if (wrap === except) return;
-                    clearTimeout(wrap.tipTimer);
-                    wrap.classList.remove('is-open');
-                    wrap.querySelector('.plp-fav-btn--guest').setAttribute('aria-expanded', 'false');
-                });
-            }
-            document.addEventListener('click', function (e) {
-                const guestBtn = e.target.closest('.plp-fav-btn--guest');
-                const wrap = guestBtn && guestBtn.closest('.plp-fav-guest');
-                closeGuestFavTips(wrap);
-                if (!wrap) return;
-                clearTimeout(wrap.tipTimer);
-                wrap.classList.remove('is-dismissed');
-                wrap.classList.add('is-open');
-                guestBtn.setAttribute('aria-expanded', 'true');
-                wrap.tipTimer = setTimeout(function () {
-                    wrap.classList.remove('is-open');
-                    wrap.classList.add('is-dismissed');
-                    guestBtn.setAttribute('aria-expanded', 'false');
-                }, 4000);
-            });
-            plpEl.addEventListener('keydown', function (e) {
-                if (e.key !== 'Escape') return;
-                const wrap = e.target.closest('.plp-fav-guest');
-                if (!wrap) return;
-                closeGuestFavTips();
-                wrap.classList.add('is-dismissed');  // hidden until focus or the pointer leaves
-                wrap.querySelector('.plp-fav-btn--guest').focus();
-            });
-            ['focusout', 'mouseout'].forEach(function (type) {
-                plpEl.addEventListener(type, function (e) {
-                    const wrap = e.target.closest('.plp-fav-guest');
-                    if (wrap && !wrap.contains(e.relatedTarget)) wrap.classList.remove('is-dismissed');
-                });
             });
             plpEl.addEventListener('click', function (e) {
                 const favoriteBtn = e.target.closest('.plp-card-favorite');
@@ -2610,11 +2603,13 @@
                     });
                 });
 
-            // Under the icon, right edges lined up; kept on screen with a 16px margin
+            // Under the icon, right edges lined up; kept on screen with a 16px margin. "Available to Order" (left end
+            // of the guest PDP's gray bar) lines up left edges instead, so the modal doesn't cover the image.
             function placeAvailModal() {
                 const r = availBtn.getBoundingClientRect();
                 const width = availModal.offsetWidth;
-                const left = Math.max(16, Math.min(r.right - width, document.documentElement.clientWidth - width - 16));
+                const anchor = availBtn.classList.contains('pdp-card-avail-order') ? r.left : r.right - width;
+                const left = Math.max(16, Math.min(anchor, document.documentElement.clientWidth - width - 16));
                 availModal.style.top = (r.bottom + window.scrollY + 4) + 'px';
                 availModal.style.left = (left + window.scrollX) + 'px';
             }

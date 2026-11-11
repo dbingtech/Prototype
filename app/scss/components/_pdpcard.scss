@@ -83,34 +83,19 @@
     align-items: center;
     gap: 12px;
 }
+// The heart at the right (no Compare checkbox on the PDP)
 .pdp-card-media-top {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
 
     // Room for the share icon at the end of this row when stacked
     @include -stacked { padding-right: 48px; }
 }
-.pdp-card-compare {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 16px;
-    cursor: pointer;
-
-    input {
-        width: 24px;
-        height: 24px;
-        margin: 0;
-        accent-color: colors.$bdiblue;
-        cursor: pointer;
-        @include focus.focus-ring-base;
-        &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
-    }
-}
 // Favorite uses the PLP toggle (.plp-fav-btn in _plp.scss: red halo on hover/press, filled heart when on, tooltip).
 // Negative margin keeps its 44px hit target from making the row taller or pulling the heart off the edge.
+// Guest card (pdpcard.html): the class is on the .plp-fav-guest wrapper, so its tooltip sits under the heart.
 .pdp-card .pdp-card-favorite {
     margin: -8px;
 }
@@ -433,17 +418,20 @@
     }
 }
 
-// B2C (pdpcard_B2C.html), LG+: the P65 icon sits halfway between the copy icon and Add To Cart, tooltip underneath.
+// B2C (pdpcard_B2C.html) and guest (pdpcard.html), LG+: the P65 icon sits halfway between the copy icon and
+// Add To Cart, tooltip underneath.
 // It spans the BDI No. row's free columns (from the copy icon's 12px gap to the end of the info column), centers
 // there, then shifts right by half the space between the info column and the button: (56 - 12) / 2 on XL and XXL,
 // (16 - 12) / 2 on LG. MD and smaller keep it after the copy icon (the button is below; tooltip already underneath)
 @include -columns {
-    .pdp-card--b2c .pdp-card-p65 {
+    .pdp-card--b2c .pdp-card-p65,
+    .pdp-card--guest .pdp-card-p65 {
         grid-column: 3 / -1;
         justify-self: center;
         left: 22px;
     }
-    .pdp-card--b2c .pdp-card-p65-tip {
+    .pdp-card--b2c .pdp-card-p65-tip,
+    .pdp-card--guest .pdp-card-p65-tip {
         top: calc(100% + 8px);
         left: 50%;
         transform: translateX(-50%);
@@ -451,6 +439,14 @@
 }
 @include lg {
     .pdp-card--b2c .pdp-card-p65 { left: 2px; }
+}
+// Guest: the Add To Cart button is narrower than its column on XL, so the gap to it is 118px there
+// ((118 - 12) / 2), 14px on LG ((14 - 12) / 2); XXL matches B2C (56px gap)
+@include xl {
+    .pdp-card--guest .pdp-card-p65 { left: 53px; }
+}
+@include lg {
+    .pdp-card--guest .pdp-card-p65 { left: 1px; }
 }
 
 // ----------------------------B2B (pdpcard_B2B.html): stock badge, Cust No., availability, was-price, Buy Now

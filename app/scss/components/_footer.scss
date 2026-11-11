@@ -78,7 +78,6 @@ footer {
 .footer-bottom {
     margin-top: 40px;
     padding: 20px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .footer-bottom-center {
@@ -206,4 +205,31 @@ footer {
     font-size: 16px;
     color: colors.$white;
     padding: 12px 0 20px;
+}
+
+// Copyright centered with Prototype Changelog (changelog.html, prototype only) at the right on the same line.
+// The 1fr side columns keep the copyright centered. SM and XSM: the link goes under the copyright.
+@mixin -footer-row-stacked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 24px;
+
+    .footer-copyright { padding-bottom: 4px; }
+}
+.footer-bottom-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: baseline;
+    column-gap: 16px;
+
+    .footer-copyright { grid-column: 2; }
+
+    @include sm  { @include -footer-row-stacked; }
+    @include xsm { @include -footer-row-stacked; }
+}
+.footer-changelog-link {
+    grid-column: 3;
+    justify-self: end;
+    white-space: nowrap;
 }

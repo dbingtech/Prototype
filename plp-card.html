@@ -2,12 +2,12 @@
   <div class="plp-card-media">
     <div class="plp-card-actions">
       <label class="plp-check plp-check--20"><input type="checkbox"><span>Compare</span></label>
-      <!-- Guest: no favorites without an account. The tooltip is a real link (hover, focus, or tap the heart). -->
+      <!-- Guest: no favorites without an account. Plain-text tooltip (hover, focus, or tap the heart; script.js). -->
       <div class="plp-fav-guest">
         <button type="button" class="plp-fav-btn plp-fav-btn--guest" aria-label="Add 6202 to favorites" aria-describedby="plp_fav_tip_{{n}}" aria-expanded="false" aria-controls="plp_fav_tip_{{n}}">
           <img class="plp-fav-icon plp-fav-icon--off" src="images/icons/plp/heart_24.svg" alt="" width="24" height="24">
         </button>
-        <a class="plp-fav-tip" id="plp_fav_tip_{{n}}" href="register.html">Register for an account</a>
+        <span class="plp-fav-tip plp-fav-tip--text" id="plp_fav_tip_{{n}}" role="tooltip">Register to Save Favorites</span>
       </div>
     </div>
     <!-- Same page as the title link; left out of the tab order and screen readers so the card has one link to it -->

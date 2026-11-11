@@ -1,15 +1,14 @@
-<section class="pdp-card" aria-labelledby="pdp_title">
-  <!-- Media: compare, favorite, main image, thumbnails -->
+<section class="pdp-card pdp-card--guest" aria-labelledby="pdp_title">
+  <!-- Media: favorite, main image, thumbnails -->
   <div class="pdp-card-media">
     <div class="pdp-card-media-top">
-      <label class="pdp-card-compare">
-        <input type="checkbox" id="pdp_compare">
-        Compare
-      </label>
-      <button type="button" id="pdp_favorite" class="plp-fav-btn pdp-card-favorite" aria-label="Add to favorites" aria-pressed="false">
-        <img class="plp-fav-icon plp-fav-icon--off" src="images/icons/plp/heart_24.svg" alt="" width="24" height="24">
-        <img class="plp-fav-icon plp-fav-icon--on" src="images/icons/plp/heart_filled_28.svg" alt="" width="24" height="24">
-      </button>
+      <!-- Guest: no favorites without an account. The tooltip is a real link (hover, focus, or tap the heart; script.js). -->
+      <div class="plp-fav-guest pdp-card-favorite">
+        <button type="button" class="plp-fav-btn plp-fav-btn--guest" aria-label="Add to favorites" aria-describedby="pdp_fav_tip" aria-expanded="false" aria-controls="pdp_fav_tip">
+          <img class="plp-fav-icon plp-fav-icon--off" src="images/icons/plp/heart_24.svg" alt="" width="24" height="24">
+        </button>
+        <a class="plp-fav-tip" id="pdp_fav_tip" href="register.html">Register for an account</a>
+      </div>
     </div>
     <button type="button" class="pdp-card-image-btn" aria-label="Enlarge image">
       <img class="pdp-card-image" src="images/products/bearing.png" alt="SKF 6202 single row ball bearing" width="328" height="328">
@@ -68,6 +67,11 @@
         </dd>
       </div>
     </dl>
+    <!-- Gray availability bar (same size as the B2B one): "Available to Order" opens the availability modal,
+         like the "Available" info icon (script.js) -->
+    <div class="pdp-card-avail-bar pdp-card-avail-bar--b2b">
+      <button type="button" class="pdp-card-avail-order" aria-haspopup="dialog" aria-expanded="false" aria-controls="availability_modal">Available to Order</button>
+    </div>
   </div>
 
   <!-- Share, price, add to cart -->
