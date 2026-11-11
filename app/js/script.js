@@ -260,6 +260,16 @@
                         if (qtyValue) qtyValue.textContent = qty.toLocaleString('en-US');
                     }
 
+                    // The cart is kept in the browser (localStorage), one cart per version (the header in use), so
+                    // what's added on one page is still there on the next. Newest first, as the lines show.
+                    const cartStoreKey = 'bdi_cart_' + headerEl.id;
+                    function saveCart() {
+                        const saved = Array.from(cartItems.querySelectorAll('.cart-line-item')).map(function (li) {
+                            return Object.assign({}, li.cartItem, { qty: parseInt(li.dataset.qty, 10) });
+                        });
+                        try { localStorage.setItem(cartStoreKey, JSON.stringify(saved)); } catch (err) { /* storage off: per page only */ }
+                    }
+
                     // Count = number of lines; Total = sum of qty x unit price (lines without a numeric price are skipped)
                     function updateCartCount() {
                         const lines = cartItems.querySelectorAll('.cart-line-item');
@@ -276,6 +286,7 @@
                         cartBadge.hidden = units === 0;
                         cartBtn.setAttribute('aria-label', units ? 'Cart, ' + units.toLocaleString('en-US') + (units === 1 ? ' item' : ' items') : 'Cart');
                         cartTotal.textContent = total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                        saveCart();
                     }
 
                     // Adds 1 (or bumps an existing line) and shows the "Added to Cart" view;
@@ -288,6 +299,7 @@
                         } else {
                             line = lineItemTemplate.cloneNode(true);
                             line.dataset.key = key;
+                            line.cartItem = { key: key, sku: item.sku, name: item.name, price: item.price, image: item.image, imageAlt: item.imageAlt || '' };
                             const img = line.querySelector('.cart-line-item-img');
                             img.src = item.image;
                             img.alt = item.imageAlt || '';
@@ -324,6 +336,30 @@
                         }
                         updateCartCount();
                     };
+
+                    // A line's quantity (0 if it isn't in the cart), so a card's pill can match a cart from an earlier page
+                    window.getMiniCartQty = function (key) {
+                        const line = findLine(key);
+                        return line ? parseInt(line.dataset.qty, 10) : 0;
+                    };
+
+                    // Put back the saved cart (oldest first, since each new line goes on top)
+                    let savedCart = [];
+                    try { savedCart = JSON.parse(localStorage.getItem(cartStoreKey)) || []; } catch (err) { savedCart = []; }
+                    savedCart.slice().reverse().forEach(function (item) {
+                        if (!item || !item.key || !(item.qty > 0)) return;
+                        window.addToMiniCart(item, null, true);
+                        setLineQty(findLine(item.key), item.qty);
+                    });
+                    if (savedCart.length) updateCartCount();
+
+                    // View Cart: the cart page with this page's suffix (plp_B2B.html -> cart_B2B.html); pages without
+                    // one (my_account.html, brands_*.html) go by their header. Versions with no cart page yet stay on #.
+                    const cartPages = { '': 'cart.html', '_B2B': 'cart_B2B.html', '_B2C': 'cart_B2C.html' };
+                    const pageSuffix = (window.location.pathname.split('/').pop().match(/(_B2B|_B2C|_SS|_EMP|_punchout|_china|_mex)\.html$/) || [])[1];
+                    const cartSuffix = pageSuffix !== undefined ? pageSuffix : headerEl.id.replace(/^header/, '');
+                    const viewCartLink = cartModal.querySelector('.cart-modal-view-link');
+                    if (viewCartLink && cartPages[cartSuffix]) viewCartLink.href = cartPages[cartSuffix];
                 }
 
             });
@@ -614,6 +650,7 @@
                     image: image.getAttribute('src'),
                     imageAlt: image.alt
                 }, pill.querySelector('.plp-qty-input'));
+                if (window.getMiniCartQty) renderQtyPill(pill, window.getMiniCartQty(card.dataset.cartKey));
                 return;
             }
             const qtyBtn = e.target.closest('.plp-qty-minus, .plp-qty-plus');
@@ -1174,6 +1211,7 @@
                             imageAlt: image.alt,
                             addedTitle: cardAdd.dataset.addedTitle
                         }, null, true);
+                        if (window.getMiniCartQty) pills.forEach(function (p) { renderQtyPill(p, window.getMiniCartQty(sku)); });
                         const pill = pills[inMini ? 1 : 0];
                         pill.querySelector('.plp-qty-input').focus();
                         showAdded(pill);
@@ -1555,32 +1593,199 @@
                 restripe();
             });
 
-            // Pagination (visual only): current page and items per page
-            const orderPages = document.querySelectorAll('.orders-pagination .pdp-page');
-            const orderPrev = document.querySelector('.orders-pagination .pdp-page-arrow[data-step="-1"]');
-            const orderNext = document.querySelector('.orders-pagination .pdp-page-arrow[data-step="1"]');
-            let orderPage = 0;
-            function goToOrderPage(i) {
-                orderPages[orderPage].removeAttribute('aria-current');
-                orderPage = i;
-                orderPages[orderPage].setAttribute('aria-current', 'page');
-                orderPrev.disabled = i === 0;
-                orderNext.disabled = i === orderPages.length - 1;
+        } // end if (ordersTable)
+
+        // Orders / Quotes pagination (visual only): current page and items per page
+        document.querySelectorAll('.orders-pagination').forEach(function (nav) {
+            const pages = nav.querySelectorAll('.pdp-page');
+            const prev = nav.querySelector('.pdp-page-arrow[data-step="-1"]');
+            const next = nav.querySelector('.pdp-page-arrow[data-step="1"]');
+            let current = 0;
+            function goToPage(i) {
+                pages[current].removeAttribute('aria-current');
+                current = i;
+                pages[current].setAttribute('aria-current', 'page');
+                prev.disabled = i === 0;
+                next.disabled = i === pages.length - 1;
             }
-            orderPages.forEach(function (btn, i) {
-                btn.addEventListener('click', function () { goToOrderPage(i); });
+            pages.forEach(function (btn, i) {
+                btn.addEventListener('click', function () { goToPage(i); });
             });
-            [orderPrev, orderNext].forEach(function (btn) {
-                btn.addEventListener('click', function () { goToOrderPage(orderPage + Number(this.dataset.step)); });
+            [prev, next].forEach(function (btn) {
+                btn.addEventListener('click', function () { goToPage(current + Number(this.dataset.step)); });
             });
-            const orderPerPage = document.querySelectorAll('.orders-pagination .pdp-per-page-opt');
-            orderPerPage.forEach(function (opt) {
+            const perPage = nav.querySelectorAll('.pdp-per-page-opt');
+            perPage.forEach(function (opt) {
                 opt.addEventListener('click', function () {
-                    orderPerPage.forEach(function (o) { o.removeAttribute('aria-current'); });
+                    perPage.forEach(function (o) { o.removeAttribute('aria-current'); });
                     this.setAttribute('aria-current', 'true');
                 });
             });
-        } // end if (ordersTable)
+        });
+
+        // Quotes (quotes_B2B.html, quotes_B2C.html): built like Orders. The table (LG+) is the source; the
+        // accordion list (MD and smaller) is built from it. Search filters both, BDI Quote and Exp Date sort both.
+        // Open quotes have a checkbox (table and list stay in sync); Add To Cart turns on once one is checked and
+        // adds each checked quote to the mini cart. Expired quotes show Requote instead (no request flow yet).
+        const quotesTable = document.getElementById('quotes_table');
+        if (quotesTable) {
+            const quotesBody = quotesTable.tBodies[0];
+            const quotesListEl = document.querySelector('#quotes_list .orders-list-items');
+            const quoteRows = Array.from(quotesBody.rows);
+            const quoteItemFor = new Map();  // table row -> list item
+            const addQuotesBtn = document.getElementById('quotes_add_to_cart');
+            // List detail rows: label and the table column it comes from
+            const quoteDetails = [['BDI Quote', 1], ['Customer Ref', 2], ['Customer Contact', 3], ['Account', 4],
+                ['Quote Date', 5], ['Expiration', 6], ['Quote Total', 7], ['Item Count', 8]];
+
+            function updateAddQuotes() {
+                addQuotesBtn.disabled = !quotesBody.querySelector('.quotes-select:checked');
+            }
+
+            quoteRows.forEach(function (tr, i) {
+                const cells = tr.cells;
+                const quoteNo = cells[1].textContent.trim();
+                const exp = cells[6].textContent.trim();
+                const bodyId = 'quotes_item_' + (i + 1);
+
+                const li = document.createElement('li');
+                li.className = 'orders-item quotes-item';
+                const row = document.createElement('div');
+                row.className = 'quotes-item-row';
+                // The row's checkbox or Requote, copied; a list checkbox mirrors its table checkbox
+                const select = cells[0].firstElementChild.cloneNode(true);
+                const tableBox = cells[0].querySelector('.quotes-select');
+                if (tableBox) {
+                    const listBox = select.querySelector('.quotes-select');
+                    tableBox.addEventListener('change', function () { listBox.checked = tableBox.checked; updateAddQuotes(); });
+                    listBox.addEventListener('change', function () { tableBox.checked = listBox.checked; updateAddQuotes(); });
+                }
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className = 'orders-item-toggle quotes-item-toggle';
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-controls', bodyId);
+                toggle.setAttribute('aria-label', 'Quote ' + quoteNo + ', expires ' + exp);
+                toggle.innerHTML = '<span class="quotes-item-no"></span><span class="quotes-item-exp"></span>' +
+                    '<img class="orders-item-chevron" src="images/icons/orders/chevron_24.svg" alt="" width="24" height="24">';
+                toggle.querySelector('.quotes-item-no').textContent = quoteNo;
+                toggle.querySelector('.quotes-item-exp').textContent = exp;
+                row.append(select, toggle);
+
+                const body = document.createElement('div');
+                body.className = 'orders-item-body';
+                body.id = bodyId;
+                body.hidden = true;
+                const dl = document.createElement('dl');
+                dl.className = 'orders-item-details';
+                quoteDetails.forEach(function (detail) {
+                    const dRow = document.createElement('div');
+                    dRow.className = 'orders-detail';
+                    const dt = document.createElement('dt');
+                    dt.textContent = detail[0];
+                    const dd = document.createElement('dd');
+                    Array.from(cells[detail[1]].childNodes).forEach(function (node) { dd.append(node.cloneNode(true)); });
+                    dRow.append(dt, dd);
+                    dl.append(dRow);
+                });
+                body.append(dl);
+
+                toggle.addEventListener('click', function () {
+                    const open = toggle.getAttribute('aria-expanded') !== 'true';
+                    toggle.setAttribute('aria-expanded', String(open));
+                    body.hidden = !open;
+                });
+                li.append(row, body);
+                quotesListEl.append(li);
+                quoteItemFor.set(tr, li);
+            });
+
+            // Collapse All / Expand All (list)
+            function setAllQuotes(open) {
+                quotesListEl.querySelectorAll('.quotes-item-toggle').forEach(function (t) {
+                    t.setAttribute('aria-expanded', String(open));
+                    document.getElementById(t.getAttribute('aria-controls')).hidden = !open;
+                });
+            }
+            document.getElementById('quotes_collapse_all').addEventListener('click', function () { setAllQuotes(false); });
+            document.getElementById('quotes_expand_all').addEventListener('click', function () { setAllQuotes(true); });
+
+            // Search: matches anything in the row
+            const quotesSearch = document.getElementById('quotes_search');
+            const quotesEmpty = document.getElementById('quotes_empty');
+            const quotesStatus = document.getElementById('quotes_status');
+            function restripeQuotes() {
+                let n = 0;
+                Array.from(quotesBody.rows).forEach(function (tr) {
+                    if (!tr.hidden) tr.classList.toggle('is-alt', n++ % 2 === 0);
+                });
+            }
+            function applyQuoteSearch() {
+                const q = quotesSearch.value.trim().toLowerCase();
+                let shown = 0;
+                quoteRows.forEach(function (tr) {
+                    const match = !q || tr.textContent.toLowerCase().includes(q);
+                    tr.hidden = !match;
+                    quoteItemFor.get(tr).hidden = !match;
+                    if (match) shown++;
+                });
+                restripeQuotes();
+                quotesEmpty.hidden = shown > 0;
+                quotesStatus.textContent = shown + (shown === 1 ? ' quote' : ' quotes') + ' shown';
+            }
+            quotesSearch.addEventListener('input', applyQuoteSearch);
+            const quotesClear = document.getElementById('quotes_search_clear');
+            quotesClear.addEventListener('mousedown', function (e) { e.preventDefault(); });
+            quotesClear.addEventListener('click', function () {
+                quotesSearch.value = '';
+                applyQuoteSearch();
+                quotesSearch.focus();
+            });
+            restripeQuotes();
+
+            // BDI Quote / Exp Date: ascending, then descending; sorting by one clears the other
+            function quoteSortValue(tr, key) {
+                if (key === 'quote') return Number(tr.cells[1].textContent);
+                const d = tr.cells[6].textContent.trim().split('/');  // MM/DD/YYYY
+                return Number(d[2] + d[0] + d[1]);
+            }
+            quotesTable.querySelectorAll('.orders-sort').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const th = btn.closest('th');
+                    const dir = th.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+                    quotesTable.querySelectorAll('th[aria-sort]').forEach(function (other) { other.setAttribute('aria-sort', 'none'); });
+                    th.setAttribute('aria-sort', dir);
+                    const sorted = Array.from(quotesBody.rows).sort(function (a, b) {
+                        const diff = quoteSortValue(a, btn.dataset.sort) - quoteSortValue(b, btn.dataset.sort);
+                        return dir === 'ascending' ? diff : -diff;
+                    });
+                    sorted.forEach(function (tr) {
+                        quotesBody.append(tr);
+                        quotesListEl.append(quoteItemFor.get(tr));
+                    });
+                    restripeQuotes();
+                });
+            });
+
+            // Add To Cart: each checked quote becomes a cart line (its total), then the cart opens
+            addQuotesBtn.addEventListener('click', function (e) {
+                if (!window.addToMiniCart) return;
+                e.stopPropagation();
+                quotesBody.querySelectorAll('.quotes-select:checked').forEach(function (box) {
+                    const tr = box.closest('tr');
+                    const quoteNo = tr.cells[1].textContent.trim();
+                    window.addToMiniCart({
+                        key: 'quote_' + quoteNo,
+                        sku: 'Quote ' + quoteNo,
+                        name: 'Quote ' + quoteNo,
+                        price: tr.cells[7].textContent.trim(),
+                        image: 'images/BDI_Logo.png',
+                        imageAlt: ''
+                    }, addQuotesBtn, true);
+                });
+                document.getElementById('cart').click();
+            });
+        } // end if (quotesTable)
 
         // Load PLP filter (plp-filter.html): facet accordions, Show More, unit toggle
         const plpFilterEl = document.getElementById('plp_filter');
@@ -2019,6 +2224,7 @@
                         imageAlt: image.alt,
                         addedTitle: addBtn.dataset.addedTitle
                     }, pill.querySelector('.plp-qty-input'));
+                    if (window.getMiniCartQty) renderQtyPill(pill, window.getMiniCartQty(card.dataset.cartKey));
                     return;
                 }
 

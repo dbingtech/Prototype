@@ -1,0 +1,96 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+@use '../globals/responsive' as *;
+
+// Quotes (quotes_B2B.html, quotes_B2C.html). Built on the Orders page (_orders.scss: .orders, search field,
+// table, accordion list, pagination); this adds the Request Quote / Add To Cart rows, the select column,
+// Requote, and the LG sideways scroll.
+
+// MD and smaller (< 992px), as in _orders.scss
+@mixin -mobile {
+    @include md  { @content; }
+    @include sm  { @content; }
+    @include xsm { @content; }
+}
+
+.quotes-field { width: 536px; }
+
+// Request Quote (above the table) and Add To Cart (below it), right aligned
+.quotes-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    .btn {
+        @include -mobile { width: 344px; max-width: 100%; }
+    }
+}
+
+// ----------------------------Table
+// LG: the columns don't fit, so the table keeps its width and the wrapper scrolls sideways
+.quotes-table-wrap {
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: colors.$medgray colors.$lightgray02;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+// Every cell stays on one line (the Orders table lets two of its columns wrap)
+.orders-table.quotes-table td {
+    white-space: nowrap;
+    overflow-wrap: normal;
+}
+.quotes-col-select,
+.quotes-select-cell {
+    width: 80px;
+    text-align: center !important;
+}
+.quotes-select-cell .plp-check { padding: 0; }
+
+// Requote: an underlined text button (expired quotes)
+.quotes-requote,
+.quotes-text-btn {
+    @include focus.focus-ring-base;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 16px;
+    color: colors.$text;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover { text-decoration: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
+// ----------------------------List (MD and smaller)
+.quotes-list { gap: 0; }
+.quotes-list-tools {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px;
+
+    .quotes-text-btn { font-size: 12px; }
+}
+.quotes-list-head {
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+// Checkbox (or Requote) | the toggle: quote number, expiration date, chevron
+.quotes-item-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 4px;
+
+    > .plp-check { padding: 0; flex-shrink: 0; }
+    > .quotes-requote { flex-shrink: 0; }
+}
+.quotes-item-toggle { flex: 1; min-width: 0; }
+.quotes-item-no {
+    flex: 1;
+    text-decoration: underline;
+}
+.quotes-item-exp { white-space: nowrap; }
+.quotes-item .orders-detail dt { width: 144px; }

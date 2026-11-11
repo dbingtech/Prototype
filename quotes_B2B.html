@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logos/Favicon.png" />
+    <link rel="stylesheet" type="text/css" href="dist/styles.css" />
+    <script src="app/js/script.js" async></script>
+    <title>Quotes: B2B
+    </title>
+  </head>
+  <body>
+    <div id="header_B2B"></div>
+    <div id="navbar_B2B"></div>
+    <div id="breadcrumbs">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item breadcrumb-home"><a href="index_B2B.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
+          <li class="breadcrumb-item"><a href="my_account.html">My Account</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Quotes</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div id="main">
+      <!-- Quotes (B2B). Sample data, not live SAP quotes. Uses the Orders page's search, table, list and pagination
+           styles (_orders.scss) plus _quotes.scss. The table is the source; on MD and smaller script.js builds an
+           accordion list from it. Open quotes have a checkbox (Add To Cart); expired ones show Requote. -->
+      <div class="orders quotes" id="quotes">
+        <h1 class="page-title">Quotes</h1>
+
+        <div class="orders-search">
+          <p class="orders-note">*Recent changes may take up to 15 minutes to appear on this page.</p>
+          <div class="orders-search-row">
+            <div class="orders-field quotes-field">
+              <label class="orders-field-label" for="quotes_search">Search Quotes</label>
+              <input type="search" id="quotes_search" class="orders-field-input" placeholder="BDI Quote, Customer Ref, BDI Part, or Customer Part" autocomplete="off">
+              <img class="orders-field-icon" src="images/icons/plp/spyglass_24.svg" alt="" width="24" height="24">
+              <button type="button" class="orders-field-clear" id="quotes_search_clear" aria-label="Clear search">
+                <img src="images/icons/plp/close_24.svg" alt="" width="24" height="24">
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="quotes-actions">
+          <!-- No Request a Quote page yet (same link as the header's Request a Quote) -->
+          <a href="request_a_quote.html" class="btn btn--tertiary btn--medium">Request Quote</a>
+        </div>
+
+        <!-- LG: wider than the screen, so the table scrolls sideways -->
+        <div class="orders-table-wrap quotes-table-wrap" role="region" aria-label="Quotes table" tabindex="0">
+          <table class="orders-table quotes-table" id="quotes_table">
+            <caption class="pdp-visually-hidden">Quotes</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="quotes-col-select"><span class="pdp-visually-hidden">Select</span></th>
+                <th scope="col" aria-sort="none">
+                  <button type="button" class="orders-sort" data-sort="quote">BDI Quote
+                    <span class="orders-sort-icon" aria-hidden="true"><img class="orders-sort-up" src="images/icons/orders/sort_up_20.svg" alt="" width="20" height="20"><img class="orders-sort-down" src="images/icons/orders/sort_down_20.svg" alt="" width="20" height="20"></span>
+                  </button>
+                </th>
+                <th scope="col">Customer Ref</th>
+                <th scope="col">Customer Contact</th>
+                <th scope="col">Account</th>
+                <th scope="col">Quote Date</th>
+                <th scope="col" aria-sort="none">
+                  <button type="button" class="orders-sort" data-sort="exp">Exp Date
+                    <span class="orders-sort-icon" aria-hidden="true"><img class="orders-sort-up" src="images/icons/orders/sort_up_20.svg" alt="" width="20" height="20"><img class="orders-sort-down" src="images/icons/orders/sort_down_20.svg" alt="" width="20" height="20"></span>
+                  </button>
+                </th>
+                <th scope="col" class="orders-num">Quote Total</th>
+                <th scope="col" class="orders-col-center">Line Items</th>
+              </tr>
+            </thead>
+            <!-- data-expired: past its expiration, so Requote instead of a checkbox -->
+            <tbody>
+              <tr>
+                <td class="quotes-select-cell"><label class="plp-check plp-check--20"><input type="checkbox" class="quotes-select" aria-label="Select quote 0007492485"></label></td>
+                <td><a class="orders-link" href="#">0007492485</a></td>
+                <td>T</td>
+                <td>Maintenance Dept</td>
+                <td>0001013975</td>
+                <td>09/24/2024</td>
+                <td>10/24/2024</td>
+                <td class="orders-num">$6,066.25</td>
+                <td class="orders-col-center">2</td>
+              </tr>
+              <tr>
+                <td class="quotes-select-cell"><label class="plp-check plp-check--20"><input type="checkbox" class="quotes-select" aria-label="Select quote 0007492486"></label></td>
+                <td><a class="orders-link" href="#">0007492486</a></td>
+                <td>GST-11886-3</td>
+                <td>Buyer, Cleveland, OH</td>
+                <td>0001073775</td>
+                <td>09/23/2024</td>
+                <td>10/23/2024</td>
+                <td class="orders-num">$7,907.71</td>
+                <td class="orders-col-center">2</td>
+              </tr>
+              <tr>
+                <td class="quotes-select-cell"><label class="plp-check plp-check--20"><input type="checkbox" class="quotes-select" aria-label="Select quote 0007485036"></label></td>
+                <td><a class="orders-link" href="#">0007485036</a></td>
+                <td>GST-11886-2</td>
+                <td>Buyer, Cleveland, OH</td>
+                <td>0001013775</td>
+                <td>09/09/2024</td>
+                <td>10/09/2024</td>
+                <td class="orders-num">$20.40</td>
+                <td class="orders-col-center">1</td>
+              </tr>
+              <tr>
+                <td class="quotes-select-cell"><label class="plp-check plp-check--20"><input type="checkbox" class="quotes-select" aria-label="Select quote 0007466541"></label></td>
+                <td><a class="orders-link" href="#">0007466541</a></td>
+                <td>GST-11886</td>
+                <td>Buyer, Cleveland, OH</td>
+                <td>0001013775</td>
+                <td>08/22/2024</td>
+                <td>09/21/2024</td>
+                <td class="orders-num">$82.83</td>
+                <td class="orders-col-center">2</td>
+              </tr>
+              <tr>
+                <td class="quotes-select-cell"><label class="plp-check plp-check--20"><input type="checkbox" class="quotes-select" aria-label="Select quote 0007460333"></label></td>
+                <td><a class="orders-link" href="#">0007460333</a></td>
+                <td>1</td>
+                <td>Purchasing Dept, Akron, OH</td>
+                <td>0001025026</td>
+                <td>08/22/2024</td>
+                <td>09/21/2024</td>
+                <td class="orders-num">$3,627.98</td>
+                <td class="orders-col-center">2</td>
+              </tr>
+              <tr>
+                <td class="quotes-select-cell"><label class="plp-check plp-check--20"><input type="checkbox" class="quotes-select" aria-label="Select quote 0007458460"></label></td>
+                <td><a class="orders-link" href="#">0007458460</a></td>
+                <td>Quote validity date</td>
+                <td>Buyer, Cleveland, OH</td>
+                <td>0001013775</td>
+                <td>08/06/2024</td>
+                <td>09/21/2024</td>
+                <td class="orders-num">$1,808.39</td>
+                <td class="orders-col-center">1</td>
+              </tr>
+              <tr>
+                <td class="quotes-select-cell"><label class="plp-check plp-check--20"><input type="checkbox" class="quotes-select" aria-label="Select quote 0007455740"></label></td>
+                <td><a class="orders-link" href="#">0007455740</a></td>
+                <td>45676</td>
+                <td></td>
+                <td>0001014558</td>
+                <td>08/06/2024</td>
+                <td>09/05/2024</td>
+                <td class="orders-num">$164.52</td>
+                <td class="orders-col-center">4</td>
+              </tr>
+              <tr data-expired>
+                <td class="quotes-select-cell"><button type="button" class="quotes-requote" aria-label="Requote 0007454410">Requote</button></td>
+                <td><a class="orders-link" href="#">0007454410</a></td>
+                <td></td>
+                <td>Purchasing Dept</td>
+                <td>0001024933</td>
+                <td>07/15/2024</td>
+                <td>08/14/2025</td>
+                <td class="orders-num">$458.15</td>
+                <td class="orders-col-center">2</td>
+              </tr>
+              <tr data-expired>
+                <td class="quotes-select-cell"><button type="button" class="quotes-requote" aria-label="Requote 0007452524">Requote</button></td>
+                <td><a class="orders-link" href="#">0007452524</a></td>
+                <td></td>
+                <td>Buyer, Cleveland, OH</td>
+                <td>0001013775</td>
+                <td>07/10/2024</td>
+                <td>08/09/2024</td>
+                <td class="orders-num">$403.09</td>
+                <td class="orders-col-center">1</td>
+              </tr>
+              <tr data-expired>
+                <td class="quotes-select-cell"><button type="button" class="quotes-requote" aria-label="Requote 0007451575">Requote</button></td>
+                <td><a class="orders-link" href="#">0007451575</a></td>
+                <td></td>
+                <td></td>
+                <td>0001013775</td>
+                <td>06/18/2024</td>
+                <td>07/18/2024</td>
+                <td class="orders-num">$35.00</td>
+                <td class="orders-col-center">1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- MD and smaller: script.js fills this from the table -->
+        <div class="orders-list quotes-list" id="quotes_list">
+          <div class="quotes-list-tools">
+            <button type="button" class="quotes-text-btn" id="quotes_collapse_all">Collapse All</button>
+            <button type="button" class="quotes-text-btn" id="quotes_expand_all">Expand All</button>
+          </div>
+          <div class="orders-list-head quotes-list-head" aria-hidden="true"><span>BDI Quote</span><span>Expiration Date</span></div>
+          <ul class="orders-list-items"></ul>
+        </div>
+
+        <p class="orders-empty" id="quotes_empty" hidden>No quotes match your search.</p>
+        <p class="pdp-visually-hidden" id="quotes_status" role="status"></p>
+
+        <!-- Turns on once a quote is checked -->
+        <div class="quotes-actions">
+          <button type="button" class="btn btn--primary btn--medium" id="quotes_add_to_cart" disabled>Add To Cart</button>
+        </div>
+
+        <!-- Visual only for now: current page and items per page (same pagination as Orders) -->
+        <nav class="pdp-pagination orders-pagination" aria-label="Quotes pages">
+          <div class="pdp-per-page">
+            <span class="pdp-per-page-label">Items per page:</span>
+            <button type="button" class="pdp-per-page-opt">5</button>
+            <button type="button" class="pdp-per-page-opt" aria-current="true">10</button>
+            <button type="button" class="pdp-per-page-opt">30</button>
+          </div>
+          <div class="pdp-pages">
+            <button type="button" class="pdp-page-arrow" data-step="-1" aria-label="Previous page" disabled><img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32"></button>
+            <ol class="pdp-page-list">
+              <li><button type="button" class="pdp-page" aria-current="page">1</button></li>
+              <li><button type="button" class="pdp-page">2</button></li>
+              <li><button type="button" class="pdp-page">3</button></li>
+              <li><button type="button" class="pdp-page">4</button></li>
+              <li><button type="button" class="pdp-page">5</button></li>
+            </ol>
+            <button type="button" class="pdp-page-arrow pdp-page-arrow--next" data-step="1" aria-label="Next page"><img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32"></button>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div id="footer"></div>
+    <button type="button" class="back-to-top" id="back_to_top" aria-label="Back to top">
+      <img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32">
+    </button>
+  </body>
+</html>
