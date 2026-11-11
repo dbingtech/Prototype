@@ -11918,3 +11918,221 @@ th[aria-sort=descending] .orders-sort-down {
 .quotes-item .orders-detail dt {
   width: 144px;
 }
+
+.quote-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 0 32px;
+  font-family: "Inter", sans-serif;
+  color: black;
+}
+.quote-detail p {
+  margin: 0;
+}
+.quote-detail button {
+  font-family: inherit;
+}
+@media only screen and (max-width: 991px) {
+  .quote-detail {
+    padding-top: 16px;
+    gap: 16px;
+  }
+}
+
+.quote-detail-status {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.quote-detail-top {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+@media only screen and (max-width: 767px) {
+  .quote-detail-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.quote-detail-info {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+@media only screen and (max-width: 991px) {
+  .quote-detail-info {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.quote-detail-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 864px;
+  margin: 0;
+  padding: 0 8px;
+  font-size: 16px;
+}
+.quote-detail-list > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.quote-detail-list dt {
+  flex-shrink: 0;
+  width: 144px;
+  font-weight: 600;
+  line-height: 20px;
+}
+.quote-detail-list dd {
+  margin: 0;
+}
+
+.quote-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+  width: 302px;
+  box-sizing: border-box;
+  padding: 12px 8px 8px;
+}
+@media only screen and (max-width: 767px) {
+  .quote-summary {
+    width: 100%;
+  }
+}
+
+.quote-summary-title {
+  align-self: stretch;
+  margin: 0;
+  padding: 8px 0;
+  background-color: #20485c;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+.quote-summary-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: stretch;
+  margin: 0 0 8px;
+  padding: 0 8px;
+  font-size: 16px;
+}
+.quote-summary-totals > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+}
+.quote-summary-totals dt {
+  font-weight: 600;
+  line-height: 20px;
+}
+.quote-summary-totals dd {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.quote-summary-total {
+  font-size: 18px;
+  font-weight: 700;
+}
+.quote-summary-total dt {
+  font-weight: 700;
+}
+
+.quote-summary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+.quote-summary-actions[hidden] {
+  display: none;
+}
+.quote-summary-actions .btn {
+  max-width: 100%;
+}
+
+.quote-detail-items-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 40px;
+  padding: 4px 8px;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+@media only screen and (max-width: 575px) {
+  .quote-detail-items-head {
+    flex-wrap: wrap;
+    row-gap: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+.quote-detail-count {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  font-variation-settings: "wght" 600;
+}
+.quote-detail-count span {
+  margin-left: 8px;
+}
+
+.quote-detail-add-item {
+  gap: 16px;
+}
+.quote-detail-add-item[hidden] {
+  display: none;
+}
+@media only screen and (max-width: 575px) {
+  .quote-detail-add-item {
+    gap: 8px;
+    width: 152px;
+  }
+  .quote-detail-add-item img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.quote-detail-items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.plp-card.quote-item::after {
+  display: none;
+}
+
+.quote-item .plp-card-image {
+  width: 152px;
+  height: 152px;
+}
+
+.quote-item-qty {
+  display: flex;
+  justify-content: center;
+}
+
+.quote-detail-note {
+  font-size: 16px;
+  text-align: center;
+}

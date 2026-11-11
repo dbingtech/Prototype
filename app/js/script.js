@@ -1787,6 +1787,134 @@
             });
         } // end if (quotesTable)
 
+        // Quote Details (quotedetail_B2B.html, quotedetail_B2C.html). Active by default; ?status=expired (an
+        // expired row on the Quotes page) shows "Expired" and Requote instead of the add-all buttons and Add Item.
+        // Each item has a quantity pill starting at the quoted quantity; the trash at 1 takes the item off the
+        // quote. The Quote Summary follows the quantities. Add To Cart adds that item at its quantity, Add All
+        // Items To Cart adds every item; both open the mini cart.
+        const quoteDetailEl = document.getElementById('quote_detail');
+        if (quoteDetailEl) {
+            const quoteItemsEl = document.getElementById('quote_items');
+            const quoteStatus = document.getElementById('quote_detail_status');
+            const money = function (n) { return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); };
+
+            const quoteParams = new URLSearchParams(window.location.search);
+            // The quote number from the Quotes page link (digits only), in the title and the breadcrumb
+            const quoteNo = quoteParams.get('quote');
+            if (quoteNo && /^[0-9]{1,12}$/.test(quoteNo)) {
+                document.getElementById('quote_number').textContent = quoteNo;
+                document.getElementById('quote_crumb').textContent = quoteNo;
+                document.title = document.title.replace('Quote Details', 'Quote ' + quoteNo);
+            }
+            if (quoteParams.get('status') === 'expired') {
+                document.getElementById('quote_status_label').hidden = false;  // "Expired" (active quotes show no status for now)
+                document.getElementById('quote_active_actions').hidden = true;
+                document.getElementById('quote_expired_actions').hidden = false;
+                document.getElementById('quote_add_item').hidden = true;
+            }
+
+            function quoteItems() { return Array.from(quoteItemsEl.querySelectorAll('.quote-item')); }
+            function updateQuoteSummary() {
+                let subtotal = 0;
+                quoteItems().forEach(function (card) {
+                    subtotal += parseFloat(card.dataset.price) * parseInt(card.querySelector('.plp-qty').dataset.qty, 10);
+                });
+                document.getElementById('quote_subtotal').textContent = money(subtotal);
+                document.getElementById('quote_total').textContent = money(subtotal);
+                document.getElementById('quote_item_count').textContent = quoteItems().length;
+            }
+
+            // The pill's trash at 1 takes the item off the quote here, not out of the cart
+            function renderQuotePill(pill, qty) {
+                renderQtyPill(pill, qty);
+                if (qty <= 1) pill.querySelector('.plp-qty-minus').setAttribute('aria-label', 'Remove from quote');
+            }
+
+            quoteItems().forEach(function (card) {
+                const pill = buildQtyPill(card.querySelector('.plp-card-title').textContent.trim());
+                pill.setAttribute('aria-label', 'Quantity of ' + card.querySelector('.plp-card-title').textContent.trim());
+                card.querySelector('.quote-item-qty').append(pill);
+                renderQuotePill(pill, parseInt(card.dataset.qty, 10));
+                pill.querySelector('.plp-qty-minus').addEventListener('click', function () {
+                    const qty = parseInt(pill.dataset.qty, 10);
+                    if (qty > 1) { renderQuotePill(pill, qty - 1); updateQuoteSummary(); return; }
+                    removeQuoteItem(card);
+                });
+                pill.querySelector('.plp-qty-plus').addEventListener('click', function () {
+                    renderQuotePill(pill, parseInt(pill.dataset.qty, 10) + 1);
+                    updateQuoteSummary();
+                    showPageMessage('Quantity has been updated', false, true);
+                });
+                const input = pill.querySelector('.plp-qty-input');
+                input.addEventListener('keydown', function (e) { if (e.key === 'Enter') input.blur(); });
+                input.addEventListener('change', function () {
+                    const typed = input.value.trim();
+                    if (!/^[0-9]+$/.test(typed)) { input.value = pill.dataset.qty; return; }
+                    if (parseInt(typed, 10) === 0) { removeQuoteItem(card); return; }
+                    renderQuotePill(pill, parseInt(typed, 10));
+                    updateQuoteSummary();
+                });
+            });
+            // The trash at 1 (or a typed 0): the item and its divider come off the page
+            function removeQuoteItem(card) {
+                const name = card.querySelector('.plp-card-title').textContent.trim();
+                const next = card.nextElementSibling;
+                const prev = card.previousElementSibling;
+                if (next && next.classList.contains('plp-divider')) next.remove();
+                else if (prev && prev.classList.contains('plp-divider')) prev.remove();
+                const focusTo = (next && next.nextElementSibling) || document.getElementById('quote_item_count');
+                card.remove();
+                updateQuoteSummary();
+                quoteStatus.textContent = name + ' removed from the quote';
+                const target = focusTo.querySelector ? (focusTo.querySelector('.plp-card-title') || focusTo) : focusTo;
+                if (target.focus) target.focus();
+            }
+            preparePageMessage();
+
+            function addQuoteItemToCart(card) {
+                if (!window.addToMiniCart) return;
+                const image = card.querySelector('.plp-card-image');
+                const sku = card.querySelector('.plp-card-ids dd').textContent.trim();
+                const key = 'quote_item_' + sku;
+                const qty = parseInt(card.querySelector('.plp-qty').dataset.qty, 10);
+                const before = window.getMiniCartQty ? window.getMiniCartQty(key) : 0;
+                window.addToMiniCart({
+                    key: key,
+                    sku: sku,
+                    name: card.querySelector('.plp-card-title').textContent.trim(),
+                    price: card.querySelector('.plp-price-amount').textContent.replace(/[$]\s+(?=[0-9])/, '$').trim() + ' / each',
+                    image: image.getAttribute('src'),
+                    imageAlt: image.alt
+                }, null, true);
+                window.setMiniCartQty(key, before + qty);
+            }
+            quoteDetailEl.addEventListener('click', function (e) {
+                const favoriteBtn = e.target.closest('.plp-card-favorite');
+                if (favoriteBtn) {
+                    const on = favoriteBtn.getAttribute('aria-pressed') !== 'true';
+                    favoriteBtn.setAttribute('aria-pressed', String(on));
+                    const item = favoriteBtn.dataset.item;
+                    favoriteBtn.setAttribute('aria-label', on ? 'Remove ' + item + ' from favorites' : 'Add ' + item + ' to favorites');
+                    return;
+                }
+                const copyBtn = e.target.closest('.plp-copy');
+                if (copyBtn) {
+                    const value = copyBtn.dataset.copy;
+                    navigator.clipboard.writeText(value)
+                        .then(function () { quoteStatus.textContent = 'Copied ' + value; showCopied(copyBtn); })
+                        .catch(function () { quoteStatus.textContent = 'Copy failed'; });
+                    return;
+                }
+                const addBtn = e.target.closest('.quote-item-add, #quote_add_all');
+                if (addBtn) {
+                    e.stopPropagation();
+                    if (addBtn.id === 'quote_add_all') quoteItems().forEach(addQuoteItemToCart);
+                    else addQuoteItemToCart(addBtn.closest('.quote-item'));
+                    document.getElementById('cart').click();
+                }
+            });
+        } // end if (quoteDetailEl)
+
         // Load PLP filter (plp-filter.html): facet accordions, Show More, unit toggle
         const plpFilterEl = document.getElementById('plp_filter');
         if (plpFilterEl) {

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logos/Favicon.png" />
+    <link rel="stylesheet" type="text/css" href="dist/styles.css" />
+    <script src="app/js/script.js" async></script>
+    <title>Quote Details: B2B
+    </title>
+  </head>
+  <body>
+    <div id="header_B2B"></div>
+    <div id="navbar_B2B"></div>
+    <div id="breadcrumbs">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item breadcrumb-home"><a href="index_B2B.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
+          <li class="breadcrumb-item"><a href="my_account.html">My Account</a></li>
+          <li class="breadcrumb-item"><a href="quotes_B2B.html">Quotes</a></li>
+          <li class="breadcrumb-item active" aria-current="page" id="quote_crumb">0007466541</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div id="main">
+      <!-- Quote Details (B2B). Sample data, not a live SAP quote. ?quote=<number> (from the Quotes page) puts that quote number in the title and breadcrumb. Two states (Figma "Quote Detail | Active"):
+           active (default, no status line for now): Add All Items To Cart, Buy All Items Now, Add Item;
+           expired (?status=expired, from an expired row on the Quotes page): "Expired", Requote only.
+           Item cards use the PLP B2B card styles (_plp.scss); the rest is _quote-detail.scss. -->
+      <div class="quote-detail" id="quote_detail">
+        <h1 class="page-title">Quote Details <span id="quote_number">0007466541</span></h1>
+        <p class="quote-detail-status" id="quote_status_label" hidden>Expired</p>
+
+        <section class="quote-detail-top" aria-label="Quote information">
+          <div class="quote-detail-info">
+            <dl class="quote-detail-list">
+              <div><dt>Quote Date</dt><dd>10/28/2026</dd></div>
+              <div><dt>Expiration</dt><dd>11/27/2026</dd></div>
+              <div><dt>Quote Total</dt><dd>$82.84</dd></div>
+            </dl>
+            <dl class="quote-detail-list">
+              <div><dt>Customer Ref#</dt><dd>GST-11886</dd></div>
+              <div><dt>Customer Contact</dt><dd>Buyer, Cleveland, OH</dd></div>
+            </dl>
+          </div>
+
+          <section class="quote-summary" aria-labelledby="quote_summary_title">
+            <h2 class="quote-summary-title" id="quote_summary_title">Quote Summary</h2>
+            <dl class="quote-summary-totals">
+              <div><dt>Subtotal:</dt><dd id="quote_subtotal">$82.84</dd></div>
+              <div><dt>Shipping:</dt><dd>TBD</dd></div>
+              <div><dt>Tax:</dt><dd>TBD</dd></div>
+              <div class="quote-summary-total"><dt>Total:</dt><dd id="quote_total">$82.84</dd></div>
+            </dl>
+            <div class="quote-summary-actions" id="quote_active_actions">
+              <button type="button" class="btn btn--primary btn--medium" id="quote_add_all">Add All Items To Cart</button>
+              <!-- Opens the Buy Now modal (script.js, any .plp-add-to-cart.btn--secondary) -->
+              <button type="button" class="btn btn--secondary btn--medium plp-add-to-cart">Buy All Items Now</button>
+            </div>
+            <div class="quote-summary-actions" id="quote_expired_actions" hidden>
+              <!-- No requote flow yet -->
+              <button type="button" class="btn btn--tertiary btn--medium">Requote</button>
+            </div>
+          </section>
+        </section>
+
+        <div class="quote-detail-items-head">
+          <h2 class="quote-detail-count">Items in your Quote: <span id="quote_item_count">2</span></h2>
+          <!-- Active quotes only; no add-item flow yet -->
+          <button type="button" class="btn btn--tertiary btn--medium quote-detail-add-item" id="quote_add_item"><img src="images/icons/quotes/plus_24.svg" alt="" width="24" height="24">Add Item</button>
+        </div>
+
+        <!-- data-price: unit price; data-qty: quoted quantity (the pill starts there) -->
+        <div class="quote-detail-items" id="quote_items">
+          <article class="plp-card plp-card--b2b quote-item" aria-labelledby="quote_item_title_1" data-price="8.82" data-qty="2">
+            <div class="plp-card-media">
+              <div class="plp-card-actions">
+                <label class="plp-check plp-check--20"><input type="checkbox"><span>Compare</span></label>
+                <button type="button" class="plp-fav-btn plp-card-favorite" aria-pressed="false" aria-label="Add 6202 to favorites" data-item="6202">
+                  <img class="plp-fav-icon plp-fav-icon--off" src="images/icons/plp/heart_24.svg" alt="" width="24" height="24">
+                  <img class="plp-fav-icon plp-fav-icon--on" src="images/icons/plp/heart_filled_28.svg" alt="" width="24" height="24">
+                </button>
+              </div>
+              <img class="plp-card-image" src="images/group_by/bearing.png" alt="SKF 6202 ball bearing" width="152" height="152">
+            </div>
+            <div class="plp-card-details">
+              <div class="plp-card-brand-row">
+                <span class="plp-card-brand">SKF</span>
+              </div>
+              <a href="pdp_B2B.html" class="plp-card-title" id="quote_item_title_1">6202</a>
+              <p class="plp-card-name">6202 BALL BEARING ; 15MM BORE 35MM OD 11MM WD SR OPEN</p>
+              <p class="plp-card-desc">Single Row Ball Bearing; 15MM Bore; 35MM Outside Diameter; 11MM Outer Race Width; Open; ABEC 1 | ISO P0; No Filling Slot; No Snap Ring; C0-Medium Internal Clearance; Steel Cage</p>
+              <dl class="plp-card-ids plp-card-ids--grid">
+                <div class="plp-card-id-row">
+                  <dt>BDI No.</dt>
+                  <dd><a class="plp-card-id-link" href="pdp_B2B.html">1420800</a></dd>
+                  <dd><button type="button" class="plp-icon-btn plp-copy" data-copy="1420800" aria-label="Copy BDI number"><img src="images/icons/plp/copy_group.svg" alt="" width="17" height="21"></button></dd>
+                </div>
+                <div class="plp-card-id-row">
+                  <dt>Mfr Part No.</dt>
+                  <dd><a class="plp-card-id-link" href="pdp_B2B.html">6202</a></dd>
+                  <dd><button type="button" class="plp-icon-btn plp-copy" data-copy="6202" aria-label="Copy manufacturer part number"><img src="images/icons/plp/copy_group.svg" alt="" width="17" height="21"></button></dd>
+                </div>
+              </dl>
+            </div>
+            <div class="plp-card-buy plp-card-buy--b2b">
+              <p class="plp-price plp-price--b2b"><span class="plp-price-amount">$ 8.82</span><span class="plp-price-slash">/</span><span class="plp-price-unit">each</span></p>
+              <p class="plp-price-was"><s>$ 9.08 / each</s></p>
+              <div class="quote-item-qty"></div>
+              <div class="plp-card-buttons">
+                <button type="button" class="btn btn--primary plp-add-to-cart quote-item-add">Add To Cart</button>
+              </div>
+            </div>
+          </article>
+          <hr class="plp-divider">
+          <article class="plp-card plp-card--b2b quote-item" aria-labelledby="quote_item_title_2" data-price="32.60" data-qty="2">
+            <div class="plp-card-media">
+              <div class="plp-card-actions">
+                <label class="plp-check plp-check--20"><input type="checkbox"><span>Compare</span></label>
+                <button type="button" class="plp-fav-btn plp-card-favorite" aria-pressed="false" aria-label="Add 1050T HUB 1.375 5/16X5/32KW NR 0704617 to favorites" data-item="1050T HUB 1.375 5/16X5/32KW NR 0704617">
+                  <img class="plp-fav-icon plp-fav-icon--off" src="images/icons/plp/heart_24.svg" alt="" width="24" height="24">
+                  <img class="plp-fav-icon plp-fav-icon--on" src="images/icons/plp/heart_filled_28.svg" alt="" width="24" height="24">
+                </button>
+              </div>
+              <img class="plp-card-image" src="images/products/1050T_hub.png" alt="Falk 1050T grid coupling hub" width="152" height="152">
+            </div>
+            <div class="plp-card-details">
+              <div class="plp-card-brand-row">
+                <span class="plp-card-brand">Falk</span>
+              </div>
+              <a href="pdp_B2B.html" class="plp-card-title" id="quote_item_title_2">1050T HUB 1.375 5/16X5/32KW NR 0704617</a>
+              <p class="plp-card-name">1050T HUB 1.375 5/16X5/32KW ; NON-RETURNABLE NR 0704617</p>
+              <p class="plp-card-desc">Grid Coupling Hub; 1-3/8" Bore; 2.63" Hub Diameter; 3.588" Flange Outside Diameter; Shaft; Finished Bore; Keyway; 2.38" Length Thru Bore; 3.588" Overall Diameter; 1050T Size or Series; No Bushing; Steel; 6000 Max Speed; 3850In-Lbs Torque</p>
+              <dl class="plp-card-ids plp-card-ids--grid">
+                <div class="plp-card-id-row">
+                  <dt>BDI No.</dt>
+                  <dd><a class="plp-card-id-link" href="pdp_B2B.html">18108254</a></dd>
+                  <dd><button type="button" class="plp-icon-btn plp-copy" data-copy="18108254" aria-label="Copy BDI number"><img src="images/icons/plp/copy_group.svg" alt="" width="17" height="21"></button></dd>
+                </div>
+                <div class="plp-card-id-row">
+                  <dt>Mfr Part No.</dt>
+                  <dd><a class="plp-card-id-link" href="pdp_B2B.html">10010808</a></dd>
+                  <dd><button type="button" class="plp-icon-btn plp-copy" data-copy="10010808" aria-label="Copy manufacturer part number"><img src="images/icons/plp/copy_group.svg" alt="" width="17" height="21"></button></dd>
+                </div>
+              </dl>
+            </div>
+            <div class="plp-card-buy plp-card-buy--b2b">
+              <p class="plp-price plp-price--b2b"><span class="plp-price-amount">$ 32.60</span><span class="plp-price-slash">/</span><span class="plp-price-unit">each</span></p>
+              <p class="plp-price-was"><s>$ 33.58 / each</s></p>
+              <div class="quote-item-qty"></div>
+              <div class="plp-card-buttons">
+                <button type="button" class="btn btn--primary plp-add-to-cart quote-item-add">Add To Cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <p class="quote-detail-note">*Some items may be quantity sensitive, so if you change the quantity the price may change.</p>
+        <p class="pdp-visually-hidden" id="quote_detail_status" role="status"></p>
+      </div>
+    </div>
+    <div id="footer"></div>
+    <button type="button" class="back-to-top" id="back_to_top" aria-label="Back to top">
+      <img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32">
+    </button>
+  </body>
+</html>
