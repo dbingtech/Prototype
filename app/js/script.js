@@ -209,7 +209,11 @@
                     function openCartModal(added, addedTitle) {
                         const rect = cartBtn.getBoundingClientRect();
                         cartModal.style.top = rect.bottom + 8 + 'px';
-                        cartModal.style.right = (window.innerWidth - rect.right) + 'px';
+                        // Under the cart icon, kept 8px inside the left edge on narrow screens
+                        // (the overlay's width leaves out the page scrollbar, which innerWidth includes)
+                        const viewW = cartOverlay.clientWidth;
+                        const maxRight = viewW - cartModal.offsetWidth - 8;
+                        cartModal.style.right = Math.max(0, Math.min(viewW - rect.right, maxRight)) + 'px';
                         const empty = !cartItems.querySelector('.cart-line-item');
                         cartTitle.textContent = added ? addedTitle || 'Added to Cart' : 'Cart';
                         cartSummary.hidden = added || empty;
@@ -249,9 +253,11 @@
                             .find(function (li) { return li.dataset.key === key; });
                     }
 
-                    // The quantity isn't shown on the line (Figma "mini cart"); it drives the total and the badge
+                    // The quantity shows on the line ("Qty: 3") and drives the total and the badge
                     function setLineQty(line, qty) {
                         line.dataset.qty = qty;
+                        const qtyValue = line.querySelector('.cart-line-item-qty-value');
+                        if (qtyValue) qtyValue.textContent = qty.toLocaleString('en-US');
                     }
 
                     // Count = number of lines; Total = sum of qty x unit price (lines without a numeric price are skipped)
@@ -289,6 +295,7 @@
                             name.textContent = item.name;
                             name.title = item.name;  // the full name when it's cut off with an ellipsis
                             line.querySelector('.cart-line-item-sku').textContent = item.sku;
+                            line.querySelector('.cart-line-item-part').title = 'Part: ' + item.sku;  // the full part number when it's cut off
                             // "$26.60 / each" shows as "$26.60/ea"
                             line.querySelector('.cart-line-item-price').textContent = item.price.replace(/\s*\/\s*each$/, '/ea');
                             setLineQty(line, 1);
@@ -417,7 +424,7 @@
                 });
             });
         // Load hero
-        const heroEl = document.querySelector('#hero_SS, #hero_punchout, #hero_EMP, #hero_B2B, #hero_china, #hero');
+        const heroEl = document.querySelector('#hero_SS, #hero_punchout, #hero_EMP, #hero_B2B, #hero_B2C, #hero_china, #hero');
         if (heroEl) {
         const heroFile = heroEl.id + '.html';
         fetch(heroFile)
@@ -453,7 +460,7 @@
                 startTimer();
 
                 // index.html only: after 1.5s, pop up the visually hidden h1's text.
-                // Checked by filename because index_B2C.html also loads #hero.
+                // Checked by filename because index_mex.html also loads #hero.
                 const page = window.location.pathname.split('/').pop();
                 const hiddenH1 = heroEl.querySelector('.hidden-h1');
                 if ((page === '' || page === 'index.html') && hiddenH1) {
@@ -1490,6 +1497,17 @@
             }
             searchInput.addEventListener('input', applyOrderFilters);
             openOnly.addEventListener('change', applyOrderFilters);
+
+            // X clears the search; mousedown is cancelled so the input keeps focus
+            const searchClear = document.getElementById('orders_search_clear');
+            if (searchClear) {
+                searchClear.addEventListener('mousedown', function (e) { e.preventDefault(); });
+                searchClear.addEventListener('click', function () {
+                    searchInput.value = '';
+                    applyOrderFilters();
+                    searchInput.focus();
+                });
+            }
             restripe();
 
             // Order #: ascending, then descending; the list follows the table's order

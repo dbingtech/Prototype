@@ -73,7 +73,11 @@ $-orders-tip-bg: #EAE2CD;  // tooltip (Figma "Tooltip")
     border: 1px solid colors.$medgray;
     border-radius: 4px;
 
-    &:focus-within { border-color: colors.$bdiblue; }
+    // Focus: 2px BDI blue (inset shadow adds the 2nd px without shifting the text)
+    &:focus-within {
+        border-color: colors.$bdiblue;
+        box-shadow: inset 0 0 0 1px colors.$bdiblue;
+    }
 
     @include sm  { width: 100%; }
     @include xsm { width: 100%; }
@@ -103,8 +107,31 @@ $-orders-tip-bg: #EAE2CD;  // tooltip (Figma "Tooltip")
         color: colors.$darkgray;
         opacity: 1;
     }
+    // Clicking in clears the placeholder, leaving the blinking cursor
+    &:focus::placeholder { color: transparent; }
+    // The X below replaces the browser's own clear button
+    &::-webkit-search-cancel-button { appearance: none; }
 }
-.orders-field-caret { flex-shrink: 0; }
+// Spy glass by default; the X takes its place while focused or filled
+.orders-field-icon { flex-shrink: 0; }
+.orders-field-clear {
+    @include focus.focus-ring-base;
+    display: none;
+    flex-shrink: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    line-height: 0;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.orders-field:focus-within,
+.orders-field:has(.orders-field-input:not(:placeholder-shown)) {
+    .orders-field-icon { display: none; }
+    .orders-field-clear { display: inline-flex; }
+}
 .orders-open-only {
     gap: 8px;
 }

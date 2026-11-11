@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logos/Favicon.png" />
+    <link rel="stylesheet" type="text/css" href="dist/styles.css" />
+    <script src="app/js/script.js" async></script>
+    <title>Orders: B2C
+    </title>
+  </head>
+  <body>
+    <div id="header_B2C"></div>
+    <div id="navbar_B2C"></div>
+    <div id="breadcrumbs">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item breadcrumb-home"><a href="index_B2C.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
+          <li class="breadcrumb-item"><a href="#">My Account</a></li><!-- no B2C My Account page yet (my_account.html is B2B) -->
+          <li class="breadcrumb-item active" aria-current="page">Orders</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div id="main">
+      <!-- Orders (B2C): a copy of orders_B2B.html for now. Sample data, not live SAP orders. The table is the source; on MD and smaller script.js
+           builds an accordion list from it (one row per order, tap to see the details). Styles in _orders.scss -->
+      <div class="orders" id="orders">
+        <h1 class="page-title">Orders</h1>
+
+        <div class="orders-search">
+          <p class="orders-note">*Recent changes may take up to 15 minutes to appear on this page.</p>
+          <div class="orders-search-row">
+            <div class="orders-field">
+              <label class="orders-field-label" for="orders_search">Search Orders</label>
+              <input type="search" id="orders_search" class="orders-field-input" placeholder="Search By BDI Order, Requisition, BDI Part, Customer Part, Ordered By, Customer PO" autocomplete="off">
+              <img class="orders-field-icon" src="images/icons/plp/spyglass_24.svg" alt="" width="24" height="24">
+              <button type="button" class="orders-field-clear" id="orders_search_clear" aria-label="Clear search">
+                <img src="images/icons/plp/close_24.svg" alt="" width="24" height="24">
+              </button>
+            </div>
+            <label class="plp-check plp-check--16 orders-open-only"><input type="checkbox" id="orders_open_only"><span>Show open orders only</span></label>
+          </div>
+        </div>
+
+        <div class="orders-table-wrap">
+          <table class="orders-table" id="orders_table">
+            <caption class="pdp-visually-hidden">Orders</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="orders-icon-col"><span class="pdp-visually-hidden">Online order</span></th>
+                <th scope="col" class="orders-col-order" aria-sort="none">
+                  <button type="button" class="orders-sort" id="orders_sort">Order #
+                    <span class="orders-sort-icon" aria-hidden="true"><img class="orders-sort-up" src="images/icons/orders/sort_up_20.svg" alt="" width="20" height="20"><img class="orders-sort-down" src="images/icons/orders/sort_down_20.svg" alt="" width="20" height="20"></span>
+                  </button>
+                </th>
+                <th scope="col" class="orders-col-po">Customer PO</th>
+                <th scope="col" class="orders-col-center">Account #</th>
+                <th scope="col" class="orders-col-center">Order Date</th>
+                <th scope="col" class="orders-col-center orders-col-by">Ordered By</th>
+                <th scope="col" class="orders-col-center">Order Total</th>
+                <th scope="col" class="orders-col-center orders-col-status">Status</th>
+                <th scope="col" class="orders-icon-col"><span class="pdp-visually-hidden">Inquire</span></th>
+              </tr>
+            </thead>
+            <!-- data-online: placed on BDIexpress. data-open: not yet shipped or delivered in full ("Show open orders only") -->
+            <tbody>
+              <tr data-online data-open>
+                <td class="orders-icon-cell"><span class="orders-online" tabindex="0" role="img" aria-label="Online order"><img src="images/icons/orders/computer_24.svg" alt="" width="24" height="24"><span class="orders-tip" aria-hidden="true">Indicates online order</span></span></td>
+                <td><a class="orders-link" href="#">0004963177</a></td>
+                <td>K FOC</td>
+                <td>0001013755</td>
+                <td>05/06/2025</td>
+                <td></td>
+                <td class="orders-num">$176.96</td>
+                <td class="orders-status-cell"><span class="orders-status">See Item Status</span><span class="orders-tracking"><a class="orders-link" href="#">1Z4771470390974950</a></span></td>
+                <td class="orders-icon-cell"><button type="button" class="orders-inquire" aria-label="Inquire about order 0004963177"><img src="images/icons/orders/envelope_16.svg" alt="" width="24" height="24"><span class="orders-tip orders-tip--left" aria-hidden="true">Inquire about order</span></button></td>
+              </tr>
+              <tr>
+                <td class="orders-icon-cell"></td>
+                <td><a class="orders-link" href="#">0004963215</a></td>
+                <td>CONSIGNMENT FILLUP 77</td>
+                <td>0001013740</td>
+                <td>05/06/2025</td>
+                <td>BUYER@EXAMPLE.COM</td>
+                <td class="orders-num">$0.00</td>
+                <td class="orders-status-cell"><span class="orders-status">100 of 100 Delivered to Consignment</span><span class="orders-tracking"><a class="orders-link" href="#">1Z4771470395008137</a><a class="orders-link" href="#">1Z4771470395423929</a><a class="orders-link" href="#">1Z4771470397012940</a></span></td>
+                <td class="orders-icon-cell"><button type="button" class="orders-inquire" aria-label="Inquire about order 0004963215"><img src="images/icons/orders/envelope_16.svg" alt="" width="24" height="24"><span class="orders-tip orders-tip--left" aria-hidden="true">Inquire about order</span></button></td>
+              </tr>
+              <tr data-online>
+                <td class="orders-icon-cell"><span class="orders-online" tabindex="0" role="img" aria-label="Online order"><img src="images/icons/orders/computer_24.svg" alt="" width="24" height="24"><span class="orders-tip" aria-hidden="true">Indicates online order</span></span></td>
+                <td><a class="orders-link" href="#">0004963237</a></td>
+                <td>kits item price</td>
+                <td>0001013740</td>
+                <td>05/06/2025</td>
+                <td>BUYER@EXAMPLE.COM</td>
+                <td class="orders-num">$432.00</td>
+                <td class="orders-status-cell"><span class="orders-status">1 of 1 Shipped</span><span class="orders-tracking"><a class="orders-link" href="#">1ZAV06000396000272</a></span></td>
+                <td class="orders-icon-cell"><button type="button" class="orders-inquire" aria-label="Inquire about order 0004963237"><img src="images/icons/orders/envelope_16.svg" alt="" width="24" height="24"><span class="orders-tip orders-tip--left" aria-hidden="true">Inquire about order</span></button></td>
+              </tr>
+              <tr data-online data-open>
+                <td class="orders-icon-cell"><span class="orders-online" tabindex="0" role="img" aria-label="Online order"><img src="images/icons/orders/computer_24.svg" alt="" width="24" height="24"><span class="orders-tip" aria-hidden="true">Indicates online order</span></span></td>
+                <td><a class="orders-link" href="#">0004963245</a></td>
+                <td>consignment issue 7</td>
+                <td>0001013740</td>
+                <td>05/06/2025</td>
+                <td>BUYER@EXAMPLE.COM</td>
+                <td class="orders-num">$0.00</td>
+                <td class="orders-status-cell"><span class="orders-status">Order Accepted</span><span class="orders-tracking"><a class="orders-link" href="#">1Z4771470392419869</a></span></td>
+                <td class="orders-icon-cell"><button type="button" class="orders-inquire" aria-label="Inquire about order 0004963245"><img src="images/icons/orders/envelope_16.svg" alt="" width="24" height="24"><span class="orders-tip orders-tip--left" aria-hidden="true">Inquire about order</span></button></td>
+              </tr>
+              <tr>
+                <td class="orders-icon-cell"></td>
+                <td><a class="orders-link" href="#">0004963258</a></td>
+                <td>dharu kits</td>
+                <td>0001013755</td>
+                <td>05/06/2025</td>
+                <td></td>
+                <td class="orders-num">$14,400.00</td>
+                <td class="orders-status-cell"><span class="orders-status">1 of 1 Shipped</span><span class="orders-tracking"><a class="orders-link" href="#">1Z4714560393660561</a></span></td>
+                <td class="orders-icon-cell"><button type="button" class="orders-inquire" aria-label="Inquire about order 0004963258"><img src="images/icons/orders/envelope_16.svg" alt="" width="24" height="24"><span class="orders-tip orders-tip--left" aria-hidden="true">Inquire about order</span></button></td>
+              </tr>
+              <tr>
+                <td class="orders-icon-cell"></td>
+                <td><a class="orders-link" href="#">0004963264</a></td>
+                <td>K FOC 1</td>
+                <td>0001013755</td>
+                <td>05/06/2025</td>
+                <td></td>
+                <td class="orders-num">$470.66</td>
+                <td class="orders-status-cell"><span class="orders-status">25 of 25 Shipped</span><span class="orders-tracking"><a class="orders-link" href="#">1Z4771470390936787</a></span></td>
+                <td class="orders-icon-cell"><button type="button" class="orders-inquire" aria-label="Inquire about order 0004963264"><img src="images/icons/orders/envelope_16.svg" alt="" width="24" height="24"><span class="orders-tip orders-tip--left" aria-hidden="true">Inquire about order</span></button></td>
+              </tr>
+              <tr>
+                <td class="orders-icon-cell"></td>
+                <td><a class="orders-link" href="#">0004962984</a></td>
+                <td>S3-1001</td>
+                <td>0001014558</td>
+                <td>04/17/2025</td>
+                <td></td>
+                <td class="orders-num">$63.25</td>
+                <td class="orders-status-cell"><span class="orders-status">25 of 25 Shipped</span><span class="orders-tracking"><a class="orders-link" href="#">1Z4771470399305568</a></span></td>
+                <td class="orders-icon-cell"><button type="button" class="orders-inquire" aria-label="Inquire about order 0004962984"><img src="images/icons/orders/envelope_16.svg" alt="" width="24" height="24"><span class="orders-tip orders-tip--left" aria-hidden="true">Inquire about order</span></button></td>
+              </tr>
+              <tr data-online>
+                <td class="orders-icon-cell"><span class="orders-online" tabindex="0" role="img" aria-label="Online order"><img src="images/icons/orders/computer_24.svg" alt="" width="24" height="24"><span class="orders-tip" aria-hidden="true">Indicates online order</span></span></td>
+                <td><a class="orders-link" href="#">0004962996</a></td>
+                <td>4885866</td>
+                <td>0001013775</td>
+                <td>04/17/2025</td>
+                <td></td>
+                <td class="orders-num">$220.89</td>
+                <td class="orders-status-cell"><span class="orders-status">3 of 3 Shipped</span><span class="orders-tracking"><a class="orders-link" href="#">1Z4771470393883392</a></span></td>
+                <td class="orders-icon-cell"><button type="button" class="orders-inquire" aria-label="Inquire about order 0004962996"><img src="images/icons/orders/envelope_16.svg" alt="" width="24" height="24"><span class="orders-tip orders-tip--left" aria-hidden="true">Inquire about order</span></button></td>
+              </tr>
+              <tr data-open>
+                <td class="orders-icon-cell"></td>
+                <td><a class="orders-link" href="#">0004962827</a></td>
+                <td>dharu ki</td>
+                <td>0001013755</td>
+                <td>04/16/2025</td>
+                <td></td>
+                <td class="orders-num">$2,304.98</td>
+                <td class="orders-status-cell"><span class="orders-status">1 of 1 Ready to Ship</span><span class="orders-tracking"><a class="orders-link" href="#">7680127755</a></span></td>
+                <td class="orders-icon-cell"><button type="button" class="orders-inquire" aria-label="Inquire about order 0004962827"><img src="images/icons/orders/envelope_16.svg" alt="" width="24" height="24"><span class="orders-tip orders-tip--left" aria-hidden="true">Inquire about order</span></button></td>
+              </tr>
+              <tr>
+                <td class="orders-icon-cell"></td>
+                <td><a class="orders-link" href="#">0004962780</a></td>
+                <td>ATOM Berg Fan</td>
+                <td>0001013740</td>
+                <td>04/16/2025</td>
+                <td>BUYER@EXAMPLE.COM</td>
+                <td class="orders-num">$14,958.00</td>
+                <td class="orders-status-cell"><span class="orders-status">2 of 2 Shipped</span><span class="orders-tracking"><a class="orders-link" href="#">1Z4771470393909042</a></span></td>
+                <td class="orders-icon-cell"><button type="button" class="orders-inquire" aria-label="Inquire about order 0004962780"><img src="images/icons/orders/envelope_16.svg" alt="" width="24" height="24"><span class="orders-tip orders-tip--left" aria-hidden="true">Inquire about order</span></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- MD and smaller: script.js fills this from the table -->
+        <div class="orders-list" id="orders_list">
+          <div class="orders-list-head" aria-hidden="true"><span>Order #</span><span>Order Total</span></div>
+          <ul class="orders-list-items"></ul>
+        </div>
+
+        <p class="orders-empty" id="orders_empty" hidden>No orders match your search.</p>
+        <p class="pdp-visually-hidden" id="orders_status" role="status"></p>
+
+        <!-- Visual only for now: current page and items per page (same pagination as the PDP's Alternatives) -->
+        <nav class="pdp-pagination orders-pagination" aria-label="Orders pages">
+          <div class="pdp-per-page">
+            <span class="pdp-per-page-label">Items per page:</span>
+            <button type="button" class="pdp-per-page-opt">5</button>
+            <button type="button" class="pdp-per-page-opt" aria-current="true">10</button>
+            <button type="button" class="pdp-per-page-opt">30</button>
+          </div>
+          <div class="pdp-pages">
+            <button type="button" class="pdp-page-arrow" data-step="-1" aria-label="Previous page" disabled><img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32"></button>
+            <ol class="pdp-page-list">
+              <li><button type="button" class="pdp-page" aria-current="page">1</button></li>
+              <li><button type="button" class="pdp-page">2</button></li>
+              <li><button type="button" class="pdp-page">3</button></li>
+              <li><button type="button" class="pdp-page">4</button></li>
+              <li><button type="button" class="pdp-page">5</button></li>
+            </ol>
+            <button type="button" class="pdp-page-arrow pdp-page-arrow--next" data-step="1" aria-label="Next page"><img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32"></button>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div id="footer"></div>
+    <button type="button" class="back-to-top" id="back_to_top" aria-label="Back to top">
+      <img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32">
+    </button>
+  </body>
+</html>
