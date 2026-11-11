@@ -112,6 +112,21 @@ $-plp-divider: #ACABAB;  // categories divider
     padding: 0 8px;
 }
 
+.plp-filter-reset {
+    @include focus.focus-ring-base;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    font-size: 16px;
+    color: colors.$hyperlinkblue;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover { text-decoration: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
 .plp-filter-rule {
     margin: 0;
     border: none;
@@ -323,7 +338,26 @@ $-plp-divider: #ACABAB;  // categories divider
     display: none;
 }
 
-@mixin plp-filter-drawer {
+// $inset: one left edge for everything in the open panel (title, checkboxes, inputs, headers, Show More)
+@mixin plp-filter-drawer($inset) {
+    .plp-filter-title,
+    .plp-filter-top,
+    .plp-facet { padding-left: $inset; }
+
+    // Pull back the controls' own left padding so their visible edge sits on $inset
+    .plp-filter-top > .plp-check { margin-left: -2px; }   // the checkbox label's 2px padding
+    .plp-facet-list {                                     // 4px list padding + 2px label padding; stays inside
+        width: calc(100% + 6px);                          // the list so its overflow doesn't clip the focus ring
+        margin-left: -6px;
+    }
+    .plp-show-more { margin-left: -4px; }                 // its 4px padding
+    // Search Diameter + in/mm switch: the box gives up width rather than overflow the panel
+    .plp-input-toggle { gap: 8px; }
+    .plp-input-toggle .plp-input {
+        flex: 0 1 192px;
+        min-width: 0;
+    }
+
     .plp-filter-open {
         @include focus.focus-ring-base;
         display: inline-flex;
@@ -387,7 +421,7 @@ $-plp-divider: #ACABAB;  // categories divider
     }
 }
 
-@include lg  { @include plp-filter-drawer; }
-@include md  { @include plp-filter-drawer; }
-@include sm  { @include plp-filter-drawer; }
-@include xsm { @include plp-filter-drawer; }
+@include lg  { @include plp-filter-drawer(24px); }
+@include md  { @include plp-filter-drawer(24px); }
+@include sm  { @include plp-filter-drawer(16px); }
+@include xsm { @include plp-filter-drawer(16px); }

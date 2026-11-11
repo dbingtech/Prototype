@@ -534,7 +534,8 @@
         // Load Buy Again / Keep Shopping For (B2B and B2C homepages).
         // data-pdp points the product links at that version's PDP (index_B2B.html: pdp_B2B.html); default pdp.html.
         // data-products overrides cards for one page, keyed by group (the section's data-group) then card title
-        // (JSON, e.g. index_B2C.html: {"buy_again": {"D452;056T17F5349": {"price": "$1,479.55", "image": "images/products/D452.jpg"}}}).
+        // (JSON, e.g. {"buy_again": {"D452;056T17F5349": {"price": "$1,479.55", "image": "images/products/D452.jpg"}}}).
+        // Not used right now: both homepages show the products in group_by.html.
         // brand / title: replace the product (the key is still the original title);
         // price: replaces the amount; requestPrice: true shows "Request a Price" instead of a price;
         // image: a replaced image drops its crop modifier and uses the plain 88px square; alt: its alt text.
@@ -1865,14 +1866,24 @@
                     updatePillBar();
                 });
 
-                const resetBtn = document.getElementById('plp_reset_filters');
-                if (resetBtn) resetBtn.addEventListener('click', function () {
+                // Reset Filters (pill bar, and under the filter's title): every facet, the top checkboxes
+                // (In Stock, ...), the search boxes, and the categories back to the top level
+                function resetFilters() {
                     plpFilterEl.querySelectorAll('.plp-facet-list input:checked').forEach(function (input) {
                         input.checked = false;
                         input.dispatchEvent(new Event('change', { bubbles: true }));
                     });
+                    plpFilterEl.querySelectorAll('.plp-filter-top input[type="checkbox"]').forEach(function (input) {
+                        input.checked = false;
+                    });
+                    plpFilterEl.querySelectorAll('.plp-input input').forEach(function (input) {
+                        input.value = '';
+                    });
                     if (resetCategories) resetCategories();
-                });
+                }
+                const resetBtn = document.getElementById('plp_reset_filters');
+                if (resetBtn) resetBtn.addEventListener('click', resetFilters);
+                plpFilterEl.querySelector('.plp-filter-reset').addEventListener('click', resetFilters);
             });
         } // end if (plpFilterEl)
 
