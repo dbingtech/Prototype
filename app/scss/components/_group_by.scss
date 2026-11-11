@@ -1,5 +1,6 @@
 @use '../globals/responsive' as *;
 @use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
 
 // Buy Again / Keep Shopping For (group_by.html) — B2B and B2C homepages, under the hero.
 // Two groups side by side (LG+), stacked below that. 3 cards per group; 2 on XSM.
@@ -149,6 +150,22 @@
 
 .group-by-price-amount {
     font-weight: 600;
+}
+
+// "Request a Price" in place of the price (data-products requestPrice): a link-style button, as on compare.html
+.group-by-request {
+    @include focus.focus-ring-base;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    font: inherit;
+    color: colors.$hyperlinkblue;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover { text-decoration: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
 }
 
 .group-by-add-to-cart {

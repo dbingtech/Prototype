@@ -533,6 +533,11 @@
             .then(data => document.getElementById('trusted_brands').innerHTML = data);
         // Load Buy Again / Keep Shopping For (B2B and B2C homepages).
         // data-pdp points the product links at that version's PDP (index_B2B.html: pdp_B2B.html); default pdp.html.
+        // data-products overrides cards for one page, keyed by group (the section's data-group) then card title
+        // (JSON, e.g. index_B2C.html: {"buy_again": {"D452;056T17F5349": {"price": "$1,479.55", "image": "images/products/D452.jpg"}}}).
+        // brand / title: replace the product (the key is still the original title);
+        // price: replaces the amount; requestPrice: true shows "Request a Price" instead of a price;
+        // image: a replaced image drops its crop modifier and uses the plain 88px square; alt: its alt text.
         const groupByEl = document.getElementById('group_by');
         if (groupByEl) {
         fetch('group_by.html')
@@ -542,6 +547,29 @@
                 if (groupByEl.dataset.pdp) {
                     groupByEl.querySelectorAll('.group-by-card-title').forEach(function (link) {
                         link.setAttribute('href', groupByEl.dataset.pdp);
+                    });
+                }
+                if (groupByEl.dataset.products) {
+                    const products = JSON.parse(groupByEl.dataset.products);
+                    groupByEl.querySelectorAll('.group-by-card').forEach(function (card) {
+                        const group = products[card.closest('.group-by-group').dataset.group] || {};
+                        const product = group[card.querySelector('.group-by-card-title').textContent.trim()];
+                        if (!product) return;
+                        if (product.brand) card.querySelector('.group-by-brand').textContent = product.brand;
+                        if (product.title) card.querySelector('.group-by-card-title').textContent = product.title;
+                        if (product.price) card.querySelector('.group-by-price-amount').textContent = product.price;
+                        if (product.requestPrice) {
+                            // Link-style button like compare.html's (no price request page yet)
+                            card.querySelector('.group-by-price').innerHTML = '<button type="button" class="group-by-request">Request a Price</button>';
+                        }
+                        if (product.image) {
+                            const img = card.querySelector('.group-by-image');
+                            img.className = 'group-by-image';
+                            img.src = product.image;
+                            if (product.alt) img.alt = product.alt;
+                            img.width = 88;
+                            img.height = 88;
+                        }
                     });
                 }
             });
