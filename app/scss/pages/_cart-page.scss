@@ -1,0 +1,357 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+@use '../globals/responsive' as *;
+
+// Shopping Cart page (cart.html, cart_B2B.html, cart_B2C.html), Figma "Shopping Cart" (Checkout - WIP).
+// Main column (Continue Shopping / Clear Cart, then the cart items) | aside (Cart Summary to come, then the ad).
+// The mini cart in the header is _cart-modal.scss.
+
+// MD and smaller (< 992px): one column, the aside under the items
+@mixin -mobile {
+    @include md  { @content; }
+    @include sm  { @content; }
+    @include xsm { @content; }
+}
+
+// Width and side padding come from #main. XXL: 464px aside (Figma); XL and LG: 302px, so the rows keep room
+.cart-page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 464px;
+    align-items: start;
+    gap: 24px;
+    padding: 24px 0 32px;
+    font-family: "Inter", sans-serif;
+    color: colors.$text;
+
+    @include xl { grid-template-columns: minmax(0, 1fr) 302px; }
+    @include lg { grid-template-columns: minmax(0, 1fr) 302px; }
+    @include -mobile {
+        grid-template-columns: minmax(0, 1fr);
+        padding-top: 8px;
+    }
+}
+
+.cart-page-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+// Continue Shopping at the left, Clear Cart at the right; 16px above and below, 16px short of the column's end
+.cart-page-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 16px 16px 0;
+
+    @include -mobile { padding-right: 0; }
+}
+.cart-page-link {
+    @include focus.focus-ring-base;
+    padding: 4px 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 20px;
+    color: colors.$text;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover { text-decoration: none; }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
+.cart-page-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+.cart-page-ad {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+// ----------------------------Cart rows (script.js): PLP B2B cards (_plp.scss) laid out as the Figma "Cart Item":
+// heart at the right above the image | details | price, quantity, Buy Now | line total over delete, with Comments under
+// it all. XXL/XL: one row. LG: details beside the image, price then delete under them at the right.
+// MD and smaller: the PLP stacked card.
+// No lines between the rows (16px apart); one above the first and one under the last
+.cart-page-items { display: flex; flex-direction: column; gap: 16px; }
+
+.plp-card.cart-item {
+    row-gap: 8px;
+    padding: 8px 4px;
+
+    &:first-child { border-top: 1px solid colors.$medgray; }
+    &:last-child { border-bottom: 1px solid colors.$medgray; }
+
+    // Image column: just the image (the heart sits above its right corner), so there's no empty space at the left.
+    // Price column: as wide as the quantity pill and Buy Now (145px). Last column: the line total over the delete
+    // icon, fixed (room for "$ 99,999.99") so the dividers line up row to row. 16px between every column.
+    @include xxl { grid-template-columns: max-content minmax(0, 1fr) 1px 145px 1px 120px; }
+    @include xl  { grid-template-columns: max-content minmax(0, 1fr) 1px 145px 1px 120px; }
+    @include lg {
+        grid-template-columns: max-content minmax(0, 1fr);
+
+        &::after { display: none; }
+        .cart-item-buy {
+            grid-column: 1 / -1;
+            grid-row: 2;
+            justify-self: end;
+        }
+    }
+}
+// Just the heart, above the image's right corner
+.cart-item .plp-card-media { gap: 10px; }
+.cart-item .plp-card-actions {
+    justify-content: flex-end;
+    height: 44px;
+}
+.cart-item .plp-card-image {
+    width: 128px;
+    height: 128px;
+
+    @include xl { width: 104px; height: 104px; }
+    @include lg { width: 104px; height: 104px; }
+}
+// Outside #plp, so the card's paragraphs need their margins reset
+.cart-item p { margin: 0; }
+// ID values semibold; a long one wraps instead of running into the price column
+.cart-item .plp-card-ids--grid { grid-template-columns: 96px minmax(0, max-content) 24px minmax(0, 1fr); }
+.cart-item .plp-card-ids dd:nth-of-type(1) {
+    font-weight: 600;
+    font-variation-settings: "wght" 600;
+    overflow-wrap: anywhere;
+}
+
+// Unit price, quantity, Buy Now; 192px wide (SM buttons), centered beside the details
+.cart-item .cart-item-buy {
+    align-self: center;
+    justify-content: center;
+    gap: 12px;
+    width: 192px;
+    padding-top: 0;
+
+    @include xl { width: 145px; }
+    @include -mobile { width: 256px; max-width: 100%; }
+}
+.cart-item-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    font-variation-settings: "wght" 600;
+    white-space: nowrap;
+}
+.cart-item-price-unit {
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 400;
+    font-variation-settings: "wght" 400;
+}
+// Prices without an amount ("Request a Price")
+.cart-item-price-text { white-space: normal; text-align: center; }
+// Line total, above the delete icon
+.cart-item-total {
+    font-size: 20px;
+    font-weight: 600;
+    font-variation-settings: "wght" 600;
+    text-align: center;
+    white-space: nowrap;
+}
+// The quantity pill matches Buy Now: XSM (145px) beside the details, SM (194px) in the stacked card
+.cart-item-qty {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .plp-qty {
+        width: 145px;
+        max-width: 100%;
+
+        @include -mobile { width: 194px; }
+    }
+}
+// One size under the column: XSM (145px) beside the details, SM (194px) in the stacked card (256px column)
+.cart-item .cart-item-buy-now {
+    width: 145px;
+    max-width: 100%;
+    margin-top: 4px;  // 16px under the quantity
+
+    @include -mobile { width: 194px; }
+}
+
+// Second vertical divider (price | total and delete) and the total / delete column; LG and smaller: under the price
+.cart-item-divider {
+    grid-column: 5;
+    grid-row: 1;
+    align-self: stretch;
+    width: 1px;
+    background-color: colors.$medgray70;
+
+    @include lg { display: none; }
+    @include -mobile { display: none; }
+}
+.cart-item-delete-col {
+    grid-column: 6;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    @include lg { grid-column: 1 / -1; grid-row: 3; justify-self: end; }
+    @include -mobile { grid-column: 1 / -1; grid-row: auto; justify-self: center; }
+}
+.cart-item-delete {
+    @include focus.focus-ring-base;
+    display: flex;
+    padding: 8px;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover { background-color: rgba(colors.$red, 0.08); }
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+
+// Comments: the card's full width, under everything else
+.cart-item-comments { grid-column: 1 / -1; }
+.cart-item-comment {
+    display: block;
+    width: 100%;
+    height: 44px;
+    box-sizing: border-box;
+    padding: 4px 4px 4px 12px;
+    border: 1px solid colors.$medgray;
+    border-radius: 4px;
+    background-color: colors.$white;
+    font-family: inherit;
+    font-size: 16px;
+    color: colors.$text;
+    @include focus.focus-ring-base;
+
+    &::placeholder { color: colors.$medgray; }
+    &:focus { border-color: colors.$bdiblue; box-shadow: inset 0 0 0 1px colors.$bdiblue; }
+}
+
+.cart-page-empty {
+    margin: 0;
+    padding: 24px 0;
+    border-top: 1px solid colors.$medgray;
+    border-bottom: 1px solid colors.$medgray;
+    font-size: 16px;
+}
+
+// ----------------------------Cart Summary (Figma): title over a rule, totals, Estimated Delivery bar, Checkout
+.cart-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+}
+.cart-summary-head {
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+    padding: 4px 0;
+}
+.cart-summary-title {
+    margin: 0;
+    padding: 4px 0 8px;
+    border-bottom: 1px solid colors.$medgray70;
+    font-size: 20px;
+    font-weight: 600;
+    font-variation-settings: "wght" 600;
+    text-transform: uppercase;
+    text-align: center;
+}
+.cart-summary-totals {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 0 8px;
+    font-size: 16px;
+
+    > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 24px;
+    }
+    dt { font-weight: 600; font-variation-settings: "wght" 600; }
+    dd { margin: 0; white-space: nowrap; }
+}
+.cart-summary-total dd {
+    font-size: 18px;
+    font-weight: 600;
+    font-variation-settings: "wght" 600;
+}
+.cart-summary-delivery {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.cart-summary-bar {
+    margin: 0;
+    padding: 4px 0;
+    background-color: colors.$bdiblue;
+    font-size: 20px;
+    font-weight: 700;
+    color: colors.$white;
+    text-align: center;
+}
+.cart-summary-delivery-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    margin: 0;
+    padding-bottom: 8px;
+    font-size: 16px;
+}
+.cart-summary-actions {
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+
+    .btn { max-width: 100%; }
+}
+
+// XXL/XL (one-row card): the price column's pieces sit on shared rows so they line up across columns.
+// Rows: spacer | unit price + line total | quantity | Buy Now | spacer | Comments. The spacers split any extra
+// height, so the price group stays centered beside the details; the delete icon sits at the bottom of its column.
+@mixin -cart-row-grid {
+    .plp-card.cart-item {
+        grid-template-rows: 1fr auto auto auto 1fr auto;
+        row-gap: 0;
+
+        &::after { grid-row: 1 / 6; }
+    }
+    .cart-item .plp-card-media,
+    .cart-item .plp-card-details { grid-row: 1 / 6; }
+    .cart-item .cart-item-buy,
+    .cart-item-delete-col { display: contents; }
+    .cart-item-price { grid-column: 4; grid-row: 2; }
+    .cart-item-qty { grid-column: 4; grid-row: 3; margin-top: 12px; }
+    .cart-item .cart-item-buy-now { grid-column: 4; grid-row: 4; justify-self: center; margin-top: 16px; }
+    .cart-item-divider { grid-row: 1 / 6; }
+    .cart-item-total { grid-column: 6; grid-row: 2; justify-self: center; }
+    .cart-item-delete { grid-column: 6; grid-row: 3 / 6; align-self: end; justify-self: center; }
+    .cart-item-comments { grid-row: 6; margin-top: 8px; }
+}
+@include xxl { @include -cart-row-grid; }
+@include xl  { @include -cart-row-grid; }

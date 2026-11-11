@@ -287,6 +287,7 @@
                         cartBtn.setAttribute('aria-label', units ? 'Cart, ' + units.toLocaleString('en-US') + (units === 1 ? ' item' : ' items') : 'Cart');
                         cartTotal.textContent = total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
                         saveCart();
+                        document.dispatchEvent(new CustomEvent('minicart:change'));
                     }
 
                     // Adds 1 (or bumps an existing line) and shows the "Added to Cart" view;
@@ -299,7 +300,12 @@
                         } else {
                             line = lineItemTemplate.cloneNode(true);
                             line.dataset.key = key;
-                            line.cartItem = { key: key, sku: item.sku, name: item.name, price: item.price, image: item.image, imageAlt: item.imageAlt || '' };
+                            // Details (brand, description, Mfr part no., page link, stock) and the comment are for the cart page
+                            line.cartItem = {
+                                key: key, sku: item.sku, name: item.name, price: item.price, image: item.image, imageAlt: item.imageAlt || '',
+                                brand: item.brand || '', line: item.line || '', desc: item.desc || '', mfr: item.mfr || '',
+                                url: item.url || '', stock: item.stock || '', comment: item.comment || ''
+                            };
                             const img = line.querySelector('.cart-line-item-img');
                             img.src = item.image;
                             img.alt = item.imageAlt || '';
@@ -343,6 +349,26 @@
                         return line ? parseInt(line.dataset.qty, 10) : 0;
                     };
 
+                    // The cart's lines, newest first, as saved (cart page)
+                    window.getMiniCartItems = function () {
+                        return Array.from(cartItems.querySelectorAll('.cart-line-item')).map(function (li) {
+                            return Object.assign({}, li.cartItem, { qty: parseInt(li.dataset.qty, 10) });
+                        });
+                    };
+                    // The cart page's Comments field for a line
+                    window.setMiniCartComment = function (key, text) {
+                        const line = findLine(key);
+                        if (!line) return;
+                        line.cartItem.comment = text;
+                        saveCart();
+                    };
+
+                    // Empties this version's cart (Clear Cart on the cart page); the saved copy goes too
+                    window.clearMiniCart = function () {
+                        cartItems.querySelectorAll('.cart-line-item, .cart-divider').forEach(function (el) { el.remove(); });
+                        updateCartCount();
+                    };
+
                     // Put back the saved cart (oldest first, since each new line goes on top)
                     let savedCart = [];
                     try { savedCart = JSON.parse(localStorage.getItem(cartStoreKey)) || []; } catch (err) { savedCart = []; }
@@ -351,6 +377,8 @@
                         window.addToMiniCart(item, null, true);
                         setLineQty(findLine(item.key), item.qty);
                     });
+                    window.miniCartReady = true;
+                    document.dispatchEvent(new CustomEvent('minicart:ready'));
                     if (savedCart.length) updateCartCount();
 
                     // View Cart: the cart page with this page's suffix (plp_B2B.html -> cart_B2B.html); pages without
@@ -641,7 +669,7 @@
                 addBtn.hidden = true;
                 addBtn.after(pill);
                 renderQtyPill(pill, 1);
-                window.addToMiniCart({
+                window.addToMiniCart(Object.assign(readCardDetails(card), {
                     key: card.dataset.cartKey,
                     sku: title,
                     brand: card.querySelector('.group-by-brand').textContent.trim(),
@@ -649,7 +677,7 @@
                     price: card.querySelector('.group-by-price').textContent.trim(),
                     image: image.getAttribute('src'),
                     imageAlt: image.alt
-                }, pill.querySelector('.plp-qty-input'));
+                }), pill.querySelector('.plp-qty-input'));
                 if (window.getMiniCartQty) renderQtyPill(pill, window.getMiniCartQty(card.dataset.cartKey));
                 return;
             }
@@ -710,6 +738,28 @@
 
         // Quantity pill (PLP cards, PDP card, Buy Again / Keep Shopping For): replaces Add To Cart once clicked.
         // Trash at 1, minus above 1, typeable number, plus. Styles in _plp.scss (.plp-qty).
+        // Product details for the cart page, read from whichever card the item was added from
+        function readCardDetails(card) {
+            const text = function (sel) { const el = card.querySelector(sel); return el ? el.textContent.trim() : ''; };
+            let mfr = '';
+            card.querySelectorAll('.plp-card-id-row, .pdp-card-id-row').forEach(function (row) {
+                const dt = row.querySelector('dt');
+                if (!mfr && dt && /mfr/i.test(dt.textContent)) {
+                    const value = row.querySelector('.plp-card-id-link, .pdp-card-id-value') || row.querySelector('dd');
+                    mfr = value.textContent.trim();
+                }
+            });
+            const link = card.querySelector('a.plp-card-title, a.group-by-card-title');
+            return {
+                brand: text('.plp-card-brand, .pdp-card-brand, .group-by-brand'),
+                line: text('.plp-card-name, .pdp-card-name'),
+                desc: text('.plp-card-desc, .pdp-card-desc'),
+                mfr: mfr,
+                url: link ? link.getAttribute('href') : '',
+                stock: text('.plp-card-stock--in, .plp-stock-label, .pdp-card-status-label, .pdp-card-stock')
+            };
+        }
+
         function buildQtyPill(name) {
             const pill = document.createElement('div');
             pill.className = 'plp-qty';
@@ -1193,7 +1243,8 @@
                             renderQtyPill(pill, 1);
                             return pill;
                         });
-                        window.addToMiniCart({
+                        window.addToMiniCart(Object.assign(readCardDetails(card), {
+                            url: location.pathname.split('/').pop() + location.search,
                             sku: sku,
                             brand: card.querySelector('.pdp-card-brand').textContent.trim(),
                             name: name,
@@ -1202,7 +1253,7 @@
                             image: image.getAttribute('src'),
                             imageAlt: image.alt,
                             addedTitle: cardAdd.dataset.addedTitle
-                        }, null, true);
+                        }), null, true);
                         if (window.getMiniCartQty) pills.forEach(function (p) { renderQtyPill(p, window.getMiniCartQty(sku)); });
                         const pill = pills[inMini ? 1 : 0];
                         pill.querySelector('.plp-qty-input').focus();
@@ -1870,14 +1921,14 @@
                 const key = 'quote_item_' + sku;
                 const qty = parseInt(card.querySelector('.plp-qty').dataset.qty, 10);
                 const before = window.getMiniCartQty ? window.getMiniCartQty(key) : 0;
-                window.addToMiniCart({
+                window.addToMiniCart(Object.assign(readCardDetails(card), {
                     key: key,
                     sku: sku,
                     name: card.querySelector('.plp-card-title').textContent.trim(),
                     price: card.querySelector('.plp-price-amount').textContent.replace(/[$]\s+(?=[0-9])/, '$').trim() + ' / each',
                     image: image.getAttribute('src'),
                     imageAlt: image.alt
-                }, null, true);
+                }), null, true);
                 window.setMiniCartQty(key, before + qty);
             }
             quoteDetailEl.addEventListener('click', function (e) {
@@ -1906,6 +1957,213 @@
                 }
             });
         } // end if (quoteDetailEl)
+
+        // Shopping Cart page (cart.html, cart_B2B.html, cart_B2C.html). One row per mini cart line (PLP B2B card
+        // styles, plus a delete column and a Comments field), newest first. The quantity pill, delete, trash at 1
+        // and Comments all update the mini cart, which saves them. Clear Cart empties it. A change made somewhere
+        // else (another tab's mini cart doesn't count) redraws the rows.
+        const cartPageItems = document.getElementById('cart_items');
+        if (cartPageItems) {
+            const cartPageStatus = document.getElementById('cart_page_status');
+            const guestCart = !!document.getElementById('header');  // guest header: no favorites
+            let cartSelfChange = false;  // the page's own changes don't redraw (focus stays put)
+
+            const esc = function (v) {
+                return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+                });
+            };
+            // Placeholder text (Figma) when the item was added without a name line or description
+            const LOREM_LINE = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit';
+            const LOREM_DESC = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+
+            // "$26.60 / each" -> { amount: 26.6, text: "26.60", unit: "each" }; anything else ("Request a Price") -> null
+            function parseCartPrice(price) {
+                const m = /^\$\s?([0-9,]+(?:\.[0-9]+)?)\s*(?:\/\s*(.+))?$/.exec(String(price || '').trim());
+                return m ? { amount: parseFloat(m[1].replace(/,/g, '')), text: m[1], unit: m[2] || '' } : null;
+            }
+            const money = function (n) { return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace('$', '$ '); };
+            // Unit price ("$ 26.60 / each", 16px) at the top of the price column
+            function cartPriceHtml(price) {
+                const p = parseCartPrice(price);
+                if (!p) return '<p class="cart-item-price"><span class="cart-item-price-text">' + esc(price) + '</span></p>';
+                return '<p class="cart-item-price"><span class="cart-item-price-amount">$ ' + esc(p.text) + '</span>' +
+                    (p.unit ? '<span class="cart-item-price-unit">/ ' + esc(p.unit) + '</span>' : '') + '</p>';
+            }
+            // Line total ("$ 53.20", 20px) above the delete icon; none for items without a price
+            function cartTotalHtml(price, qty) {
+                const p = parseCartPrice(price);
+                if (!p) return '';
+                return '<p class="cart-item-total"><span class="pdp-visually-hidden">Item total </span>' +
+                    '<span class="cart-item-total-value">' + money(p.amount * qty) + '</span></p>';
+            }
+            // Sample 8-digit BDI No. from the line's key, so it stays the same on every visit (prototype data)
+            function sampleBdiNo(key) {
+                let h = 0;
+                String(key).split('').forEach(function (c) { h = (h * 31 + c.charCodeAt(0)) % 90000000; });
+                return String(10000000 + h);
+            }
+            const copyBtn = function (value, label) {
+                return '<dd><button type="button" class="plp-icon-btn plp-copy" data-copy="' + esc(value) + '" aria-label="Copy ' + label + '">' +
+                    '<img src="images/icons/plp/copy_group.svg" alt="" width="17" height="21"></button></dd>';
+            };
+
+            // Figma "Cart Item": heart over the image | brand + stock, title, name, description, BDI No., Mfr Part No. |
+            // unit price, quantity, Buy Now | line total over delete; Comments under it all
+            function cartRowHtml(item, n) {
+                const title = item.name || item.sku;
+                const url = item.url || '#';
+                let stock = '';
+                if (/in stock/i.test(item.stock)) {
+                    stock = '<span class="plp-card-stock plp-card-stock--in">In Stock <img src="images/icons/plp/checkmark_20.svg" alt="" width="20" height="20"></span>';
+                } else if (/available/i.test(item.stock)) {
+                    // Opens the availability modal, as on the PLP (script.js)
+                    stock = '<span class="plp-card-stock"><button type="button" class="plp-stock-info-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="availability_modal" aria-label="Available: lead time and sales offices">' +
+                        '<span class="plp-stock-label">Available</span><span class="plp-stock-icon"><img class="plp-card-attention" src="images/icons/plp/info_24.svg" alt="" width="20" height="20"></span></button></span>';
+                } else if (item.stock) {
+                    stock = '<span class="plp-card-stock">' + esc(item.stock) + '</span>';
+                }
+                const heart = guestCart
+                    ? '<div class="plp-fav-guest"><button type="button" class="plp-fav-btn plp-fav-btn--guest" aria-label="Add ' + esc(title) + ' to favorites" aria-describedby="cart_fav_tip_' + n + '" aria-expanded="false" aria-controls="cart_fav_tip_' + n + '">' +
+                        '<img class="plp-fav-icon plp-fav-icon--off" src="images/icons/plp/heart_24.svg" alt="" width="24" height="24"></button>' +
+                        '<span class="plp-fav-tip plp-fav-tip--text" id="cart_fav_tip_' + n + '" role="tooltip">Register to Save Favorites</span></div>'
+                    : '<button type="button" class="plp-fav-btn plp-card-favorite" aria-pressed="false" aria-label="Add ' + esc(title) + ' to favorites" data-item="' + esc(title) + '">' +
+                        '<img class="plp-fav-icon plp-fav-icon--off" src="images/icons/plp/heart_24.svg" alt="" width="24" height="24">' +
+                        '<img class="plp-fav-icon plp-fav-icon--on" src="images/icons/plp/heart_filled_28.svg" alt="" width="24" height="24"></button>';
+                // Items added without them (homepage cards, quotes): a sample BDI No. (the same one each time for that
+                // line) and the title (Global SAP Number) as the Mfr Part No.
+                const bdiNo = /^[0-9]+$/.test(item.sku) ? item.sku : sampleBdiNo(item.key);
+                const mfrNo = item.mfr || title;
+                const ids = '<div class="plp-card-id-row"><dt>BDI No.</dt><dd>' + esc(bdiNo) + '</dd>' + copyBtn(bdiNo, 'BDI number') + '</div>' +
+                    '<div class="plp-card-id-row"><dt>Mfr Part No.</dt><dd>' + esc(mfrNo) + '</dd>' + copyBtn(mfrNo, 'manufacturer part number') + '</div>';
+                return '<article class="plp-card plp-card--b2b cart-item" aria-labelledby="cart_item_title_' + n + '" data-key="' + esc(item.key) + '">' +
+                    '<div class="plp-card-media"><div class="plp-card-actions">' + heart + '</div>' +
+                        '<a href="' + esc(url) + '" class="plp-card-image-link" tabindex="-1" aria-hidden="true"><img class="plp-card-image" src="' + esc(item.image) + '" alt="' + esc(item.imageAlt) + '" width="128" height="128"></a></div>' +
+                    '<div class="plp-card-details">' +
+                        '<div class="plp-card-brand-row"><span class="plp-card-brand">' + esc(item.brand) + '</span>' + stock + '</div>' +
+                        '<a href="' + esc(url) + '" class="plp-card-title" id="cart_item_title_' + n + '">' + esc(title) + '</a>' +
+                        '<p class="plp-card-name">' + esc(item.line || LOREM_LINE) + '</p>' +
+                        '<p class="plp-card-desc">' + esc(item.desc || LOREM_DESC) + '</p>' +
+                        '<dl class="plp-card-ids plp-card-ids--grid">' + ids + '</dl></div>' +
+                    '<div class="plp-card-buy cart-item-buy">' + cartPriceHtml(item.price) +
+                        '<div class="cart-item-qty"></div>' +
+                        '<button type="button" class="btn btn--secondary plp-add-to-cart cart-item-buy-now">Buy Now</button></div>' +
+                    '<span class="cart-item-divider" aria-hidden="true"></span>' +
+                    '<div class="cart-item-delete-col">' + cartTotalHtml(item.price, item.qty) +
+                        '<button type="button" class="cart-item-delete" aria-label="Remove ' + esc(title) + ' from cart">' +
+                        '<img src="images/icons/cart/delete_28.svg" alt="" width="28" height="28"></button></div>' +
+                    '<div class="cart-item-comments"><input type="text" class="cart-item-comment" placeholder="Comments" aria-label="Comments for ' + esc(title) + '" maxlength="250" value="' + esc(item.comment) + '"></div>' +
+                    '</article>';
+            }
+
+            // Cart Summary: placeholder X's for now (Figma); Checkout is off while the cart is empty
+            function updateCartSummary() {
+                const items = window.getMiniCartItems ? window.getMiniCartItems() : [];
+                document.getElementById('cart_checkout').disabled = items.length === 0;
+            }
+
+            function renderCartRows() {
+                updateCartSummary();
+                const items = window.getMiniCartItems ? window.getMiniCartItems() : [];
+                if (!items.length) {
+                    cartPageItems.innerHTML = '<p class="cart-page-empty">Your cart is empty.</p>';
+                    return;
+                }
+                cartPageItems.innerHTML = items.map(cartRowHtml).join('');
+                cartPageItems.querySelectorAll('.cart-item').forEach(function (row, i) {
+                    const pill = buildQtyPill(items[i].name || items[i].sku);
+                    row.querySelector('.cart-item-qty').append(pill);
+                    renderQtyPill(pill, items[i].qty);
+                });
+            }
+
+            function setCartRowQty(row, qty) {
+                cartSelfChange = true;
+                if (window.setMiniCartQty) window.setMiniCartQty(row.dataset.key, qty);
+                cartSelfChange = false;
+                renderQtyPill(row.querySelector('.plp-qty'), qty);
+                const total = row.querySelector('.cart-item-total-value');
+                const item = (window.getMiniCartItems ? window.getMiniCartItems() : []).find(function (i) { return i.key === row.dataset.key; });
+                const price = item && parseCartPrice(item.price);
+                if (total && price) total.textContent = money(price.amount * qty);
+            }
+            // Delete, the trash at 1 or a typed 0: the row goes, focus moves to the next row (or Continue Shopping)
+            function removeCartRow(row) {
+                const name = row.querySelector('.plp-card-title').textContent.trim();
+                const next = row.nextElementSibling || row.previousElementSibling;
+                cartSelfChange = true;
+                if (window.setMiniCartQty) window.setMiniCartQty(row.dataset.key, 0);
+                cartSelfChange = false;
+                row.remove();
+                if (!cartPageItems.querySelector('.cart-item')) renderCartRows();
+                cartPageStatus.textContent = name + ' removed from your cart';
+                (next ? next.querySelector('.plp-card-title') : document.querySelector('.cart-page-links a')).focus();
+            }
+
+            cartPageItems.addEventListener('click', function (e) {
+                const row = e.target.closest('.cart-item');
+                if (!row) return;
+                if (e.target.closest('.cart-item-delete')) { removeCartRow(row); return; }
+                const qtyBtn = e.target.closest('.plp-qty-minus, .plp-qty-plus');
+                if (qtyBtn) {
+                    const qty = parseInt(row.querySelector('.plp-qty').dataset.qty, 10);
+                    if (qtyBtn.classList.contains('plp-qty-plus')) {
+                        setCartRowQty(row, qty + 1);
+                        cartPageStatus.textContent = 'Quantity has been updated';
+                    } else if (qty > 1) {
+                        setCartRowQty(row, qty - 1);
+                        cartPageStatus.textContent = 'Quantity has been updated';
+                    } else {
+                        removeCartRow(row);
+                    }
+                    return;
+                }
+                const favoriteBtn = e.target.closest('.plp-card-favorite');
+                if (favoriteBtn) {
+                    const on = favoriteBtn.getAttribute('aria-pressed') !== 'true';
+                    favoriteBtn.setAttribute('aria-pressed', String(on));
+                    const item = favoriteBtn.dataset.item;
+                    favoriteBtn.setAttribute('aria-label', on ? 'Remove ' + item + ' from favorites' : 'Add ' + item + ' to favorites');
+                    return;
+                }
+                const copy = e.target.closest('.plp-copy');
+                if (copy) {
+                    navigator.clipboard.writeText(copy.dataset.copy)
+                        .then(function () { cartPageStatus.textContent = 'Copied ' + copy.dataset.copy; showCopied(copy); })
+                        .catch(function () { cartPageStatus.textContent = 'Copy failed'; });
+                    return;
+                }
+            });
+            cartPageItems.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && e.target.classList.contains('plp-qty-input')) e.target.blur();
+            });
+            cartPageItems.addEventListener('change', function (e) {
+                if (!e.target.classList.contains('plp-qty-input')) return;
+                const row = e.target.closest('.cart-item');
+                const typed = e.target.value.trim();
+                if (!/^[0-9]+$/.test(typed)) { e.target.value = row.querySelector('.plp-qty').dataset.qty; return; }
+                if (parseInt(typed, 10) === 0) { removeCartRow(row); return; }
+                setCartRowQty(row, parseInt(typed, 10));
+                cartPageStatus.textContent = 'Quantity has been updated';
+            });
+            // Comments are saved as they're typed
+            cartPageItems.addEventListener('input', function (e) {
+                if (!e.target.classList.contains('cart-item-comment') || !window.setMiniCartComment) return;
+                window.setMiniCartComment(e.target.closest('.cart-item').dataset.key, e.target.value);
+            });
+
+            document.getElementById('cart_clear').addEventListener('click', function () {
+                if (window.clearMiniCart) window.clearMiniCart();
+                cartPageStatus.textContent = 'Your cart has been cleared';
+            });
+            document.addEventListener('minicart:change', function () {
+                if (cartSelfChange) updateCartSummary();
+                else renderCartRows();
+            });
+            // The mini cart loads with the header; draw once its saved lines are back
+            if (window.miniCartReady) renderCartRows();
+            else document.addEventListener('minicart:ready', renderCartRows, { once: true });
+        }
 
         // Load PLP filter (plp-filter.html): facet accordions, Show More, unit toggle
         const plpFilterEl = document.getElementById('plp_filter');
@@ -2383,7 +2641,7 @@
                     const unit = card.querySelector('.plp-price-uom, .plp-price-unit');
                     const image = card.querySelector('.plp-card-image');
                     const pill = showQtyPill(card, addBtn);
-                    window.addToMiniCart({
+                    window.addToMiniCart(Object.assign(readCardDetails(card), {
                         key: card.dataset.cartKey,
                         sku: card.querySelector('.plp-card-ids dd').textContent.trim(),
                         brand: card.querySelector('.plp-card-brand').textContent.trim(),
@@ -2393,7 +2651,7 @@
                         image: image.getAttribute('src'),
                         imageAlt: image.alt,
                         addedTitle: addBtn.dataset.addedTitle
-                    }, pill.querySelector('.plp-qty-input'));
+                    }), pill.querySelector('.plp-qty-input'));
                     if (window.getMiniCartQty) renderQtyPill(pill, window.getMiniCartQty(card.dataset.cartKey));
                     return;
                 }
@@ -2583,7 +2841,7 @@
         // Locate Sales Office shows the nearest offices. Closes on a click outside, Escape, or a second click on the icon.
         // On the PDP, #main holds both the card and the Alternatives table.
         // data-avail-modal swaps in another version (plp_B2B.html: Contact Your Sales Office, no zip code).
-        const availScopeEl = plpEl || (pdpcardEl && document.getElementById('main'));
+        const availScopeEl = plpEl || (pdpcardEl && document.getElementById('main')) || document.getElementById('cart_page');
         if (availScopeEl) {
             let availModal = null;
             let availBtn = null;   // icon that opened the modal

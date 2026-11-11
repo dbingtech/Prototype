@@ -16,15 +16,52 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item breadcrumb-home"><a href="index_B2C.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
-          <li class="breadcrumb-item active" aria-current="page">Cart</li>
+          <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
         </ol>
       </nav>
     </div>
 
     <div id="main">
-      <!-- Cart page: shell for now (content to come). The header mini cart is saved per version (script.js). -->
-      <h1 class="page-title">Cart</h1>
-
+      <!-- Shopping Cart (Figma "Shopping Cart", Checkout - WIP): Continue Shopping / Clear Cart, the cart rows,
+           the Cart Summary and the ad.
+           The rows (#cart_items) come from the header's mini cart, saved per version (script.js). Still to come:
+           the message bars, shipping, tax and checkout. -->
+      <div class="cart-page" id="cart_page">
+        <h1 class="pdp-visually-hidden">Shopping Cart</h1>
+        <div class="cart-page-main">
+          <div class="cart-page-links">
+            <a class="cart-page-link" href="plp_B2C.html">Continue Shopping</a>
+            <!-- Empties this version's cart (the mini cart and its saved copy) -->
+            <button type="button" class="cart-page-link" id="cart_clear">Clear Cart</button>
+          </div>
+          <div class="cart-page-items" id="cart_items"></div>
+          <p class="pdp-visually-hidden" id="cart_page_status" role="status"></p>
+        </div>
+        <aside class="cart-page-aside" aria-label="Cart summary and offers">
+          <!-- Cart Summary skeleton (Figma): X's stand in for the numbers. No checkout page yet. -->
+          <section class="cart-summary" aria-labelledby="cart_summary_title">
+            <div class="cart-summary-head">
+              <h2 class="cart-summary-title" id="cart_summary_title">Cart Summary</h2>
+              <dl class="cart-summary-totals">
+                <div><dt>Items:</dt><dd>XX</dd></div>
+                <div><dt>Subtotal:</dt><dd>$X,XXX.XX</dd></div>
+                <div><dt>Shipping:</dt><dd>$XX.XX</dd></div>
+                <div><dt>Tax:</dt><dd>$XX.XX</dd></div>
+                <div class="cart-summary-total"><dt>Total:</dt><dd>$XX,XXX.XX</dd></div>
+              </dl>
+            </div>
+            <div class="cart-summary-delivery">
+              <h3 class="cart-summary-bar">Estimated Delivery</h3>
+              <p class="cart-summary-delivery-time">1-3 business days</p>
+            </div>
+            <div class="cart-summary-actions">
+              <button type="button" class="btn btn--primary btn--medium" id="cart_checkout">Checkout</button>
+            </div>
+          </section>
+          <!-- Sample ad (Figma), not a live promotion -->
+          <img class="cart-page-ad" src="images/ads/IKO_crossed_roller_250.jpg" alt="IKO crossed roller bearings, engineered to handle complex loads. Types include thin section to heavy duty, providing high rotational accuracy and smooth movement in a compact size." width="250" height="250">
+        </aside>
+      </div>
     </div>
     <div id="footer"></div>
     <button type="button" class="back-to-top" id="back_to_top" aria-label="Back to top">
