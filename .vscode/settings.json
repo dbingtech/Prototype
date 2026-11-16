@@ -14,5 +14,6 @@
     "liveSassCompile.settings.generateMap": false,
     "liveSassCompile.settings.watchFiles": [
         "/**/*.s[ac]ss"
-    ]
+    ],
+    "livePreview.defaultPreviewPath": "/index.html"
 }

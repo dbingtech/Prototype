@@ -6,34 +6,33 @@
     <link rel="icon" type="image/png" href="images/logos/Favicon.png" />
     <link rel="stylesheet" type="text/css" href="dist/styles.css" />
     <script src="app/js/script.js" async></script>
-    <title>My Account
+    <title>My Account: B2C
     </title>
   </head>
   <body>
-    <div id="header_B2B"></div>
-    <div id="navbar_B2B"></div>
+    <div id="header_B2C"></div>
+    <div id="navbar_B2C"></div>
     <div id="breadcrumbs">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item breadcrumb-home"><a href="index_B2B.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
+          <li class="breadcrumb-item breadcrumb-home"><a href="index_B2C.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
           <li class="breadcrumb-item active" aria-current="page">My Account</li>
         </ol>
       </nav>
     </div>
 
     <div id="main">
-      <!-- My Account landing (B2B admin). Sample data. LG and MD: menu on the left, title and cards on the right;
+      <!-- My Account landing (B2C), from the B2C wireframe; sample data. Built on the B2B page's styles. LG and MD: menu on the left, title and cards on the right;
            SM and XSM: title, menu, then the cards (2 across on SM, 1 on XSM). Styles in _account.scss -->
       <div class="account" id="account">
-        <h1 class="page-title account-title">Welcome Tony</h1>
+        <h1 class="page-title account-title">Welcome, Bruce</h1>
+        <!-- Prototype only: this page is still being built -->
+        <p class="account-wip">WIP</p>
 
         <nav class="account-menu" aria-label="My account">
           <div class="account-menu-group">
-            <p class="account-menu-heading">Tony Stark</p>
+            <p class="account-menu-heading">Bruce Banner</p>
             <p class="account-menu-role">Admin Account</p>
-            <ul class="account-menu-list">
-              <li><a href="#">Manage Purchasing Accounts</a></li>
-            </ul>
           </div>
           <div class="account-menu-group">
             <p class="account-menu-heading">Profile</p>
@@ -49,28 +48,21 @@
             <p class="account-menu-heading">Account Preferences</p>
             <ul class="account-menu-list">
               <li><a href="#">Payment Methods</a></li>
-              <li><a href="#">Shipping Addresses</a></li>
+              <li><a href="#">Shipping Address</a></li>
               <li><a href="#">Shipping Methods</a></li>
             </ul>
           </div>
           <div class="account-menu-group">
             <p class="account-menu-heading">Orders</p>
             <ul class="account-menu-list">
-              <li><a href="orders_B2B.html">All Orders</a></li>
+              <li><a href="orders_B2C.html">All Orders</a></li>
             </ul>
           </div>
           <div class="account-menu-group">
             <p class="account-menu-heading">Quotes</p>
             <ul class="account-menu-list">
-              <li><a href="quotes_B2B.html">All Quotes</a></li>
+              <li><a href="quotes_B2C.html">All Quotes</a></li>
               <li><a href="#">Request A Quote</a></li>
-            </ul>
-          </div>
-          <div class="account-menu-group">
-            <p class="account-menu-heading">Invoices</p>
-            <ul class="account-menu-list">
-              <li><a href="#">Invoices</a></li>
-              <li><a href="#">Active Invoices</a></li>
             </ul>
           </div>
         </nav>
@@ -79,23 +71,22 @@
           <div class="account-cards">
             <section class="account-card" aria-labelledby="account_card_personal">
               <h2 class="account-card-title" id="account_card_personal">Personal information</h2>
-              <div class="account-card-body account-card-body--center">
-                <p>Tony Stark</p>
-                <p>CEO</p>
-                <p>tony.stark@stark.com</p>
+              <div class="account-card-body">
+                <p>Bruce Banner</p>
+                <p>CRO</p>
+                <p>bruce.banner@stark.com</p>
                 <p>(555) 555-5555</p>
               </div>
               <a class="account-card-link" href="#">Edit Personal information</a>
             </section>
             <section class="account-card" aria-labelledby="account_card_purchasing">
               <h2 class="account-card-title" id="account_card_purchasing">Purchasing Account</h2>
-              <p class="account-card-note">Account No. 12345678</p>
-              <div class="account-card-body account-card-body--center">
-                <p>Company Name or Location Name</p>
-                <p>28420 Oma Harbor Suite 871</p>
-                <p>Pittsburg, Rhode Island, 11392</p>
+              <!-- B2C: no company account yet, so an offer to get one -->
+              <div class="account-card-body">
+                <p>Get a company account for company pricing, shipping, and more</p>
               </div>
-              <a class="account-card-link" href="#">Select Accounts</a>
+              <!-- Disabled until there is a company account: no href (not clickable or focusable), aria-disabled for screen readers -->
+              <a class="account-card-link account-card-link--disabled" aria-disabled="true">Select Accounts</a>
             </section>
             <section class="account-card" aria-labelledby="account_card_addresses">
               <h2 class="account-card-title" id="account_card_addresses">Shipping Addresses</h2>
@@ -117,17 +108,17 @@
             <section class="account-card" aria-labelledby="account_card_shipping">
               <h2 class="account-card-title" id="account_card_shipping">Shipping Methods</h2>
               <div class="account-card-body account-card-body--note">
-                <p>USPS Ground (5-7 Days)</p>
+                <p>Carrier Account: Z0987654321</p>
               </div>
               <a class="account-card-link" href="#">Select Default Shipping Method</a>
             </section>
-            <!-- Past due takes precedence; otherwise the latest invoice number -->
+            <!-- B2C: invoices come with a company account -->
             <section class="account-card" aria-labelledby="account_card_invoices">
               <h2 class="account-card-title" id="account_card_invoices">Invoices</h2>
               <div class="account-card-body">
-                <p class="account-card-alert">You Have Past Due Invoices</p>
+                <p>Get a company account for company pricing, shipping, and more</p>
               </div>
-              <a class="account-card-link" href="#">View All Invoices</a>
+              <a class="account-card-link account-card-link--disabled" aria-disabled="true">View All Invoices</a>
             </section>
           </div>
         </div>

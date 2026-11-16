@@ -2,7 +2,7 @@
 @use '../globals/focus' as focus;
 @use '../globals/responsive' as *;
 
-// My Account landing (my_account.html)
+// My Account landing (my_account_B2B.html)
 $-account-divider: #E5E5E5;  // line under the cards (Gray/Light 02)
 
 // SM and XSM: title, menu, then the cards, one column
@@ -42,6 +42,26 @@ $-account-divider: #E5E5E5;  // line under the cards (Gray/Light 02)
     }
 }
 .account-title { grid-area: title; }
+// Prototype only: true green "WIP" at the right end of the title row; doesn't block clicks
+.account-wip {
+    grid-area: title;
+    justify-self: end;
+    align-self: center;
+    margin: 0;
+    padding: 4px 24px;
+    border: 2px dashed #00FF00;
+    border-radius: 8px;
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    line-height: 1.2;
+    color: #00FF00;
+    pointer-events: none;
+    user-select: none;
+
+    @include md { font-size: 32px; }
+    @include -stacked { font-size: 24px; padding: 2px 12px; letter-spacing: 2px; }
+}
 
 // ----------------------------Menu
 .account-menu {
@@ -152,4 +172,13 @@ $-account-divider: #E5E5E5;  // line under the cards (Gray/Light 02)
 
     &:hover { text-decoration: none; }
     &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+// Disabled link (no href, aria-disabled="true"): medium gray, no underline, no hover; the cursor says it's
+// not available. #6A6A6A still reads at 4.5:1 on white
+.account-card-link--disabled {
+    color: colors.$medgray;
+    text-decoration: none;
+    cursor: not-allowed;
+
+    &:hover { text-decoration: none; }
 }

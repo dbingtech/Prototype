@@ -1,0 +1,314 @@
+@use '../globals/colors' as colors;
+@use '../globals/responsive' as *;
+
+// Order Detail (order_detail_B2C.html), Figma "order details" (Single Pages - WIP). The item rows are PLP B2B
+// cards (_plp.scss) with two more columns: what was ordered (unit price, quantity, total) and the item status.
+// XXL/XL: image | details | ordered | status | today's price, one row. LG: the status moves under the details.
+// MD and smaller: the PLP stacked card.
+
+// MD and smaller (< 992px)
+@mixin -mobile {
+    @include md  { @content; }
+    @include sm  { @content; }
+    @include xsm { @content; }
+}
+// SM and XSM (< 768px)
+@mixin -stacked {
+    @include sm  { @content; }
+    @include xsm { @content; }
+}
+
+// Width and side padding come from #main
+.order-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 0 32px;
+    font-family: "Inter", sans-serif;
+    color: colors.$text;
+
+    p { margin: 0; }
+
+    @include -mobile { padding-top: 16px; gap: 16px; }
+}
+.order-detail-title { margin: 0; }
+
+// ----------------------------Status, Shipping | Billing | Order Summary
+.order-detail-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) max-content;
+    grid-template-areas:
+        "status   .       ."
+        "shipping billing summary";
+    gap: 16px;
+    align-items: start;
+
+    @include md {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas:
+            "status   status"
+            "shipping billing"
+            "summary  summary";
+    }
+    @include -stacked {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "status" "shipping" "billing" "summary";
+    }
+}
+.order-detail-status {
+    grid-area: status;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+}
+.order-detail-status-label {
+    font-size: 16px;
+    color: colors.$medgray;
+}
+.order-detail-shipping { grid-area: shipping; }
+.order-detail-billing  { grid-area: billing; }
+.order-detail-shipping,
+.order-detail-billing {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+.order-detail-section-title {
+    margin: 0;
+    padding-top: 8px;
+    font-size: 24px;
+    font-weight: 400;
+    color: colors.$bdiblue;
+}
+.order-detail-address {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 22px;
+}
+// Label | value; labels 88px (shipping) or 168px (billing)
+.order-detail-pairs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    font-size: 16px;
+
+    > div {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+    dt {
+        flex-shrink: 0;
+        width: 88px;
+        font-weight: 700;
+        line-height: 20px;
+    }
+    dd {
+        margin: 0;
+        line-height: 22px;
+        overflow-wrap: anywhere;
+    }
+}
+.order-detail-pairs--wide dt {
+    width: 168px;
+
+    @include xsm { width: 152px; }
+}
+
+.order-summary {
+    grid-area: summary;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 272px;
+    box-sizing: border-box;
+    padding: 12px 8px 0;
+
+    @include md { justify-self: end; }
+    @include -stacked { width: 100%; }
+}
+.order-summary-title {
+    align-self: stretch;
+    margin: 0;
+    padding: 8px 0;
+    background-color: colors.$bdiblue;
+    font-size: 24px;
+    font-weight: 700;
+    color: colors.$white;
+    text-align: center;
+}
+.order-summary-totals {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-self: stretch;
+    margin: 5px 0 8px;  // 21px under the title bar (Figma), 8px above Re-Order's 16px gap
+    padding: 0 8px;
+    font-size: 16px;
+
+    > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 24px;
+    }
+    dt { font-weight: 700; }
+    dd { margin: 0; white-space: nowrap; }
+}
+.order-summary-total dd { font-weight: 700; }
+.order-summary .btn { max-width: 100%; }
+
+// ----------------------------Item Count, between two light rules
+.order-detail-count {
+    margin: 0;
+    padding: 4px 8px;
+    border-top: 1px solid colors.$lightgray02;
+    border-bottom: 1px solid colors.$lightgray02;
+    font-size: 20px;
+    font-weight: 600;
+    font-variation-settings: "wght" 600;
+
+    span { margin-left: 16px; }
+}
+
+// ----------------------------Item rows
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.plp-card.order-item {
+    column-gap: 24px;
+    padding: 8px;
+
+    @include xxl { grid-template-columns: 185px minmax(0, 1fr) 1px max-content 1px max-content 1px 256px; }
+    @include xl  { grid-template-columns: 185px minmax(0, 1fr) 1px max-content 1px max-content 1px 192px; }
+    @include lg  {
+        grid-template-columns: 185px minmax(0, 1fr) 1px max-content 1px 256px;
+        row-gap: 8px;
+    }
+}
+// Outside #plp, so the card's paragraphs need their margins reset; ID values semibold (Figma)
+.order-item p { margin: 0; }
+// LG: the item name (under the title) stops at two lines, the second ending in "..."
+.order-item .plp-card-name {
+    @include lg {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        overflow: hidden;
+    }
+}
+.order-item .plp-card-ids dd:nth-of-type(1) {
+    font-weight: 600;
+    font-variation-settings: "wght" 600;
+}
+
+// What was ordered: "$ 8.82 / each", "Quantity: 23", "Total: $ 202.86", spread over the row's height
+.order-item-line {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 118px;
+    margin: 0;
+    font-size: 16px;
+    white-space: nowrap;
+
+    > div {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+    dt { font-weight: 700; }
+    dd { margin: 0; }
+
+    @include -mobile {
+        align-items: center;
+        min-height: 0;
+    }
+}
+.order-item-unit-amount { font-weight: 800; }
+.order-item-unit-uom {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 300;
+}
+.order-item-total {
+    dt { font-weight: 400; }
+    dd {
+        font-weight: 600;
+        font-variation-settings: "wght" 600;
+    }
+}
+.order-item-total-sign {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+// Item status: label over value (XXL/XL); one line each, side by side under the details (LG); one line each,
+// stacked (MD and smaller)
+.order-item-status {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    font-size: 16px;
+
+    > div {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding-left: 8px;
+    }
+    dt { font-weight: 700; line-height: 20px; }
+    dd { margin: 0; }
+
+    @include lg {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px 16px;
+
+        > div { flex-direction: row; gap: 4px; padding-left: 0; }
+    }
+    @include -mobile {
+        gap: 8px;
+
+        > div { flex-direction: row; flex-wrap: wrap; gap: 4px; padding-left: 0; }
+    }
+}
+
+// Column placement on one row: image 1, details 2, divider 3 (the card's ::after), ordered 4, divider 5,
+// status 6, divider 7, today's price 8. LG: ordered 4, divider 5, price 6; the status under the details.
+.order-item-divider {
+    align-self: stretch;
+    width: 1px;
+    background-color: colors.$medgray70;
+    grid-row: 1;
+
+    @include -mobile { display: none; }
+}
+@mixin -order-row {
+    .order-item-line { grid-column: 4; grid-row: 1; }
+    .order-item-divider--2 { grid-column: 5; }
+    .order-item-status { grid-column: 6; grid-row: 1; }
+    .order-item-divider--3 { grid-column: 7; }
+    .order-item .plp-card-buy { grid-column: 8; grid-row: 1; }
+}
+@include xxl { @include -order-row; }
+@include xl  { @include -order-row; }
+@include lg {
+    .order-item-line { grid-column: 4; grid-row: 1; }
+    .order-item-divider--2 { grid-column: 5; }
+    .order-item-divider--3 { display: none; }
+    .order-item .plp-card-buy { grid-column: 6; grid-row: 1; }
+    .order-item-status { grid-column: 2 / -1; grid-row: 2; }
+}

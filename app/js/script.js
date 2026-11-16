@@ -382,7 +382,7 @@
                     if (savedCart.length) updateCartCount();
 
                     // View Cart: the cart page with this page's suffix (plp_B2B.html -> cart_B2B.html); pages without
-                    // one (my_account.html, brands_*.html) go by their header. Versions with no cart page yet stay on #.
+                    // one (brands_*.html) go by their header. Versions with no cart page yet stay on #.
                     const cartPages = { '': 'cart.html', '_B2B': 'cart_B2B.html', '_B2C': 'cart_B2C.html' };
                     const pageSuffix = (window.location.pathname.split('/').pop().match(/(_B2B|_B2C|_SS|_EMP|_punchout|_china|_mex)\.html$/) || [])[1];
                     const cartSuffix = pageSuffix !== undefined ? pageSuffix : headerEl.id.replace(/^header/, '');
@@ -522,49 +522,6 @@
                 });
 
                 startTimer();
-
-                // index.html only: after 1.5s, pop up the visually hidden h1's text.
-                // Checked by filename because index_mex.html also loads #hero.
-                const page = window.location.pathname.split('/').pop();
-                const hiddenH1 = heroEl.querySelector('.hidden-h1');
-                if ((page === '' || page === 'index.html') && hiddenH1) {
-                    setTimeout(function () {
-                        const h1Overlay = document.createElement('div');
-                        h1Overlay.id = 'h1_popup_overlay';
-                        h1Overlay.innerHTML =
-                            '<div class="h1-popup" role="dialog" aria-modal="true" aria-labelledby="h1_popup_label">' +
-                                '<button type="button" class="h1-popup-close" aria-label="Close">&times;</button>' +
-                                '<p class="h1-popup-label" id="h1_popup_label">Hidden H1 on this page for SEO:</p>' +
-                                '<p class="h1-popup-text"></p>' +
-                            '</div>';
-                        // textContent so the h1 text is shown as-is, never parsed as HTML
-                        h1Overlay.querySelector('.h1-popup-text').textContent = hiddenH1.textContent.trim();
-                        document.body.appendChild(h1Overlay);
-
-                        // Auto-close 5s after it opens
-                        const h1AutoClose = setTimeout(closeH1Popup, 5000);
-
-                        function closeH1Popup() {
-                            clearTimeout(h1AutoClose);
-                            h1Overlay.classList.remove('active');
-                            document.removeEventListener('keydown', onH1PopupKey);
-                        }
-                        function onH1PopupKey(e) {
-                            if (e.key === 'Escape') closeH1Popup();
-                        }
-                        h1Overlay.querySelector('.h1-popup-close').addEventListener('click', closeH1Popup);
-                        h1Overlay.addEventListener('click', function (e) {
-                            if (!e.target.closest('.h1-popup')) closeH1Popup();
-                        });
-                        document.addEventListener('keydown', onH1PopupKey);
-
-                        // Next frame so the opacity transition runs
-                        requestAnimationFrame(function () {
-                            h1Overlay.classList.add('active');
-                            h1Overlay.querySelector('.h1-popup-close').focus();
-                        });
-                    }, 1500);
-                }
             });
         } // end if (heroEl)
         fetch('hero2.html')
@@ -1958,6 +1915,67 @@
             });
         } // end if (quoteDetailEl)
 
+        // Order Detail (order_detail_B2C.html). ?order=<number> (an order on the Orders page) puts that number in the
+        // title. Add To Cart adds that item (1); Re-Order adds every item at its ordered quantity; both open the mini
+        // cart. Buy Now opens the Buy Now modal (any .plp-add-to-cart.btn--secondary). Favorites and copy as on the PLP.
+        const orderDetailEl = document.getElementById('order_detail');
+        if (orderDetailEl) {
+            const orderStatus = document.getElementById('order_detail_status');
+            const orderNo = new URLSearchParams(window.location.search).get('order');
+            if (orderNo && /^[0-9]{1,12}$/.test(orderNo)) {
+                document.getElementById('order_number').textContent = orderNo;
+                document.title = 'Order ' + orderNo + ': B2C';
+            }
+
+            function addOrderItemToCart(card, qty) {
+                if (!window.addToMiniCart) return;
+                const image = card.querySelector('.plp-card-image');
+                const sku = card.querySelector('.plp-card-ids dd').textContent.trim();
+                const key = 'order_item_' + sku;
+                const before = window.getMiniCartQty ? window.getMiniCartQty(key) : 0;
+                window.addToMiniCart(Object.assign(readCardDetails(card), {
+                    key: key,
+                    sku: sku,
+                    name: card.querySelector('.plp-card-title').textContent.trim(),
+                    price: card.querySelector('.plp-price-amount').textContent.replace(/[$]\s+(?=[0-9])/, '$').trim() + ' / each',
+                    image: image.getAttribute('src'),
+                    imageAlt: image.alt
+                }), null, true);
+                window.setMiniCartQty(key, before + qty);
+            }
+
+            orderDetailEl.addEventListener('click', function (e) {
+                const favoriteBtn = e.target.closest('.plp-card-favorite');
+                if (favoriteBtn) {
+                    const on = favoriteBtn.getAttribute('aria-pressed') !== 'true';
+                    favoriteBtn.setAttribute('aria-pressed', String(on));
+                    const item = favoriteBtn.dataset.item;
+                    favoriteBtn.setAttribute('aria-label', on ? 'Remove ' + item + ' from favorites' : 'Add ' + item + ' to favorites');
+                    return;
+                }
+                const copyBtn = e.target.closest('.plp-copy');
+                if (copyBtn) {
+                    const value = copyBtn.dataset.copy;
+                    navigator.clipboard.writeText(value)
+                        .then(function () { orderStatus.textContent = 'Copied ' + value; showCopied(copyBtn); })
+                        .catch(function () { orderStatus.textContent = 'Copy failed'; });
+                    return;
+                }
+                const addBtn = e.target.closest('.order-item-add, #order_reorder');
+                if (addBtn) {
+                    e.stopPropagation();
+                    if (addBtn.id === 'order_reorder') {
+                        orderDetailEl.querySelectorAll('.order-item').forEach(function (card) {
+                            addOrderItemToCart(card, parseInt(card.dataset.qty, 10) || 1);
+                        });
+                    } else {
+                        addOrderItemToCart(addBtn.closest('.order-item'), 1);
+                    }
+                    document.getElementById('cart').click();
+                }
+            });
+        } // end if (orderDetailEl)
+
         // Shopping Cart page (cart.html, cart_B2B.html, cart_B2C.html). One row per mini cart line (PLP B2B card
         // styles, plus a delete column and a Comments field), newest first. The quantity pill, delete, trash at 1
         // and Comments all update the mini cart, which saves them. Clear Cart empties it. A change made somewhere
@@ -2841,7 +2859,8 @@
         // Locate Sales Office shows the nearest offices. Closes on a click outside, Escape, or a second click on the icon.
         // On the PDP, #main holds both the card and the Alternatives table.
         // data-avail-modal swaps in another version (plp_B2B.html: Contact Your Sales Office, no zip code).
-        const availScopeEl = plpEl || (pdpcardEl && document.getElementById('main')) || document.getElementById('cart_page');
+        const availScopeEl = plpEl || (pdpcardEl && document.getElementById('main')) || document.getElementById('cart_page') ||
+            document.getElementById('order_detail');
         if (availScopeEl) {
             let availModal = null;
             let availBtn = null;   // icon that opened the modal
