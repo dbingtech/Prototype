@@ -31,6 +31,10 @@
     }
 }
 
+// Prototype only: the "WIP" label (.account-wip, _account.scss) on its own row at the top right (overrides the
+// label's My Account grid area)
+.cart-page > .cart-page-wip { grid-area: auto / 1 / auto / -1; }
+
 .cart-page-main {
     display: flex;
     flex-direction: column;

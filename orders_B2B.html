@@ -26,7 +26,11 @@
       <!-- Orders (B2B). Sample data, not live SAP orders. The table is the source; on MD and smaller script.js
            builds an accordion list from it (one row per order, tap to see the details). Styles in _orders.scss -->
       <div class="orders" id="orders">
-        <h1 class="page-title">Orders</h1>
+        <div class="wip-title-row">
+          <h1 class="page-title">Orders</h1>
+          <!-- Prototype only: this page is still being built (same label as my_account_B2B.html, _account.scss) -->
+          <p class="account-wip">WIP</p>
+        </div>
 
         <div class="orders-search">
           <p class="orders-note">*Recent changes may take up to 15 minutes to appear on this page.</p>
@@ -40,6 +44,30 @@
               </button>
             </div>
             <label class="plp-check plp-check--16 orders-open-only"><input type="checkbox" id="orders_open_only"><span>Show open orders only</span></label>
+          </div>
+          <!-- Account and Branch drop-downs, as on quotes_B2B.html (styles in _orders.scss) -->
+          <div class="list-filters">
+            <!-- Account: shows one account's orders (script.js; with the search and open-only) -->
+            <div class="orders-field list-filter" id="orders_account_field">
+              <label class="orders-field-label" for="orders_account">Account</label>
+              <select id="orders_account" class="list-filter-select" data-filter>
+                <option value="">All Accounts</option>
+                <option value="0001013740">0001013740</option>
+                <option value="0001013755">0001013755</option>
+                <option value="0001013775">0001013775</option>
+                <option value="0001014558">0001014558</option>
+              </select>
+              <img class="list-filter-caret" src="images/icons/orders/caret_24.svg" alt="" width="24" height="24">
+            </div>
+            <!-- Branch: visual only for now (the orders have no branch column to filter on). Sample branch from Figma. -->
+            <div class="orders-field list-filter" id="orders_branch_field">
+              <label class="orders-field-label" for="orders_branch">Branch</label>
+              <select id="orders_branch" class="list-filter-select">
+                <option value="1001" selected>1001 / Cleveland</option>
+                <option value="">All Branches</option>
+              </select>
+              <img class="list-filter-caret" src="images/icons/orders/caret_24.svg" alt="" width="24" height="24">
+            </div>
           </div>
         </div>
 
@@ -67,7 +95,7 @@
             <tbody>
               <tr data-online data-open>
                 <td class="orders-icon-cell"><span class="orders-online" tabindex="0" role="img" aria-label="Online order"><img src="images/icons/orders/computer_24.svg" alt="" width="24" height="24"><span class="orders-tip" aria-hidden="true">Indicates online order</span></span></td>
-                <td><a class="orders-link" href="#">0004963177</a></td>
+                <td><a class="orders-link" href="order_detail_B2B.html?order=0004963177">0004963177</a></td>
                 <td>K FOC</td>
                 <td>0001013755</td>
                 <td>05/06/2025</td>
@@ -78,7 +106,7 @@
               </tr>
               <tr>
                 <td class="orders-icon-cell"></td>
-                <td><a class="orders-link" href="#">0004963215</a></td>
+                <td><a class="orders-link" href="order_detail_B2B.html?order=0004963215">0004963215</a></td>
                 <td>CONSIGNMENT FILLUP 77</td>
                 <td>0001013740</td>
                 <td>05/06/2025</td>
@@ -89,7 +117,7 @@
               </tr>
               <tr data-online>
                 <td class="orders-icon-cell"><span class="orders-online" tabindex="0" role="img" aria-label="Online order"><img src="images/icons/orders/computer_24.svg" alt="" width="24" height="24"><span class="orders-tip" aria-hidden="true">Indicates online order</span></span></td>
-                <td><a class="orders-link" href="#">0004963237</a></td>
+                <td><a class="orders-link" href="order_detail_B2B.html?order=0004963237">0004963237</a></td>
                 <td>kits item price</td>
                 <td>0001013740</td>
                 <td>05/06/2025</td>
@@ -100,7 +128,7 @@
               </tr>
               <tr data-online data-open>
                 <td class="orders-icon-cell"><span class="orders-online" tabindex="0" role="img" aria-label="Online order"><img src="images/icons/orders/computer_24.svg" alt="" width="24" height="24"><span class="orders-tip" aria-hidden="true">Indicates online order</span></span></td>
-                <td><a class="orders-link" href="#">0004963245</a></td>
+                <td><a class="orders-link" href="order_detail_B2B.html?order=0004963245">0004963245</a></td>
                 <td>consignment issue 7</td>
                 <td>0001013740</td>
                 <td>05/06/2025</td>
@@ -111,7 +139,7 @@
               </tr>
               <tr>
                 <td class="orders-icon-cell"></td>
-                <td><a class="orders-link" href="#">0004963258</a></td>
+                <td><a class="orders-link" href="order_detail_B2B.html?order=0004963258">0004963258</a></td>
                 <td>dharu kits</td>
                 <td>0001013755</td>
                 <td>05/06/2025</td>
@@ -122,7 +150,7 @@
               </tr>
               <tr>
                 <td class="orders-icon-cell"></td>
-                <td><a class="orders-link" href="#">0004963264</a></td>
+                <td><a class="orders-link" href="order_detail_B2B.html?order=0004963264">0004963264</a></td>
                 <td>K FOC 1</td>
                 <td>0001013755</td>
                 <td>05/06/2025</td>
@@ -133,7 +161,7 @@
               </tr>
               <tr>
                 <td class="orders-icon-cell"></td>
-                <td><a class="orders-link" href="#">0004962984</a></td>
+                <td><a class="orders-link" href="order_detail_B2B.html?order=0004962984">0004962984</a></td>
                 <td>S3-1001</td>
                 <td>0001014558</td>
                 <td>04/17/2025</td>
@@ -144,7 +172,7 @@
               </tr>
               <tr data-online>
                 <td class="orders-icon-cell"><span class="orders-online" tabindex="0" role="img" aria-label="Online order"><img src="images/icons/orders/computer_24.svg" alt="" width="24" height="24"><span class="orders-tip" aria-hidden="true">Indicates online order</span></span></td>
-                <td><a class="orders-link" href="#">0004962996</a></td>
+                <td><a class="orders-link" href="order_detail_B2B.html?order=0004962996">0004962996</a></td>
                 <td>4885866</td>
                 <td>0001013775</td>
                 <td>04/17/2025</td>
@@ -155,7 +183,7 @@
               </tr>
               <tr data-open>
                 <td class="orders-icon-cell"></td>
-                <td><a class="orders-link" href="#">0004962827</a></td>
+                <td><a class="orders-link" href="order_detail_B2B.html?order=0004962827">0004962827</a></td>
                 <td>dharu ki</td>
                 <td>0001013755</td>
                 <td>04/16/2025</td>
@@ -166,7 +194,7 @@
               </tr>
               <tr>
                 <td class="orders-icon-cell"></td>
-                <td><a class="orders-link" href="#">0004962780</a></td>
+                <td><a class="orders-link" href="order_detail_B2B.html?order=0004962780">0004962780</a></td>
                 <td>ATOM Berg Fan</td>
                 <td>0001013740</td>
                 <td>04/16/2025</td>
@@ -214,5 +242,11 @@
     <button type="button" class="back-to-top" id="back_to_top" aria-label="Back to top">
       <img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32">
     </button>
+    <!-- Prototype only, not part of the page: show or hide the Account and Branch drop-downs to compare the
+         versions (script.js; remembered in this browser) -->
+    <div class="proto-toggles" role="group" aria-label="Prototype versions">
+      <label class="proto-toggle"><input type="checkbox" id="proto_orders_account" data-proto-target="orders_account_field" checked><span>Account</span></label>
+      <label class="proto-toggle"><input type="checkbox" id="proto_orders_branch" data-proto-target="orders_branch_field" checked><span>Branch</span></label>
+    </div>
   </body>
 </html>

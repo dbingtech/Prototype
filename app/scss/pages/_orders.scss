@@ -135,6 +135,56 @@ $-orders-tip-bg: #EAE2CD;  // tooltip (Figma "Tooltip")
 .orders-open-only {
     gap: 8px;
 }
+// B2B Account and Branch drop-downs (orders_B2B.html under the search; quotes_B2B.html beside Request Quote).
+// Each one of four grid columns wide (Quotes Figma); MD and smaller: stacked and centered.
+.list-filters {
+    display: flex;
+    gap: 24px;
+
+    &[hidden] { display: none; }  // the prototype switches (.proto-toggle, _account.scss)
+
+    @include -mobile {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        width: 100%;
+    }
+}
+// The outlined field (.orders-field, above) holding a native select: the select covers the whole box, the caret on top
+.list-filter {
+    flex-shrink: 0;
+    width: 316px;
+    cursor: pointer;
+
+    @include xl { width: 266px; }
+    @include lg { width: 218px; }
+    @include -mobile { width: 344px; }
+
+    &[hidden] { display: none; }  // the prototype switches
+    .orders-field-label { z-index: 1; pointer-events: none; }
+}
+.list-filter-select {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    padding: 0 32px 0 12px;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    appearance: none;
+    font-family: inherit;
+    font-size: 16px;
+    color: colors.$darkgray;
+    cursor: pointer;
+}
+.list-filter-caret {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
 
 // ----------------------------Table (LG and larger)
 .orders-table-wrap {

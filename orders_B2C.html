@@ -26,7 +26,11 @@
       <!-- Orders (B2C): a copy of orders_B2B.html for now. Sample data, not live SAP orders. The table is the source; on MD and smaller script.js
            builds an accordion list from it (one row per order, tap to see the details). Styles in _orders.scss -->
       <div class="orders" id="orders">
-        <h1 class="page-title">Orders</h1>
+        <div class="wip-title-row">
+          <h1 class="page-title">Orders</h1>
+          <!-- Prototype only: this page is still being built (same label as my_account_B2B.html, _account.scss) -->
+          <p class="account-wip">WIP</p>
+        </div>
 
         <div class="orders-search">
           <p class="orders-note">*Recent changes may take up to 15 minutes to appear on this page.</p>

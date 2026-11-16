@@ -27,7 +27,11 @@
            ?order=<number> (from the Orders page) puts that order number in the title.
            Item rows use the PLP B2B card styles (_plp.scss); the rest is _order-detail.scss. -->
       <div class="order-detail" id="order_detail">
-        <h1 class="page-title order-detail-title">Order <span id="order_number">0001075896</span></h1>
+        <div class="wip-title-row">
+          <h1 class="page-title order-detail-title">Order <span id="order_number">0001075896</span></h1>
+          <!-- Prototype only: this page is still being built (same label as my_account_B2B.html, _account.scss) -->
+          <p class="account-wip">WIP</p>
+        </div>
 
         <section class="order-detail-head" aria-label="Order information">
           <p class="order-detail-status"><span class="order-detail-status-label">Status</span> Order Processing</p>

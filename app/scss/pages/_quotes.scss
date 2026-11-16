@@ -3,8 +3,8 @@
 @use '../globals/responsive' as *;
 
 // Quotes (quotes_B2B.html, quotes_B2C.html). Built on the Orders page (_orders.scss: .orders, search field,
-// table, accordion list, pagination); this adds the Request Quote / Add To Cart rows, the select column,
-// Requote, and the LG sideways scroll.
+// table, accordion list, pagination); this adds the Request Quote row, the Add To Cart / Requote column, and the
+// LG sideways scroll.
 
 // MD and smaller (< 992px), as in _orders.scss
 @mixin -mobile {
@@ -15,7 +15,7 @@
 
 .quotes-field { width: 536px; }
 
-// Request Quote (above the table) and Add To Cart (below it), right aligned
+// Request Quote (above the table), right aligned
 .quotes-actions {
     display: flex;
     justify-content: flex-end;
@@ -24,7 +24,18 @@
         @include -mobile { width: 344px; max-width: 100%; }
     }
 }
+// B2B: the Account and Branch drop-downs (.list-filters, _orders.scss) at the left of that row, each one of four
+// grid columns wide (Figma); MD and smaller: stacked and centered under the search, then Request Quote
+.quotes-actions--account {
+    justify-content: space-between;
+    gap: 24px;
 
+    @include -mobile {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+}
 // ----------------------------Table
 // LG: the columns don't fit, so the table keeps its width and the wrapper scrolls sideways
 .quotes-table-wrap {
@@ -39,12 +50,12 @@
     white-space: nowrap;
     overflow-wrap: normal;
 }
-.quotes-col-select,
-.quotes-select-cell {
-    width: 80px;
+// Add To Cart (xsmall button; gray "Added To Cart" when disabled) or Requote in the last column (Figma: 161px)
+.quotes-col-action,
+.quotes-action-cell {
+    width: 161px;
     text-align: center !important;
 }
-.quotes-select-cell .plp-check { padding: 0; }
 
 // Requote: an underlined text button (expired quotes)
 .quotes-requote,
@@ -77,20 +88,29 @@
     margin-bottom: 10px;
     text-decoration: none;
 }
-// Checkbox (or Requote) | the toggle: quote number, expiration date, chevron
+// The quote number (a link to Quote Details) | the toggle (expiration date, chevron) filling the rest of the row
 .quotes-item-row {
     display: flex;
     align-items: center;
-    gap: 12px;
     padding-left: 4px;
-
-    > .plp-check { padding: 0; flex-shrink: 0; }
-    > .quotes-requote { flex-shrink: 0; }
+    cursor: pointer;
 }
-.quotes-item-toggle { flex: 1; min-width: 0; }
-.quotes-item-no {
+.quotes-item-toggle {
     flex: 1;
-    text-decoration: underline;
+    min-width: 0;
+    align-self: stretch;
+    justify-content: flex-end;
+}
+.quotes-item-no {
+    flex-shrink: 0;
+    padding: 4px 0 4px 4px;
 }
 .quotes-item-exp { white-space: nowrap; }
 .quotes-item .orders-detail dt { width: 144px; }
+// The quote's Add To Cart (mobile button size) or Requote, under its details
+.quotes-item-action {
+    display: flex;
+    padding: 8px 0 4px;
+
+    .btn { width: 194px; }
+}

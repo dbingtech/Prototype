@@ -1,7 +1,7 @@
 @use '../globals/colors' as colors;
 @use '../globals/responsive' as *;
 
-// Order Detail (order_detail_B2C.html), Figma "order details" (Single Pages - WIP). The item rows are PLP B2B
+// Order Detail (order_detail_B2B.html, order_detail_B2C.html), Figma "order details" (Single Pages - WIP). The item rows are PLP B2B
 // cards (_plp.scss) with two more columns: what was ordered (unit price, quantity, total) and the item status.
 // XXL/XL: image | details | ordered | status | today's price, one row. LG: the status moves under the details.
 // MD and smaller: the PLP stacked card.

@@ -1548,12 +1548,16 @@
                     if (!tr.hidden) tr.classList.toggle('is-alt', n++ % 2 === 0);
                 });
             }
+            // B2B: the Account drop-down narrows the rows to one account (Account #, column 3)
+            const ordersAccount = document.getElementById('orders_account');
             function applyOrderFilters() {
                 const q = searchInput.value.trim().toLowerCase();
+                const account = ordersAccount ? ordersAccount.value : '';
                 let shown = 0;
                 orderRows.forEach(function (tr) {
                     const match = (!q || tr.textContent.toLowerCase().includes(q)) &&
-                        (!openOnly.checked || tr.hasAttribute('data-open'));
+                        (!openOnly.checked || tr.hasAttribute('data-open')) &&
+                        (!account || tr.cells[3].textContent.trim() === account);
                     tr.hidden = !match;
                     itemFor.get(tr).hidden = !match;
                     if (match) shown++;
@@ -1564,6 +1568,7 @@
             }
             searchInput.addEventListener('input', applyOrderFilters);
             openOnly.addEventListener('change', applyOrderFilters);
+            if (ordersAccount) ordersAccount.addEventListener('change', applyOrderFilters);
 
             // X clears the search; mousedown is cancelled so the input keeps focus
             const searchClear = document.getElementById('orders_search_clear');
@@ -1625,52 +1630,42 @@
 
         // Quotes (quotes_B2B.html, quotes_B2C.html): built like Orders. The table (LG+) is the source; the
         // accordion list (MD and smaller) is built from it. Search filters both, BDI Quote and Exp Date sort both.
-        // Open quotes have a checkbox (table and list stay in sync); Add To Cart turns on once one is checked and
-        // adds each checked quote to the mini cart. Expired quotes show Requote instead (no request flow yet).
+        // Each open quote has its own Add To Cart (last column; in the list, under the details), gray "Added To Cart"
+        // while that quote is in the cart. Expired quotes show Requote instead (no request flow yet).
         const quotesTable = document.getElementById('quotes_table');
         if (quotesTable) {
             const quotesBody = quotesTable.tBodies[0];
             const quotesListEl = document.querySelector('#quotes_list .orders-list-items');
             const quoteRows = Array.from(quotesBody.rows);
             const quoteItemFor = new Map();  // table row -> list item
-            const addQuotesBtn = document.getElementById('quotes_add_to_cart');
             // List detail rows: label and the table column it comes from
-            const quoteDetails = [['BDI Quote', 1], ['Customer Ref', 2], ['Customer Contact', 3], ['Account', 4],
-                ['Quote Date', 5], ['Expiration', 6], ['Quote Total', 7], ['Item Count', 8]];
-
-            function updateAddQuotes() {
-                addQuotesBtn.disabled = !quotesBody.querySelector('.quotes-select:checked');
-            }
+            const quoteDetails = [['BDI Quote', 0], ['Customer Ref', 1], ['Customer Contact', 2], ['Account', 3],
+                ['Quote Date', 4], ['Expiration', 5], ['Quote Total', 6], ['Item Count', 7]];
 
             quoteRows.forEach(function (tr, i) {
                 const cells = tr.cells;
-                const quoteNo = cells[1].textContent.trim();
-                const exp = cells[6].textContent.trim();
+                const quoteNo = cells[0].textContent.trim();
+                const exp = cells[5].textContent.trim();
                 const bodyId = 'quotes_item_' + (i + 1);
 
                 const li = document.createElement('li');
                 li.className = 'orders-item quotes-item';
                 const row = document.createElement('div');
                 row.className = 'quotes-item-row';
-                // The row's checkbox or Requote, copied; a list checkbox mirrors its table checkbox
-                const select = cells[0].firstElementChild.cloneNode(true);
-                const tableBox = cells[0].querySelector('.quotes-select');
-                if (tableBox) {
-                    const listBox = select.querySelector('.quotes-select');
-                    tableBox.addEventListener('change', function () { listBox.checked = tableBox.checked; updateAddQuotes(); });
-                    listBox.addEventListener('change', function () { tableBox.checked = listBox.checked; updateAddQuotes(); });
-                }
+                const actionCell = tr.querySelector('.quotes-action-cell');  // Add To Cart or Requote
                 const toggle = document.createElement('button');
                 toggle.type = 'button';
                 toggle.className = 'orders-item-toggle quotes-item-toggle';
                 toggle.setAttribute('aria-expanded', 'false');
                 toggle.setAttribute('aria-controls', bodyId);
-                toggle.setAttribute('aria-label', 'Quote ' + quoteNo + ', expires ' + exp);
-                toggle.innerHTML = '<span class="quotes-item-no"></span><span class="quotes-item-exp"></span>' +
+                toggle.setAttribute('aria-label', 'Details for quote ' + quoteNo + ', expires ' + exp);
+                toggle.innerHTML = '<span class="quotes-item-exp"></span>' +
                     '<img class="orders-item-chevron" src="images/icons/orders/chevron_24.svg" alt="" width="24" height="24">';
-                toggle.querySelector('.quotes-item-no').textContent = quoteNo;
                 toggle.querySelector('.quotes-item-exp').textContent = exp;
-                row.append(select, toggle);
+                // The quote number opens Quote Details (same link as the table); the rest of the row is the toggle
+                const quoteLink = cells[0].querySelector('a').cloneNode(true);
+                quoteLink.classList.add('quotes-item-no');
+                row.append(quoteLink, toggle);
 
                 const body = document.createElement('div');
                 body.className = 'orders-item-body';
@@ -1689,11 +1684,21 @@
                     dl.append(dRow);
                 });
                 body.append(dl);
+                if (actionCell) {
+                    const action = document.createElement('div');
+                    action.className = 'quotes-item-action';
+                    action.append(actionCell.firstElementChild.cloneNode(true));
+                    body.append(action);
+                }
 
                 toggle.addEventListener('click', function () {
                     const open = toggle.getAttribute('aria-expanded') !== 'true';
                     toggle.setAttribute('aria-expanded', String(open));
                     body.hidden = !open;
+                });
+                // A click anywhere else in the row (beside the link and the button) toggles too
+                row.addEventListener('click', function (e) {
+                    if (!e.target.closest('a, button')) toggle.click();
                 });
                 li.append(row, body);
                 quotesListEl.append(li);
@@ -1720,11 +1725,15 @@
                     if (!tr.hidden) tr.classList.toggle('is-alt', n++ % 2 === 0);
                 });
             }
+            // B2B: the Account drop-down narrows the rows to one account (column 4), on top of the search
+            const quotesAccount = document.getElementById('quotes_account');
             function applyQuoteSearch() {
                 const q = quotesSearch.value.trim().toLowerCase();
+                const account = quotesAccount ? quotesAccount.value : '';
                 let shown = 0;
                 quoteRows.forEach(function (tr) {
-                    const match = !q || tr.textContent.toLowerCase().includes(q);
+                    const match = (!q || tr.textContent.toLowerCase().includes(q)) &&
+                        (!account || tr.cells[3].textContent.trim() === account);
                     tr.hidden = !match;
                     quoteItemFor.get(tr).hidden = !match;
                     if (match) shown++;
@@ -1734,6 +1743,8 @@
                 quotesStatus.textContent = shown + (shown === 1 ? ' quote' : ' quotes') + ' shown';
             }
             quotesSearch.addEventListener('input', applyQuoteSearch);
+            if (quotesAccount) quotesAccount.addEventListener('change', applyQuoteSearch);
+
             const quotesClear = document.getElementById('quotes_search_clear');
             quotesClear.addEventListener('mousedown', function (e) { e.preventDefault(); });
             quotesClear.addEventListener('click', function () {
@@ -1745,8 +1756,8 @@
 
             // BDI Quote / Exp Date: ascending, then descending; sorting by one clears the other
             function quoteSortValue(tr, key) {
-                if (key === 'quote') return Number(tr.cells[1].textContent);
-                const d = tr.cells[6].textContent.trim().split('/');  // MM/DD/YYYY
+                if (key === 'quote') return Number(tr.cells[0].textContent);
+                const d = tr.cells[5].textContent.trim().split('/');  // MM/DD/YYYY
                 return Number(d[2] + d[0] + d[1]);
             }
             quotesTable.querySelectorAll('.orders-sort').forEach(function (btn) {
@@ -1767,25 +1778,80 @@
                 });
             });
 
-            // Add To Cart: each checked quote becomes a cart line (its total), then the cart opens
-            addQuotesBtn.addEventListener('click', function (e) {
-                if (!window.addToMiniCart) return;
-                e.stopPropagation();
-                quotesBody.querySelectorAll('.quotes-select:checked').forEach(function (box) {
-                    const tr = box.closest('tr');
-                    const quoteNo = tr.cells[1].textContent.trim();
-                    window.addToMiniCart({
-                        key: 'quote_' + quoteNo,
-                        sku: 'Quote ' + quoteNo,
-                        name: 'Quote ' + quoteNo,
-                        price: tr.cells[7].textContent.trim(),
-                        image: 'images/BDI_Logo.png',
-                        imageAlt: ''
-                    }, addQuotesBtn, true);
+            // A quote becomes one cart line (its total)
+            function addQuoteToCart(tr, trigger) {
+                const quoteNo = tr.cells[0].textContent.trim();
+                window.addToMiniCart({
+                    key: 'quote_' + quoteNo,
+                    sku: 'Quote ' + quoteNo,
+                    name: 'Quote ' + quoteNo,
+                    price: tr.cells[6].textContent.trim(),
+                    image: 'images/BDI_Logo.png',
+                    imageAlt: ''
+                }, trigger, true);
+            }
+
+            // Add To Cart (table and list): that quote goes in the cart, then the cart opens. Its buttons turn
+            // gray "Added To Cart" while the quote is in the cart (also when the page opens with it already there).
+            const quotesEl = document.getElementById('quotes');
+            if (quotesEl.querySelector('.quotes-add')) {
+                const rowForQuote = function (quoteNo) {
+                    return quoteRows.find(function (tr) { return tr.cells[0].textContent.trim() === quoteNo; });
+                };
+                const syncQuotesAdded = function () {
+                    quotesEl.querySelectorAll('.quotes-add').forEach(function (btn) {
+                        const quoteNo = btn.dataset.quote;
+                        const added = !!window.getMiniCartQty && window.getMiniCartQty('quote_' + quoteNo) > 0;
+                        btn.disabled = added;
+                        btn.textContent = added ? 'Added To Cart' : 'Add To Cart';
+                        btn.setAttribute('aria-label', added ? 'Quote ' + quoteNo + ' added to cart' : 'Add quote ' + quoteNo + ' to cart');
+                    });
+                };
+                quotesEl.addEventListener('click', function (e) {
+                    const btn = e.target.closest('.quotes-add');
+                    if (!btn || btn.disabled || !window.addToMiniCart) return;
+                    e.stopPropagation();
+                    addQuoteToCart(rowForQuote(btn.dataset.quote), btn);
+                    document.getElementById('cart').click();
                 });
-                document.getElementById('cart').click();
-            });
+                document.addEventListener('minicart:change', syncQuotesAdded);
+                if (window.miniCartReady) syncQuotesAdded();
+                else document.addEventListener('minicart:ready', syncQuotesAdded, { once: true });
+            }
         } // end if (quotesTable)
+
+        // Prototype only (orders_B2B.html, quotes_B2B.html): the corner switches (.proto-toggle) show or hide the
+        // Account and Branch drop-downs, each on its own (data-proto-target = the field's id). A hidden filtering
+        // drop-down (data-filter) goes back to "All", so the list isn't narrowed by something you can't see. With
+        // both hidden, their row is hidden too and, on Quotes, Request Quote sits alone as on B2C. Remembered per
+        // browser (localStorage, by switch id).
+        const protoBoxes = Array.from(document.querySelectorAll('.proto-toggle input[data-proto-target]'));
+        if (protoBoxes.length) {
+            const applyProtoSwitches = function () {
+                protoBoxes.forEach(function (box) {
+                    const field = document.getElementById(box.dataset.protoTarget);
+                    if (!field) return;
+                    field.hidden = !box.checked;
+                    const select = field.querySelector('select[data-filter]');
+                    if (!box.checked && select && select.value) {
+                        select.value = '';
+                        select.dispatchEvent(new Event('change'));
+                    }
+                    try { localStorage.setItem(box.id, box.checked ? '1' : '0'); } catch (e) { /* not saved */ }
+                });
+                document.querySelectorAll('.list-filters').forEach(function (group) {
+                    const anyShown = Array.from(group.children).some(function (child) { return !child.hidden; });
+                    group.hidden = !anyShown;
+                    const actions = group.closest('.quotes-actions');
+                    if (actions) actions.classList.toggle('quotes-actions--account', anyShown);
+                });
+            };
+            protoBoxes.forEach(function (box) {
+                try { box.checked = localStorage.getItem(box.id) !== '0'; } catch (e) { /* default: shown */ }
+                box.addEventListener('change', applyProtoSwitches);
+            });
+            applyProtoSwitches();
+        }
 
         // Quote Details (quotedetail_B2B.html, quotedetail_B2C.html). Active by default; ?status=expired (an
         // expired row on the Quotes page) shows "Expired" and Requote instead of the add-all buttons and Add Item.
@@ -1915,7 +1981,7 @@
             });
         } // end if (quoteDetailEl)
 
-        // Order Detail (order_detail_B2C.html). ?order=<number> (an order on the Orders page) puts that number in the
+        // Order Detail (order_detail_B2B.html, order_detail_B2C.html). ?order=<number> (an order on the Orders page) puts that number in the
         // title. Add To Cart adds that item (1); Re-Order adds every item at its ordered quantity; both open the mini
         // cart. Buy Now opens the Buy Now modal (any .plp-add-to-cart.btn--secondary). Favorites and copy as on the PLP.
         const orderDetailEl = document.getElementById('order_detail');
@@ -1924,7 +1990,7 @@
             const orderNo = new URLSearchParams(window.location.search).get('order');
             if (orderNo && /^[0-9]{1,12}$/.test(orderNo)) {
                 document.getElementById('order_number').textContent = orderNo;
-                document.title = 'Order ' + orderNo + ': B2C';
+                document.title = 'Order ' + orderNo + ': ' + document.title.split(':').pop().trim();  // keeps B2B or B2C
             }
 
             function addOrderItemToCart(card, qty) {
