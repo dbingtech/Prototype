@@ -205,6 +205,8 @@ $-account-divider: #E5E5E5;  // line under the cards (Gray/Light 02)
     font-weight: 600;
     line-height: 20px;
     color: colors.$red;
+
+    &--flush { margin-top: 0 !important; }  // B2B and SS: right under the title
 }
 .account-card-link {
     @include focus.focus-ring-base;

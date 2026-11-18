@@ -11193,6 +11193,115 @@ html:has(.buy-now-modal[open]) {
   gap: 8px;
 }
 
+.list-filters {
+  display: flex;
+  gap: 24px;
+}
+.list-filters[hidden] {
+  display: none;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .list-filters {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .list-filters {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  .list-filters {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 374px) {
+  .list-filters {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+}
+
+.list-filter {
+  flex-shrink: 0;
+  width: 316px;
+  cursor: pointer;
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  .list-filter {
+    width: 266px;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .list-filter {
+    width: 218px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .list-filter {
+    width: 344px;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .list-filter {
+    width: 344px;
+  }
+}
+@media only screen and (min-width: 375px) and (max-width: 575px) {
+  .list-filter {
+    width: 344px;
+  }
+}
+@media only screen and (max-width: 374px) {
+  .list-filter {
+    width: 344px;
+  }
+}
+.list-filter[hidden] {
+  display: none;
+}
+.list-filter .orders-field-label {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.list-filter-select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  padding: 0 32px 0 12px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  font-family: inherit;
+  font-size: 16px;
+  color: #414143;
+  cursor: pointer;
+}
+
+.list-filter-caret {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .orders-table-wrap {
     display: none;
@@ -11710,115 +11819,6 @@ th[aria-sort=descending] .orders-sort-down {
   }
 }
 
-.list-filters {
-  display: flex;
-  gap: 24px;
-}
-.list-filters[hidden] {
-  display: none;
-}
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .list-filters {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-  }
-}
-@media only screen and (min-width: 576px) and (max-width: 767px) {
-  .list-filters {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-  }
-}
-@media only screen and (min-width: 375px) and (max-width: 575px) {
-  .list-filters {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-  }
-}
-@media only screen and (max-width: 374px) {
-  .list-filters {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-  }
-}
-
-.list-filter {
-  flex-shrink: 0;
-  width: 316px;
-  cursor: pointer;
-}
-@media only screen and (min-width: 1200px) and (max-width: 1399px) {
-  .list-filter {
-    width: 266px;
-  }
-}
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-  .list-filter {
-    width: 218px;
-  }
-}
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .list-filter {
-    width: 344px;
-  }
-}
-@media only screen and (min-width: 576px) and (max-width: 767px) {
-  .list-filter {
-    width: 344px;
-  }
-}
-@media only screen and (min-width: 375px) and (max-width: 575px) {
-  .list-filter {
-    width: 344px;
-  }
-}
-@media only screen and (max-width: 374px) {
-  .list-filter {
-    width: 344px;
-  }
-}
-.list-filter[hidden] {
-  display: none;
-}
-.list-filter .orders-field-label {
-  z-index: 1;
-  pointer-events: none;
-}
-
-.list-filter-select {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  padding: 0 32px 0 12px;
-  background: none;
-  border: none;
-  border-radius: 4px;
-  outline: none;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  font-family: inherit;
-  font-size: 16px;
-  color: #414143;
-  cursor: pointer;
-}
-
-.list-filter-caret {
-  position: absolute;
-  top: 50%;
-  right: 4px;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
 .quotes-table-wrap {
   overflow-x: auto;
   scrollbar-width: thin;
@@ -12083,7 +12083,7 @@ th[aria-sort=descending] .orders-sort-down {
   flex-direction: column;
   gap: 12px;
   align-self: stretch;
-  margin: 0 0 8px;
+  margin: 0;
   padding: 0 8px;
   font-size: 16px;
 }
@@ -12102,12 +12102,13 @@ th[aria-sort=descending] .orders-sort-down {
   white-space: nowrap;
 }
 
-.quote-summary-total {
-  font-size: 18px;
-  font-weight: 700;
-}
-.quote-summary-total dt {
-  font-weight: 700;
+.quote-summary-note {
+  align-self: stretch;
+  margin: 0 0 8px;
+  padding: 0 8px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
 }
 
 .quote-summary-actions {
@@ -12203,6 +12204,34 @@ th[aria-sort=descending] .orders-sort-down {
 .quote-item-qty {
   display: flex;
   justify-content: center;
+}
+
+.quote-item-total {
+  margin: 0;
+  font-size: 16px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.quote-item-total-amount {
+  font-weight: 600;
+  font-variation-settings: "wght" 600;
+}
+
+.quote-item .plp-card-brand-row {
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.quote-item-lead {
+  margin: 0;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.quote-item-lead-days {
+  font-weight: 600;
+  font-variation-settings: "wght" 600;
 }
 
 .quote-detail-note {
@@ -13141,6 +13170,10 @@ th[aria-sort=descending] .orders-sort-down {
   }
 }
 
+.order-item .plp-card-actions {
+  justify-content: flex-end;
+}
+
 .order-item .plp-card-ids dd:nth-of-type(1) {
   font-weight: 600;
   font-variation-settings: "wght" 600;
@@ -13513,7 +13546,7 @@ th[aria-sort=descending] .orders-sort-down {
   border-radius: 8px;
   font-family: "Inter", sans-serif;
   font-size: 12px;
-  color: #000;
+  color: black;
   cursor: pointer;
   opacity: 0.85;
 }
@@ -13665,6 +13698,9 @@ th[aria-sort=descending] .orders-sort-down {
   font-weight: 600;
   line-height: 20px;
   color: #CC0202;
+}
+.account-card-alert--flush {
+  margin-top: 0 !important;
 }
 
 .account-card-link {

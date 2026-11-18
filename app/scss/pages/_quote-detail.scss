@@ -110,7 +110,7 @@
     flex-direction: column;
     gap: 12px;
     align-self: stretch;
-    margin: 0 0 8px;
+    margin: 0;
     padding: 0 8px;
     font-size: 16px;
 
@@ -123,11 +123,14 @@
     dt { font-weight: 600; line-height: 20px; }
     dd { margin: 0; white-space: nowrap; }
 }
-.quote-summary-total {
-    font-size: 18px;
-    font-weight: 700;
-
-    dt { font-weight: 700; }
+// Under the subtotal, in place of Shipping, Tax and Total; lines up with "Subtotal:"
+.quote-summary-note {
+    align-self: stretch;
+    margin: 0 0 8px;
+    padding: 0 8px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
 }
 .quote-summary-actions {
     display: flex;
@@ -192,6 +195,31 @@
 .quote-item-qty {
     display: flex;
     justify-content: center;
+}
+// Line total under the quantity pill: "Total:" regular, the amount semibold (as on Order Detail)
+.quote-item-total {
+    margin: 0;
+    font-size: 16px;
+    text-align: center;
+    white-space: nowrap;
+}
+.quote-item-total-amount {
+    font-weight: 600;
+    font-variation-settings: "wght" 600;
+}
+// Lead time at the right end of the brand row (where the PLP shows "Available"); wraps under the brand when narrow
+.quote-item .plp-card-brand-row {
+    flex-wrap: wrap;
+    gap: 4px 16px;
+}
+.quote-item-lead {
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+}
+.quote-item-lead-days {
+    font-weight: 600;
+    font-variation-settings: "wght" 600;
 }
 
 .quote-detail-note {

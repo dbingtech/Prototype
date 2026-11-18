@@ -207,6 +207,8 @@
         overflow: hidden;
     }
 }
+// No Compare checkbox, so the heart keeps to the right
+.order-item .plp-card-actions { justify-content: flex-end; }
 .order-item .plp-card-ids dd:nth-of-type(1) {
     font-weight: 600;
     font-variation-settings: "wght" 600;

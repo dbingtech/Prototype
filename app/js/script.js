@@ -1879,14 +1879,21 @@
                 document.getElementById('quote_add_item').hidden = true;
             }
 
+            // Download PDF: no quote PDF yet, so the browser's print dialog (Save as PDF) stands in
+            const quotePdf = document.getElementById('quote_download_pdf');
+            if (quotePdf) quotePdf.addEventListener('click', function () { window.print(); });
+
             function quoteItems() { return Array.from(quoteItemsEl.querySelectorAll('.quote-item')); }
             function updateQuoteSummary() {
                 let subtotal = 0;
                 quoteItems().forEach(function (card) {
-                    subtotal += parseFloat(card.dataset.price) * parseInt(card.querySelector('.plp-qty').dataset.qty, 10);
+                    const line = parseFloat(card.dataset.price) * parseInt(card.querySelector('.plp-qty').dataset.qty, 10);
+                    subtotal += line;
+                    // The card's line total, written like its unit price ("$ 17.64")
+                    const lineEl = card.querySelector('.quote-item-total-amount');
+                    if (lineEl) lineEl.textContent = '$ ' + line.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 });
                 document.getElementById('quote_subtotal').textContent = money(subtotal);
-                document.getElementById('quote_total').textContent = money(subtotal);
                 document.getElementById('quote_item_count').textContent = quoteItems().length;
             }
 

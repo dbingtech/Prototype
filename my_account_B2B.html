@@ -81,7 +81,8 @@
           <div class="account-cards">
             <section class="account-card" aria-labelledby="account_card_personal">
               <h2 class="account-card-title" id="account_card_personal">Personal information</h2>
-              <div class="account-card-body account-card-body--center">
+              <!-- Lines start right under the title (the Figma centered them) -->
+              <div class="account-card-body">
                 <p>Tony Stark</p>
                 <p>CEO</p>
                 <p>tony.stark@stark.com</p>
@@ -127,7 +128,8 @@
             <section class="account-card" aria-labelledby="account_card_invoices">
               <h2 class="account-card-title" id="account_card_invoices">Invoices</h2>
               <div class="account-card-body">
-                <p class="account-card-alert">You Have Past Due Invoices</p>
+                <!-- No extra space above the alert (the Figma had a line's space) -->
+                <p class="account-card-alert account-card-alert--flush">You Have Past Due Invoices</p>
               </div>
               <a class="account-card-link" href="#">View All Invoices</a>
             </section>

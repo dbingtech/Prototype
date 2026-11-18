@@ -53,10 +53,8 @@
             <h2 class="quote-summary-title" id="quote_summary_title">Quote Summary</h2>
             <dl class="quote-summary-totals">
               <div><dt>Subtotal:</dt><dd id="quote_subtotal">$82.84</dd></div>
-              <div><dt>Shipping:</dt><dd>TBD</dd></div>
-              <div><dt>Tax:</dt><dd>TBD</dd></div>
-              <div class="quote-summary-total"><dt>Total:</dt><dd id="quote_total">$82.84</dd></div>
             </dl>
+            <p class="quote-summary-note">Shipping and tax will be calculated at checkout</p>
             <div class="quote-summary-actions" id="quote_active_actions">
               <button type="button" class="btn btn--primary btn--medium" id="quote_add_all">Add All Items To Cart</button>
               <!-- Opens the Buy Now modal (script.js, any .plp-add-to-cart.btn--secondary) -->
@@ -65,6 +63,10 @@
             <div class="quote-summary-actions" id="quote_expired_actions" hidden>
               <!-- No requote flow yet -->
               <button type="button" class="btn btn--tertiary btn--medium">Requote</button>
+            </div>
+            <!-- Active and expired quotes. No quote PDF yet: opens the browser's print dialog (Save as PDF), script.js -->
+            <div class="quote-summary-actions">
+              <button type="button" class="btn btn--tertiary btn--medium" id="quote_download_pdf">Download PDF</button>
             </div>
           </section>
         </section>
@@ -79,18 +81,13 @@
         <div class="quote-detail-items" id="quote_items">
           <article class="plp-card plp-card--b2b quote-item" aria-labelledby="quote_item_title_1" data-price="8.82" data-qty="2">
             <div class="plp-card-media">
-              <div class="plp-card-actions">
-                <label class="plp-check plp-check--20"><input type="checkbox"><span>Compare</span></label>
-                <button type="button" class="plp-fav-btn plp-card-favorite" aria-pressed="false" aria-label="Add 6202 to favorites" data-item="6202">
-                  <img class="plp-fav-icon plp-fav-icon--off" src="images/icons/plp/heart_24.svg" alt="" width="24" height="24">
-                  <img class="plp-fav-icon plp-fav-icon--on" src="images/icons/plp/heart_filled_28.svg" alt="" width="24" height="24">
-                </button>
-              </div>
               <img class="plp-card-image" src="images/group_by/bearing.png" alt="SKF 6202 ball bearing" width="152" height="152">
             </div>
             <div class="plp-card-details">
               <div class="plp-card-brand-row">
                 <span class="plp-card-brand">SKF</span>
+                <!-- Sample lead time: 1 business day for every item for now -->
+                <p class="quote-item-lead">Lead Time (business days): <span class="quote-item-lead-days">1</span></p>
               </div>
               <a href="pdp_B2C.html" class="plp-card-title" id="quote_item_title_1">6202</a>
               <p class="plp-card-name">6202 BALL BEARING ; 15MM BORE 35MM OD 11MM WD SR OPEN</p>
@@ -112,6 +109,8 @@
               <p class="plp-price plp-price--b2b"><span class="plp-price-amount">$ 8.82</span><span class="plp-price-slash">/</span><span class="plp-price-unit">each</span></p>
               <p class="plp-price-was"><s>$ 9.08 / each</s></p>
               <div class="quote-item-qty"></div>
+              <!-- Unit price x the pill's quantity (script.js keeps it up to date) -->
+              <p class="quote-item-total">Total: <span class="quote-item-total-amount">$ 17.64</span></p>
               <div class="plp-card-buttons">
                 <button type="button" class="btn btn--primary plp-add-to-cart quote-item-add">Add To Cart</button>
               </div>
@@ -120,18 +119,13 @@
           <hr class="plp-divider">
           <article class="plp-card plp-card--b2b quote-item" aria-labelledby="quote_item_title_2" data-price="32.60" data-qty="2">
             <div class="plp-card-media">
-              <div class="plp-card-actions">
-                <label class="plp-check plp-check--20"><input type="checkbox"><span>Compare</span></label>
-                <button type="button" class="plp-fav-btn plp-card-favorite" aria-pressed="false" aria-label="Add 1050T HUB 1.375 5/16X5/32KW NR 0704617 to favorites" data-item="1050T HUB 1.375 5/16X5/32KW NR 0704617">
-                  <img class="plp-fav-icon plp-fav-icon--off" src="images/icons/plp/heart_24.svg" alt="" width="24" height="24">
-                  <img class="plp-fav-icon plp-fav-icon--on" src="images/icons/plp/heart_filled_28.svg" alt="" width="24" height="24">
-                </button>
-              </div>
               <img class="plp-card-image" src="images/products/1050T_hub.png" alt="Falk 1050T grid coupling hub" width="152" height="152">
             </div>
             <div class="plp-card-details">
               <div class="plp-card-brand-row">
                 <span class="plp-card-brand">Falk</span>
+                <!-- Sample lead time: 1 business day for every item for now -->
+                <p class="quote-item-lead">Lead Time (business days): <span class="quote-item-lead-days">1</span></p>
               </div>
               <a href="pdp_B2C.html" class="plp-card-title" id="quote_item_title_2">1050T HUB 1.375 5/16X5/32KW NR 0704617</a>
               <p class="plp-card-name">1050T HUB 1.375 5/16X5/32KW ; NON-RETURNABLE NR 0704617</p>
@@ -153,6 +147,8 @@
               <p class="plp-price plp-price--b2b"><span class="plp-price-amount">$ 32.60</span><span class="plp-price-slash">/</span><span class="plp-price-unit">each</span></p>
               <p class="plp-price-was"><s>$ 33.58 / each</s></p>
               <div class="quote-item-qty"></div>
+              <!-- Unit price x the pill's quantity (script.js keeps it up to date) -->
+              <p class="quote-item-total">Total: <span class="quote-item-total-amount">$ 65.20</span></p>
               <div class="plp-card-buttons">
                 <button type="button" class="btn btn--primary plp-add-to-cart quote-item-add">Add To Cart</button>
               </div>

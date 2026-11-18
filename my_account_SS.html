@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logos/Favicon.png" />
+    <link rel="stylesheet" type="text/css" href="dist/styles.css" />
+    <script src="app/js/script.js" async></script>
+    <title>My Account: SS
+    </title>
+  </head>
+  <body>
+    <div id="header_SS"></div>
+    <div id="navbar_SS"></div>
+    <div id="breadcrumbs">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item breadcrumb-home"><a href="index_SS.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
+          <li class="breadcrumb-item active" aria-current="page">My Account</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div id="main">
+      <!-- My Account landing (SmartSUPPLY; a copy of my_account_B2B.html for now). No SS Orders or Quotes pages yet,
+           so All Orders and All Quotes open the B2B ones. Sample data. LG and MD: menu on the left, title and cards on the right;
+           SM and XSM: title, menu, then the cards (2 across on SM, 1 on XSM). Styles in _account.scss -->
+      <div class="account" id="account">
+        <h1 class="page-title account-title">Welcome Tony</h1>
+        <!-- Prototype only: this page is still being built -->
+        <p class="account-wip">WIP</p>
+
+        <nav class="account-menu" aria-label="My account">
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Tony Stark</p>
+            <p class="account-menu-role">Admin Account</p>
+            <ul class="account-menu-list">
+              <li><a href="#">Manage Purchasing Accounts</a></li>
+            </ul>
+          </div>
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Profile</p>
+            <ul class="account-menu-list">
+              <li><a href="#">Update Personal Info</a></li>
+              <li><a href="#">Update Password</a></li>
+              <li><a href="#">Favorites</a></li>
+              <li><a href="#">Notifications</a></li>
+              <li><a href="#">Saved Carts</a></li>
+            </ul>
+          </div>
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Account Preferences</p>
+            <ul class="account-menu-list">
+              <li><a href="#">Payment Methods</a></li>
+              <li><a href="#">Shipping Addresses</a></li>
+              <li><a href="#">Shipping Methods</a></li>
+            </ul>
+          </div>
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Orders</p>
+            <ul class="account-menu-list">
+              <li><a href="orders_B2B.html">All Orders</a></li>
+            </ul>
+          </div>
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Quotes</p>
+            <ul class="account-menu-list">
+              <li><a href="quotes_B2B.html">All Quotes</a></li>
+              <li><a href="#">Request A Quote</a></li>
+            </ul>
+          </div>
+          <div class="account-menu-group">
+            <p class="account-menu-heading">Invoices</p>
+            <ul class="account-menu-list">
+              <li><a href="#">Invoices</a></li>
+              <li><a href="#">Active Invoices</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="account-section">
+          <div class="account-cards">
+            <section class="account-card" aria-labelledby="account_card_personal">
+              <h2 class="account-card-title" id="account_card_personal">Personal information</h2>
+              <!-- Lines start right under the title, as on B2B (the Figma centered them) -->
+              <div class="account-card-body">
+                <p>Tony Stark</p>
+                <p>CEO</p>
+                <p>tony.stark@stark.com</p>
+                <p>(555) 555-5555</p>
+              </div>
+              <a class="account-card-link" href="#">Edit Personal information</a>
+            </section>
+            <section class="account-card" aria-labelledby="account_card_purchasing">
+              <h2 class="account-card-title" id="account_card_purchasing">Purchasing Account</h2>
+              <p class="account-card-note">Account No. 12345678</p>
+              <div class="account-card-body account-card-body--center">
+                <p>Company Name or Location Name</p>
+                <p>28420 Oma Harbor Suite 871</p>
+                <p>Pittsburg, Rhode Island, 11392</p>
+              </div>
+              <a class="account-card-link" href="#">Select Accounts</a>
+            </section>
+            <section class="account-card" aria-labelledby="account_card_addresses">
+              <h2 class="account-card-title" id="account_card_addresses">Shipping Addresses</h2>
+              <div class="account-card-body">
+                <p>Company Name or Location Name</p>
+                <p>28420 Oma Harbor Suite 871</p>
+                <p>Pittsburg, Rhode Island, 11392</p>
+                <p>United States</p>
+              </div>
+              <a class="account-card-link" href="#">Select Default Address</a>
+            </section>
+            <section class="account-card" aria-labelledby="account_card_payment">
+              <h2 class="account-card-title" id="account_card_payment">Payment Methods</h2>
+              <div class="account-card-body">
+                <p>Company Account: 12345678</p>
+              </div>
+              <a class="account-card-link" href="#">Edit Payment Method</a>
+            </section>
+            <section class="account-card" aria-labelledby="account_card_shipping">
+              <h2 class="account-card-title" id="account_card_shipping">Shipping Methods</h2>
+              <div class="account-card-body account-card-body--note">
+                <p>USPS Ground (5-7 Days)</p>
+              </div>
+              <a class="account-card-link" href="#">Select Default Shipping Method</a>
+            </section>
+            <!-- Past due takes precedence; otherwise the latest invoice number -->
+            <section class="account-card" aria-labelledby="account_card_invoices">
+              <h2 class="account-card-title" id="account_card_invoices">Invoices</h2>
+              <div class="account-card-body">
+                <!-- No extra space above the alert, as on B2B (the Figma had a line's space) -->
+                <p class="account-card-alert account-card-alert--flush">You Have Past Due Invoices</p>
+              </div>
+              <a class="account-card-link" href="#">View All Invoices</a>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="footer"></div>
+  </body>
+</html>
