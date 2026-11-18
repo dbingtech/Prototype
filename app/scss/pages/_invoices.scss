@@ -1,0 +1,332 @@
+@use '../globals/colors' as colors;
+@use '../globals/focus' as focus;
+@use '../globals/responsive' as *;
+
+$-pill-border: #557C92;  // as on the PLP pills
+
+// Invoices (invoices_B2B.html), Figma "invoices | B2B". Built on the Orders page (_orders.scss: .orders,
+// search note, table, accordion list, pagination) and the Quotes list tools (_quotes.scss). This adds the
+// search-by menu, Full Statement, the filter panel and pills, past-due rows and the empty state.
+.invoices {
+    gap: 16px;
+}
+// MD: the note stays at the left (Orders centers it)
+.invoices .orders-note {
+    @include md { text-align: left; }
+}
+// "Download Full Statement": SM and XSM, under the title (the button takes its place on larger screens)
+.invoices-statement-link {
+    @include focus.focus-ring-base;
+    display: none;
+    align-self: flex-start;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 16px;
+    color: colors.$hyperlinkblue;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+    @include sm { display: inline-block; }
+    @include xsm { display: inline-block; }
+}
+.invoices-statement-link:hover {
+    text-decoration: none;
+}
+// Search (with its search-by menu) at the left, Full Statement at the right
+.invoices-search-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+// Caret (search by) | the search field, in one 42px box
+.invoices-searchbox {
+    position: relative;
+    display: flex;
+    flex: 0 1 518px;
+    min-width: 0;
+    height: 42px;
+    box-sizing: border-box;
+    background-color: colors.$white;
+    border: 1px solid colors.$medgray;
+    border-radius: 4px;
+    @include sm { flex-basis: 100%; }
+    @include xsm { flex-basis: 100%; }
+}
+.invoices-searchbox:focus-within {
+    border-color: colors.$bdiblue;
+    box-shadow: inset 0 0 0 1px colors.$bdiblue;
+}
+.invoices-search-by {
+    @include focus.focus-ring-base;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-right: 1px solid colors.$medgray;
+    border-radius: 3px 0 0 3px;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.invoices-search-by:focus-visible {
+    outline-offset: -3px;
+}
+.invoices-search-by[aria-expanded="true"] img {
+    transform: rotate(180deg);
+}
+// Invoice No / BDI Order / Customer PO; the chosen one in BDI blue (Figma "invoice search by")
+.invoices-search-by-menu {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: -1px;
+    z-index: 30;
+    width: 144px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: colors.$white;
+    border: 1px solid colors.$medgray70;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.invoices-search-by-menu[hidden] {
+    display: none;
+}
+.invoices-search-by-option {
+    @include focus.focus-ring-base;
+    display: block;
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 16px;
+    color: colors.$text;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.invoices-search-by-option:focus-visible {
+    outline-offset: -3px;
+}
+.invoices-search-by-option:hover {
+    background-color: colors.$tablerow;
+}
+.invoices-search-by-option[aria-checked="true"] {
+    background-color: colors.$bdiblue;
+    color: colors.$white;
+}
+// The Orders search field (.orders-field) without its own border: the box above draws it
+.invoices-search-field {
+    flex: 1;
+    width: auto;
+    height: 40px;
+    border: none;
+    border-radius: 0 4px 4px 0;
+}
+.invoices-search-field:focus-within {
+    box-shadow: none;
+}
+.invoices-statement-btn {
+    flex-shrink: 0;
+    @include sm { display: none; }
+    @include xsm { display: none; }
+}
+// Filter, the applied-filter pills, Reset Filters. SM and XSM: Filter and Reset Filters, the pills on their own line
+.invoices-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+}
+.invoices-filter {
+    position: relative;
+}
+.invoices-filter-btn {
+    @include focus.focus-ring-base;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 88px;
+    height: 32px;
+    box-sizing: border-box;
+    padding: 0 8px;
+    background-color: colors.$white;
+    border: 1px solid colors.$medgray70;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 16px;
+    color: colors.$text;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.invoices-filter-btn[aria-expanded="true"] {
+    border-color: colors.$bdiblue;
+}
+// Figma "invoice filter": Time, Status (and Account), Apply, Clear Filters
+.invoices-filter-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 364px;
+    max-width: calc(100vw - 32px);
+    box-sizing: border-box;
+    padding: 16px 10px 8px;
+    background-color: colors.$white;
+    border: 1px solid colors.$medgray70;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.invoices-filter-panel[hidden] {
+    display: none;
+}
+.invoices-filter-panel .list-filter {
+    width: 100%;
+}
+.invoices-filter-panel .list-filter[hidden] {
+    display: none;
+}
+.invoices-filter-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.invoices-filter-actions .btn {
+    width: 100%;
+}
+// Clear Filters and Reset Filters: blue text links
+.invoices-text-link {
+    @include focus.focus-ring-base;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 22px;
+    color: colors.$hyperlinkblue;
+    text-decoration: underline;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.invoices-text-link:hover {
+    text-decoration: none;
+}
+.invoices-text-link[hidden] {
+    display: none;
+}
+.invoices-reset {
+    @include sm { margin-left: auto; }
+    @include xsm { margin-left: auto; }
+}
+.invoices-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    @include sm { order: 3; flex-basis: 100%; }
+    @include xsm { order: 3; flex-basis: 100%; }
+}
+.invoices-pills:empty {
+    display: none;
+}
+// Applied filter: bold label, value, X (Figma "Pill | Basic Filter"); the whole pill removes it
+.invoices-pill {
+    @include focus.focus-ring-base;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 32px;
+    box-sizing: border-box;
+    padding: 0 8px 0 12px;
+    background-color: colors.$lightgray02;
+    border: 1px solid $-pill-border;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 12px;
+    color: colors.$text;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:focus-visible { @include focus.focus-ring(colors.$bdiblue); }
+}
+.invoices-pill:hover {
+    background-color: colors.$lightgray01;
+}
+.invoices-pill b {
+    font-weight: 700;
+}
+// Every cell on one line (the Orders table lets two of its columns wrap)
+.orders-table.invoices-table td {
+    white-space: nowrap;
+    overflow-wrap: normal;
+}
+// LG: 4px at the sides of each cell, so the eight columns fit (Figma)
+.orders-table.invoices-table th,
+.orders-table.invoices-table td {
+    @include lg { padding-left: 4px; padding-right: 4px; }
+}
+// No pagination when nothing matches
+.invoices .orders-pagination[hidden] {
+    display: none;
+}
+// Status: its sort arrows at the right end of the column (Figma)
+.invoices-sort--end {
+    justify-content: space-between;
+    width: 100%;
+}
+// Past Due: the whole row red and bold
+.invoices-table tr.is-past-due td {
+    font-weight: 700;
+    color: colors.$red;
+}
+.invoices-table tr.is-past-due .orders-link {
+    color: colors.$red;
+}
+// "No Invoices Found" under the header when nothing matches
+.invoices-empty-cell {
+    height: auto !important;
+    padding: 24px 8px 8px !important;
+    background: none !important;
+}
+// List (MD and smaller): Invoice | Status, a row per invoice that opens its details
+.invoices-list .orders-list-head {
+    text-decoration: none;
+}
+// Open, the summary hides and the chevron stays at the right
+.invoices-item .orders-item-toggle {
+    justify-content: flex-end;
+}
+.invoices-item-no {
+    text-decoration: underline;
+}
+.invoices-item.is-past-due .invoices-item-no,
+.invoices-item.is-past-due .invoices-item-status,
+.invoices-item.is-past-due .orders-detail dd {
+    font-weight: 700;
+    color: colors.$red;
+}
+.invoices-item .orders-detail dt {
+    width: 120px;
+}

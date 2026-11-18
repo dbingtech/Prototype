@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logos/Favicon.png" />
+    <link rel="stylesheet" type="text/css" href="dist/styles.css" />
+    <script src="app/js/script.js" async></script>
+    <title>Invoices: B2B
+    </title>
+  </head>
+  <body>
+    <div id="header_B2B"></div>
+    <div id="navbar_B2B"></div>
+    <div id="breadcrumbs">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item breadcrumb-home"><a href="index_B2B.html" aria-label="Home"><span class="breadcrumb-home-text">Home</span><img class="breadcrumb-home-icon-img" src="images/icons/breadcrumb/home_24.svg" alt="" width="24" height="24"></a></li>
+          <li class="breadcrumb-item"><a href="my_account_B2B.html">My Account</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Invoices</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div id="main">
+      <!-- Invoices (B2B), Figma "invoices | B2B" (Single Pages - WIP). Sample data, not live SAP invoices; dates are
+           2026 and "Time" counts back from 11/18/2026 (data-as-of on the table). The table is the source; on MD and
+           smaller script.js builds an accordion list from it. Built on the Orders page (_orders.scss) plus _invoices.scss. -->
+      <div class="orders invoices" id="invoices">
+        <div class="wip-title-row">
+          <h1 class="page-title">Invoices</h1>
+          <!-- Prototype only: this page is still being built (same label as my_account_B2B.html, _account.scss) -->
+          <p class="account-wip">WIP</p>
+        </div>
+        <!-- SM and XSM; the Full Statement button below takes its place on larger screens. No statement PDF yet:
+             both open the browser's print dialog (script.js) -->
+        <button type="button" class="invoices-statement-link" data-statement>Download Full Statement</button>
+
+        <div class="orders-search">
+          <p class="orders-note">Recent changes may take up to 15 minutes to appear on this page.</p>
+          <div class="invoices-search-row">
+            <div class="invoices-searchbox">
+              <!-- Search by: which column the search matches -->
+              <button type="button" class="invoices-search-by" id="invoices_search_by" aria-haspopup="menu" aria-expanded="false" aria-controls="invoices_search_by_menu" aria-label="Search by: Invoice No">
+                <img src="images/icons/invoices/caret_32.svg" alt="" width="32" height="32">
+              </button>
+              <ul class="invoices-search-by-menu" id="invoices_search_by_menu" role="menu" aria-label="Search by" hidden>
+                <li role="none"><button type="button" class="invoices-search-by-option" role="menuitemradio" aria-checked="true" data-col="0" data-label="Invoice No.">Invoice No</button></li>
+                <li role="none"><button type="button" class="invoices-search-by-option" role="menuitemradio" aria-checked="false" data-col="3" data-label="BDI Order">BDI Order</button></li>
+                <li role="none"><button type="button" class="invoices-search-by-option" role="menuitemradio" aria-checked="false" data-col="1" data-label="Customer PO">Customer PO</button></li>
+              </ul>
+              <div class="orders-field invoices-search-field">
+                <input type="search" id="invoices_search" class="orders-field-input" placeholder="Search By Invoice No." aria-label="Search by invoice number" autocomplete="off">
+                <img class="orders-field-icon" src="images/icons/plp/spyglass_24.svg" alt="" width="24" height="24">
+                <button type="button" class="orders-field-clear" id="invoices_search_clear" aria-label="Clear search">
+                  <img src="images/icons/plp/close_24.svg" alt="" width="24" height="24">
+                </button>
+              </div>
+            </div>
+            <button type="button" class="btn btn--tertiary btn--small invoices-statement-btn" data-statement><img src="images/icons/invoices/download_24.svg" alt="" width="24" height="24">Full Statement</button>
+          </div>
+
+          <div class="invoices-filter-row">
+            <div class="invoices-filter">
+              <button type="button" class="invoices-filter-btn" id="invoices_filter_btn" aria-expanded="false" aria-controls="invoices_filter_panel">Filter <img src="images/icons/invoices/filter_20.svg" alt="" width="20" height="20"></button>
+              <!-- Figma "invoice filter": Apply sets the pills and the list; Clear Filters goes back to the defaults -->
+              <div class="invoices-filter-panel" id="invoices_filter_panel" role="dialog" aria-label="Filter invoices" hidden>
+                <div class="orders-field list-filter">
+                  <label class="orders-field-label" for="invoices_filter_time">Time</label>
+                  <select id="invoices_filter_time" class="list-filter-select">
+                    <option value="30">30 days</option>
+                    <option value="60">60 days</option>
+                    <option value="90">90 days</option>
+                    <option value="180" selected>180 days</option>
+                    <option value="365">1 year</option>
+                    <option value="all">All</option>
+                  </select>
+                  <img class="list-filter-caret" src="images/icons/orders/caret_24.svg" alt="" width="24" height="24">
+                </div>
+                <div class="orders-field list-filter">
+                  <label class="orders-field-label" for="invoices_filter_status">Status</label>
+                  <select id="invoices_filter_status" class="list-filter-select">
+                    <option value="all" selected>All</option>
+                    <option value="Past Due">Past Due</option>
+                    <option value="Unpaid">Unpaid</option>
+                    <option value="Paid">Paid</option>
+                  </select>
+                  <img class="list-filter-caret" src="images/icons/orders/caret_24.svg" alt="" width="24" height="24">
+                </div>
+                <!-- Figma "invoices | B2B | w/ account": the prototype's Account switch shows or hides it -->
+                <div class="orders-field list-filter" id="invoices_account_field">
+                  <label class="orders-field-label" for="invoices_filter_account">Account</label>
+                  <input type="text" id="invoices_filter_account" class="orders-field-input" inputmode="numeric" autocomplete="off" placeholder="Account number" data-filter>
+                </div>
+                <div class="invoices-filter-actions">
+                  <button type="button" class="btn btn--primary btn--large" id="invoices_filter_apply">Apply</button>
+                  <button type="button" class="invoices-text-link" id="invoices_filter_clear">Clear Filters</button>
+                </div>
+              </div>
+            </div>
+            <!-- The applied filters (script.js); each pill removes its filter -->
+            <ul class="invoices-pills" id="invoices_pills" aria-label="Applied filters"></ul>
+            <button type="button" class="invoices-text-link invoices-reset" id="invoices_reset">Reset Filters</button>
+          </div>
+        </div>
+
+        <!-- class is-past-due: the row is red and bold -->
+        <div class="orders-table-wrap">
+          <table class="orders-table invoices-table" id="invoices_table" data-as-of="11/18/2026">
+            <caption class="pdp-visually-hidden">Invoices</caption>
+            <thead>
+              <tr>
+                <th scope="col" aria-sort="none">
+                  <button type="button" class="orders-sort" data-sort="invoice">BDI Invoice
+                    <span class="orders-sort-icon" aria-hidden="true"><img class="orders-sort-up" src="images/icons/orders/sort_up_20.svg" alt="" width="20" height="20"><img class="orders-sort-down" src="images/icons/orders/sort_down_20.svg" alt="" width="20" height="20"></span>
+                  </button>
+                </th>
+                <th scope="col">Customer PO</th>
+                <th scope="col">Account</th>
+                <th scope="col">BDI Order</th>
+                <th scope="col">Invoice Date</th>
+                <th scope="col" class="orders-num">Invoice Total</th>
+                <th scope="col" aria-sort="none">
+                  <button type="button" class="orders-sort invoices-sort--end" data-sort="status">Status
+                    <span class="orders-sort-icon" aria-hidden="true"><img class="orders-sort-up" src="images/icons/orders/sort_up_20.svg" alt="" width="20" height="20"><img class="orders-sort-down" src="images/icons/orders/sort_down_20.svg" alt="" width="20" height="20"></span>
+                  </button>
+                </th>
+                <th scope="col">Due Date</th>
+              </tr>
+            </thead>
+            <!-- No invoice page or PDF yet, so the invoice numbers go nowhere -->
+            <tbody>
+              <tr class="is-past-due">
+                <td><a class="orders-link" href="#">9504348716</a></td>
+                <td></td>
+                <td>0001016357</td>
+                <td>0060166692</td>
+                <td>10/15/2026</td>
+                <td class="orders-num">$1,790.33</td>
+                <td>Past Due</td>
+                <td>11/14/2026</td>
+              </tr>
+              <tr>
+                <td><a class="orders-link" href="#">9504348717</a></td>
+                <td>PG1-050925-14949102</td>
+                <td>0001016357</td>
+                <td>0006825238</td>
+                <td>11/13/2026</td>
+                <td class="orders-num">$1,059.92</td>
+                <td>Unpaid</td>
+                <td>12/28/2026</td>
+              </tr>
+              <tr>
+                <td><a class="orders-link" href="#">9504321718</a></td>
+                <td>JK1-040925-14837698</td>
+                <td>0001016357</td>
+                <td>0006761041</td>
+                <td>10/29/2026</td>
+                <td class="orders-num">$9,731.45</td>
+                <td>Unpaid</td>
+                <td>12/13/2026</td>
+              </tr>
+              <tr>
+                <td><a class="orders-link" href="#">9504294799</a></td>
+                <td>JK1-040925-14837698</td>
+                <td>0001016357</td>
+                <td>0006761041</td>
+                <td>10/14/2026</td>
+                <td class="orders-num">$5,574.31</td>
+                <td>Unpaid</td>
+                <td>11/28/2026</td>
+              </tr>
+              <tr class="is-past-due">
+                <td><a class="orders-link" href="#">9504267359</a></td>
+                <td>JK1-032125-14847005</td>
+                <td>0001016357</td>
+                <td>0006716880</td>
+                <td>09/29/2026</td>
+                <td class="orders-num">$20,739.59</td>
+                <td>Past Due</td>
+                <td>10/29/2026</td>
+              </tr>
+              <tr>
+                <td><a class="orders-link" href="#">9504240759</a></td>
+                <td>DB10-022725-14800788</td>
+                <td>0001016357</td>
+                <td>0006665533</td>
+                <td>09/14/2026</td>
+                <td class="orders-num">$529.96</td>
+                <td>Paid</td>
+                <td>10/29/2026</td>
+              </tr>
+              <tr>
+                <td><a class="orders-link" href="#">9504215354</a></td>
+                <td>JK1-020725-14755396</td>
+                <td>0001016357</td>
+                <td>0006617855</td>
+                <td>08/31/2026</td>
+                <td class="orders-num">$2,942.84</td>
+                <td>Paid</td>
+                <td>10/15/2026</td>
+              </tr>
+              <tr>
+                <td><a class="orders-link" href="#">9504197455</a></td>
+                <td>SDI Accrual Jan 25</td>
+                <td>0001016357</td>
+                <td>0060162779</td>
+                <td>08/20/2026</td>
+                <td class="orders-num">$0.00</td>
+                <td>Paid</td>
+                <td>10/04/2026</td>
+              </tr>
+              <tr>
+                <td><a class="orders-link" href="#">9504197459</a></td>
+                <td>SDI Accrual Jan 25</td>
+                <td>0001016357</td>
+                <td>0060162803</td>
+                <td>08/20/2026</td>
+                <td class="orders-num">$0.00</td>
+                <td>Paid</td>
+                <td>10/04/2026</td>
+              </tr>
+              <tr>
+                <td><a class="orders-link" href="#">9504197461</a></td>
+                <td>SDI January rebate</td>
+                <td>0001016357</td>
+                <td>0060162370</td>
+                <td>08/20/2026</td>
+                <td class="orders-num">$42,059.04</td>
+                <td>Paid</td>
+                <td>08/20/2026</td>
+              </tr>
+            </tbody>
+            <tbody id="invoices_table_empty" hidden>
+              <tr><td class="invoices-empty-cell" colspan="8">No Invoices Found</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- MD and smaller: script.js fills this from the table -->
+        <div class="orders-list quotes-list invoices-list" id="invoices_list">
+          <div class="quotes-list-tools">
+            <button type="button" class="quotes-text-btn" id="invoices_collapse_all">Collapse All</button>
+            <button type="button" class="quotes-text-btn" id="invoices_expand_all">Expand All</button>
+          </div>
+          <div class="orders-list-head" aria-hidden="true"><span>Invoice</span><span>Status</span></div>
+          <ul class="orders-list-items"></ul>
+          <p class="orders-empty" id="invoices_list_empty" hidden>No Invoices Found</p>
+        </div>
+        <p class="pdp-visually-hidden" id="invoices_status" role="status"></p>
+
+        <!-- Visual only for now: current page and items per page (same pagination as Orders); hidden when nothing matches -->
+        <nav class="pdp-pagination orders-pagination" id="invoices_pagination" aria-label="Invoices pages">
+          <div class="pdp-per-page">
+            <span class="pdp-per-page-label">Items per page:</span>
+            <button type="button" class="pdp-per-page-opt">5</button>
+            <button type="button" class="pdp-per-page-opt" aria-current="true">10</button>
+            <button type="button" class="pdp-per-page-opt">30</button>
+          </div>
+          <div class="pdp-pages">
+            <button type="button" class="pdp-page-arrow" data-step="-1" aria-label="Previous page" disabled><img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32"></button>
+            <ol class="pdp-page-list">
+              <li><button type="button" class="pdp-page" aria-current="page">1</button></li>
+              <li><button type="button" class="pdp-page">2</button></li>
+              <li><button type="button" class="pdp-page">3</button></li>
+              <li><button type="button" class="pdp-page">4</button></li>
+              <li><button type="button" class="pdp-page">5</button></li>
+            </ol>
+            <button type="button" class="pdp-page-arrow pdp-page-arrow--next" data-step="1" aria-label="Next page"><img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32"></button>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div id="footer"></div>
+    <button type="button" class="back-to-top" id="back_to_top" aria-label="Back to top">
+      <img src="images/icons/plp/chevron_32.svg" alt="" width="32" height="32">
+    </button>
+    <!-- Prototype only, not part of the page: shows or hides the Account filter (Figma "w/ account") to compare the
+         versions (script.js; remembered in this browser) -->
+    <div class="proto-toggles" role="group" aria-label="Prototype versions">
+      <label class="proto-toggle"><input type="checkbox" id="proto_invoices_account" data-proto-target="invoices_account_field" checked><span>Account</span></label>
+    </div>
+  </body>
+</html>

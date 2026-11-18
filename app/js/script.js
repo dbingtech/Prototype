@@ -1820,9 +1820,293 @@
             }
         } // end if (quotesTable)
 
-        // Prototype only (orders_B2B.html, quotes_B2B.html): the corner switches (.proto-toggle) show or hide the
-        // Account and Branch drop-downs, each on its own (data-proto-target = the field's id). A hidden filtering
-        // drop-down (data-filter) goes back to "All", so the list isn't narrowed by something you can't see. With
+        // Invoices (invoices_B2B.html), Figma "invoices | B2B". The table (LG+) is the source; the accordion list (MD
+        // and smaller) is built from it. Search matches the column picked in the search-by menu (Invoice No, BDI
+        // Order, Customer PO). Filter opens Time / Status / Account; Apply shows them as pills (each pill removes its
+        // filter), Clear Filters and Reset Filters go back to the defaults (Time: 180 days). "Time" counts back from
+        // the table's data-as-of date, so the sample dates keep working. BDI Invoice and Status sort both views.
+        // Nothing left: "No Invoices Found" and no pagination. Full Statement: the print dialog for now.
+        const invoicesTable = document.getElementById('invoices_table');
+        if (invoicesTable) {
+            const invBody = invoicesTable.tBodies[0];
+            const invRows = Array.from(invBody.rows);
+            const invListEl = document.querySelector('#invoices_list .orders-list-items');
+            const invItemFor = new Map();  // table row -> list item
+            const invStatus = document.getElementById('invoices_status');
+            const parseUsDate = function (text) {  // MM/DD/YYYY
+                const d = text.trim().split('/');
+                return new Date(Number(d[2]), Number(d[0]) - 1, Number(d[1]));
+            };
+            const asOf = parseUsDate(invoicesTable.dataset.asOf);
+
+            // List: one row per invoice (number and status), its details below when open
+            const invDetails = [['BDI Invoice', 0], ['Account', 2], ['BDI Order', 3], ['Customer PO', 1],
+                ['Invoice Date', 4], ['Invoice Total', 5], ['Status', 6], ['Due Date', 7]];
+            invRows.forEach(function (tr, i) {
+                const cells = tr.cells;
+                const invNo = cells[0].textContent.trim();
+                const status = cells[6].textContent.trim();
+                const bodyId = 'invoices_item_' + (i + 1);
+                const li = document.createElement('li');
+                li.className = 'orders-item invoices-item' + (tr.classList.contains('is-past-due') ? ' is-past-due' : '');
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className = 'orders-item-toggle';
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-controls', bodyId);
+                toggle.setAttribute('aria-label', 'Invoice ' + invNo + ', ' + status);
+                toggle.innerHTML = '<span class="orders-item-summary"><span class="invoices-item-no"></span><span class="invoices-item-status"></span></span>' +
+                    '<img class="orders-item-chevron" src="images/icons/orders/chevron_24.svg" alt="" width="24" height="24">';
+                toggle.querySelector('.invoices-item-no').textContent = invNo;
+                toggle.querySelector('.invoices-item-status').textContent = status;
+                const body = document.createElement('div');
+                body.className = 'orders-item-body';
+                body.id = bodyId;
+                body.hidden = true;
+                const dl = document.createElement('dl');
+                dl.className = 'orders-item-details';
+                invDetails.forEach(function (detail) {
+                    const row = document.createElement('div');
+                    row.className = 'orders-detail';
+                    const dt = document.createElement('dt');
+                    dt.textContent = detail[0];
+                    const dd = document.createElement('dd');
+                    if (detail[1] === 0) {
+                        const no = document.createElement('span');
+                        no.className = 'invoices-item-no';
+                        no.textContent = invNo;
+                        dd.append(no);
+                    } else {
+                        dd.textContent = cells[detail[1]].textContent.trim();
+                    }
+                    row.append(dt, dd);
+                    dl.append(row);
+                });
+                body.append(dl);
+                toggle.addEventListener('click', function () {
+                    const open = toggle.getAttribute('aria-expanded') !== 'true';
+                    toggle.setAttribute('aria-expanded', String(open));
+                    body.hidden = !open;
+                });
+                li.append(toggle, body);
+                invListEl.append(li);
+                invItemFor.set(tr, li);
+            });
+            const setAllInvoices = function (open) {
+                invListEl.querySelectorAll('.orders-item-toggle').forEach(function (t) {
+                    t.setAttribute('aria-expanded', String(open));
+                    document.getElementById(t.getAttribute('aria-controls')).hidden = !open;
+                });
+            };
+            document.getElementById('invoices_collapse_all').addEventListener('click', function () { setAllInvoices(false); });
+            document.getElementById('invoices_expand_all').addEventListener('click', function () { setAllInvoices(true); });
+
+            // Filters: what's applied (the pills). Defaults: the last 180 days, every status, every account.
+            const invDefaults = { time: '180', status: 'all', account: '' };
+            const invFilters = Object.assign({}, invDefaults);
+            const timeSel = document.getElementById('invoices_filter_time');
+            const statusSel = document.getElementById('invoices_filter_status');
+            const accountInput = document.getElementById('invoices_filter_account');
+            const accountField = document.getElementById('invoices_account_field');
+            const invSearch = document.getElementById('invoices_search');
+            let searchCol = 0;
+
+            const restripeInvoices = function () {
+                let n = 0;
+                Array.from(invBody.rows).forEach(function (tr) {
+                    if (!tr.hidden) tr.classList.toggle('is-alt', n++ % 2 === 0);
+                });
+            };
+            const applyInvoices = function () {
+                const q = invSearch.value.trim().toLowerCase();
+                const since = invFilters.time === 'all' ? null : new Date(asOf.getFullYear(), asOf.getMonth(), asOf.getDate() - Number(invFilters.time));
+                let shown = 0;
+                invRows.forEach(function (tr) {
+                    const c = tr.cells;
+                    const match = (!q || c[searchCol].textContent.toLowerCase().includes(q)) &&
+                        (!since || parseUsDate(c[4].textContent) >= since) &&
+                        (invFilters.status === 'all' || c[6].textContent.trim() === invFilters.status) &&
+                        (!invFilters.account || c[2].textContent.trim() === invFilters.account);
+                    tr.hidden = !match;
+                    invItemFor.get(tr).hidden = !match;
+                    if (match) shown++;
+                });
+                restripeInvoices();
+                document.getElementById('invoices_table_empty').hidden = shown > 0;
+                document.getElementById('invoices_list_empty').hidden = shown > 0;
+                document.getElementById('invoices_pagination').hidden = shown === 0;
+                invStatus.textContent = shown ? shown + (shown === 1 ? ' invoice' : ' invoices') + ' shown' : 'No invoices found';
+            };
+
+            // Pills: Time and Status show their option's text, Account its number; Reset Filters only with a pill
+            const pillList = document.getElementById('invoices_pills');
+            const resetBtn = document.getElementById('invoices_reset');
+            const optionText = function (select, value) {
+                const opt = Array.from(select.options).find(function (o) { return o.value === value; });
+                return opt ? opt.textContent : value;
+            };
+            const renderPills = function () {
+                pillList.innerHTML = '';
+                const pills = [];
+                if (invFilters.time !== 'all') pills.push(['time', 'Time:', optionText(timeSel, invFilters.time)]);
+                if (invFilters.status !== 'all') pills.push(['status', 'Status:', invFilters.status]);
+                if (invFilters.account) pills.push(['account', 'Acct:', invFilters.account]);
+                pills.forEach(function (pill) {
+                    const li = document.createElement('li');
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'invoices-pill';
+                    btn.dataset.filter = pill[0];
+                    btn.setAttribute('aria-label', 'Remove filter ' + pill[1] + ' ' + pill[2]);
+                    btn.innerHTML = '<b></b><span></span><img src="images/icons/compare/close_16.svg" alt="" width="16" height="16">';
+                    btn.querySelector('b').textContent = pill[1];
+                    btn.querySelector('span').textContent = pill[2];
+                    li.append(btn);
+                    pillList.append(li);
+                });
+                resetBtn.hidden = pills.length === 0;
+            };
+            const setFilters = function (next) {
+                Object.assign(invFilters, next);
+                renderPills();
+                applyInvoices();
+            };
+            pillList.addEventListener('click', function (e) {
+                const pill = e.target.closest('.invoices-pill');
+                if (!pill) return;
+                const key = pill.dataset.filter;
+                const next = {};
+                next[key] = key === 'account' ? '' : 'all';
+                const li = pill.closest('li');
+                const after = li.nextElementSibling || li.previousElementSibling;
+                setFilters(next);
+                const focusTo = after && pillList.querySelector('[data-filter="' + after.querySelector('.invoices-pill').dataset.filter + '"]');
+                (focusTo || filterBtn).focus();
+            });
+            resetBtn.addEventListener('click', function () {
+                setFilters(invDefaults);
+                filterBtn.focus();
+            });
+
+            // Filter panel: opens with what's applied; Apply or Clear Filters closes it; Escape or a click outside
+            // closes it without changes
+            const filterBtn = document.getElementById('invoices_filter_btn');
+            const filterPanel = document.getElementById('invoices_filter_panel');
+            const openFilter = function (open) {
+                filterPanel.hidden = !open;
+                filterBtn.setAttribute('aria-expanded', String(open));
+                if (open) {
+                    timeSel.value = invFilters.time;
+                    statusSel.value = invFilters.status;
+                    accountInput.value = invFilters.account;
+                    timeSel.focus();
+                }
+            };
+            filterBtn.addEventListener('click', function () { openFilter(filterPanel.hidden); });
+            document.getElementById('invoices_filter_apply').addEventListener('click', function () {
+                setFilters({ time: timeSel.value, status: statusSel.value, account: accountField.hidden ? '' : accountInput.value.trim() });
+                openFilter(false);
+                filterBtn.focus();
+            });
+            document.getElementById('invoices_filter_clear').addEventListener('click', function () {
+                setFilters(invDefaults);
+                openFilter(false);
+                filterBtn.focus();
+            });
+            accountInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') document.getElementById('invoices_filter_apply').click();
+            });
+            // The prototype's Account switch hid the field (it clears it): drop the account filter too
+            accountInput.addEventListener('change', function () {
+                if (accountField.hidden && invFilters.account) setFilters({ account: '' });
+            });
+
+            // Search by: the menu picks the column and the placeholder
+            const searchByBtn = document.getElementById('invoices_search_by');
+            const searchByMenu = document.getElementById('invoices_search_by_menu');
+            const openSearchBy = function (open) {
+                searchByMenu.hidden = !open;
+                searchByBtn.setAttribute('aria-expanded', String(open));
+                if (open) searchByMenu.querySelector('[aria-checked="true"]').focus();
+            };
+            searchByBtn.addEventListener('click', function () { openSearchBy(searchByMenu.hidden); });
+            searchByMenu.addEventListener('click', function (e) {
+                const opt = e.target.closest('.invoices-search-by-option');
+                if (!opt) return;
+                searchByMenu.querySelectorAll('.invoices-search-by-option').forEach(function (o) {
+                    o.setAttribute('aria-checked', String(o === opt));
+                });
+                searchCol = Number(opt.dataset.col);
+                invSearch.placeholder = 'Search By ' + opt.dataset.label;
+                invSearch.setAttribute('aria-label', 'Search by ' + opt.dataset.label.replace(/\.$/, ''));
+                searchByBtn.setAttribute('aria-label', 'Search by: ' + opt.textContent);
+                openSearchBy(false);
+                applyInvoices();
+                invSearch.focus();
+            });
+            searchByMenu.addEventListener('keydown', function (e) {
+                if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+                e.preventDefault();
+                const opts = Array.from(searchByMenu.querySelectorAll('.invoices-search-by-option'));
+                const i = opts.indexOf(document.activeElement);
+                opts[(i + (e.key === 'ArrowDown' ? 1 : opts.length - 1)) % opts.length].focus();
+            });
+
+            // Escape and clicks outside close the menu and the panel
+            document.addEventListener('keydown', function (e) {
+                if (e.key !== 'Escape') return;
+                if (!searchByMenu.hidden) { openSearchBy(false); searchByBtn.focus(); }
+                if (!filterPanel.hidden) { openFilter(false); filterBtn.focus(); }
+            });
+            document.addEventListener('click', function (e) {
+                if (!(e.target instanceof Element)) return;
+                if (!searchByMenu.hidden && !e.target.closest('.invoices-searchbox')) openSearchBy(false);
+                if (!filterPanel.hidden && !e.target.closest('.invoices-filter')) openFilter(false);
+            });
+
+            invSearch.addEventListener('input', applyInvoices);
+            const invClear = document.getElementById('invoices_search_clear');
+            invClear.addEventListener('mousedown', function (e) { e.preventDefault(); });
+            invClear.addEventListener('click', function () {
+                invSearch.value = '';
+                applyInvoices();
+                invSearch.focus();
+            });
+
+            // BDI Invoice (number) and Status (Past Due, Unpaid, Paid): ascending, then descending
+            const statusRank = { 'Past Due': 0, 'Unpaid': 1, 'Paid': 2 };
+            const invSortValue = function (tr, key) {
+                return key === 'invoice' ? Number(tr.cells[0].textContent) : (statusRank[tr.cells[6].textContent.trim()] || 0);
+            };
+            invoicesTable.querySelectorAll('.orders-sort').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const th = btn.closest('th');
+                    const dir = th.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+                    invoicesTable.querySelectorAll('th[aria-sort]').forEach(function (other) { other.setAttribute('aria-sort', 'none'); });
+                    th.setAttribute('aria-sort', dir);
+                    Array.from(invBody.rows).sort(function (a, b) {
+                        const diff = invSortValue(a, btn.dataset.sort) - invSortValue(b, btn.dataset.sort);
+                        return dir === 'ascending' ? diff : -diff;
+                    }).forEach(function (tr) {
+                        invBody.append(tr);
+                        invListEl.append(invItemFor.get(tr));
+                    });
+                    restripeInvoices();
+                });
+            });
+
+            // Full Statement (button and the SM/XSM link): no statement PDF yet, so the print dialog stands in
+            document.querySelectorAll('[data-statement]').forEach(function (btn) {
+                btn.addEventListener('click', function () { window.print(); });
+            });
+
+            renderPills();
+            applyInvoices();
+        } // end if (invoicesTable)
+
+        // Prototype only (orders_B2B.html, quotes_B2B.html, invoices_B2B.html): the corner switches (.proto-toggle)
+        // show or hide the Account and Branch fields, each on its own (data-proto-target = the field's id). A hidden
+        // filtering field (data-filter) is emptied ("All"), so the list isn't narrowed by something you can't see. With
         // both hidden, their row is hidden too and, on Quotes, Request Quote sits alone as on B2C. Remembered per
         // browser (localStorage, by switch id).
         const protoBoxes = Array.from(document.querySelectorAll('.proto-toggle input[data-proto-target]'));
@@ -1832,7 +2116,7 @@
                     const field = document.getElementById(box.dataset.protoTarget);
                     if (!field) return;
                     field.hidden = !box.checked;
-                    const select = field.querySelector('select[data-filter]');
+                    const select = field.querySelector('[data-filter]');
                     if (!box.checked && select && select.value) {
                         select.value = '';
                         select.dispatchEvent(new Event('change'));
