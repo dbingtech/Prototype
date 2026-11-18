@@ -437,11 +437,11 @@
                     });
                 });
 
-                // SM hamburger also opens the side menu
-                const smHamburger = document.getElementById('sm-hamburger');
-                if (smHamburger) {
-                    smHamburger.addEventListener('click', openMenu);
-                }
+                // The header's hamburger (MD and smaller) also opens the side menu. The header loads separately and
+                // can arrive after this navbar, so listen on the page rather than on the button itself
+                document.addEventListener('click', function (e) {
+                    if (e.target instanceof Element && e.target.closest('#sm-hamburger')) openMenu();
+                });
 
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && sideMenu.classList.contains('active')) {
